@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jperpect <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 12:20:37 by jperpect          #+#    #+#             */
-/*   Updated: 2024/09/10 13:12:18 by jperpect         ###   ########.fr       */
+/*   Created: 2024/04/10 13:19:40 by jperpect          #+#    #+#             */
+/*   Updated: 2024/04/10 13:34:58 by jperpect         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <stdio.h>
+#include <unistd.h>
 
-int main()
+int	ft_isprint(int c)
 {
-	ft_printf("ola");
-	ft_printf("adeus");
+	if (c >= 32 && c <= 126)
+		return (1);
+	else
+		return (0);
 }
+/*
+int	main(void)
+{
+	printf("%d",ft_isprint(126));
+	write(1," ",1);
+	printf("%d",isprint(126));
+}*/

@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jperpect <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 12:20:37 by jperpect          #+#    #+#             */
-/*   Updated: 2024/09/10 13:12:18 by jperpect         ###   ########.fr       */
+/*   Created: 2024/04/10 13:43:02 by jperpect          #+#    #+#             */
+/*   Updated: 2024/04/10 14:00:27 by jperpect         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int main()
+size_t	ft_strlen(const char *s)
 {
-	ft_printf("ola");
-	ft_printf("adeus");
+	size_t	a;
+
+	a = 0;
+	while (s[a] != '\0')
+	{
+		a++;
+	}
+	return (a);
 }
+/*
+int	main(int argc ,char **argv)
+{
+	printf("%zu", ft_strlen(argv[1]), "/n" );
+	printf("%zu", strlen(argv[1]) );
+}*/

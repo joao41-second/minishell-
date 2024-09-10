@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstprint.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 12:20:37 by jperpect          #+#    #+#             */
-/*   Updated: 2024/09/10 13:12:18 by jperpect         ###   ########.fr       */
+/*   Created: 2024/06/28 13:50:27 by jperpect          #+#    #+#             */
+/*   Updated: 2024/06/28 14:00:57 by jperpect         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int main()
+void	ft_lstptint(t_list *lst, int dg)
 {
-	ft_printf("ola");
-	ft_printf("adeus");
+	t_list	*lsts;
+
+	lsts = lst;
+	while (lsts != NULL)
+	{
+		ft_putstr_fd(lsts->content, dg);
+		free(lsts->content);
+		lsts = lsts->next;
+	}
 }

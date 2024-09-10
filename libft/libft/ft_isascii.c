@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jperpect <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 12:20:37 by jperpect          #+#    #+#             */
-/*   Updated: 2024/09/10 13:12:18 by jperpect         ###   ########.fr       */
+/*   Created: 2024/04/10 12:51:28 by jperpect          #+#    #+#             */
+/*   Updated: 2024/04/10 13:13:45 by jperpect         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include <unistd.h>
 
-#include "minishell.h"
-
-int main()
+int	ft_isascii(int c)
 {
-	ft_printf("ola");
-	ft_printf("adeus");
+	if (c >= 0 && c <= 127)
+		return (1);
+	else
+		return (0);
 }
+/*
+int	main(int argc , char **argv )
+{
+	int a;
+	a =  ft_isascii(128);
+	printf("%d",a);
+}*/

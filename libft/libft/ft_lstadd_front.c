@@ -1,19 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 12:20:37 by jperpect          #+#    #+#             */
-/*   Updated: 2024/09/10 13:12:18 by jperpect         ###   ########.fr       */
+/*   Created: 2024/04/24 11:09:48 by jperpect          #+#    #+#             */
+/*   Updated: 2024/04/24 11:57:35 by jperpect         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int main()
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	ft_printf("ola");
-	ft_printf("adeus");
+	if (lst == NULL || new == NULL)
+		return ;
+	new->next = *lst;
+	*lst = new;
 }
+
+// int main(int ac,char **av)
+// {
+// 	t_list *ok = ft_lstnew(av[1]);
+// 	t_list *oks = ft_lstnew(av[2]);
+
+// 	ft_lstadd_front(&ok ,oks);
+
+// 	ft_putstr_fd(ok->content,1);
+// 	ok = ok->next;
+// 	ft_putstr_fd(ok->content,1);
+
+// }

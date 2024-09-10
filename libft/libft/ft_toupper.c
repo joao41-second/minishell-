@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 12:20:37 by jperpect          #+#    #+#             */
-/*   Updated: 2024/09/10 13:12:18 by jperpect         ###   ########.fr       */
+/*   Created: 2024/04/12 15:11:28 by jperpect          #+#    #+#             */
+/*   Updated: 2024/04/17 17:06:43 by jperpect         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int main()
+int	ft_toupper(int c)
 {
-	ft_printf("ola");
-	ft_printf("adeus");
+	if (c >= 'a' && c <= 'z')
+		c -= 32;
+	return (c);
 }
+
+/*
+int	main(int ac,char **av)
+{
+
+    int a = ft_toupper(av[1][0]);
+    
+    write(1,&a,1);
+}*/

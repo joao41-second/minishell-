@@ -1,19 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 12:20:37 by jperpect          #+#    #+#             */
-/*   Updated: 2024/09/10 13:12:18 by jperpect         ###   ########.fr       */
+/*   Created: 2024/04/18 09:50:10 by jperpect          #+#    #+#             */
+/*   Updated: 2024/06/28 14:32:34 by jperpect         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_printf.h"
 
-int main()
+int	ft_putstr_fds(char *s, int fd)
 {
-	ft_printf("ola");
-	ft_printf("adeus");
+	int	i;
+
+	i = 0;
+	if (s == NULL)
+		s = "(null)";
+	while (*s)
+	{
+		ft_putchar_fds(*s, fd);
+		s++;
+		i++;
+	}
+	return (i);
 }
+/*
+int	main(int ac , char **av)
+{
+    ft_putstr_fds(av[1],1);
+}*/

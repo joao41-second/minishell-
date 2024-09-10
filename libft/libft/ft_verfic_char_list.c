@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_verfic_char_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 12:20:37 by jperpect          #+#    #+#             */
-/*   Updated: 2024/09/10 13:12:18 by jperpect         ###   ########.fr       */
+/*   Created: 2024/08/16 15:01:16 by jperpect          #+#    #+#             */
+/*   Updated: 2024/08/16 15:05:15 by jperpect         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int main()
+int	verfic_char_list(char *list, char set)
 {
-	ft_printf("ola");
-	ft_printf("adeus");
+	int	i;
+
+	i = -1;
+	while (list[++i] != '\0')
+	{
+		if (list[i] == set)
+			return (1);
+	}
+	return (0);
 }
