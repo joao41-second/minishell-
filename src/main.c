@@ -13,4 +13,5 @@
 int main()
 {
 	printf("ola");
+	printf("adeus");
 }
