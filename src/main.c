@@ -16,4 +16,5 @@ int main()
 {
 	ft_printf("ola");
 	ft_printf("adeus");
+	ft_printf("run");
 }
