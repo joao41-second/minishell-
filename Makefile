@@ -14,7 +14,7 @@ FLGS = -Wall -Wextra -Werror
 
 MAKEFLAGS += -s
 
-FILES = ./src/main.c
+FILES = ./src/main.c ./src/free/ft_free.c ./src/free/list_f.c
 
 
 SRCS = $(FILES:.c=.o)

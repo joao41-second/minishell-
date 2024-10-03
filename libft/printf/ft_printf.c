@@ -51,7 +51,7 @@ int	ft_printf(const char *str, ...)
 	int		cont;
 	int		add;
 	int		i;
-	va_list	args;
+ 	va_list	args;
 
 	add = 0;
 	cont = 0;

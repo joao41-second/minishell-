@@ -11,10 +11,16 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "./free/free.h"
 
 int main()
 {
 	ft_printf("ola");
 	ft_printf("adeus");
 	ft_printf("run");
+	t_free * ok;
+	ok = ft_node_new("ola"); 
+	ft_malloc(3,ok);
+	char *str = (char *)ft_malloc(38,NULL);
+	str[0]='a';
 }
