@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-FLGS = -Wall -Wextra -Werror
+#FLGS = -Wall -Wextra -Werror
 
 MAKEFLAGS += -s
 

@@ -13,7 +13,10 @@ typedef struct s_list_
 
 void *ft_malloc(size_t size,void* list_set);
 
-void ft_free(void *list_set);
+void ft_free_all(void *list_set);
+
+
+void ft_free(void *var,void *list_set);
 
 t_free	*ft_node_new(void * n);
 

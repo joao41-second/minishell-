@@ -13,6 +13,11 @@
 #include "minishell.h"
 #include "./free/free.h"
 
+void func_test ()
+{
+	char *testo = ft_malloc(3456 * sizeof(int), NULL);
+}
+
 int main()
 {
 	ft_printf("ola");
@@ -21,9 +26,18 @@ int main()
 	t_free * ok;
 	ok = ft_node_new(malloc(sizeof(1))); 
 	ft_malloc(3,ok);
-	ft_free(ok);
+	ft_free_all(ok);
+	ft_free(NULL,ok);
 	char *str = (char *)ft_malloc(3 *sizeof(char),NULL);
 	str[0]='a';
+	int *test = ft_malloc(57345 * sizeof(char), NULL);
+	ft_free(test,NULL);
+	if(test == NULL)
+		printf("\nfinal\n");
+	//ft_free(str);
 
-	ft_free(NULL);
+	func_test();
+	char *teste = ft_malloc(90 * sizeof(char *), NULL);
+	ft_free_all(NULL);
+
 }
