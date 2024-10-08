@@ -3,6 +3,9 @@
 
 #include <stdlib.h>
 #include <aio.h>
+#include "../../libft/printf/ft_printf.h"
+
+
 typedef struct s_list_
 {
 	void			*content;

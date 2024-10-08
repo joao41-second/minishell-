@@ -13,8 +13,18 @@ void	*ft_malloc(size_t size, void *list_set)
 	}
 	mal = malloc(size);
 	if(mal == NULL)
+	{
 		ft_free_all(NULL);
+		ft_printf("error_remove_the_limited_memory_bitch\n");
+		exit(1);
+	}
 	new = ft_node_new(mal);
+	if(new == NULL)
+	{
+		ft_free_all(NULL);
+		ft_printf("error_remove_the_limited_memory_bitch\n");
+		exit(1);
+	}
 	ft_node_add_front(&list, new);
 	return (new->content);
 }
