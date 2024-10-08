@@ -30,7 +30,11 @@ int main()
 	ft_free(NULL,ok);
 	char *str = (char *)ft_malloc(3 *sizeof(char),NULL);
 	str[0]='a';
-	int *test = ft_malloc(57345555 * sizeof(char), NULL);
+	int *test = ft_malloc(57345555 * sizeof(char), NULL );
+	  ft_malloc(57345555 * sizeof(char), NULL);
+	ft_malloc(57345555 * sizeof(char), NULL);
+	ft_malloc(57345555 * sizeof(char), NULL);
+
 	ft_free(test,NULL);
 	if(test == NULL)
 		printf("\nfinal\n");
