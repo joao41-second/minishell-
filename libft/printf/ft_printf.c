@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
 
 int			ft_printf(const char *str, ...);
 
@@ -51,8 +52,10 @@ int	ft_printf(const char *str, ...)
 	int		cont;
 	int		add;
 	int		i;
+	int		test;
  	va_list	args;
 
+	test = 0;
 	add = 0;
 	cont = 0;
 	i = 0;
@@ -70,9 +73,13 @@ int	ft_printf(const char *str, ...)
 		else
 			ft_putchar_fds(str[cont++], 1);
 	}
+	test = va_arg(args,unsigned);
+	printf("\nolaf %d\n",test);
 	va_end(args);
 	return (cont + add - i);
 }
+
+
 // int main ()
 // {
 // 	void *ptr = (char *)0x7ffeefbff710; // Exemplo de ponteiro void *

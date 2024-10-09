@@ -42,7 +42,6 @@ void ft_free_all(void *list_set)
 	list = ft_node_start(list);
 	while (list != NULL)
 	{
-			ft_printf("\n%x\n",list->content);
 		temp = list->next;
 		if(list->content != NULL)
 			free(list->content);
@@ -72,8 +71,4 @@ void ft_free(void *var,void *list_set)
 		}
 		temp = temp->next;
 	}
-	
-	ft_printf("\n%p oi\n",var);
-	//ft_printf("\n%p\n",var);
-	
 }

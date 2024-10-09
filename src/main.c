@@ -20,9 +20,9 @@ void func_test ()
 
 int main()
 {
-	ft_printf("ola");
-	ft_printf("adeus");
-	ft_printf("run");
+	ft_printf("ola",0);
+	ft_printf("adeus",0);
+	ft_printf("run",0);
 	t_free * ok;
 	ok = ft_node_new(malloc(sizeof(1))); 
 	ft_malloc(3,ok);
