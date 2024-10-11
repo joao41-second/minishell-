@@ -12,40 +12,40 @@
 
 #include "ft_printf.h"
 
-static int	nuber(unsigned long nbr, int base, char *b, int len)
+static int	nuber(unsigned long nbr, int fd, char *b, int len)
 {
 	long int	temp;
+	int			base;
 
+	base = ft_strlen(b);
 	temp = nbr % base;
 	nbr = nbr / base;
 	if (nbr >= (unsigned long)base)
 	{
-		len = nuber(nbr, base, b, len);
+		len = nuber(nbr, fd, b, len);
 	}
 	else if (nbr > 0)
 	{
-		ft_putchar_fds(b[nbr], 1);
+		ft_putchar_fds(b[nbr], fd);
 		len++;
 	}
-	ft_putchar_fds(b[temp], 1);
+	ft_putchar_fds(b[temp], fd);
 	len++;
 	return (len);
 }
 
-int	ft_putnbr_base(long nbr, char *base, int neg)
+int	ft_putnbr_base(long nbr, char *base, int neg,int fd)
 {
-	int	len_base;
 	int	len;
 
 	len = 0;
-	len_base = ft_strlen(base);
 	if (nbr < 0 && neg != 1)
 	{
 		nbr = -(nbr);
 		len++;
-		ft_putchar_fds('-', 1);
+		ft_putchar_fds('-', fd);
 	}
-	len = nuber(nbr, len_base, base, len);
+	len = nuber(nbr, fd, base, len);
 	return (len);
 }
 
