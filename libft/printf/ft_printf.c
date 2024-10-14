@@ -79,8 +79,7 @@ int	ft_printf(const char *str, ...)
 	return (cont + add - i);
 }
 
-<<<<<<< HEAD
-=======
+
 int	ft_printf_fd(int fd,const char *str, ...)
 {
 	int		cont;
@@ -109,7 +108,7 @@ int	ft_printf_fd(int fd,const char *str, ...)
 	return (cont + add - i);
 }
 
->>>>>>> c271f47706ad6b4c22c3243abca887beacfa5cc2
+
 
 // int main ()
 // {
