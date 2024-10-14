@@ -15,24 +15,24 @@
 
 int			ft_printf(const char *str, ...);
 
-static int	identifire(char id, va_list args)
+static int	identifire(char id, va_list args,int fd)
 {
 	if (id == 'c')
-		return (ft_putchar_fds(va_arg(args, int), 1));
+		return (ft_putchar_fds(va_arg(args, int), fd));
 	else if (id == 's')
-		return (ft_putstr_fds(va_arg(args, char *), 1));
+		return (ft_putstr_fds(va_arg(args, char *), fd));
 	else if (id == 'p')
-		return (ft_printp(va_arg(args, unsigned long)));
+		return (ft_printp(va_arg(args, unsigned long),fd));
 	else if (id == 'd')
-		return (ft_putnbr_base(va_arg(args, int), "0123456789", 0));
+		return (ft_putnbr_base(va_arg(args, int), "0123456789", 0, fd));
 	else if (id == 'i')
-		return (ft_putnbr_base(va_arg(args, int), "0123456789", 0));
+		return (ft_putnbr_base(va_arg(args, int), "0123456789", 0, fd));
 	else if (id == 'u')
-		return (ft_putnbr_base(va_arg(args, unsigned int), "0123456789", 1));
+		return (ft_putnbr_base(va_arg(args, unsigned int), "0123456789", 1, fd));
 	else if (id == 'x')
-		return (ft_putnbr_base(va_arg(args, unsigned), "0123456789abcdef", 0));
+		return (ft_putnbr_base(va_arg(args, unsigned), "0123456789abcdef", 0, fd));
 	else if (id == 'X')
-		return (ft_putnbr_base(va_arg(args, unsigned), "0123456789ABCDEF", 0));
+		return (ft_putnbr_base(va_arg(args, unsigned), "0123456789ABCDEF", 0, fd));
 	else if (id == '%')
 		return (ft_putchar_fds('%', 1));
 	return (0);
@@ -64,7 +64,7 @@ int	ft_printf(const char *str, ...)
 	{
 		if (str[cont] == '%')
 		{
-			add = add + identifire(str[cont + 1], args);
+			add = add + identifire(str[cont + 1], args,1);
 			i += conte(ft_strlen(str), cont + 2);
 			if ((int)ft_strlen(str) < cont + 2)
 				break ;
@@ -79,6 +79,37 @@ int	ft_printf(const char *str, ...)
 	return (cont + add - i);
 }
 
+<<<<<<< HEAD
+=======
+int	ft_printf_fd(int fd,const char *str, ...)
+{
+	int		cont;
+	int		add;
+	int		i;
+ 	va_list	args;
+
+	add = 0;
+	cont = 0;
+	i = 0;
+	va_start(args, str);
+	while (str[cont] != '\0')
+	{
+		if (str[cont] == '%')
+		{
+			add = add + identifire(str[cont + 1], args,fd);
+			i += conte(ft_strlen(str), cont + 2);
+			if ((int)ft_strlen(str) < cont + 2)
+				break ;
+			cont += 2;
+		}
+		else
+			ft_putchar_fds(str[cont++], fd);
+	}
+	va_end(args);
+	return (cont + add - i);
+}
+
+>>>>>>> c271f47706ad6b4c22c3243abca887beacfa5cc2
 
 // int main ()
 // {

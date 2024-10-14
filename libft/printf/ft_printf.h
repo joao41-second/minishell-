@@ -19,9 +19,9 @@
 
 int		ft_printf(const char *formant, ...);
 
-int		ft_printp(unsigned long int decimal);
+int		ft_printp(unsigned long int decimal,int fd);
 
-int		ft_putnbr_base(long int nbr, char *base, int neg);
+int		ft_putnbr_base(long int nbr, char *base, int neg, int fd);
 
 int		ft_putchar_fds(char c, int fd);
 

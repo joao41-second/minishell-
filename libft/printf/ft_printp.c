@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int	ft_printp(unsigned long decimal)
+int	ft_printp(unsigned long decimal, int fd)
 {
 	char	*base;
 	int		a;
@@ -20,9 +20,9 @@ int	ft_printp(unsigned long decimal)
 	base = "0123456789abcdef";
 	a = 0;
 	if (decimal == 0)
-		return (ft_putstr_fds("(nil)", 1));
-	ft_putstr_fds("0x", 1);
-	a = ft_putnbr_base(decimal, base, 1);
+		return (ft_putstr_fds("(nil)", fd));
+	ft_putstr_fds("0x", fd);
+	a = ft_putnbr_base(decimal, base, 1, fd);
 	return (a + 2);
 }
 
