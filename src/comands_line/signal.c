@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "readline.h" 
+#include <fcntl.h>
+#include <signal.h>
 
 static void new_line(int sig, siginfo_t *info, void *ucontext)
 {

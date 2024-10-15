@@ -12,12 +12,10 @@
 
 #define READLINE_H
 #ifdef READLINE_H
-#include "../minishell.h"
+//#include "../minishell.h"
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <fcntl.h>
-#include <signal.h>
 #include <stdlib.h>
 
 
