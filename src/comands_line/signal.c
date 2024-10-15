@@ -10,18 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h" 
-#include <fcntl.h>
-#include <signal.h>
+#include "readline.h"
 
 static void new_line(int sig, siginfo_t *info, void *ucontext)
 {
 	if(sig == SIGINT)
 	{
-		ft_free_all();
-		exit(1);
-	}
-
+		ft_printf("\n");
+		rl_replace_line("",0);
+		rl_on_new_line();
+		rl_redisplay();
+	}	
 }
 
 void	server()
@@ -34,6 +33,6 @@ void	server()
 	sa.sa_sigaction = new_line;
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
-	//sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }
 
