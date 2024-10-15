@@ -12,7 +12,7 @@
 
 #include "free.h"
 
-t_list_	*ft_node_new(void * n)
+t_list_	*ft_node_new(void *n)
 {
 	t_list_	*new_node;
 

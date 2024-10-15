@@ -25,4 +25,15 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 
+typedef struct s_env {
+	char* name;
+	char* content;
+} t_env;
+
+typedef struct s_mines {
+ t_list_ env;
+} t_minis;
+
+t_list_ *env_split(char **env);
+
 #endif 
