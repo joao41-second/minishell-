@@ -1,4 +1,5 @@
 minishell
 *.a
 *.o
-/Objs 
+/Objs
+.nfs*
