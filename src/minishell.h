@@ -17,6 +17,6 @@
 #include "../libft/printf/ft_printf.h"
 #include "./comands_line/readline.h"
 #include "./free/free.h"
-// #include "../libft/libft/libft.h"
+#include "../libft/libft/libft.h"
 
 #endif 

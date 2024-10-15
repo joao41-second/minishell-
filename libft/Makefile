@@ -12,7 +12,6 @@
 
 FLGS = -Wall -Wextra -Werror
 
-
 AR = ar rcs
 
 LIBFT_DIR = libft
@@ -32,7 +31,7 @@ RM = rm -f
 all: $(SRCS)
 
 $(SRCS):
-	@cd $(LIBFT_DIR) && make bonus
+	@cd $(LIBFT_DIR) && make 
 	@mv $(LIBFT) .
 	@cd $(PRINTF_DIR) && make 
 	@mv $(PRINTF) .
@@ -43,10 +42,11 @@ clean:
 	$(RM) $(SRCS)
 	@cd $(LIBFT_DIR) && make clean
 	@cd $(PRINTF_DIR) && make clean
+
 	@cd $(Get_next_line_DIR) && make clean
 
 compile:
-	@cd $(LIBFT_DIR) && make bonus
+	@cd $(LIBFT_DIR) && make 
 	@mv $(LIBFT) .
 	@cd $(PRINTF_DIR) && make
 	@mv $(PRINTF) .
