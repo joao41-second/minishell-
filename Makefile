@@ -6,12 +6,11 @@
 #    By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/03 06:17:31 by jperpect          #+#    #+#              #
-#    Updated: 2024/10/14 17:18:33 by rpires-c         ###   ########.fr        #
+#    Updated: 2024/10/15 13:42:13 by rpires-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#FLGS = -Wall -Wextra -Werror
-
+# FLGS = -Wall -Wextra -Werror -lreadline
 MAKEFLAGS += -s
 FILES = ./src/main.c ./src/free/ft_free.c ./src/free/list_f.c
 SRCS = $(FILES:.c=.o)
@@ -31,7 +30,6 @@ $(shell mkdir -p $(OBJDIR))
 
 # Verifica se o arquivo existe; se não, cria com valor inicial 0
 COUNT = $(shell cat $(COUNT_FILE))
-#.SILENT:
 
 $(NAME): $(MINIX) $(OBJS)
 	cd libft && make compile && make
