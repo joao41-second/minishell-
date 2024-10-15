@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   list_f.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 09:04:01 by jperpect          #+#    #+#             */
-/*   Updated: 2024/08/12 10:55:28 by jperpect         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:25:37 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "free.h"
 
-t_free	*ft_node_new(void * n)
+t_list_	*ft_node_new(void * n)
 {
-	t_free	*new_node;
+	t_list_	*new_node;
 
-	new_node = (t_free *)malloc(1 * (sizeof(t_free)));
+	new_node = (t_list_ *)malloc(1 * (sizeof(t_list_)));
 	if (new_node == NULL)
 		return (NULL);
 	new_node->content = n;
@@ -25,9 +25,9 @@ t_free	*ft_node_new(void * n)
 	return (new_node);
 }
 
-void	ft_node_add_front(t_free **lst, t_free *new)
+void	ft_node_add_front(t_list_ **lst, t_list_ *new)
 {
-	t_free	*temp;
+	t_list_	*temp;
 
 	if (lst == NULL || new == NULL)
 		return ;
@@ -37,9 +37,9 @@ void	ft_node_add_front(t_free **lst, t_free *new)
 	*lst = new;
 }
 
-void	*ft_node_clear(t_free *tes)
+void	*ft_node_clear(t_list_ *tes)
 {
-	t_free	*temp;
+	t_list_	*temp;
 
 	tes = ft_node_start(tes);
 	while (tes != NULL)
@@ -51,7 +51,7 @@ void	*ft_node_clear(t_free *tes)
 	return (NULL);
 }
 
-t_free	*ft_node_start(t_free *list)
+t_list_	*ft_node_start(t_list_ *list)
 {
 	if (list->previous != NULL)
 	{

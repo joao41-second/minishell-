@@ -11,8 +11,7 @@ typedef struct s_list_
 	void			*content;
 	struct s_list_	*next;
 	struct s_list_	*previous;
-} t_free;
-
+} t_list_;
 
 void *ft_malloc(size_t size,void* list_set);
 
@@ -21,11 +20,11 @@ void ft_free_all(void *list_set);
 
 void ft_free(void *var,void *list_set);
 
-t_free	*ft_node_new(void * n);
+t_list_	*ft_node_new(void * n);
 
-void	ft_node_add_front(t_free **lst, t_free *new);
+void	ft_node_add_front(t_list_ **lst, t_list_ *new);
 
-t_free	*ft_node_start(t_free *list);
+t_list_	*ft_node_start(t_list_ *list);
 
 
 

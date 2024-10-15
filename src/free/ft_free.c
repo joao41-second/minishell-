@@ -2,8 +2,8 @@
 
 void	*ft_malloc(size_t size, void *list_set)
 {
-	t_free			*new;
-	static t_free	*list;
+	t_list_			*new;
+	static t_list_	*list;
 	void			*mal;
 
 	if (list_set != NULL && list == NULL)
@@ -31,8 +31,8 @@ void	*ft_malloc(size_t size, void *list_set)
 
 void ft_free_all(void *list_set)
 {
-	static t_free	*list = NULL;
-	t_free *temp;
+	static t_list_	*list = NULL;
+	t_list_ *temp;
 
 	if(list == NULL && list_set != NULL)
 	{
@@ -52,9 +52,9 @@ void ft_free_all(void *list_set)
 
 void ft_free(void *var,void *list_set)
 {
-	static t_free *list;
+	static t_list_ *list;
 
-	t_free *temp;
+	t_list_ *temp;
 	if(list == NULL && list_set != NULL)
 	{
 		list = list_set;
