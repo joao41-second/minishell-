@@ -6,12 +6,11 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:12:18 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/15 14:21:33 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:19:24 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "./free/free.h"
 
 void func_test ()
 {
@@ -20,7 +19,7 @@ void func_test ()
 
 int main()
 {
-	t_list * ok;
+	t_list_ * ok;
 	ok = ft_node_new(malloc(sizeof(1))); 
 	ft_malloc(3,ok);
 	ft_free_all(ok);
