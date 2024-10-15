@@ -9,8 +9,8 @@ void start_shell()
 	while (1)
 	{
 		line = readline("hello how dead ?:");
-		if(line == NULL)
-			break;
+		//if(line == NULL)
+			//	break;
 		add_history(line);
 		free(line);
 	}
