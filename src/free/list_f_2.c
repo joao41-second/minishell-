@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   list_f_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:59:42 by jperpect          #+#    #+#             */
-/*   Updated: 2024/08/08 14:19:05 by jperpect         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:26:22 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "free.h"
 
-// void	ft_print_list(t_free *list, t_free *list_b)
+// void	ft_print_list(t_list_ *list, t_list_ *list_b)
 // {
 // 	char	ola[33];
 
@@ -43,9 +43,9 @@
 // 	ft_printf(" \n--------fim ----- \n");
 // }
 
-void	ft_node_add_inver(t_free **lst, t_free *new)
+void	ft_node_add_inver(t_list_ **lst, t_list_ *new)
 {
-	t_free	*temp;
+	t_list_	*temp;
 
 	if (lst == NULL || new == NULL)
 		return ;
@@ -55,7 +55,7 @@ void	ft_node_add_inver(t_free **lst, t_free *new)
 	*lst = new;
 }
 
-t_free	*ft_node_end(t_free *list)
+t_list_	*ft_node_end(t_list_ *list)
 {
 	if (list->next != NULL)
 	{
@@ -69,7 +69,7 @@ t_free	*ft_node_end(t_free *list)
 	return (list);
 }
 
-int	ft_list_size(t_free *list)
+int	ft_list_size(t_list_ *list)
 {
 	int	i;
 
