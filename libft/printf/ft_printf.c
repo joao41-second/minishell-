@@ -74,7 +74,6 @@ int	ft_printf(const char *str, ...)
 			ft_putchar_fds(str[cont++], 1);
 	}
 	test = va_arg(args,unsigned);
-	printf("\nolaf %d\n",test);
 	va_end(args);
 	return (cont + add - i);
 }
