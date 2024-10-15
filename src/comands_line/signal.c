@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readline.h                                         :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 14:09:15 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/15 14:18:05 by jperpct          ###   ########.fr       */
+/*   Created: 2024/10/15 16:44:50 by jperpct           #+#    #+#             */
+/*   Updated: 2024/10/15 16:53:36 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define READLINE_H
-#ifndef READLINE_H
-#include "../minishell.h"
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <fcntl.h>
-#include <signal.h>
-#include <stdlib.h>
+#include "readline.h" 
 
+static void new_line(int sig, siginfo_t *info, void *ucontext)
+{
+	if(sig == SIGINT)
+	{
+		ft_free_all();
+		exit(1);
+	}
 
- 
-void start_shell();
+}
 
-void	server();
+void	server()
+{
+	struct sigaction	sa;
+	static int			a;
 
+	a = 0;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_sigaction = new_line;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	//sigaction(SIGINT, &sa, NULL);
+}
 
-#endif // !READLINE_H
