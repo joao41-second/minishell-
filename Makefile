@@ -6,12 +6,14 @@
 #    By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/03 06:17:31 by jperpect          #+#    #+#              #
-#    Updated: 2024/10/15 14:12:25 by rpires-c         ###   ########.fr        #
+#    Updated: 2024/10/15 14:34:04 by rpires-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compiler flags
-# FLGS = -Wall -Wextra -Werror -lreadline
+# WFLGS = -Wall -Wextra -Werror
+# READ_FLG = -lreadline
+ FLGS = $(WFLGS) $(READ_FLG)
 
 # Make flags
 MAKEFLAGS += -s
