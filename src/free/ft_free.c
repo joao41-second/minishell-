@@ -65,7 +65,6 @@ void ft_free(void *var,void *list_set)
 	{
 		if(temp->content == var)
 		{
-			ft_printf("\nestive aqui%x\n",temp->content);
 			free(temp->content);
 			temp->content = NULL;
 		}

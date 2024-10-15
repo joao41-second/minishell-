@@ -34,7 +34,7 @@ RM = rm -f
 CAT = cat number.txt
 
 # Output
-NAME = so_long
+NAME = minishell
 OBJDIR = Objs
 
 # Create object directory if it doesn't exist

@@ -25,5 +25,5 @@ int main()
 	ft_malloc(3,ok);
 	ft_free_all(ok);
 	ft_free(NULL,ok);
-	void start_shell();
+	start_shell();
 }

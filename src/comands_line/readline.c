@@ -11,6 +11,7 @@ void start_shell()
 		line = readline("hello how dead ?:");
 		//if(line == NULL)
 			//	break;
+		ft_printf("%s\n",line);
 		add_history(line);
 		free(line);
 	}
