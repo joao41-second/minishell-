@@ -1,0 +1,11 @@
+git branch nome-da-branch
+
+
+
+git checkout nome-da-branch
+
+
+git branch
+
+git push -u origin nome-da-branch
+
