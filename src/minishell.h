@@ -36,4 +36,10 @@ typedef struct s_mines {
 
 t_list_ *env_split(char **env);
 
+void print_list(t_list_ *list,void(*print)(void*));
+
+void print_env(void *point);
+
+
+
 #endif 

@@ -37,6 +37,29 @@ void free_split(char **ok)
 	free(ok);
 }
 
+void print_env(void *point)
+{
+	t_env get ;
+	t_list_ *list;
+
+	list = (t_list_*) point;
+	if(list != NULL)
+	{
+		get = *((t_env*)list->content);
+		ft_printf("%s====%s \n", get.name, get.content);
+	}
+}
+
+void print_list(t_list_ *list,void(*print)(void*))
+{
+	list = ft_node_start(list);
+	while (list != NULL)
+	{
+		(print)(list);
+		list = list->next; 
+	}
+	
+}
 
 t_list_ *env_split(char **env)
 {
