@@ -31,7 +31,7 @@ typedef struct s_env {
 } t_env;
 
 typedef struct s_mines {
- t_list_ env;
+ t_list_ *env;
 } t_minis;
 
 t_list_ *env_split(char **env);
