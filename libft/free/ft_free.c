@@ -1,4 +1,18 @@
-#include "free.h" 
+#include "free_and_list.h" 
+
+t_list_	*ft_node_new_free(void *n)
+{
+	t_list_	*new_node;
+
+	new_node = (t_list_ *)malloc(1 * sizeof(t_list_));
+	if (new_node == NULL)
+		return (NULL);
+	new_node->content = n;
+	new_node->next = NULL;
+	new_node->previous = NULL;
+	return (new_node);
+}
+
 
 void	*ft_malloc(size_t size, void *list_set)
 {
@@ -15,14 +29,14 @@ void	*ft_malloc(size_t size, void *list_set)
 	if(mal == NULL)
 	{
 		ft_free_all(NULL);
-		ft_printf("error_remove_the_limited_memory_bitch\n");
+		write(2,"error_remove_the_limited_memory_bitch\n",40);
 		exit(1);
 	}
-	new = ft_node_new(mal);
+	new = ft_node_new_free(mal);
 	if(new == NULL)
 	{
 		ft_free_all(NULL);
-		ft_printf("error_remove_the_limited_memory_bitch\n");
+		write(2,"error_remove_the_limited_memory_bitch\n",40);
 		exit(1);
 	}
 	ft_node_add_front(&list, new);
@@ -71,3 +85,4 @@ void ft_free(void *var,void *list_set)
 		temp = temp->next;
 	}
 }
+
