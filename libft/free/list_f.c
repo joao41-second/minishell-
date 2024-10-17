@@ -6,17 +6,17 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 09:04:01 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/15 14:25:37 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/10/17 12:11:07 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "free.h"
+#include "free_and_list.h"
 
 t_list_	*ft_node_new(void *n)
 {
 	t_list_	*new_node;
 
-	new_node = (t_list_ *)malloc(1 * (sizeof(t_list_)));
+	new_node = (t_list_ *)ft_malloc(1 * sizeof(t_list_),NULL);
 	if (new_node == NULL)
 		return (NULL);
 	new_node->content = n;
