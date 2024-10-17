@@ -25,7 +25,7 @@ SRCS = $(shell find src -name '*.c')
 OBJS = $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRCS))
 
 # Libraries
-LIB = ./libft/libft.a ./libft/libftprintf.a ./libft/get_next_line.a ./libft/free_and_list.a
+LIB = ./libft/libft.a ./libft/libftprintf.a ./libft/get_next_line.a 
 
 # Commands
 AR = ar rcs

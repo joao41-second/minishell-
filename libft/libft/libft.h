@@ -19,6 +19,7 @@
 # include <string.h>
 # include <strings.h>
 # include <unistd.h>
+# include "../free/free_and_list.h"
 
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
