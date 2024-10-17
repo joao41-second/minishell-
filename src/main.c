@@ -21,7 +21,7 @@ int main(int ac, char **av, char **env)
 {
 	t_list_ * ok;
 	t_minis  mini;
-	ok = ft_node_new(malloc(sizeof(1))); 
+	ok = ft_node_new_free(malloc(sizeof(1))); 
 	ft_malloc(3,ok);
 	ft_free_all(ok);
 	ft_free(NULL,ok);
@@ -30,4 +30,5 @@ int main(int ac, char **av, char **env)
 	ft_printf("%s\n", get->name);
 
 	start_shell();
+	
 }

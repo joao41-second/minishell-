@@ -21,9 +21,7 @@
 #include <signal.h>
 
 
-
-
-
+ 
 void start_shell();
 
 void	server();
