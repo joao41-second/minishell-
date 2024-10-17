@@ -33,10 +33,16 @@ typedef struct s_env {
 } t_env;
 
 typedef struct s_mines {
- t_list_ env;
+ t_list_ *env;
 } t_minis;
 
 t_list_ *env_split(char **env);
 int		check_syntax(char *str);
+
+void print_list(t_list_ *list,void(*print)(void*));
+
+void print_env(void *point);
+
+
 
 #endif 
