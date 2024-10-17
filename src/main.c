@@ -26,7 +26,7 @@ int main(int ac, char **av, char **env)
 	ft_free_all(ok);
 	ft_free(NULL,ok);
 	mini.env = env_split(env);
-	print_list(mini.env,print_env);	
-
+	print_list(mini.env,print_env);
 	start_shell();
+	ft_free_all(NULL);
 }
