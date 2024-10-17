@@ -3,22 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/15 18:36:55 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/16 15:15:29 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "readline.h"
+
+#include "../minishell.h"
 
 void	start_shell()
 {
+	char	cwd[CWD_BUFFER];
 	char	*line;
+	char	*prompt;
 
 	server();
 	while (1)
 	{
-		line = readline("hello how dead ?:");
+		if (getcwd(cwd, sizeof(cwd)) != NULL)
+		{
+			prompt = ft_strjoin("~", cwd);
+			prompt = ft_strjoin(prompt, "$ ");
+			line = readline(prompt);
+		}
+        else
+		{
+            perror("getcwd() error");
+            exit(1);
+        }
 		if(line == NULL)
 			break;
 		ft_printf("%s\n",line);

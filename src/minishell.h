@@ -6,11 +6,12 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/15 19:33:15 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/16 14:45:47 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define MINISHELL_H
+#define CWD_BUFFER 1024
 #ifdef MINISHELL_H
 
 #include "../libft/Get_next_line/get_next_line_bonus.h"
