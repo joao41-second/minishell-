@@ -6,13 +6,11 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 11:26:12 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/10/17 14:43:46 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:34:56 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-#include <unistd.h>
 
 char	*get_user(void)
 {
@@ -54,17 +52,40 @@ char	*get_host_from_session(char *session_manager)
 	return (host);
 }
 
+char	*build_prefix_aux(char *cwd, size_t cwd_size, char *home)
+{
+	size_t	home_len;
+	int		cwd_starts_with_home;
+
+	if (!getcwd(cwd, cwd_size))
+	{
+		ft_printf("Error: Could not get current working directory\n");
+		return (NULL);
+	}
+	if (home)
+	{
+		home_len = ft_strlen(home);
+		cwd_starts_with_home = (ft_strncmp(cwd, home, home_len) == 0
+				&& cwd[home_len] == '/');
+		if (cwd_starts_with_home)
+		{
+			ft_memmove(cwd + 1, cwd + home_len, ft_strlen(cwd + home_len) + 1);
+			cwd[0] = '~';
+		}
+	}
+	return (cwd);
+}
+
 char	*build_prefix(char *user, char *host)
 {
 	char	*prefix;
 	size_t	prefix_len;
 	char	cwd[1024];
+	char	*home;
 
-	if (!getcwd(cwd, sizeof(cwd)))
-	{
-		ft_printf("Error: Could not get current working directory\n");
+	home = getenv("HOME");
+	if (!build_prefix_aux(cwd, sizeof(cwd), home))
 		return (NULL);
-	}
 	prefix_len = ft_strlen(user) + ft_strlen(host) + ft_strlen(cwd) + 5;
 	prefix = (char *)ft_malloc(prefix_len + 1, NULL);
 	if (!prefix)
@@ -72,11 +93,10 @@ char	*build_prefix(char *user, char *host)
 		ft_printf("Error: Memory allocation failed for prefix\n");
 		return (NULL);
 	}
-	prefix[0] = '\0';
 	ft_strlcat(prefix, user, prefix_len + 1);
 	ft_strlcat(prefix, "@", prefix_len + 1);
 	ft_strlcat(prefix, host, prefix_len + 1);
-	ft_strlcat(prefix, ":~", prefix_len + 1);
+	ft_strlcat(prefix, ":", prefix_len + 1);
 	ft_strlcat(prefix, cwd, prefix_len + 1);
 	ft_strlcat(prefix, "$ ", prefix_len + 1);
 	return (prefix);

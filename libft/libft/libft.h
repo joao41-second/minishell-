@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:36:29 by jperpect          #+#    #+#             */
-/*   Updated: 2024/08/16 15:03:35 by jperpect         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:05:33 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ int					ft_isascii(int c);
 int					ft_isdigit(int c);
 int					ft_isprint(int c);
 
-void				*ft_memmove(void *dest, const void *src, size_t n);
 /**
 * @brief move de bitts of the memori to destany.
 * @param dest variavel that get bitts.
 * @param src  variavel with bitts to move.
 * @return void variabel dest.
 */
+void				*ft_memmove(void *dest, const void *src, size_t n);
+
 void				*ft_memcpy(void *dest, const void *src, size_t n);
 
 void				*ft_memset(void *s, int c, size_t n);
