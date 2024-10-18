@@ -1,5 +1,5 @@
 #include "free_and_list.h" 
-
+#include <stdio.h>
 t_list_	*ft_node_new_free(void *n)
 {
 	t_list_	*new_node;
@@ -67,8 +67,10 @@ void ft_free_all(void *list_set)
 void ft_free(void *var,void *list_set)
 {
 	static t_list_ *list;
+	t_list_	*temp;
+	t_list_	*pev;
+	t_list_	*nex;
 
-	t_list_ *temp;
 	if(list == NULL && list_set != NULL)
 	{
 		list = list_set;
@@ -81,8 +83,18 @@ void ft_free(void *var,void *list_set)
 		{
 			free(temp->content);
 			temp->content = NULL;
+			pev = temp->previous;
+			nex = temp->next;
+			free(temp);
+			if( nex !=NULL)
+				nex->next = pev;
+			if (pev != NULL)
+				pev->previous = nex;
+			return ;
 		}
-		temp = temp->next;
+		list = list->next;
+		if(list == NULL)
+			return;
 	}
 }
 
