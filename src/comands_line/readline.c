@@ -34,7 +34,7 @@ char	*ft_strndup(const char *src, size_t n)
 	return (dst);
 }
 
-void	start_shell(void)
+void	start_shell(t_minis mini)
 {
 	char	*line;
 	char	*prompt;

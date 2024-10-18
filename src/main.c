@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 
-void func_test ()
-{
-	char *testo = ft_malloc(3456 * sizeof(int), NULL);
-}
-
 int main(int ac, char **av, char **env)
 {
 	t_minis  mini;
@@ -24,7 +19,6 @@ int main(int ac, char **av, char **env)
 	start_alloc();
 	mini.env = env_split(env);
 	print_list(mini.env,print_env);
-	start_shell();
-
+	start_shell( mini);
 	ft_free_all(NULL);
 }

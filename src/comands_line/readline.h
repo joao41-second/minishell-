@@ -12,7 +12,6 @@
 
 #define READLINE_H
 #ifdef READLINE_H
-//#include "../minishell.h"
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -21,19 +20,25 @@
 # include <fcntl.h>
 # include <signal.h>
 
-/**
-* @brief get input from the user
-*/
-void	start_shell(void);
+
+/* 
+ * @brief get input from the user
+ *
+ * @param mini the main struct og minishell 
+ */
+void	start_shell(t_minis mini);
+
 /**
 * @brief deals with the signals
 */
 void	server(void);
+
 /**
 * @brief gets command line prefix from env
 * @return command line prefix almost like shell
 */
 char	*get_shell_prefix(void);
+
 /**
 * @brief duplicates part of a stirngs
 * @param src string to duplicate
