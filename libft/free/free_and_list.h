@@ -13,6 +13,8 @@ void ft_free_all(void *list_set);
 
 void ft_free(void *var,void *list_set);
 
+void start_alloc();
+
 t_list_	*ft_node_new_free(void * n);
 
 

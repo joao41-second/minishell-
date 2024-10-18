@@ -19,12 +19,9 @@ void func_test ()
 
 int main(int ac, char **av, char **env)
 {
-	t_list_ * ok;
 	t_minis  mini;
-	ok = ft_node_new_free(malloc(sizeof(1))); 
-	ft_malloc(3,ok);
-	ft_free_all(ok);
-	ft_free(NULL,ok);
+	
+	start_alloc();
 	mini.env = env_split(env);
 	print_list(mini.env,print_env);
 	start_shell();

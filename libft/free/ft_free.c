@@ -86,3 +86,12 @@ void ft_free(void *var,void *list_set)
 	}
 }
 
+void start_alloc()
+{
+	t_list_ * list;
+
+	list = ft_node_new_free(malloc(sizeof(1))); 
+	ft_malloc(3,list);
+	ft_free_all(list);
+	ft_free(NULL,list);
+}
