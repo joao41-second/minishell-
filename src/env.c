@@ -50,17 +50,6 @@ void print_env(void *point)
 	}
 }
 
-void print_list(t_list_ *list,void(*print)(void*))
-{
-	list = ft_node_start(list);
-	while (list != NULL)
-	{
-		(print)(list);
-		list = list->next; 
-	}
-	
-}
-
 t_list_ *env_split(char **env)
 {
 	char **var;

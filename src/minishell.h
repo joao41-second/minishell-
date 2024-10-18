@@ -27,6 +27,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 
+
 typedef struct s_env {
 	char* name;
 	char* content;
@@ -36,13 +37,20 @@ typedef struct s_mines {
  t_list_ *env;
 } t_minis;
 
+/**
+ * @brief save the env in linked list 
+ * @param env file env the system
+ * @return linked list
+ */
 t_list_ *env_split(char **env);
-int		check_syntax(char *str);
 
-void print_list(t_list_ *list,void(*print)(void*));
-
+/**
+ * @brief print the struct  t_env  
+ * @param point t_env node 
+ */
 void print_env(void *point);
 
+int		check_syntax(char *str);
 
 
 #endif 

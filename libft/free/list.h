@@ -17,5 +17,6 @@ void	ft_node_add_front(t_list_ **lst, t_list_ *new);
 
 t_list_	*ft_node_start(t_list_ *list);
 
+void print_list(t_list_ *list,void(*print)(void*));
 
 #endif

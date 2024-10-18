@@ -65,6 +65,17 @@ t_list_	*ft_node_start(t_list_ *list)
 	return (list);
 }
 
+void print_list(t_list_ *list,void(*print)(void*))
+{
+	list = ft_node_start(list);
+	while (list != NULL)
+	{
+		(print)(list);
+		list = list->next; 
+	}
+	
+}
+
 /*
 t_free	*ft_new_list_null(t_free *list, int len)
 {
