@@ -17,15 +17,15 @@ static char	**alloc_p(int n, int id, char **ren)
 	int	i;
 
 	i = 0;
-	ren[id] = (char *)malloc((n + 1) * sizeof(char));
+	ren[id] = (char *)ft_malloc((n + 1) * sizeof(char),NULL);
 	if (ren[id] == NULL)
 	{
 		while (i < id)
 		{
-			free(ren[i]);
+			ft_free(ren[i],NULL);
 			i++;
 		}
-		free(ren);
+		ft_free(ren,NULL);
 		return (NULL);
 	}
 	return (ren);
@@ -115,13 +115,13 @@ char	**ft_split(char const *s, char c)
 	n_p = conta(s, c) + 1;
 	if (0 >= conta(s, c) && ft_strlen(s) == 0)
 		n_p = 0;
-	ren = (char **)malloc((n_p + 1) * sizeof(char *));
+	ren = (char **)ft_malloc((n_p + 1) * sizeof(char *),NULL);
 	if (ren == NULL)
 		return (NULL);
 	ren[n_p] = NULL;
 	if (n_p + 1 == 1)
 		return (ren);
-	free(ren[n_p]);
+	ft_free(ren[n_p],NULL);
 	if (ft_strlen(s) != 0)
 	{
 		conta_len(s, c, ren);

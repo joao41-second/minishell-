@@ -38,18 +38,21 @@ void	start_shell(t_minis mini)
 {
 	char	*line;
 	char	*prompt;
+	char	*line_dup;
 
 	server();
 	while (1)
 	{
 		prompt = get_shell_prefix();
 		line = readline(prompt);
-		ft_free(prompt,NULL);
-		if (line == NULL)
-			break ;
-		ft_printf("%s\n", line);
-		check_syntax(line);
-		add_history(line);
+		line_dup = ft_strdup(line);
 		free(line);
+		//ft_free(prompt,NULL);
+		if (line_dup == NULL)
+			break ;
+		ft_printf("%s\n", line_dup);
+	//	check_syntax(line_dup); -- error malloc
+		add_history(line_dup);
+		//ft_free(line_dup,NULL);
 	}
 }

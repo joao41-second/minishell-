@@ -72,7 +72,7 @@ char	*ft_itoa(int n)
 		neg = 1;
 	}
 	cont = conta(n, cont);
-	ret = (char *)malloc((cont + 1) * sizeof(char));
+	ret = (char *)ft_malloc((cont + 1) * sizeof(char),NULL);
 	if (ret == NULL)
 		return (NULL);
 	ret[cont] = '\0';

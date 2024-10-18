@@ -32,9 +32,9 @@ void free_split(char **ok)
 	i = -1;
 	while (ok[++i] != NULL)
 	{
-		free(ok[i]);
+		ft_free(ok[i],NULL);
 	}
-	free(ok);
+	ft_free(ok,NULL);
 }
 
 void print_env(void *point)

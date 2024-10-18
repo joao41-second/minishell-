@@ -15,7 +15,7 @@
 READ_FLG = -lreadline
 FLGS = $(WFLGS) $(READ_FLG)
 
-VAL = valgrind --track-origins=yes            
+VAL = valgrind --track-origins=yes --leak-check=full            
 
 # Make flags
 MAKEFLAGS += -s

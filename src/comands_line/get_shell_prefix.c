@@ -36,14 +36,14 @@ char	*get_host_from_session(char *session_manager)
 	start = ft_strnstr(session_manager, "local/", session_len);
 	if (!start)
 	{
-		ft_printf("Error: SESSION_MANAGER formatis missing 'local/'\n");
+		ft_printf_fd(2,"Error: SESSION_MANAGER formatis missing 'local/'\n");
 		return (NULL);
 	}
 	start += 6;
 	end = ft_strchr(start, '.');
 	if (!end)
 	{
-		ft_printf("Error: SESSION_MANAGER format is invalid (missing '.')\n");
+		ft_printf_fd(2,"Error: SESSION_MANAGER format is invalid (missing '.')\n");
 		return (NULL);
 	}
 	host = ft_strndup(start, end - start);
@@ -59,7 +59,7 @@ char	*build_prefix_aux(char *cwd, size_t cwd_size, char *home)
 
 	if (!getcwd(cwd, cwd_size))
 	{
-		ft_printf("Error: Could not get current working directory\n");
+		ft_printf_fd(2,"Error: Could not get current working directory\n");
 		return (NULL);
 	}
 	if (home)
@@ -122,6 +122,6 @@ char	*get_shell_prefix(void)
 	if (!host)
 		return (NULL);
 	prefix = build_prefix(user, host);
-	free(host);
+	ft_free(host,NULL);
 	return (prefix);
 }
