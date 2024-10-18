@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 11:26:12 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/10/17 16:34:56 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:23:30 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ char	*build_prefix(char *user, char *host)
 		ft_printf("Error: Memory allocation failed for prefix\n");
 		return (NULL);
 	}
+	prefix[0] = '\0';
 	ft_strlcat(prefix, user, prefix_len + 1);
 	ft_strlcat(prefix, "@", prefix_len + 1);
 	ft_strlcat(prefix, host, prefix_len + 1);
