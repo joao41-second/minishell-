@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 11:26:12 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/10/18 17:23:30 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/10/18 17:29:13 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ char	*get_host_from_session(char *session_manager)
 	start = ft_strnstr(session_manager, "local/", session_len);
 	if (!start)
 	{
-		ft_printf_fd(2,"Error: SESSION_MANAGER formatis missing 'local/'\n");
+		ft_printf_fd (2, "Error: SESSION_MANAGER format (missing 'local/')\n");
 		return (NULL);
 	}
 	start += 6;
 	end = ft_strchr(start, '.');
 	if (!end)
 	{
-		ft_printf_fd(2,"Error: SESSION_MANAGER format is invalid (missing '.')\n");
+		ft_printf_fd (2, "Error: SESSION_MANAGER format (missing '.')\n");
 		return (NULL);
 	}
 	host = ft_strndup(start, end - start);
@@ -59,7 +59,7 @@ char	*build_prefix_aux(char *cwd, size_t cwd_size, char *home)
 
 	if (!getcwd(cwd, cwd_size))
 	{
-		ft_printf_fd(2,"Error: Could not get current working directory\n");
+		ft_printf_fd (2, "Error: Could not get current working directory\n");
 		return (NULL);
 	}
 	if (home)
@@ -123,6 +123,6 @@ char	*get_shell_prefix(void)
 	if (!host)
 		return (NULL);
 	prefix = build_prefix(user, host);
-	ft_free(host,NULL);
+	ft_free (host, NULL);
 	return (prefix);
 }
