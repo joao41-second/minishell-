@@ -18,7 +18,6 @@ int main(int ac, char **av, char **env)
 	
 	start_alloc();
 	mini.env = env_split(env);
-	print_list(mini.env,print_env);
 	start_shell( mini);
 	ft_free_all(NULL);
 }

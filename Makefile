@@ -15,6 +15,8 @@
 READ_FLG = -lreadline
 FLGS = $(WFLGS) $(READ_FLG)
 
+VAL = valgrind --track-origins=yes            
+
 # Make flags
 MAKEFLAGS += -s
 
@@ -76,3 +78,8 @@ norm:
 normi:
 	norminette $(SRCS)
 	cd ./libft && norminette
+
+s:
+	make re && ./minishell
+v:
+	make re && $(VAL) ./minishell

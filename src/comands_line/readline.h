@@ -13,6 +13,7 @@
 #define READLINE_H
 #ifdef READLINE_H
 
+# include "../minishell.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
