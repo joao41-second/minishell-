@@ -71,6 +71,7 @@ void print_list(t_list_ *list,void(*print)(void*))
 	while (list != NULL)
 	{
 		(print)(list);
+		if(list->next != NULL)
 		list = list->next; 
 	}
 	
