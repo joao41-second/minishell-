@@ -72,7 +72,8 @@ t_list_	*ft_node_end(t_list_ *list)
 int	ft_list_size(t_list_ *list)
 {
 	int	i;
-
+	
+	list= ft_node_start(list);
 	i = 0;
 	while (list != NULL)
 	{

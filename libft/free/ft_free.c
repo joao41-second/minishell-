@@ -25,6 +25,8 @@ void	*ft_malloc(size_t size, void *list_set)
 		list = list_set;
 		return (NULL);
 	}
+	if(list == NULL)
+		write(2,"error\n",10);
 	mal = malloc(size);
 	if(mal == NULL)
 	{
@@ -39,7 +41,9 @@ void	*ft_malloc(size_t size, void *list_set)
 		write(2,"error_remove_the_limited_memory_bitch\n",40);
 		exit(1);
 	}
+	list = ft_node_end(list);
 	ft_node_add_front(&list, new);
+	list = ft_node_start(list);
 	return (new->content);
 }
 
@@ -64,12 +68,29 @@ void ft_free_all(void *list_set)
 	}
 }
 
+void ft_emove(t_list_ **node)
+{
+	t_list_ *prv;
+	t_list_ *nex;
+	
+	t_list_ *temp;
+
+	temp = *node;
+	nex = temp->next;
+	prv = temp->previous;
+	
+	nex->previous = prv;
+	prv->next = nex;
+	free(*node);
+		
+	*node = prv;
+	
+}
+
 void ft_free(void *var,void *list_set)
 {
 	static t_list_ *list;
 	t_list_	*temp;
-	t_list_	*pev;
-	t_list_	*nex;
 
 	if(list == NULL && list_set != NULL)
 	{
@@ -77,31 +98,30 @@ void ft_free(void *var,void *list_set)
 		return;
 	}
 	temp = list;
-	while (temp != NULL)
+	while (list != NULL)
 	{
-		if(temp->content == var)
+		if(list->content == var)
 		{
-			free(temp->content);
-			temp->content = NULL;
-			pev = temp->previous;
-			nex = temp->next;
-			free(temp);
-			if( nex !=NULL)
-				nex->next = pev;
-			if (pev != NULL)
-				pev->previous = nex;
-			return ;
+			free(list->content);
+			list->content = NULL;
+			var = NULL;
+			if(list->next!= NULL && list->previous != NULL)
+			{
+				//if(ft_list_size(list) > 2)
+				 ft_emove(&list);
+				
+			}
+			break;
 		}
 		list = list->next;
-		if(list == NULL)
-			return;
 	}
+	list = temp;
 }
 
 void start_alloc()
 {
 	t_list_ * list;
-
+	
 	list = ft_node_new_free(malloc(sizeof(1))); 
 	ft_malloc(3,list);
 	ft_free_all(list);

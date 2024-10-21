@@ -50,7 +50,13 @@ t_list_ *env_split(char **env);
  */
 void print_env(void *point);
 
+void free_env(void *point);
+
+
 int		check_syntax(char *str);
 
+
+
+void free_list(t_list_ *list,void (*free_struct)(void*));
 
 #endif 

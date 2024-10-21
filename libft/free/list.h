@@ -19,4 +19,8 @@ t_list_	*ft_node_start(t_list_ *list);
 
 void print_list(t_list_ *list,void(*print)(void*));
 
+
+int	ft_list_size(t_list_ *list);
+t_list_	*ft_node_end(t_list_ *list);
+
 #endif

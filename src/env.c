@@ -50,6 +50,38 @@ void print_env(void *point)
 	}
 }
 
+void free_env(void *point)
+{
+	t_env get ;
+	t_list_ *list;
+
+	list = (t_list_*) point;
+	if(list != NULL)
+	{
+		get = *((t_env*)list->content);
+		ft_free(get.name,NULL);
+		ft_free(get.content,NULL);
+		ft_free(list->content,NULL);
+	}
+	
+}
+
+void free_list(t_list_ *list,void (*free_struct)(void*))
+{
+	t_list_ *temp; 
+	list = ft_node_start(list);
+	while (list != NULL)
+	{
+		temp = list->next;
+		(free_struct)(list);
+		if(list != NULL)
+			ft_free(list,NULL);
+		list = temp; 
+	}
+
+}
+
+
 t_list_ *env_split(char **env)
 {
 	char **var;
