@@ -6,10 +6,10 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:46:23 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/15 19:18:29 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/21 16:07:54 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "minishell.h"
+#include "../../minishell.h"
 
 
 t_env* new_node(char *s1)
