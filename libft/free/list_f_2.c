@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:59:42 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/22 11:35:51 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/22 14:48:41 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,5 @@ void	*get_list(t_list_ *list ,void *loc,void* (*locate_node)(void*,void*))
 		else 
 			break;
 	}
-	return (ret);
+	return (NULL);
 }

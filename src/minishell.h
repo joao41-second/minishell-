@@ -6,14 +6,14 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/21 16:08:48 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/22 14:15:30 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define MINISHELL_H
 #ifdef MINISHELL_H
 
-#include "./builtins/builtins.h"
+
 #include "../libft/Get_next_line/get_next_line_bonus.h"
 #include "../libft/printf/ft_printf.h"
 //#include "../libft/free/free_and_list.h"
@@ -30,9 +30,12 @@
 
 
 typedef struct s_mines {
- t_list_ *env;
+	t_list_ *env;
+	int comand;
 } t_minis;
 
+
+#include "./builtins/builtins.h"
 
 int		check_syntax(char *str);
 

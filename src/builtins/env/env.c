@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:46:23 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/21 16:07:54 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/22 14:28:54 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../minishell.h"
@@ -46,7 +46,7 @@ void print_env(void *point)
 	if(list != NULL)
 	{
 		get = *((t_env*)list->content);
-		ft_printf("%s====%s \n", get.name, get.content);
+		ft_printf("%s=%s \n", get.name, get.content);
 	}
 }
 
@@ -64,21 +64,6 @@ void free_env(void *point)
 		ft_free(list->content,NULL);
 	}
 	
-}
-
-void free_list(t_list_ *list,void (*free_struct)(void*))
-{
-	t_list_ *temp; 
-	list = ft_node_start(list);
-	while (list != NULL)
-	{
-		temp = list->next;
-		(free_struct)(list);
-		if(list != NULL)
-			ft_free(list,NULL);
-		list = temp; 
-	}
-
 }
 
 

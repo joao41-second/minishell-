@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 09:04:01 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/17 12:11:07 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/22 14:16:35 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ void print_list(t_list_ *list,void(*print)(void*))
 	{
 		(print)(list);
 		if(list->next != NULL)
-		list = list->next; 
+		list = list->next;
+		else 
+			break;
 	}
 	
 }

@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 13:12:18 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/22 14:27:13 by jperpct          ###   ########.fr       */
+/*   Created: 2024/10/22 14:12:36 by jperpct           #+#    #+#             */
+/*   Updated: 2024/10/22 14:28:13 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int main(int ac, char **av, char **env)
+#include "../minishell.h"
+void builtins(t_minis mini)
 {
-	t_minis  mini;
+	if(mini.comand == 1)
+	{
+		ft_env(mini);
+	}
 
-	start_alloc();
-	
-	mini.env = env_split(env);
-	mini.comand = 1;
-	start_shell( mini);
-	free_list(mini.env,free_env);
-	ft_free_all(NULL);
+
 }
