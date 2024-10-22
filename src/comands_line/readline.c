@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/17 14:48:45 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:10:21 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strndup(const char *src, size_t n)
 	i = 0;
 	while (len < n && src[len])
 		len++;
-	dst = (char *)ft_malloc(len + 1, NULL);
+	dst = (char *)malloc(len + 1);
 	if (!dst)
 		return (NULL);
 	while (i < len)
@@ -44,11 +44,11 @@ void	start_shell(t_minis mini)
 	{
 		prompt = get_shell_prefix();
 		line = readline(prompt);
-		ft_free(prompt,NULL);
+		free(prompt);
 		if (line == NULL)
 			break ;
 		ft_printf("%s\n", line);
-		check_syntax(line);
+		// check_syntax(line);
 		add_history(line);
 		free(line);
 	}
