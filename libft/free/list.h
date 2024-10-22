@@ -11,6 +11,12 @@ typedef struct s_list_
 	struct s_list_	*previous;
 } t_list_;
 
+/**
+ * @brief create new node int the linst 
+ *
+ * @param n variabel or stuct add in list
+ * @return node the lists alocde 
+ */
 t_list_	*ft_node_new(void * n);
 
 void	ft_node_add_front(t_list_ **lst, t_list_ *new);
