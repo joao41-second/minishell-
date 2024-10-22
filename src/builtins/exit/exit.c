@@ -14,6 +14,7 @@
 
 ft_exit(t_minis mini)
 {
+	perror("ola o erro");
 	ft_free_all(NULL);
 	exit(mini.exit_code_error);
 }
