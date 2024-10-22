@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:55:23 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/22 14:16:03 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/22 15:00:44 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ typedef struct s_env {
 	char* content;
 } t_env;
 
-
 /**
  * @brief save the env in linked list 
  * @param env file env the system
@@ -35,8 +34,11 @@ t_list_ *env_split(char **env);
  */
 void print_env(void *point);
 
-void free_env(void *point);
 
+void free_env(void *point);
 void ft_env(t_minis mini);
+
+char *ft_getenv(t_minis mini ,char *var);
+
 
 #endif // DEBUG

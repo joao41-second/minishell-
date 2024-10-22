@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 14:12:36 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/22 14:28:13 by jperpct          ###   ########.fr       */
+/*   Created: 2024/10/22 15:56:45 by jperpct           #+#    #+#             */
+/*   Updated: 2024/10/22 16:18:43 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-void builtins(t_minis mini)
+#include "../../minishell.h"
+
+ft_exit(t_minis mini)
 {
-	if(mini.comand == 1)
-	{
-		ft_env(mini);
-	}
-	if(mini.comand == 2)
-	{
-		ft_exit(mini);
-	}
- 
+	ft_free_all(NULL);
+	exit(mini.exit_code_error);
 }

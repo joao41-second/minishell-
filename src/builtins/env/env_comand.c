@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 14:08:21 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/22 14:51:44 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/22 14:59:44 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void* get_env(void *point ,void *locate)
 		get = *((t_env*)list->content);
 		if(ft_strncmp(get.name,loc,ft_strlen(loc)) == 0)
 		{
-			ft_printf("%s\n",get.content);
 			return (get.content);
 		}
 	}
@@ -36,9 +35,10 @@ void* get_env(void *point ,void *locate)
 
 void ft_env(t_minis mini)
 {
-	//print_list(mini.env,print_env);
-	char *ok;
-	ok = (char *)get_list(mini.env,"USER",get_env);
-	if(ok!=NULL)
-		ft_printf("ola o user e %s\n",ok);
+	print_list(mini.env,print_env);
+}
+
+char *ft_getenv(t_minis mini ,char *var)
+{
+	return ((char *)get_list(mini.env,var,get_env));
 }

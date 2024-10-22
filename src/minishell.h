@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/22 14:15:30 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/22 16:18:03 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 typedef struct s_mines {
 	t_list_ *env;
 	int comand;
+	int exit_code_error;
 } t_minis;
-
 
 #include "./builtins/builtins.h"
 
