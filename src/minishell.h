@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/22 16:18:03 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/23 15:46:08 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 #ifdef MINISHELL_H
 
 
-#include "../libft/Get_next_line/get_next_line_bonus.h"
-#include "../libft/printf/ft_printf.h"
+# include "../libft/Get_next_line/get_next_line_bonus.h"
+# include "../libft/printf/ft_printf.h"
 //#include "../libft/free/free_and_list.h"
 //#include "../libft/free/list.h"
 //#include "./comands_line/readline.h"
-#include "../libft/libft/libft.h"
+# include "../libft/libft/libft.h"
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -27,10 +27,11 @@
 # include <stdio.h>
 # include <sys/wait.h>
 # include <fcntl.h>
-
+# include <limits.h>
 
 typedef struct s_mines {
 	t_list_ *env;
+	char path[PATH_MAX];
 	int comand;
 	int exit_code_error;
 } t_minis;

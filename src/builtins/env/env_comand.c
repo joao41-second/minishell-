@@ -33,12 +33,12 @@ void* get_env(void *point ,void *locate)
 }
 
 
-void ft_env(t_minis mini)
+void ft_env(t_minis *mini)
 {
-	print_list(mini.env,print_env);
+	print_list(mini->env,print_env);
 }
 
-char *ft_getenv(t_minis mini ,char *var)
+char *ft_getenv(t_minis *mini ,char *var)
 {
-	return ((char *)get_list(mini.env,var,get_env));
+	return ((char *)get_list(mini->env,var,get_env));
 }

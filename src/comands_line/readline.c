@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/22 14:26:58 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/23 15:55:02 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ void	start_shell(t_minis mini)
 		ft_free(prompt,NULL);
 		if (line == NULL)
 			break ;
-		ft_printf("%s\n", line);
-		builtins(mini);
+		
+		builtins(&mini);
 		check_syntax(line);
+		getcwd(mini.path,PATH_MAX);
 		add_history(line);
 		free(line);
 	}

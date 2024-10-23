@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 14:12:36 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/23 15:40:44 by jperpct          ###   ########.fr       */
+/*   Created: 2024/10/23 14:23:46 by jperpct           #+#    #+#             */
+/*   Updated: 2024/10/23 15:54:19 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-void builtins(t_minis* mini)
+#include "../../minishell.h"
+
+ft_pwd(t_minis *mini)
 {
-	if(mini->comand == 1)
-	{
-		ft_env(mini);
-	}
-	if(mini->comand == 2)
-	{
-		ft_exit(mini);
-	}
-	if(mini->comand == 3)
-	{
-		ft_cd("./src/");
-	}
-	if(mini->comand == 4)
-	{
-		ft_pwd(mini);
-	}
+	printf("%s\n",mini->path);
 }
