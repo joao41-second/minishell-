@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:01:16 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/10/23 16:50:11 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:45:47 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,8 +294,9 @@ int	main()
     test_syntax("'a\"");  // Valid
 	test_syntax("echo 'Hello World'");  // Valid
     test_syntax("echo \"|$TEST|\"");  // Valid
-    test_syntax("echo '$HOME'\" ");
+    test_syntax("echo '$HOME'\" ");  // Valid
 	test_syntax("echo \"\"\"\"\"\"\"\"");  // Valid
+    test_syntax("echo \"\"\"\"\"\"\"");  // Valid
 	test_syntax("echo \"'\"");  // Valid
     test_syntax("echo '\"'");  // Valid
 	test_syntax("cat file.txt | grep 'pattern'");  // Valid
@@ -327,6 +328,9 @@ int	main()
     test_syntax("< $a |");  // Invalid
     test_syntax("< $a | ls");  // Valid
     test_syntax("< $A");  // Valid
+    test_syntax("> $po");  // Valid
+    test_syntax("> $po |");  // Invalid
+    test_syntax("> $po | echo");  // Invalid
 	test_syntax("echo >>> invalid");  // Invalid
 	test_syntax("echo <<< invalid");  // Invalid
     
@@ -349,6 +353,7 @@ int	main()
     test_syntax("echo $HOME");  // Valid
     test_syntax("echo \"Hello $USER\"");  // Valid
     test_syntax("echo $?");  // Valid
+    test_syntax("echo $?>");  // Invalid
 	test_syntax("echo $\"valid\"");  // Valid
 	test_syntax("echo $'valid'");  // Valid
 	test_syntax("echo \"$valid\"");  // Valid
@@ -384,6 +389,18 @@ int	main()
     test_syntax("echo *.c");  // Invalid
     test_syntax("echo \"test?\"");  // Valid
     test_syntax("export $NOT_EXISTENT | unset ");  // Valid
-
+    test_syntax("echo -nknknknk Hello");  // Valid
+    test_syntax("echo '-n' Hello");  // Valid
+    test_syntax("echo \\\\\\\\$USER$USER");  // Valid
+    test_syntax("echo \\\\\\\\$USER");  // Valid
+    test_syntax("echo \\\\1$USER");  // Valid
+    test_syntax("echo \"\\$\\$USER\\\\$USER\"\"$USER\"");  // Valid
+    test_syntax("echo \"\\-\\-n\" \"\\h\\e\\l\\l\\o\"");  // Valid
+    test_syntax("> file | cat < no_such_file");  // Valid
+    test_syntax("echo a > $NO_ENV | echo b, unset NO_ENV");  // Invalid
+    test_syntax("echo a > $NO_ENV | echo b unset NO_ENV");  // Invalid
+    test_syntax("echo a > $NO_ENV | echo b | unset NO_ENV");  // Invalid
+    test_syntax("echo a > $NO_ENV");  // Valid
+    test_syntax("echo a > $USER | echo b, unset NO_ENV");  // Valid
 	return (0);
 }
