@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:01:16 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/10/23 16:00:45 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:50:11 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,41 +285,63 @@ int	main()
 	// Test cases
     printf("Quote tests:\n\n");
 	test_syntax("");  // Valid
-	test_syntax("\'\'");  // Valid
+	test_syntax("''");  // Valid
 	test_syntax("\"\"");  // Valid
+    test_syntax("\"\"\"");  // Valid
+    test_syntax("'''");  // Valid
 	test_syntax("       ");  // Valid
 	test_syntax("a");  // Valid
-    test_syntax("\'a\"");  // Valid
+    test_syntax("'a\"");  // Valid
 	test_syntax("echo 'Hello World'");  // Valid
+    test_syntax("echo \"|$TEST|\"");  // Valid
+    test_syntax("echo '$HOME'\" ");
 	test_syntax("echo \"\"\"\"\"\"\"\"");  // Valid
-	test_syntax("echo \"\'\"");  // Valid
-    test_syntax("echo \'\"\'");  // Valid
+	test_syntax("echo \"'\"");  // Valid
+    test_syntax("echo '\"'");  // Valid
 	test_syntax("cat file.txt | grep 'pattern'");  // Valid
-	test_syntax("echo \"unclosed");  // Invalid
-	test_syntax("echo \'unclosed");  // Invalid
+	test_syntax("echo \"cat lol.c");  // Invalid
+	test_syntax("echo 'unclosed");  // Invalid
     test_syntax("echo '|'");  // Valid
     test_syntax("echo \"|\"");  // Valid
     test_syntax("\"|\"\"ls\"\"-la\"\"|\"|\"ls\"");  // Valid
-    test_syntax("\'|\'\"ls\"\"-la\"\"|\"|\'ls\'");  // Valid
+    test_syntax("'|'\"ls\"\"-la\"\"|\"|'ls'");  // Valid
     
     printf("\nRedirection tests:\n\n");
+    test_syntax(">");  // Invalid
+	test_syntax("<");  // Invalid
+    test_syntax(">>");  // Invalid
+	test_syntax("<<");  // Invalid
+    test_syntax(">>>");  // Invalid
+	test_syntax("<<<");  // Invalid
+    test_syntax("echo > ");  // Invalid
+	test_syntax("echo hi <");  // Invalid
 	test_syntax(">a> output.txt");  // Valid
+    test_syntax("cat    <| ls");  // Valid
     test_syntax("cat < input.txt > output.txt");  // Valid
 	test_syntax("cat << valid");  // Valid
     test_syntax("echo >> output.txt");  // Valid
 	test_syntax("echo >> ");  // Invalid
 	test_syntax("echo << ");  // Invalid
-	test_syntax(">");  // Invalid
-	test_syntax("<");  // Invalid
-	test_syntax("echo > ");  // Invalid
-	test_syntax("echo < ");  // Invalid
 	test_syntax("> cat");  // Valid
 	test_syntax("< cat");  // Invalid
+    test_syntax("< $a |");  // Invalid
+    test_syntax("< $a | ls");  // Valid
+    test_syntax("< $A");  // Valid
 	test_syntax("echo >>> invalid");  // Invalid
 	test_syntax("echo <<< invalid");  // Invalid
     
     printf("\nPipe tests:\n\n");
+    test_syntax("|");  // Invalid
+    test_syntax("| $");  // Invalid
+    test_syntax("ls |");  // Valid
+    test_syntax("| >");  // Invalid
+    test_syntax("| echo oi");  // Invalid
 	test_syntax("|     |");  // Invalid
+    test_syntax("echo hi | >");  // Invalid
+    test_syntax("echo hi | < |");  // Invalid
+    test_syntax("echo hi | > >>");  // Invalid
+    test_syntax("echo hi |   |");  // Invalid
+    test_syntax("echo hi |  \"|\"");  // Invalid
 	test_syntax("| invalid |invalid");  // Invalid
 	test_syntax("valid|invalid");  // Valid
     
@@ -334,9 +356,25 @@ int	main()
 	test_syntax("echo asd\"$valid\"");  // Valid
 	test_syntax("echo $\"valid\"asd");  // Valid
 	test_syntax("echo $'valid'asd");  // Valid
+    test_syntax("echo $'valid'asd");  // Valid
+    test_syntax("echo $A$B$C");  // Valid
+    test_syntax("echo \"$A$B$C\"");  // Valid
+    test_syntax("echo '$A$B$C'");  // Valid
+    test_syntax("echo $A,$B,$C");  // Valid
+    test_syntax("echo '$A,$B,$C'");  // Valid
+    test_syntax("echo \"$A,$B,$C\"");  // Valid
+    
+    printf("\nPath tests:\n\n");
+    test_syntax("cd ~/");  // Valid
+    test_syntax("cd ~/test");  // Valid
+    test_syntax("cd ./");  // Valid
+    test_syntax("cd ./test");  // Valid
+    test_syntax("cd ./~");  // Invalid
+    test_syntax("cd -~");  // Invalid
     
     printf("\nWildcard and bonus tests:\n\n");
     test_syntax("cd ~");  // Valid
+    test_syntax("\"$");  // Invalid
     test_syntax("echo $*valid");  // Invalid
     test_syntax("ls && cat");  // Invalid
     test_syntax("ls || cat");  // Invalid
@@ -345,5 +383,7 @@ int	main()
     test_syntax("echo test?");  // Invalid
     test_syntax("echo *.c");  // Invalid
     test_syntax("echo \"test?\"");  // Valid
+    test_syntax("export $NOT_EXISTENT | unset ");  // Valid
+
 	return (0);
 }
