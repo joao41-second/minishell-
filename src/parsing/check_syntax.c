@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:01:16 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/10/22 16:56:55 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:00:45 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void init_parser_state(ParserState *state) {
 }
 
 bool is_whitespace(char c) {
-    return c == ' ' || c == '\t' || c == '\n';
+    return ((c >= 9 && c <= 13) || c == 32);
 }
 
 bool is_valid_first_char(char c) {
@@ -66,7 +66,7 @@ bool check_env_var_syntax(const char *str, int *i, ParserState *state) {
     if (str[*i] == '"' || str[*i] == '\'') {
         char quote_type = str[*i];
         (*i)++;  // Move past the opening quote
-        
+
         // Find the matching closing quote
         while (str[*i] && str[*i] != quote_type) {
             (*i)++;
@@ -76,16 +76,27 @@ bool check_env_var_syntax(const char *str, int *i, ParserState *state) {
             (*i)++;  // Move past the closing quote
             return true;
         }
+    
     }
     
+    if (str[*i] == '*')
+        return false;
     // Accept any character after $ since it might be a valid env var
     return true;
 }
 
-bool check_pipe_syntax(const char *input, int i, ParserState *state)
-{
+bool check_pipe_syntax(const char *input, int i, ParserState *state) {
     int len = strlen(input);
-    bool found_command = false;
+
+    // Skip if inside quotes
+    if (state->in_single_quote || state->in_double_quote) {
+        return true;
+    }
+    
+    // Check for || which is not allowed
+    if (i + 1 < len && input[i + 1] == '|') {
+        return false;
+    }
     
     // Check backwards for a command before the pipe
     if (!state->had_valid_command) {
@@ -101,21 +112,78 @@ bool check_pipe_syntax(const char *input, int i, ParserState *state)
     while (j < len && is_whitespace(input[j])) j++;
     if (j >= len || input[j] == '|') return false;
     
-    state->had_valid_command = true;
+    state->had_valid_command = false;  // Reset for next command
+    state->pipe_count++;
+    return true;
+}
+
+bool check_redirect_syntax(const char *input, int i, ParserState *state) {
+    int len = strlen(input);
+    char current = input[i];
+    char next = (i + 1 < len) ? input[i + 1] : '\0';
+    
+    // Skip if inside quotes
+    if (state->in_single_quote || state->in_double_quote) {
+        return true;
+    }
+    
+    // Check for >> and >
+    if (current == '>') {
+        if (next == '>') {
+            // Check for >>> which is invalid
+            if (i + 2 < len && input[i + 2] == '>') {
+                return false;
+            }
+            i++;  // Skip the second '>'
+        }
+        
+        // Check if there's a filename after the redirection
+        i++;
+        while (i < len && is_whitespace(input[i])) i++;
+        if (i >= len || input[i] == '>' || input[i] == '<' || input[i] == '|') {
+            return false;
+        }
+        
+        state->has_redirect_out = true;
+        return true;
+    }
+    
+    // Check for < and <<
+    if (current == '<') {
+        if (next == '<') {
+            // Check for <<< which is invalid
+            if (i + 2 < len && input[i + 2] == '<') {
+                return false;
+            }
+            state->has_heredoc = true;
+            return true;
+        }
+        
+        // Check if there's a filename after the redirection
+        i++;
+        while (i < len && is_whitespace(input[i])) i++;
+        if (i >= len || input[i] == '>' || input[i] == '<' || input[i] == '|') {
+            return false;
+        }
+        
+        state->has_redirect_in = true;
+        return true;
+    }
+    
     return true;
 }
 
 bool check_syntax(const char *input, char **error_msg) {
     ParserState state;
     int len = strlen(input);
-    bool found_non_space = false;
     
     init_parser_state(&state);
+    
+    // Handle empty input
+    if (len == 0) return true;
+    
     for (int i = 0; i < len; i++) {
         char c = input[i];
-        
-        if (!is_whitespace(c))
-            found_non_space = true;
         
         // Handle escape character
         if (c == '\\' && !state.in_single_quote) {
@@ -140,45 +208,69 @@ bool check_syntax(const char *input, char **error_msg) {
             continue;
         }
         
+        // Skip prohibited character checks if in quotes
+        if (!state.in_single_quote && !state.in_double_quote) {
+            // Check for wildcards
+            if ((c == '*' || c == '?' || c == '[' || c == ']') && 
+                (i == 0 || input[i-1] != '$')) {  // Allow if it's part of $?
+                *error_msg = "Wildcards are not allowed";
+                return false;
+            }
+            
+            // Check for logical AND
+            if (c == '&') {
+                *error_msg = "Logical AND (&&) is not allowed";
+                return false;
+            }
+        }
+        
         // Handle environment variables
         if (c == '$' && !state.in_single_quote) {
             if (!check_env_var_syntax(input, &i, &state)) {
                 *error_msg = "Invalid environment variable syntax";
                 return false;
             }
-            i--;  // Decrement i since the loop will increment it
+            continue;
+        }
+        
+        // Handle pipes
+        if (c == '|') {
+            if (!check_pipe_syntax(input, i, &state)) {
+                *error_msg = "Invalid pipe syntax";
+                return false;
+            }
+            continue;
+        }
+        
+        // Handle redirections
+        if (c == '>' || c == '<') {
+            if (!check_redirect_syntax(input, i, &state)) {
+                *error_msg = "Invalid redirection syntax";
+                return false;
+            }
             continue;
         }
         
         // If this is the first non-quote character of a command, check if it's valid
-        if (!is_whitespace(c) && !state.in_single_quote && !state.in_double_quote)
+        if (!is_whitespace(c)) {
             state.had_valid_command = true;
+        }
     }
     
     // Check for unclosed quotes
-    if (state.in_single_quote)
-	{
+    if (state.in_single_quote) {
         *error_msg = "Unclosed single quote";
         return false;
     }
-    if (state.in_double_quote)
-	{
+    if (state.in_double_quote) {
         *error_msg = "Unclosed double quote";
-        return false;
-    }
-    
-    // Empty input is invalid
-    if (!found_non_space)
-	{
-        *error_msg = "Empty command";
         return false;
     }
     
     return true;
 }
 
-void test_syntax(const char *input)
-{
+void test_syntax(const char *input) {
     char *error_msg = NULL;
     bool is_valid = check_syntax(input, &error_msg);
     printf("Input: %s\n", input);
@@ -188,32 +280,70 @@ void test_syntax(const char *input)
     printf("\n");
 }
 
-int main()
+int	main()
 {
-    // Test cases
-    test_syntax("echo 'Hello World'");  // Valid
-    test_syntax("echo \"\"\"\"\"\"\"\"");  // Valid
-    test_syntax("echo \"Hello $USER\"");  // Valid
-    test_syntax("cat file.txt | grep 'pattern'");  // Valid
-    test_syntax("echo \"unclosed");  // Invalid
+	// Test cases
+    printf("Quote tests:\n\n");
+	test_syntax("");  // Valid
+	test_syntax("\'\'");  // Valid
+	test_syntax("\"\"");  // Valid
+	test_syntax("       ");  // Valid
+	test_syntax("a");  // Valid
+    test_syntax("\'a\"");  // Valid
+	test_syntax("echo 'Hello World'");  // Valid
+	test_syntax("echo \"\"\"\"\"\"\"\"");  // Valid
+	test_syntax("echo \"\'\"");  // Valid
+    test_syntax("echo \'\"\'");  // Valid
+	test_syntax("cat file.txt | grep 'pattern'");  // Valid
+	test_syntax("echo \"unclosed");  // Invalid
+	test_syntax("echo \'unclosed");  // Invalid
+    test_syntax("echo '|'");  // Valid
+    test_syntax("echo \"|\"");  // Valid
+    test_syntax("\"|\"\"ls\"\"-la\"\"|\"|\"ls\"");  // Valid
+    test_syntax("\'|\'\"ls\"\"-la\"\"|\"|\'ls\'");  // Valid
+    
+    printf("\nRedirection tests:\n\n");
+	test_syntax(">a> output.txt");  // Valid
     test_syntax("cat < input.txt > output.txt");  // Valid
-    test_syntax("echo $HOME");  // Valid
-    test_syntax("echo $?");  // Valid
-    test_syntax("cat << EOF");  // Valid
+	test_syntax("cat << valid");  // Valid
     test_syntax("echo >> output.txt");  // Valid
-    test_syntax("|");  // Invalid
-    test_syntax("||");  // Invalid
-    test_syntax("| |");  // Invalid
-    test_syntax("| invalid |invalid");  // Invalid
-    test_syntax("valid|invalid");  // Valid
-    test_syntax("echo $*valid");  // Valid
-    test_syntax("echo $\"valid\"");  // Valid
-    test_syntax("echo $\'valid\'");  // Valid
-    test_syntax("echo \"$valid\"");  // Valid
-    test_syntax("echo \"$valid\"asd");  // Valid
-    test_syntax("echo asd\"$valid\"");  // Valid
-    test_syntax("echo $\"valid\"asd");  // Valid
-	test_syntax("echo $\'valid\'asd");  // Valid
-	
-    return 0;
+	test_syntax("echo >> ");  // Invalid
+	test_syntax("echo << ");  // Invalid
+	test_syntax(">");  // Invalid
+	test_syntax("<");  // Invalid
+	test_syntax("echo > ");  // Invalid
+	test_syntax("echo < ");  // Invalid
+	test_syntax("> cat");  // Valid
+	test_syntax("< cat");  // Invalid
+	test_syntax("echo >>> invalid");  // Invalid
+	test_syntax("echo <<< invalid");  // Invalid
+    
+    printf("\nPipe tests:\n\n");
+	test_syntax("|     |");  // Invalid
+	test_syntax("| invalid |invalid");  // Invalid
+	test_syntax("valid|invalid");  // Valid
+    
+    printf("\nEnv variable tests:\n\n");
+    test_syntax("echo $HOME");  // Valid
+    test_syntax("echo \"Hello $USER\"");  // Valid
+    test_syntax("echo $?");  // Valid
+	test_syntax("echo $\"valid\"");  // Valid
+	test_syntax("echo $'valid'");  // Valid
+	test_syntax("echo \"$valid\"");  // Valid
+	test_syntax("echo \"$valid\"asd");  // Valid
+	test_syntax("echo asd\"$valid\"");  // Valid
+	test_syntax("echo $\"valid\"asd");  // Valid
+	test_syntax("echo $'valid'asd");  // Valid
+    
+    printf("\nWildcard and bonus tests:\n\n");
+    test_syntax("cd ~");  // Valid
+    test_syntax("echo $*valid");  // Invalid
+    test_syntax("ls && cat");  // Invalid
+    test_syntax("ls || cat");  // Invalid
+    test_syntax("ls[1]");  // Invalid
+    test_syntax("ls[]");  // Invalid
+    test_syntax("echo test?");  // Invalid
+    test_syntax("echo *.c");  // Invalid
+    test_syntax("echo \"test?\"");  // Valid
+	return (0);
 }
