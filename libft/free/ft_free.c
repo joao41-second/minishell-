@@ -52,21 +52,21 @@ void	*ft_malloc(size_t size, void *list_set)
 	return (new->content);
 }
 
-void ft_free_all(void *list_set)
+void	ft_free_all(void *list_set)
 {
 	static t_list_	*list = NULL;
-	t_list_ *temp;
+	t_list_			*temp;
 
-	if(list == NULL && list_set != NULL)
+	if (list == NULL && list_set != NULL)
 	{
 		list = list_set;
-		return;
+		return ;
 	}
 	list = ft_node_start(list);
 	while (list != NULL)
 	{
 		temp = list->next;
-		if(list->content != NULL)
+		if (list->content != NULL)
 			free(list->content);
 		free(list);
 		list = temp;
