@@ -45,4 +45,7 @@ ft_cd(char *str);
 
 ft_pwd(t_minis *mini);
 
+
+ft_unset(t_minis *mini);
+
 #endif // DEBUG

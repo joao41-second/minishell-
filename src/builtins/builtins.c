@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 14:12:36 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/23 15:40:44 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/24 15:18:25 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,6 @@ void builtins(t_minis* mini)
 	{
 		ft_pwd(mini);
 	}
+	if(mini->comand == 5)
+		ft_unset(mini);	 
 }

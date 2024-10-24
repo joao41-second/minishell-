@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:59:42 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/22 14:48:41 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/24 15:08:58 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,20 +83,6 @@ int	ft_list_size(t_list_ *list)
 	return (i);
 }
 
-void free_list(t_list_ *list,void (*free_struct)(void*))
-{
-	t_list_ *temp; 
-	list = ft_node_start(list);
-	while (list != NULL)
-	{
-		temp = list->next;
-		(free_struct)(list);
-		if(list != NULL)
-			ft_free(list,NULL);
-		list = temp; 
-	}
-
-}
 
 void	*get_list(t_list_ *list ,void *loc,void* (*locate_node)(void*,void*))
 {
