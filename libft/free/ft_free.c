@@ -20,6 +20,11 @@ void	*ft_malloc(size_t size, void *list_set)
 	static t_list_	*list;
 	void			*mal;
 
+	if( list_set != NULL &&  size == 134)
+	{
+		list = list_set;
+		return NULL;
+	}
 	if (list_set != NULL && list == NULL)
 	{
 		list = list_set;
@@ -41,9 +46,9 @@ void	*ft_malloc(size_t size, void *list_set)
 		write(2,"error_remove_the_limited_memory_bitch\n",40);
 		exit(1);
 	}
-	list = ft_node_end(list);
+	//list = ft_node_end(list);
 	ft_node_add_front(&list, new);
-	list = ft_node_start(list);
+	//list = ft_node_start(list);
 	return (new->content);
 }
 
@@ -72,20 +77,29 @@ void ft_emove(t_list_ **node)
 {
 	t_list_ *prv;
 	t_list_ *nex;
-	
 	t_list_ *temp;
 
 	temp = *node;
 	nex = temp->next;
 	prv = temp->previous;
-	
 	nex->previous = prv;
 	prv->next = nex;
 	free(*node);
-		
-	*node = prv;
-	
+	*node = prv;	
 }
+
+void ft_remove(t_list_ **node)
+{
+	t_list_ *prv;
+	t_list_ *temp;
+
+	temp = *node;
+	prv = temp->previous;
+	prv->next = NULL;
+	free(*node);
+	*node = prv;	
+}
+
 
 void ft_free(void *var,void *list_set)
 {
@@ -105,11 +119,14 @@ void ft_free(void *var,void *list_set)
 			free(list->content);
 			list->content = NULL;
 			var = NULL;
-			if(list->next!= NULL && list->previous != NULL)
+			if(list->next == NULL )
 			{
-				//if(ft_list_size(list) > 2)
-				 ft_emove(&list);
-				
+				ft_remove(&list);	
+				ft_malloc(134,list);
+			}
+			else if( list->next !=NULL && list->previous != NULL)
+			{
+				 ft_emove(&list);	
 			}
 			break;
 		}

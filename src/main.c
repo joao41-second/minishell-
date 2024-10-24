@@ -31,5 +31,5 @@ int main(int ac, char **av, char **env)
 	mini = start_minis(env);
 	start_shell( mini);
 	free_list(mini.env,free_env);
-	ft_free_all(NULL);
+	//ft_free_all(NULL);
 }
