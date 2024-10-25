@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "free_and_list.h"
-
+#include <unistd.h>
 
 void free_list(t_list_ *list,void (*free_struct)(void*))
 {
@@ -28,18 +28,3 @@ void free_list(t_list_ *list,void (*free_struct)(void*))
 
 }
 
-void	ft_free_node(t_list_ **list, void (*free_struct)(void*))
-{
-	t_list_	*temp;
-	t_list_	*priv;
-	t_list_	*next;
-
-	(free_struct)(list);
-	temp = *list;
-	priv = temp->previous;
-	next = temp->next;
-	ft_free(*list,NULL);
-	priv->next = next;
-	next->previous = priv;
-	*list= priv;
-}

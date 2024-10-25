@@ -2,6 +2,7 @@
 #define LIST_H
 #ifdef LIST_H
 
+#include <stdio.h>
 //#include "free.h"
 
 typedef struct s_list_
@@ -17,7 +18,7 @@ typedef struct s_list_
  * @param n variabel or stuct add in list
  * @return node the lists alocde 
  */
-t_list_	*ft_node_new(void * n);
+t_list_	*ft_node_new(void *n);
 
 /**
  * @brief defines an already initialized node int the list 
@@ -70,7 +71,7 @@ int	ft_list_size(t_list_ *list);
 void free_list(t_list_ *list,void (*free_struct)(void*));
 
 /**
- * @brief scroll through the list unit you find the something the is returnde for funcion locate_node
+ * @brief scroll through the list unit you find the something the is returnde for funcion locate_node
  *
  * @param list 
  * @param loc past variabel int the funcio locate_node
@@ -81,5 +82,5 @@ void	*get_list(t_list_ *list ,void *loc,void* (*locate_node)(void*,void*));
 
 
 
-void	ft_free_node(t_list_ **list, void (*free_struct)(void*));
+//void	ft_free_node(t_list_ **list, void (*free_struct)(void*));
 #endif
