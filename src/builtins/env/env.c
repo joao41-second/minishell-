@@ -59,7 +59,8 @@ void free_env(void *point)
 	if(list != NULL)
 	{
 		get = *((t_env*)list->content);
-		if(list->content != NULL){
+		if(list->content != NULL)
+		{
 		ft_free(get.name,NULL);
 		ft_free(get.content,NULL);
 		ft_free(list->content,NULL);

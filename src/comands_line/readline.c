@@ -54,4 +54,6 @@ void	start_shell(t_minis mini)
 		add_history(line);
 		free(line);
 	}
+		free_list(mini.env,free_env);
+
 }

@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-ft_pwd(t_minis *mini)
+void ft_pwd(t_minis *mini)
 {
 	printf("%s\n",mini->path);
 }

@@ -39,7 +39,7 @@ void	ft_free_node(t_list_ **list, void (*free_struct)(void*))
 
 	if(list != NULL)
 	{	
-		//(free_struct)(list);
+		(free_struct)(*list);
 		temp = *list;
 		priv = temp->previous;
 		next = temp->next;
@@ -57,18 +57,19 @@ void	ft_free_node(t_list_ **list, void (*free_struct)(void*))
 	}
 }
 
-ft_unset(t_minis *mini)
+void ft_unset(t_minis *mini)
 {
 	t_list_ *ok;
 	
 	ok = mini->env;
     ok = (t_list_ *) get_list(mini->env,"TMUX_CONF",get_env_node);
-
+	if(ok == NULL)
+		return ;
 	ft_free_node(&ok,free_env);
 	ok = ft_node_start(ok); 
 	
 	mini->env = ok;
-	ft_env(mini);
+	//ft_env(mini);
 	//rint_list(ok,print_env);
 
 }

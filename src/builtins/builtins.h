@@ -41,11 +41,11 @@ void ft_env(t_minis* mini);
 char *ft_getenv(t_minis *mini ,char *var);
 
 
-ft_cd(char *str);
+void ft_cd(char *str);
 
-ft_pwd(t_minis *mini);
+void ft_pwd(t_minis *mini);
 
 
-ft_unset(t_minis *mini);
+void ft_unset(t_minis *mini);
 
 #endif // DEBUG
