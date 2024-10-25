@@ -23,7 +23,7 @@ void builtins(t_minis* mini)
 	}
 	if(mini->comand == 3)
 	{
-		ft_cd("./src/");
+		ft_cd("./osrc/");
 	}
 	if(mini->comand == 4)
 	{

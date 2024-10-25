@@ -48,7 +48,7 @@ void	ft_free_node(t_list_ **list, void (*free_struct)(void*))
 		if(priv != NULL)
 			priv->next = next;
 
-		if(priv != NULL && next != NULL)
+		//if(priv != NULL && next != NULL)
 			ft_free(*list,NULL);
 		if(next != NULL)
 			*list= next;
@@ -69,7 +69,6 @@ void ft_unset(t_minis *mini)
 	ok = ft_node_start(ok); 
 	
 	mini->env = ok;
-	//ft_env(mini);
+	ft_env(mini);
 	//rint_list(ok,print_env);
-
 }
