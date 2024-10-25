@@ -28,3 +28,28 @@ void free_list(t_list_ *list,void (*free_struct)(void*))
 
 }
 
+void	ft_free_node(t_list_ **list, void (*free_struct)(void*))
+{
+	t_list_	*temp;
+	t_list_	*priv;
+	t_list_	*next;
+
+	if(list != NULL)
+	{	
+		(free_struct)(*list);
+		temp = *list;
+		priv = temp->previous;
+		next = temp->next;
+		if(next != NULL)
+			next->previous = priv; 
+		if(priv != NULL)
+			priv->next = next;
+		ft_free(*list,NULL);
+		if(next != NULL)
+			*list= next;
+		else if(priv != NULL)
+			*list= priv;
+	}
+}
+
+

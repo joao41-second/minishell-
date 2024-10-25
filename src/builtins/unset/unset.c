@@ -31,31 +31,7 @@ void* get_env_node(void *point ,void *locate)
 	return (NULL);
 }
 
-void	ft_free_node(t_list_ **list, void (*free_struct)(void*))
-{
-	t_list_	*temp;
-	t_list_	*priv;
-	t_list_	*next;
 
-	if(list != NULL)
-	{	
-		(free_struct)(*list);
-		temp = *list;
-		priv = temp->previous;
-		next = temp->next;
-		if(next != NULL)
-			next->previous = priv; 
-		if(priv != NULL)
-			priv->next = next;
-
-		//if(priv != NULL && next != NULL)
-			ft_free(*list,NULL);
-		if(next != NULL)
-			*list= next;
-		else if(priv != NULL)
-			*list= priv;
-	}
-}
 
 void ft_unset(t_minis *mini)
 {
