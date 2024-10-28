@@ -18,7 +18,7 @@ typedef struct s_list_
  * @param n variabel or stuct add in list
  * @return node the lists alocde 
  */
-t_list_	*ft_node_new(void *n);
+t_list_	*ft_node_new(void *n); 
 
 /**
  * @brief defines an already initialized node int the list 
@@ -82,5 +82,5 @@ void	*get_list(t_list_ *list ,void *loc,void* (*locate_node)(void*,void*));
 
 
 
-void	ft_free_node(t_list_ **list, void (*free_struct)(void*));
+//void	ft_free_node(t_list_ **list, void (*free_struct)(void*));
 #endif

@@ -47,12 +47,13 @@ void	start_shell(t_minis mini)
 		ft_free(prompt,NULL);
 		if (line == NULL)
 			break ;
-		
+		mini.line = line;
 		builtins(&mini);
 		check_syntax(line);
 		getcwd(mini.path,PATH_MAX);
 		add_history(line);
 		free(line);
+		mini.line = NULL;
 	}
 		free_list(mini.env,free_env);
 

@@ -13,22 +13,27 @@
 #include "../minishell.h"
 void builtins(t_minis* mini)
 {
-	if(mini->comand == 1)
+	if(ft_strlen(mini->line) < 1)
+		return ;
+		mini->split = ft_split(mini->line,' ');
+	if(mini->split == NULL)
+		return;
+	if(ft_strncmp(mini->split[0],"env",4) == 0)
 	{
 		ft_env(mini);
 	}
-	if(mini->comand == 2)
+	if(ft_strncmp(mini->split[0],"exit;",10) == 0)
 	{
 		ft_exit(mini);
 	}
-	if(mini->comand == 3)
+	if(ft_strncmp(mini->split[0],"cd",10) == 0)
 	{
-		ft_cd("./osrc/");
+		ft_cd(mini->split[1]);
 	}
-	if(mini->comand == 4)
+	if(ft_strncmp(mini->split[0],"pwd",10) == 0)
 	{
 		ft_pwd(mini);
 	}
-	if(mini->comand == 5)
+	if(ft_strncmp(mini->split[0],"unset",10) == 0)
 		ft_unset(mini);	 
 }

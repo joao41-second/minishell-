@@ -17,7 +17,7 @@ t_minis start_minis(char **env)
 	t_minis mini;
 
 	mini.env = env_split(env);
-	mini.comand = 5;
+	mini.comand = 0;
 	mini.exit_code_error= 0;
 	return(mini);
 }
