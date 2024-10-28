@@ -42,7 +42,7 @@ void	start_shell(t_minis mini)
 	server();
 	while (1)
 	{
-		prompt = get_shell_prefix();
+		prompt = "ola"; //get_shell_prefix();
 		line = readline(prompt);
 		ft_free(prompt,NULL);
 		if (line == NULL)

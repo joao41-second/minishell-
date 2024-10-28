@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:46:23 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/24 14:48:42 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/28 14:21:01 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../minishell.h"
@@ -43,10 +43,11 @@ void print_env(void *point)
 	t_list_ *list;
 
 	list = (t_list_*) point;
-	if(list != NULL)
+	if(list != NULL  )
 	{
 		get = *((t_env*)list->content);
-		ft_printf("%s=%s \n", get.name, get.content);
+		if(get.content != NULL)
+			printf("%s=%s \n", get.name, get.content);
 	}
 }
 
@@ -77,12 +78,15 @@ t_list_ *env_split(char **env)
 	t_list_ *temp;
 	t_env	*envs;
 	int i;
+	printf("1oi\n");
+	if(env[0] == NULL)
+		return	(list_env_i());
 	
 	var = ft_split(env[0],'=');
 	envs = new_node(var[0]); 
 	list = ft_node_new(envs);
 	free_split(var);
-	i = 0;
+	i = -1;
 	while(env[++i] != NULL)
 	{ 
 		var = ft_split(env[i],'=');

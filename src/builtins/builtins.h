@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:55:23 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/23 15:45:09 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/28 14:18:03 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ t_list_ *env_split(char **env);
  */
 void print_env(void *point);
 
+t_list_ *list_env_i();
 
+
+t_env* new_node(char *s1);
 void free_env(void *point);
 void ft_env(t_minis* mini);
 

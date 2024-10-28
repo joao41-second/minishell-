@@ -16,6 +16,8 @@
 void free_list(t_list_ *list,void (*free_struct)(void*))
 {
 	t_list_ *temp; 
+	if(list == NULL)
+		return ;
 	list = ft_node_start(list);
 	while (list != NULL)
 	{

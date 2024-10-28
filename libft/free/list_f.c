@@ -67,6 +67,8 @@ t_list_	*ft_node_start(t_list_ *list)
 
 void print_list(t_list_ *list,void(*print)(void*))
 {
+	if(list == NULL)
+		return;
 	list = ft_node_start(list);
 	while (list != NULL)
 	{
