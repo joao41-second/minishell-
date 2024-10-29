@@ -43,8 +43,9 @@ void ft_env(t_minis* mini);
 
 char *ft_getenv(t_minis *mini ,char *var);
 
+void* get_env_node(void *point ,void *locate);
 
-void ft_cd(char *str);
+void ft_cd(t_minis *mini);
 
 void ft_pwd(t_minis *mini);
 

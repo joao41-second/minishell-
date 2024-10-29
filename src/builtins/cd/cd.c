@@ -12,11 +12,19 @@
 
 #include "../../minishell.h"
 
-void ft_cd(char *str)
+void ft_cd(t_minis *mini)
 {
-	if(str != NULL)
+	t_list_ *ok;
+	
+	ok = mini->env;
+    ok = (t_list_ *) get_list(mini->env,"PWD",get_env_node);
+	if(ok == NULL)
+		return ;
+
+	if(mini->split[1] )
 	{
-		if( chdir(str) == -1)
+		 
+		if( chdir(mini->split[1]) == -1)
 		{
 			perror("ola o error");
 		}

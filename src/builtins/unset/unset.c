@@ -38,13 +38,12 @@ void ft_unset(t_minis *mini)
 	t_list_ *ok;
 	
 	ok = mini->env;
-    ok = (t_list_ *) get_list(mini->env,"TMUX_CONF",get_env_node);
+    ok = (t_list_ *) get_list(mini->env,mini->split[1],get_env_node);
 	if(ok == NULL)
 		return ;
 	ft_free_node(&ok,free_env);
 	ok = ft_node_start(ok); 
 	
 	mini->env = ok;
-	ft_env(mini);
 	//rint_list(ok,print_env);
 }

@@ -43,6 +43,7 @@ typedef struct s_mines {
 int		check_syntax(char *str);
 
 
+void free_split(char **ok);
 
 void free_list(t_list_ *list,void (*free_struct)(void*));
 

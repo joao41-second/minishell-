@@ -30,6 +30,6 @@ int main(int ac, char **av, char **env)
 	start_alloc();
 	mini = start_minis(env);
 	start_shell( mini);
-	free_list(mini.env,free_env);
+	//free_list(mini.env,free_env);
 	//ft_free_all(NULL);
 }

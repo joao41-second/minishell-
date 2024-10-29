@@ -28,12 +28,13 @@ void builtins(t_minis* mini)
 	}
 	if(ft_strncmp(mini->split[0],"cd",10) == 0)
 	{
-		ft_cd(mini->split[1]);
+		ft_cd(mini);
 	}
 	if(ft_strncmp(mini->split[0],"pwd",10) == 0)
 	{
 		ft_pwd(mini);
 	}
 	if(ft_strncmp(mini->split[0],"unset",10) == 0)
-		ft_unset(mini);	 
+		ft_unset(mini);
+	free_split(mini->split);
 }
