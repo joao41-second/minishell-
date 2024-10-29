@@ -29,5 +29,5 @@ void export_add( t_list_ **list, t_env *var)
 
 void ft_export(t_minis *mini)
 {
- 
+(void)mini;
 }

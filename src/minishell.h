@@ -38,7 +38,11 @@ typedef struct s_mines {
 	int exit_code_error;
 } t_minis;
 
+
+
+
 #include "./builtins/builtins.h"
+#include "./comands_line/readline.h"
 
 int		check_syntax(char *str);
 

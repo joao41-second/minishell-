@@ -11,8 +11,8 @@
 # **************************************************************************** #
 
 # Compiler flags
-# WFLGS = -Wall -Wextra -Werror
-READ_FLG = -g -lreadline
+WFLGS = -Wall -Wextra -Werror
+READ_FLG = -g 
 FLGS = $(WFLGS) $(READ_FLG)
 
 VAL = valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes --suppressions=readline.supp 
@@ -42,10 +42,15 @@ OBJDIR = Objs
 # Create object directory if it doesn't exist
 $(shell mkdir -p $(OBJDIR))
 
+$(OBJDIR)/%.o: src/%.c
+	@mkdir -p $(dir $@)
+	@$(CC) -c $(FLGS) -o $@ $<
+
+
 # Main target
 $(NAME): $(OBJS)
 	cd libft && make compile && make
-	$(CC) $(FLGS) $(OBJS) $(LIB) -o $(NAME)
+	$(CC) $(FLGS) $(OBJS) $(LIB) -lreadline -o $(NAME)
 	@echo "╔══════════════════════════╗"
 	@echo "║ ✅ Compiled Successfully!║"
 	@echo "╚══════════════════════════╝"

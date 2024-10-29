@@ -29,4 +29,7 @@ int		ft_putstr_fds(char *s, int fd);
 
 size_t	ft_strlen(const char *s);
 
+int	ft_printf_fd(int fd,const char *str, ...);
+
+
 #endif

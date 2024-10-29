@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stddef.h>
 
 char	*ft_strndup(const char *src, size_t n)
 {
@@ -25,7 +26,7 @@ char	*ft_strndup(const char *src, size_t n)
 	dst = (char *)ft_malloc(len + 1, NULL);
 	if (!dst)
 		return (NULL);
-	while (i < len)
+	while ((size_t)i < len)
 	{
 		dst[i] = src[i];
 		i++;

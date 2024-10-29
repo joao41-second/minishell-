@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 void builtins(t_minis* mini)
 {
 	if(ft_strlen(mini->line) < 1)
 		return ;
-		mini->split = ft_split(mini->line,' ');
+	mini->split = ft_split(mini->line,' ');
 	if(mini->split == NULL)
 		return;
 	if(ft_strncmp(mini->split[0],"env",4) == 0)

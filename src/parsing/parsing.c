@@ -12,6 +12,7 @@
 
 #include "../minishell.h"
 
+
 int	check_syntax(char *str)
 {
 	int	i;
@@ -26,4 +27,5 @@ int	check_syntax(char *str)
 	}
 	if (str)
 	return (0);
+	return(INT_MAX);
 }

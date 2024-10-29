@@ -13,7 +13,7 @@
 #define READLINE_H
 #ifdef READLINE_H
 
-# include "../minishell.h"
+
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -21,7 +21,7 @@
 # include <fcntl.h>
 # include <signal.h>
 
-
+  
 /* 
  * @brief get input from the user
  *

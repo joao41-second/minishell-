@@ -49,7 +49,10 @@ void ft_cd(t_minis *mini);
 
 void ft_pwd(t_minis *mini);
 
+void ft_exit(t_minis *mini);
 
 void ft_unset(t_minis *mini);
+void builtins(t_minis* mini);
+
 
 #endif // DEBUG
