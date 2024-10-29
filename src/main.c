@@ -25,8 +25,9 @@ t_minis start_minis(char **env)
 
 int main(int ac, char **av, char **env)
 {
+	(void)ac;
+	(void)av;
 	t_minis  mini;
-
 	start_alloc();
 	mini = start_minis(env);
 	start_shell( mini);

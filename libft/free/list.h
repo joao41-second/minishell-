@@ -82,5 +82,5 @@ void	*get_list(t_list_ *list ,void *loc,void* (*locate_node)(void*,void*));
 
 
 
-//void	ft_free_node(t_list_ **list, void (*free_struct)(void*));
+void	ft_free_node(t_list_ **list, void (*free_struct)(void*));
 #endif
