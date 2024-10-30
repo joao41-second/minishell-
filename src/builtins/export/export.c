@@ -38,6 +38,8 @@ t_list_ *get_list_index(t_list_ *list,int index)
 	t_list_ *node;
 	
 	node = NULL;
+	if(list == NULL)
+		return(NULL);
 	ints = &index;
 	if(index > ft_list_size(list))
 		return (NULL);
@@ -57,6 +59,10 @@ void swap_env(t_list_ **node1,t_list_ **node2)
 	save = nod1->name;
 	nod1->name = nod2->name;
 	nod2->name = save;
+	save = nod1->content;
+	nod1->content = nod2->content;
+	nod2->content = save;
+	
 }
 
 
@@ -84,38 +90,45 @@ int env_char_max(t_list_ *list,int len)
 
 t_env * list_to_env(t_list_ *list)
 {
-	t_env	ret;
+	t_env	*ret;
 	
 	ret = NULL;
-	if(list	!= NULL)
+	if(list != NULL)
 		ret = (t_env*)list->content;
 	return NULL;
 }
 
 
-void organizer_list(t_list_ ** list)
+void organizer_list(t_list_ **list)
 {	
 	int len;
 	int char_max;
 	t_list_ *nod1;
-	t_list_ *nod2
+	t_list_ *nod2;
+	int set;
+	int i;
 
-	chek_max = 0;
 	len = ft_list_size(*list);
 	char_max = env_char_max(*list, len);
 	i = -1;
-	whiel(i++ < len)
+	set = 0;
+	while(i++ <= len)
 	{
 		nod1 = get_list_index(*list,i);
 		nod2 = get_list_index(*list,i+1);
-		if(nod1 != NULL && nod2 != NULL)
-		
+		if(nod1 != NULL && nod2 != NULL && list_to_env(nod1) != NULL && list_to_env(nod2)!= NULL) 
+		{
 			if(ft_strncmp(list_to_env(nod1)->name,list_to_env(nod2)->name ,char_max ) == -1)
 			{
-			
+					printf("ola mudno\n");
+				swap_env(&nod1,&nod2);
+				set =1;
 			}
 		}
+		if(i >= len && set == 1)
+			i = -1;
 	}
+	 print_list(*list,print_env);
 }
 
 
