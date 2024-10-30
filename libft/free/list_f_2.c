@@ -6,13 +6,13 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:59:42 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/24 15:08:58 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/10/22 14:48:41 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "free_and_list.h"
 
-// void	ft_print_list(t_list_ *list, t_list_ *list_b)
+// void	ft_print_list(t_list_ *list, t_list_ *list_b)ategoria-produto
 // {
 // 	char	ola[33];
 
