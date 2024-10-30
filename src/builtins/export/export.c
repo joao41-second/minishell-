@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stddef.h>
 #include <stdio.h>
 #include <strings.h>
 
@@ -44,11 +45,77 @@ t_list_ *get_list_index(t_list_ *list,int index)
 	return (node);
 }
 
-void organizer_list(t_list_ ** list)
-{
-	(void)list;
-	while (1){}	
 
+void swap_env(t_list_ **node1,t_list_ **node2)
+{
+	t_env *nod1;
+	t_env *nod2;
+	char *save;
+
+	nod1 = (t_env*)(*node1)->content;
+	nod2 = (t_env*)(*node2)->content;
+	save = nod1->name;
+	nod1->name = nod2->name;
+	nod2->name = save;
+}
+
+
+
+int env_char_max(t_list_ *list,int len)
+{
+	int i;
+	t_env *node;
+	t_list_ *chek;
+	int len_max;
+
+	len_max = 0;
+	i = -1;
+	while (++i < len) 
+	{
+		chek = get_list_index(list,i);
+		if(chek == NULL)
+			break;
+		node = chek->content;
+		if(ft_strlen(node->name) > (size_t)len_max)
+		 len_max = ft_strlen(node->name);
+	}
+	return(len_max);
+}
+
+t_env * list_to_env(t_list_ *list)
+{
+	t_env	ret;
+	
+	ret = NULL;
+	if(list	!= NULL)
+		ret = (t_env*)list->content;
+	return NULL;
+}
+
+
+void organizer_list(t_list_ ** list)
+{	
+	int len;
+	int char_max;
+	t_list_ *nod1;
+	t_list_ *nod2
+
+	chek_max = 0;
+	len = ft_list_size(*list);
+	char_max = env_char_max(*list, len);
+	i = -1;
+	whiel(i++ < len)
+	{
+		nod1 = get_list_index(*list,i);
+		nod2 = get_list_index(*list,i+1);
+		if(nod1 != NULL && nod2 != NULL)
+		
+			if(ft_strncmp(list_to_env(nod1)->name,list_to_env(nod2)->name ,char_max ) == -1)
+			{
+			
+			}
+		}
+	}
 }
 
 
@@ -71,13 +138,5 @@ void export_add( t_list_ **list, t_env *var)
 void ft_export(t_minis *mini)
 {
 	(void)mini;
-	t_env *var;
-	t_list_ *node;
-	
-	var = NULL;	
-    node = get_list_index(mini->env, 5);
-	//if(node != NULL)
-	var = (t_env*)node->content;
-	//printf("oio");
-	printf("%s =%s\n",var->name,var->content);
+	organizer_list(&mini->env);
 }
