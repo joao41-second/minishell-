@@ -95,7 +95,7 @@ t_env * list_to_env(t_list_ *list)
 	ret = NULL;
 	if(list != NULL)
 		ret = (t_env*)list->content;
-	return NULL;
+	return (ret);
 }
 
 
@@ -110,24 +110,29 @@ void organizer_list(t_list_ **list)
 
 	len = ft_list_size(*list);
 	char_max = env_char_max(*list, len);
-	i = -1;
+	i = 0;
 	set = 0;
+
 	while(i++ <= len)
 	{
 		nod1 = get_list_index(*list,i);
 		nod2 = get_list_index(*list,i+1);
-		if(nod1 != NULL && nod2 != NULL && list_to_env(nod1) != NULL && list_to_env(nod2)!= NULL) 
+		
+		if(nod1 != NULL && nod2 != NULL) 
 		{
-			if(ft_strncmp(list_to_env(nod1)->name,list_to_env(nod2)->name ,char_max ) == -1)
+			if(ft_strncmp(list_to_env(nod1)->name,list_to_env(nod2)->name ,char_max ) > 0)
 			{
-					printf("ola mudno\n");
 				swap_env(&nod1,&nod2);
 				set =1;
 			}
 		}
 		if(i >= len && set == 1)
+		{
 			i = -1;
+			set = 0;
+		}
 	}
+	*list = ft_node_start(*list);
 	 print_list(*list,print_env);
 }
 
