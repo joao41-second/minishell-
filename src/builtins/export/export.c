@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:05:55 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/25 15:17:56 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/03 12:30:51 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,22 @@ t_env * list_to_env(t_list_ *list)
 	return (ret);
 }
 
+void print_export(void *point)
+{
+	t_env get ;
+	t_list_ *list;
 
-void organizer_list(t_list_ **list)
+	list = (t_list_*) point;
+	if(list != NULL  )
+	{
+		get = *((t_env*)list->content);
+		if(get.content != NULL)
+			printf("declare -x %s=\"%s\" \n", get.name, get.content);
+	}
+}
+
+
+void organizer_list(t_list_ *list)
 {	
 	int len;
 	int char_max;
@@ -108,15 +122,15 @@ void organizer_list(t_list_ **list)
 	int set;
 	int i;
 
-	len = ft_list_size(*list);
-	char_max = env_char_max(*list, len);
+	len = ft_list_size(list);
+	char_max = env_char_max(list, len);
 	i = 0;
 	set = 0;
 
 	while(i++ <= len)
 	{
-		nod1 = get_list_index(*list,i);
-		nod2 = get_list_index(*list,i+1);
+		nod1 = get_list_index(list,i);
+		nod2 = get_list_index(list,i+1);
 		
 		if(nod1 != NULL && nod2 != NULL) 
 		{
@@ -132,16 +146,10 @@ void organizer_list(t_list_ **list)
 			set = 0;
 		}
 	}
-	*list = ft_node_start(*list);
-	 print_list(*list,print_env);
+	list = ft_node_start(list);
+	 print_list(list,print_export);
 }
 
-
-
-void export_print()
-{
-	printf("declare -x");
-}
 
 void export_add( t_list_ **list, t_env *var)
 {
@@ -151,10 +159,21 @@ void export_add( t_list_ **list, t_env *var)
 	node =  ft_node_new((void *)var);
 	ft_node_add_front(list,node);
 	
- }
+}
 
 void ft_export(t_minis *mini)
 {
-	(void)mini;
-	organizer_list(&mini->env);
+	char **export;
+	t_env *env;
+
+	if(mini->split[1]!= NULL)
+	{
+		env = ft_malloc(1*sizeof(t_env),NULL);
+		export = ft_split(mini->split[1],'=');
+		env->name= export[0];
+		env->content = export[1];//fala arajanra para caso tenhamas mais de um igual
+		export_add(&mini->env,env);
+	}
+	if(mini->split[1]== NULL)
+		organizer_list(mini->env);
 }

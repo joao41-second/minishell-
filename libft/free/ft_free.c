@@ -31,19 +31,19 @@ void	*ft_malloc(size_t size, void *list_set)
 		return (NULL);
 	}
 	if(list == NULL)
-		write(2,"error\n",10);
+		write(2,"error\n",7);
 	mal = malloc(size);
 	if(mal == NULL)
 	{
 		ft_free_all(NULL);
-		write(2,"error_remove_the_limited_memory_bitch\n",40);
+		write(2,"error_remove_the_limited_memory_bitch\n",39);
 		exit(1);
 	}
 	new = ft_node_new_free(mal);
 	if(new == NULL)
 	{
 		ft_free_all(NULL);
-		write(2,"error_remove_the_limited_memory_bitch\n",40);
+		write(2,"error_remove_the_limited_memory_bitch\n",39);
 		exit(1);
 	}
 	//list = ft_node_end(list);
