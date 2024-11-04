@@ -15,39 +15,6 @@
 #include <stdio.h>
 #include <strings.h>
 
-void * get_index(void * pointer,void *index)
-{
-	static int size = 0;
-	int *i;
-
-	i = (int *)index;
-	(void)pointer;
-	if (size >= *i)
-	{
-		size = 0;
-		return(pointer);
-	}
-	else
-		size++;
-	return (NULL);
-}
-
-t_list_ *get_list_index(t_list_ *list,int index)
-{
-	int *ints;
-	t_list_ *node;
-	
-	node = NULL;
-	if(list == NULL)
-		return(NULL);
-	ints = &index;
-	if(index > ft_list_size(list))
-		return (NULL);
-    node = (t_list_ *)get_list(list, ints, get_index);
-	return (node);
-}
-
-
 void swap_env(t_list_ **node1,t_list_ **node2)
 {
 	t_env *nod1;
@@ -64,8 +31,6 @@ void swap_env(t_list_ **node1,t_list_ **node2)
 	nod2->content = save;
 	
 }
-
-
 
 int env_char_max(t_list_ *list,int len)
 {
