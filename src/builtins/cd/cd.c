@@ -47,7 +47,7 @@ void ft_cd(t_minis *mini)
 			fd=	ft_strjoin(ft_getenv(mini, "HOME"),&mini->split[1][1]);
 		}
 		else 
-		fd = ft_strdup(mini->split[1]);
+			fd = ft_strdup(mini->split[1]);
 		getcwd(path,PATH_MAX);
 		if( chdir(fd) == -1)
 		{
