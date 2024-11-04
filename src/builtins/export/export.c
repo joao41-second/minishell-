@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:05:55 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/03 12:30:51 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/04 12:56:20 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void swap_env(t_list_ **node1,t_list_ **node2)
 	save = nod1->content;
 	nod1->content = nod2->content;
 	nod2->content = save;
-	
 }
 
 int env_char_max(t_list_ *list,int len)
@@ -53,16 +52,6 @@ int env_char_max(t_list_ *list,int len)
 	return(len_max);
 }
 
-t_env * list_to_env(t_list_ *list)
-{
-	t_env	*ret;
-	
-	ret = NULL;
-	if(list != NULL)
-		ret = (t_env*)list->content;
-	return (ret);
-}
-
 void print_export(void *point)
 {
 	t_env get ;
@@ -81,13 +70,29 @@ void print_export(void *point)
 	}
 }
 
-
-void organizer_list(t_list_ *list)
-{	
-	int len;
-	int char_max;
+void org_nex(t_list_ *list,int *i,int *set,int char_max)
+{
 	t_list_ *nod1;
 	t_list_ *nod2;
+
+	nod1 = get_list_index(list,*i);
+	nod2 = get_list_index(list,*i+1);
+
+	if(nod1 != NULL && nod2 != NULL) 
+	{
+		if(ft_strncmp(list_to_env(nod1)->name,list_to_env(nod2)->name ,char_max ) > 0)
+		{
+			swap_env(&nod1,&nod2);
+			*set =1;
+		}
+	}
+
+}
+
+void organizer_list(t_list_ *list)
+{
+	int len;
+	int char_max;
 	int set;
 	int i;
 
@@ -98,17 +103,7 @@ void organizer_list(t_list_ *list)
 
 	while(i++ <= len)
 	{
-		nod1 = get_list_index(list,i);
-		nod2 = get_list_index(list,i+1);
-		
-		if(nod1 != NULL && nod2 != NULL) 
-		{
-			if(ft_strncmp(list_to_env(nod1)->name,list_to_env(nod2)->name ,char_max ) > 0)
-			{
-				swap_env(&nod1,&nod2);
-				set =1;
-			}
-		}
+		org_nex(list, &i, &set,char_max);
 		if(i >= len && set == 1)
 		{
 			i = -1;
@@ -117,17 +112,6 @@ void organizer_list(t_list_ *list)
 	}
 	list = ft_node_start(list);
 	 print_list(list,print_export);
-}
-
-
-void export_add( t_list_ **list, t_env *var)
-{
-	t_list_ *node;
-
-	*list = ft_node_end(*list);
-	node =  ft_node_new((void *)var);
-	ft_node_add_front(list,node);
-	
 }
 
 void ft_export(t_minis *mini)
@@ -142,7 +126,8 @@ void ft_export(t_minis *mini)
 		env->name= export[0];
 		env->content = export[1];//fala arajanra para caso tenhamas mais de um igual
 		export_add(&mini->env,env);
+		export_add(&mini->env_org, env);
 	}
 	if(mini->split[1]== NULL)
-		organizer_list(mini->env);
+		organizer_list(mini->env_org);
 }
