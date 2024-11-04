@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:06:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/24 15:09:16 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/04 15:49:33 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void ft_unset(t_minis *mini)
 {
 	t_list_ *ok;
 	
+	if(mini->split[1] == NULL)
+		return;
 	ok = mini->env;
     ok = (t_list_ *) get_list(mini->env,mini->split[1],get_env_node);
 	if(ok == NULL)

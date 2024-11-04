@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:55:23 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/04 12:40:59 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/04 15:47:27 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void ft_exit(t_minis *mini);
 void ft_unset(t_minis *mini);
 
 void ft_export(t_minis *mini);
+
+void ft_echo(t_minis *mini);
 
 void builtins(t_minis* mini);
 
