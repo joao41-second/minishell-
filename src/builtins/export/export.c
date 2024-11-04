@@ -6,13 +6,14 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:05:55 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/04 12:56:20 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:12:31 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 #include <stddef.h>
 #include <stdio.h>
+#include <string.h>
 #include <strings.h>
 
 void swap_env(t_list_ **node1,t_list_ **node2)
@@ -123,8 +124,9 @@ void ft_export(t_minis *mini)
 	{
 		env = ft_malloc(1*sizeof(t_env),NULL);
 		export = ft_split(mini->split[1],'=');
-		env->name= export[0];
-		env->content = export[1];//fala arajanra para caso tenhamas mais de um igual
+		env->name= ft_strdup(export[0]);
+		env->content = 	ft_strjoin("",&mini->split[1][strlen(export[0]+1)]);
+		free_split(export); 
 		export_add(&mini->env,env);
 		export_add(&mini->env_org, env);
 	}

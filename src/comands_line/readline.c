@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/23 15:55:02 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:11:09 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,5 @@ void	start_shell(t_minis mini)
 		mini.line = NULL;
 	}
 		free_list(mini.env,free_env);
-
+		free_list(mini.env_org,free_env);
 }
