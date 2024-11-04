@@ -24,7 +24,7 @@ void* get_env(void *point ,void *locate)
 	if(list != NULL)
 	{
 		get = *((t_env*)list->content);
-		if(ft_strncmp(get.name,loc,ft_strlen(loc)) == 0)
+		if(ft_strncmp(get.name,loc,ft_strlen(loc)+10) == 0)
 		{
 			return (get.content);
 		}

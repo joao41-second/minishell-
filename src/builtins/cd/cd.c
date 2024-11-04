@@ -32,19 +32,24 @@ void set_path(t_list_ **list,char *path)
 	{
 		ft_free(pwd->content,NULL);
 		pwd->content = ft_strdup(paths);
-	}	
-
-
+	}
 }
 
 void ft_cd(t_minis *mini)
 {
 	char path[PATH_MAX];
+	char *fd;
 
 	if(mini->split[1] )
 	{
+		if(mini->split[1][0] == '~')
+		{
+			fd=	ft_strjoin(ft_getenv(mini, "HOME"),&mini->split[1][1]);
+		}
+		else 
+		fd = ft_strdup(mini->split[1]);
 		getcwd(path,PATH_MAX);
-		if( chdir(mini->split[1]) == -1)
+		if( chdir(fd) == -1)
 		{
 			perror("ola o error");
 		}
@@ -54,5 +59,6 @@ void ft_cd(t_minis *mini)
 			set_path(&mini->env_org, path );
 			getcwd(mini->path,PATH_MAX);
 		}
+		ft_free(fd,NULL);
 	}
 }
