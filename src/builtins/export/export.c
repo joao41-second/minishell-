@@ -109,6 +109,10 @@ void print_export(void *point)
 		get = *((t_env*)list->content);
 		if(get.content != NULL)
 			printf("declare -x %s=\"%s\" \n", get.name, get.content);
+		else if(get.content == NULL)
+		{
+			printf("declare -x %s\n",get.name);
+		}
 	}
 }
 
