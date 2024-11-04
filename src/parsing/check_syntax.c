@@ -15,56 +15,58 @@ bool validate_syntax(const char *command) {
     int consecutive_dots = 0;
     int cd_arg_count = 0;
     bool in_cd_command = false;
-
-    for (int i = 0; command[i] != '\0'; i++) {
+    
+    int i = 0;
+    while (command[i] != '\0') {
         char c = command[i];
         
-        
-        if (!command_started && isspace(c)) continue;
+        if (!command_started && isspace(c)) {
+            i++;
+            continue;
+        }
 
-        
         if (!command_started && !isspace(c)) {
             command_started = true;
         }
-        
-        
+
         if (c == '\'' && !in_double_quote) {
             in_single_quote = !in_single_quote;
+            i++;
             continue;
         } else if (c == '"' && !in_single_quote) {
             in_double_quote = !in_double_quote;
+            i++;
             continue;
         }
 
-        
-        if (in_double_quote || in_single_quote) continue;
+        if (in_double_quote || in_single_quote) {
+            i++;
+            continue;
+        }
 
-        
-        if (i == 0 || isspace(command[i-1])) {
+        if (i == 0 || isspace(command[i - 1])) {
             if (strncmp(command + i, "cd", 2) == 0 && 
-                (command[i+2] == '\0' || isspace(command[i+2]))) {
+                (command[i + 2] == '\0' || isspace(command[i + 2]))) {
                 in_cd_command = true;
                 cd_arg_count = 0;
             }
         }
 
-        
         if (in_cd_command) {
             if (isspace(c)) {
-                if (cd_arg_count > 0) {  
-                    
+                if (cd_arg_count > 0) {
                     int j = i + 1;
                     while (command[j] != '\0' && isspace(command[j])) j++;
                     if (command[j] == '|' || command[j] == '\0') {
                         in_cd_command = false;
                         consecutive_dots = 0;
+                        i++;
                         continue;
                     }
                 }
                 cd_arg_count++;
                 consecutive_dots = 0;
                 if (cd_arg_count > 2) {
-                    
                     int j = i + 1;
                     while (command[j] != '\0' && isspace(command[j])) j++;
                     if (command[j] != '|') {
@@ -83,10 +85,10 @@ bool validate_syntax(const char *command) {
             }
         }
 
-        
         if (c == '$' && !in_single_quote && !in_double_quote) {
-            if (command[i + 1] == '?') {  
+            if (command[i + 1] == '?') {
                 i++;  
+                i++;
                 continue;
             }
             env_variable = true;
@@ -97,66 +99,60 @@ bool validate_syntax(const char *command) {
             env_variable = false;
         }
 
-        
-        if ((c == '>' || c == '<') && !in_single_quote
-            && !in_double_quote) {
+        if ((c == '>' || c == '<') && !in_single_quote && !in_double_quote) {
             consecutive_redirections++;
             if (consecutive_redirections > 2) {
                 return false;
             }
-
             if (last_char_is_redirection) {
-                if (c == '<' && command[i-1] == '>') {
+                if (c == '<' && command[i - 1] == '>') {
                     return false;
                 }
             }
-
             redirection_needs_target = true;
             last_char_is_redirection = true;
         } else {
             if (redirection_needs_target) {
-                if (isspace(c)) continue;
-                
+                if (isspace(c)) {
+                    i++;
+                    continue;
+                }
                 if (c == '|') {
                     return false;
                 }
-                
                 redirection_needs_target = false;
             }
-            
             consecutive_redirections = 0;
             last_char_is_redirection = false;
         }
 
-        
         if (c == '|' && !in_single_quote && !in_double_quote) {
-            if (i > 0 && command[i-1] == '"') {
+            if (i > 0 && command[i - 1] == '"') {
+                i++;
                 continue;
             }
-            if (i == 0 || command[i + 1] == '\0' ||
+            if (i == 0 || command[i + 1] == '\0' || 
                 last_char_is_pipe || last_char_is_redirection) {
                 return false;
             }
             last_char_is_pipe = true;
-            in_cd_command = false;  
+            in_cd_command = false;
         } else {
             last_char_is_pipe = false;
         }
 
-        
         if (!in_single_quote && !in_double_quote &&
             (c == '*' || c == '?' || c == '[' || c == ']')) {
             return false;
         }
+        i++;
     }
 
-    
     if (in_single_quote || in_double_quote || last_char_is_pipe || 
         last_char_is_redirection || redirection_needs_target) return false;
 
     return true;
 }
-
 
 void test_syntax(const char *command, bool expected) {
     bool result = validate_syntax(command);
@@ -309,7 +305,6 @@ int main() {
     test_syntax("cd ..\"", false);  
     test_syntax("cd \"..", false);  
     test_syntax("cd a/b", true);  
-    test_syntax("cd 
     test_syntax("cd \"/\"", true);  
     test_syntax("cd .. pwd", true); 
     test_syntax("cd / /", true);
