@@ -11,22 +11,48 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <linux/limits.h>
+#include <stdio.h>
+
+void set_path(t_list_ **list,char *path)
+{
+	t_env *pwd;
+	t_env *oldpwd;
+	char paths[PATH_MAX];
+	
+    pwd = list_to_env ((t_list_ *) get_list(*list,"PWD",get_env_node));
+    oldpwd = list_to_env ((t_list_ *) get_list(*list,"OLDPWD",get_env_node));
+	if(oldpwd != NULL)
+	{
+		ft_free(oldpwd->content, NULL);
+		oldpwd->content = ft_strdup(path);
+	}
+	getcwd(paths,PATH_MAX);
+	if(pwd != NULL)
+	{
+		ft_free(pwd->content,NULL);
+		pwd->content = ft_strdup(paths);
+	}	
+
+
+}
 
 void ft_cd(t_minis *mini)
 {
-	t_list_ *ok;
-	
-	ok = mini->env;
-    ok = (t_list_ *) get_list(mini->env,"PWD",get_env_node);
-	if(ok == NULL)
-		return ;
+	char path[PATH_MAX];
 
 	if(mini->split[1] )
 	{
-		 
+		getcwd(path,PATH_MAX);
 		if( chdir(mini->split[1]) == -1)
 		{
 			perror("ola o error");
+		}
+		else 
+		{
+			set_path(&mini->env, path );
+			set_path(&mini->env_org, path );
+			getcwd(mini->path,PATH_MAX);
 		}
 	}
 }
