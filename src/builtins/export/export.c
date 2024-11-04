@@ -125,7 +125,10 @@ void ft_export(t_minis *mini)
 		env = ft_malloc(1*sizeof(t_env),NULL);
 		export = ft_split(mini->split[1],'=');
 		env->name= ft_strdup(export[0]);
-		env->content = 	ft_strjoin("",&mini->split[1][strlen(export[0]+1)]);
+		if(export[1] != NULL)
+			env->content = 	ft_strjoin("",&mini->split[1][strlen(export[0])+1]);
+		else
+			env->content = NULL;
 		free_split(export); 
 		export_add(&mini->env,env);
 		export_add(&mini->env_org, env);
