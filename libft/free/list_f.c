@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 09:04:01 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/22 14:16:35 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/05 10:59:17 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list_	*ft_node_new(void *n)
 {
 	t_list_	*new_node;
 
-	new_node = (t_list_ *)ft_malloc(1 * sizeof(t_list_),NULL);
+	new_node = (t_list_ *)ft_malloc(1 * sizeof(t_list_), NULL);
 	if (new_node == NULL)
 		return (NULL);
 	new_node->content = n;
@@ -65,20 +65,19 @@ t_list_	*ft_node_start(t_list_ *list)
 	return (list);
 }
 
-void print_list(t_list_ *list,void(*print)(void*))
+void	print_list(t_list_ *list, void (*print)(void*))
 {
-	if(list == NULL)
-		return;
+	if (list == NULL)
+		return ;
 	list = ft_node_start(list);
 	while (list != NULL)
 	{
 		(print)(list);
-		if(list->next != NULL)
-		list = list->next;
-		else 
-			break;
+		if (list->next != NULL)
+			list = list->next;
+		else
+			break ;
 	}
-	
 }
 
 /*
