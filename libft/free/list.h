@@ -84,7 +84,7 @@ void				free_list(t_list_ *list, void (*free_struct)(void *));
 
 /**
 
-	* @brief scroll through the list unit you find the 
+	* @brief scroll through the list unit you find the 
 	* something the is returnde for funcion locate_node
  *
  * @param list 

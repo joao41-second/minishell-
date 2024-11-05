@@ -44,6 +44,7 @@ void	ft_unset(t_minis *mini)
 	ft_free_node(&ok, free_env);
 	ok = ft_node_start(ok);
 	mini->env = ok;
+
 	ok = mini->env_org;
 	ok = (t_list_ *)get_list(mini->env_org, mini->split[1], get_env_node);
 	if (ok == NULL)

@@ -113,6 +113,18 @@ void	organizer_list(t_list_ *list)
 	print_list(list, print_export);
 }
 
+t_env	*set_pwd (t_env *env, char *str,t_minis *mini)
+{
+	if(str != NULL)
+	{
+		if(ft_strncmp(str,"PWD", 5) == 0)
+		{
+			env->content = mini->path;
+		}
+	}
+	return (env);
+}
+
 void	ft_export(t_minis *mini)
 {
 	char	**export;
@@ -123,11 +135,13 @@ void	ft_export(t_minis *mini)
 		env = ft_malloc(1 * sizeof(t_env), NULL);
 		export = ft_split(mini->split[1], '=');
 		env->name = ft_strdup(export[0]);
-		if (export[1] != NULL)
+		if (export[1] != NULL && ft_getenv(mini, export[1]) == NULL)
 			env->content = ft_strjoin("",
 					&mini->split[1][strlen(export[0]) + 1]);
 		else
 			env->content = NULL;
+		if (export[1] == NULL)
+			env = set_pwd(env, export[0], mini);
 		free_split(export);
 		export_add(&mini->env, env);
 		export_add(&mini->env_org, env);
