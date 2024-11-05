@@ -52,4 +52,6 @@ void unset_list(t_list_ **list,char *str)
 void	ft_unset(t_minis *mini)
 {
 	unset_list(&mini->env, mini->split[1]);
+	unset_list(&mini->env_org, mini->split[1]);
 }
+
