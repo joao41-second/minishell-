@@ -32,21 +32,20 @@ void	*get_env_node(void *point, void *locate)
 	return (NULL);
 }
 
-void unset_list(t_list_ **list,char *str)
+void	unset_list(t_list_ **list, char *str)
 {
 	t_list_	*ok;
-	
+
 	if (*list == NULL)
 		return ;
 	ok = *list;
 	ok = ft_node_start(ok);
-	ok = (t_list_ *)get_list(*list , str, get_env_node);
+	ok = (t_list_ *)get_list(*list, str, get_env_node);
 	if (ok == NULL)
 		return ;
 	ft_free_node(&ok, free_env);
 	ok = ft_node_start(ok);
 	*list = ok;
-
 }
 
 void	ft_unset(t_minis *mini)
@@ -54,4 +53,3 @@ void	ft_unset(t_minis *mini)
 	unset_list(&mini->env, mini->split[1]);
 	unset_list(&mini->env_org, mini->split[1]);
 }
-
