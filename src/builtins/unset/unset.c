@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stdio.h>
 
 void	*get_env_node(void *point, void *locate)
 {
@@ -31,25 +32,24 @@ void	*get_env_node(void *point, void *locate)
 	return (NULL);
 }
 
-void	ft_unset(t_minis *mini)
+void unset_list(t_list_ **list,char *str)
 {
 	t_list_	*ok;
-
-	if (mini->split[1] == NULL)
+	
+	if (*list == NULL)
 		return ;
-	ok = mini->env;
-	ok = (t_list_ *)get_list(mini->env, mini->split[1], get_env_node);
+	ok = *list;
+	ok = ft_node_start(ok);
+	ok = (t_list_ *)get_list(*list , str, get_env_node);
 	if (ok == NULL)
 		return ;
 	ft_free_node(&ok, free_env);
 	ok = ft_node_start(ok);
-	mini->env = ok;
+	*list = ok;
 
-	ok = mini->env_org;
-	ok = (t_list_ *)get_list(mini->env_org, mini->split[1], get_env_node);
-	if (ok == NULL)
-		return ;
-	ft_free_node(&ok, free_env);
-	ok = ft_node_start(ok);
-	mini->env_org = ok;
+}
+
+void	ft_unset(t_minis *mini)
+{
+	unset_list(&mini->env, mini->split[1]);
 }

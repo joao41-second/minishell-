@@ -125,26 +125,31 @@ t_env	*set_pwd (t_env *env, char *str,t_minis *mini)
 	return (env);
 }
 
+void ft_export_add( t_list_ *list, char *str, t_minis *mini)
+{
+	t_env	*env;
+	char	**export;
+
+	env = ft_malloc(1 * sizeof(t_env), NULL);
+	export = ft_split(str, '=');
+	env->name = ft_strdup(export[0]);
+	if (export[1] != NULL && ft_getenv(mini, export[0]) == NULL)
+		env->content = ft_strjoin("",
+				&mini->split[1][strlen(export[0]) + 1]);
+	else
+		env->content = NULL;
+	if (export[1] == NULL)
+		env = set_pwd(env, export[0], mini);
+	free_split(export);
+	export_add(&list, env);
+}
+
 void	ft_export(t_minis *mini)
 {
-	char	**export;
-	t_env	*env;
-
 	if (mini->split[1] != NULL)
 	{
-		env = ft_malloc(1 * sizeof(t_env), NULL);
-		export = ft_split(mini->split[1], '=');
-		env->name = ft_strdup(export[0]);
-		if (export[1] != NULL && ft_getenv(mini, export[1]) == NULL)
-			env->content = ft_strjoin("",
-					&mini->split[1][strlen(export[0]) + 1]);
-		else
-			env->content = NULL;
-		if (export[1] == NULL)
-			env = set_pwd(env, export[0], mini);
-		free_split(export);
-		export_add(&mini->env, env);
-		export_add(&mini->env_org, env);
+		ft_export_add(mini->env,mini->split[1], mini);
+		ft_export_add(mini->env_org,mini->split[1], mini);
 	}
 	if (mini->split[1] == NULL)
 		organizer_list(mini->env_org);
