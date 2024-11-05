@@ -12,18 +12,18 @@
 
 #include "../../minishell.h"
 
-void* get_env_node(void *point ,void *locate)
+void	*get_env_node(void *point, void *locate)
 {
-	t_env get ;
-	t_list_ *list;
-	char *loc;
-	
+	t_env	get;
+	t_list_	*list;
+	char	*loc;
+
 	loc = (char *)locate;
-	list = (t_list_*) point;
-	if(list != NULL)
+	list = (t_list_ *)point;
+	if (list != NULL)
 	{
-		get = *((t_env*)list->content);
-		if(ft_strncmp(get.name,loc,ft_strlen(loc)) == 0)
+		get = *((t_env *)list->content);
+		if (ft_strncmp(get.name, loc, ft_strlen(loc)) == 0)
 		{
 			return (point);
 		}
@@ -31,24 +31,24 @@ void* get_env_node(void *point ,void *locate)
 	return (NULL);
 }
 
-void ft_unset(t_minis *mini)
+void	ft_unset(t_minis *mini)
 {
-	t_list_ *ok;
-	
-	if(mini->split[1] == NULL)
-		return;
-	ok = mini->env;
-    ok = (t_list_ *) get_list(mini->env,mini->split[1],get_env_node);
-	if(ok == NULL)
+	t_list_	*ok;
+
+	if (mini->split[1] == NULL)
 		return ;
-	ft_free_node(&ok,free_env);
-	ok = ft_node_start(ok); 
+	ok = mini->env;
+	ok = (t_list_ *)get_list(mini->env, mini->split[1], get_env_node);
+	if (ok == NULL)
+		return ;
+	ft_free_node(&ok, free_env);
+	ok = ft_node_start(ok);
 	mini->env = ok;
 	ok = mini->env_org;
-    ok = (t_list_ *) get_list(mini->env_org,mini->split[1],get_env_node);
-	if(ok == NULL)
+	ok = (t_list_ *)get_list(mini->env_org, mini->split[1], get_env_node);
+	if (ok == NULL)
 		return ;
-	ft_free_node(&ok,free_env);
-	ok = ft_node_start(ok); 
+	ft_free_node(&ok, free_env);
+	ok = ft_node_start(ok);
 	mini->env_org = ok;
 }

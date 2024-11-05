@@ -13,43 +13,37 @@
 #define MINISHELL_H
 #ifdef MINISHELL_H
 
-
 # include "../libft/Get_next_line/get_next_line_bonus.h"
 # include "../libft/printf/ft_printf.h"
 //#include "../libft/free/free_and_list.h"
 //#include "../libft/free/list.h"
 //#include "./comands_line/readline.h"
 # include "../libft/libft/libft.h"
-
-# include <stdlib.h>
-# include <unistd.h>
-# include <string.h>
-# include <stdio.h>
-# include <sys/wait.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
-typedef struct s_mines {
-	t_list_ *env;
-	t_list_ *env_org;
-	char path[PATH_MAX];
-	char *line;
-	char **split;
-	int comand;
-	int exit_code_error;
-} t_minis;
+typedef struct s_mines
+{
+	t_list_	*env;
+	t_list_	*env_org;
+	char	path[PATH_MAX];
+	char	*line;
+	char	**split;
+	int		comand;
+	int		exit_code_error;
+}			t_minis;
+# include "./builtins/builtins.h"
+# include "./comands_line/readline.h"
 
+int			check_syntax(char *str);
 
+void		free_split(char **ok);
 
+void		free_list(t_list_ *list, void (*free_struct)(void *));
 
-#include "./builtins/builtins.h"
-#include "./comands_line/readline.h"
-
-int		check_syntax(char *str);
-
-
-void free_split(char **ok);
-
-void free_list(t_list_ *list,void (*free_struct)(void*));
-
-#endif 
+#endif

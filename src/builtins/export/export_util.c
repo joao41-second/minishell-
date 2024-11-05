@@ -10,28 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../minishell.h"
 #include <stddef.h>
 #include <stdio.h>
 #include <strings.h>
 
-void export_add( t_list_ **list, t_env *var)
+void	export_add( t_list_ **list, t_env *var)
 {
-	t_list_ *node;
+	t_list_	*node;
 
 	*list = ft_node_end(*list);
-	node =  ft_node_new((void *)var);
-	ft_node_add_front(list,node);	
+	node = ft_node_new((void *)var);
+	ft_node_add_front(list, node);
 }
 
-t_env * list_to_env(t_list_ *list)
+t_env	*list_to_env(t_list_ *list)
 {
 	t_env	*ret;
-	
+
 	ret = NULL;
-	if(list != NULL)
-		ret = (t_env*)list->content;
+	if (list != NULL)
+		ret = (t_env *)list->content;
 	return (ret);
 }
-

@@ -53,86 +53,85 @@ int	env_char_max(t_list_ *list, int len)
 	return (len_max);
 }
 
-void print_export(void *point)
+void	print_export(void *point)
 {
-	t_env get ;
-	t_list_ *list;
+	t_env	get ;
+	t_list_	*list;
 
-	list = (t_list_*) point;
-	if(list != NULL  )
+	list = (t_list_ *)point;
+	if (list != NULL)
 	{
-		get = *((t_env*)list->content);
-		if(get.content != NULL)
+		get = *((t_env *)list->content);
+		if (get.content != NULL)
 			printf("declare -x %s=\"%s\" \n", get.name, get.content);
-		else if(get.content == NULL)
+		else if (get.content == NULL)
 		{
-			printf("declare -x %s\n",get.name);
+			printf("declare -x %s\n", get.name);
 		}
 	}
 }
 
-void org_nex(t_list_ *list,int *i,int *set,int char_max)
+void	org_nex(t_list_ *list, int *i, int *set, int char_max)
 {
-	t_list_ *nod1;
-	t_list_ *nod2;
+	t_list_	*nod1;
+	t_list_	*nod2;
 
-	nod1 = get_list_index(list,*i);
-	nod2 = get_list_index(list,*i+1);
-
-	if(nod1 != NULL && nod2 != NULL) 
+	nod1 = get_list_index(list, *i);
+	nod2 = get_list_index(list, *i + 1);
+	if (nod1 != NULL && nod2 != NULL)
 	{
-		if(ft_strncmp(list_to_env(nod1)->name,list_to_env(nod2)->name ,char_max ) > 0)
+		if (ft_strncmp(list_to_env(nod1)->name,
+				list_to_env(nod2)->name, char_max) > 0)
 		{
-			swap_env(&nod1,&nod2);
-			*set =1;
+			swap_env(&nod1, &nod2);
+			*set = 1;
 		}
 	}
-
 }
 
-void organizer_list(t_list_ *list)
+void	organizer_list(t_list_ *list)
 {
-	int len;
-	int char_max;
-	int set;
-	int i;
+	int	len;
+	int	char_max;
+	int	set;
+	int	i;
 
 	len = ft_list_size(list);
 	char_max = env_char_max(list, len);
 	i = 0;
 	set = 0;
-
-	while(i++ <= len)
+	while (i++ <= len)
 	{
-		org_nex(list, &i, &set,char_max);
-		if(i >= len && set == 1)
+		org_nex(list, &i, &set, char_max);
+		if (i >= len && set == 1)
 		{
 			i = -1;
 			set = 0;
 		}
 	}
 	list = ft_node_start(list);
-	 print_list(list,print_export);
+	print_list(list, print_export);
 }
 
-void ft_export(t_minis *mini)
+void	ft_export(t_minis *mini)
 {
-	char **export;
-	t_env *env;
+	char	**export;
+	t_env	*env;
 
-	if(mini->split[1]!= NULL)
+	if (mini->split[1] != NULL)
 	{
-		env = ft_malloc(1*sizeof(t_env),NULL);
-		export = ft_split(mini->split[1],'=');
-		env->name= ft_strdup(export[0]);
-		if(export[1] != NULL)
-			env->content = 	ft_strjoin("",&mini->split[1][strlen(export[0])+1]);
+		env = ft_malloc(1 * sizeof(t_env), NULL);
+		export = ft_split(mini->split[1], '=');
+		env->name = ft_strdup(export[0]);
+		if (export[1] != NULL)
+			env->content = ft_strjoin("",
+					&mini->split[1][strlen(export[0]) + 1]);
 		else
 			env->content = NULL;
-		free_split(export); 
-		export_add(&mini->env,env);
+		free_split(export);
+		export_add(&mini->env, env);
 		export_add(&mini->env_org, env);
 	}
-	if(mini->split[1]== NULL)
+	if (mini->split[1] == NULL)
 		organizer_list(mini->env_org);
 }
