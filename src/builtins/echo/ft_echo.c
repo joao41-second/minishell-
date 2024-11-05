@@ -13,14 +13,14 @@
 #include "../../minishell.h"
 #include <stdio.h>
 
-void ft_echo(t_minis *mini)
+void	ft_echo(t_minis *mini)
 {
-	int i;
-	//not the flag -n
+	int	i;
+
 	i = 0;
 	while (mini->split[++i] != NULL)
-   	{
-		printf("%s ",mini->split[i]);
+	{
+		printf("%s ", mini->split[i]);
 	}
 	printf("\n");
 }

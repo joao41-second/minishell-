@@ -12,27 +12,25 @@
 
 #include "minishell.h"
 
-t_minis start_minis(char **env)
+t_minis	start_minis(char **env)
 {
-	t_minis mini;
+	t_minis	mini;
 
 	mini.env = env_split(env);
 	mini.env_org = env_split(env);
 	mini.comand = 0;
-	mini.exit_code_error= 0;
-	return(mini);
-
+	mini.exit_code_error = 0;
+	return (mini);
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
+	t_minis	mini;
+
 	(void)ac;
 	(void)av;
-	t_minis  mini;
 	start_alloc();
 	mini = start_minis(env);
-
-	start_shell( mini);
-	//free_list(mini.env,free_env);
+	start_shell(mini);
 	//ft_free_all(NULL);
 }

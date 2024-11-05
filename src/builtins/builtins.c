@@ -12,26 +12,26 @@
 
 #include "../minishell.h"
 
-void builtins(t_minis* mini)
+void	builtins(t_minis	*mini)
 {
-	if(ft_strlen(mini->line) < 1)
+	if (ft_strlen(mini->line) < 1)
 		return ;
-	mini->split = ft_split(mini->line,' ');
-	if(mini->split == NULL)
-		return;
-	if(ft_strncmp(mini->split[0],"env",4) == 0)
+	mini->split = ft_split(mini->line, ' ');
+	if (mini->split == NULL)
+		return ;
+	if (ft_strncmp(mini->split[0], "env", 4) == 0)
 		ft_env(mini);
-	if(ft_strncmp(mini->split[0],"exit;",10) == 0)
+	if (ft_strncmp(mini->split[0], "exit;", 10) == 0)
 		ft_exit(mini);
-	if(ft_strncmp(mini->split[0],"cd",10) == 0)
+	if (ft_strncmp(mini->split[0], "cd", 10) == 0)
 		ft_cd(mini);
-	if(ft_strncmp(mini->split[0],"pwd",10) == 0)
+	if (ft_strncmp(mini->split[0], "pwd", 10) == 0)
 		ft_pwd(mini);
-	if(ft_strncmp(mini->split[0],"unset",10) == 0)
+	if (ft_strncmp(mini->split[0], "unset", 10) == 0)
 		ft_unset(mini);
-	if(ft_strncmp(mini->split[0],"export",10) == 0)
+	if (ft_strncmp(mini->split[0], "export", 10) == 0)
 		ft_export(mini);
-	if(ft_strncmp(mini->split[0],"echo",10) == 0)
+	if (ft_strncmp(mini->split[0], "echo", 10) == 0)
 		ft_echo(mini);
 	free_split(mini->split);
 }

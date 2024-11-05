@@ -12,28 +12,28 @@
 
 #include "../minishell.h"
 
-static void new_line(int sig, siginfo_t *info, void *ucontext)
+static void	new_line(int sig, siginfo_t *info, void *ucontext)
 {
-  (void)info;
-  (void)ucontext;
-  if (sig == SIGINT)
+	(void)info;
+	(void)ucontext;
+	if (sig == SIGINT)
 	{
-	ft_printf("\n");
-    rl_replace_line("", 0);
-    rl_on_new_line();
-    rl_redisplay();
-  }
+		ft_printf("\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
-void server()
+void	server(void)
 {
-  struct sigaction sa;
-  static int a;
+	struct sigaction	sa;
+	static int			a;
 
-  a = 0;
-  sigemptyset(&sa.sa_mask);
-  sa.sa_sigaction = new_line;
-  sa.sa_flags = SA_RESTART;
-  sigaction(SIGINT, &sa, NULL);
-  signal(SIGQUIT, SIG_IGN);
+	a = 0;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_sigaction = new_line;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }

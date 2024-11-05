@@ -16,14 +16,14 @@
 #include <string.h>
 #include <strings.h>
 
-void swap_env(t_list_ **node1,t_list_ **node2)
+void	swap_env(t_list_ **node1, t_list_ **node2)
 {
-	t_env *nod1;
-	t_env *nod2;
-	char *save;
+	t_env	*nod1;
+	t_env	*nod2;
+	char	*save;
 
-	nod1 = (t_env*)(*node1)->content;
-	nod2 = (t_env*)(*node2)->content;
+	nod1 = (t_env *)(*node1)->content;
+	nod2 = (t_env *)(*node2)->content;
 	save = nod1->name;
 	nod1->name = nod2->name;
 	nod2->name = save;
@@ -32,25 +32,25 @@ void swap_env(t_list_ **node1,t_list_ **node2)
 	nod2->content = save;
 }
 
-int env_char_max(t_list_ *list,int len)
+int	env_char_max(t_list_ *list, int len)
 {
-	int i;
-	t_env *node;
-	t_list_ *chek;
-	int len_max;
+	int		i;
+	t_env	*node;
+	t_list_	*chek;
+	int		len_max;
 
 	len_max = 0;
 	i = -1;
-	while (++i < len) 
+	while (++i < len)
 	{
-		chek = get_list_index(list,i);
-		if(chek == NULL)
-			break;
+		chek = get_list_index(list, i);
+		if (chek == NULL)
+			break ;
 		node = chek->content;
-		if(ft_strlen(node->name) > (size_t)len_max)
-		 len_max = ft_strlen(node->name);
+		if (ft_strlen(node->name) > (size_t)len_max)
+			len_max = ft_strlen(node->name);
 	}
-	return(len_max);
+	return (len_max);
 }
 
 void print_export(void *point)

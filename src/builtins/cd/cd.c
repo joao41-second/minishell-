@@ -14,51 +14,51 @@
 #include <linux/limits.h>
 #include <stdio.h>
 
-void set_path(t_list_ **list,char *path)
+void	set_path(t_list_ **list, char *path)
 {
-	t_env *pwd;
-	t_env *oldpwd;
-	char paths[PATH_MAX];
-	
-    pwd = list_to_env ((t_list_ *) get_list(*list,"PWD",get_env_node));
-    oldpwd = list_to_env ((t_list_ *) get_list(*list,"OLDPWD",get_env_node));
-	if(oldpwd != NULL)
+	t_env	*pwd;
+	t_env	*oldpwd;
+	char	paths[PATH_MAX];
+
+	pwd = list_to_env((t_list_ *)get_list(*list, "PWD", get_env_node));
+	oldpwd = list_to_env((t_list_ *)get_list(*list, "OLDPWD", get_env_node));
+	if (oldpwd != NULL)
 	{
 		ft_free(oldpwd->content, NULL);
 		oldpwd->content = ft_strdup(path);
 	}
-	getcwd(paths,PATH_MAX);
-	if(pwd != NULL)
+	getcwd(paths, PATH_MAX);
+	if (pwd != NULL)
 	{
-		ft_free(pwd->content,NULL);
+		ft_free(pwd->content, NULL);
 		pwd->content = ft_strdup(paths);
 	}
 }
 
-void ft_cd(t_minis *mini)
+void	ft_cd(t_minis *mini)
 {
-	char path[PATH_MAX];
-	char *fd;
+	char	path[PATH_MAX];
+	char	*fd;
 
-	if(mini->split[1] )
+	if (mini->split[1])
 	{
-		if(mini->split[1][0] == '~')
+		if (mini->split[1][0] == '~')
 		{
-			fd=	ft_strjoin(ft_getenv(mini, "HOME"),&mini->split[1][1]);
+			fd = ft_strjoin(ft_getenv(mini, "HOME"), &mini->split[1][1]);
 		}
-		else 
+		else
 			fd = ft_strdup(mini->split[1]);
-		getcwd(path,PATH_MAX);
-		if( chdir(fd) == -1)
+		getcwd(path, PATH_MAX);
+		if (chdir(fd) == -1)
 		{
 			perror("ola o error");
 		}
-		else 
+		else
 		{
-			set_path(&mini->env, path );
-			set_path(&mini->env_org, path );
-			getcwd(mini->path,PATH_MAX);
+			set_path(&mini->env, path);
+			set_path(&mini->env_org, path);
+			getcwd(mini->path, PATH_MAX);
 		}
-		ft_free(fd,NULL);
+		ft_free(fd, NULL);
 	}
 }

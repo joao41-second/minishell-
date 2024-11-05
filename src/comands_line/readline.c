@@ -43,19 +43,19 @@ void	start_shell(t_minis mini)
 	server();
 	while (1)
 	{
-		prompt =  get_shell_prefix();
+		prompt = get_shell_prefix();
 		line = readline(prompt);
-		ft_free(prompt,NULL);
+		ft_free(prompt, NULL);
 		if (line == NULL)
 			break ;
 		mini.line = line;
 		builtins(&mini);
 		check_syntax(line);
-		getcwd(mini.path,PATH_MAX);
+		getcwd(mini.path, PATH_MAX);
 		add_history(line);
 		free(line);
 		mini.line = NULL;
 	}
-		free_list(mini.env,free_env);
-		free_list(mini.env_org,free_env);
+	free_list(mini.env, free_env);
+	free_list(mini.env_org, free_env);
 }

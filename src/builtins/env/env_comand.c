@@ -10,21 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../minishell.h"
 
-void* get_env(void *point ,void *locate)
+void	*get_env(void *point, void *locate)
 {
-	t_env get ;
-	t_list_ *list;
-	char *loc;
-	
+	t_env	get;
+	t_list_	*list;
+	char	*loc;
+
 	loc = (char *)locate;
-	list = (t_list_*) point;
-	if(list != NULL)
+	list = (t_list_ *)point;
+	if (list != NULL)
 	{
-		get = *((t_env*)list->content);
-		if(ft_strncmp(get.name,loc,ft_strlen(loc)+10) == 0)
+		get = *((t_env *)list->content);
+		if (ft_strncmp(get.name, loc, ft_strlen(loc) + 10) == 0)
 		{
 			return (get.content);
 		}
@@ -32,13 +31,12 @@ void* get_env(void *point ,void *locate)
 	return (NULL);
 }
 
-
-void ft_env(t_minis *mini)
+void	ft_env(t_minis *mini)
 {
-	print_list(mini->env,print_env);
+	print_list(mini->env, print_env);
 }
 
-char *ft_getenv(t_minis *mini ,char *var)
+char	*ft_getenv(t_minis *mini, char *var)
 {
-	return ((char *)get_list(mini->env,var,get_env));
+	return ((char *)get_list(mini->env, var, get_env));
 }
