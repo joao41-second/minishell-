@@ -10,20 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "readline.h"
+#include "../minishell.h"
 
-static void new_line(int sig, siginfo_t *info, void *ucontext)
+static void	new_line(int sig, siginfo_t *info, void *ucontext)
 {
-	if(sig == SIGINT)
+	(void)info;
+	(void)ucontext;
+	if (sig == SIGINT)
 	{
 		ft_printf("\n");
-		rl_replace_line("",0);
+		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-	}	
+	}
 }
 
-void	server()
+void	server(void)
 {
 	struct sigaction	sa;
 	static int			a;
@@ -35,4 +37,3 @@ void	server()
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 }
-

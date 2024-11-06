@@ -1,0 +1,9 @@
+
+
+
+the bash doesn't pass the variabels that doesn't have equal (=) in env the main 
+
+is necessary create the variabel OLDPWD if not exist 
+
+if exit OLDPWD is necessary updated with the lasst pahc we gave the (cd)
+

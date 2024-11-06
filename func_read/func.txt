@@ -1,0 +1,443 @@
+
+
+int access(const char *pathname, int mode);
+
+serve para verficar se temos permissoes para aceder a uma pasat/arquivo 
+
+char * - caminho para a pasta = ../test.
+
+int - 
+	R_OK: Verifica se o arquivo é legível (permite leitura).
+	W_OK: Verifica se o arquivo é gravável (permite escrita).
+	X_OK: Verifica se o arquivo é executável.
+	F_OK: Verifica se o arquivo existe (não verifica permissões).
+
+
+retunr 
+
+Retorna 0 se o acesso for permitido (ou o arquivo existir, se você estiver usando F_OK).
+Retorna -1 se o acesso for negado ou o arquivo não existir, e define a variável global errno para indicar o erro específico.
+
+_____________________________________________________________________________________________________________________________
+
+
+
+
+
+pid_t fork(void);
+
+basicamente premite excutar 2 duas vezes o codigo sabendo que:
+
+A principal diferença entre o processo pai e o processo filho é o valor de retorno de fork():
+
+    Para o processo pai, fork() retorna o PID (Process ID) do processo filho.
+    Para o processo filho, fork() retorna 0.
+    Se ocorrer um erro durante a criação do processo, fork() retorna -1.
+
+_____________________________________________________________________________________________________________________________
+
+
+
+
+
+
+pid_t wait(int *status);
+
+seve para experar pelo termino de um processo filho ou varios 
+
+Retorna -1 se não houver processos filhos ou em caso de erro, e define a variável global errno.
+
+_____________________________________________________________________________________________________________________________
+
+
+
+
+
+
+pid_t waitpid(pid_t pid, int *status, int options);
+
+podemos especificar o processo que queremos esperar 
+
+pid: O ID do processo filho que você deseja esperar. Os valores possíveis são:
+
+    > 0: Espera o processo filho cujo PID é igual ao valor de pid.
+    -1: Espera por qualquer processo filho. Esse comportamento é idêntico ao de wait().
+    0: Espera por qualquer processo filho do mesmo grupo de processos que o processo pai.
+    < -1: Espera por qualquer processo filho cujo grupo de processos é igual ao valor absoluto de pid.
+
+status: Um ponteiro para uma variável inteira onde o status de término do processo filho será armazenado (como em wait()).
+
+options: Controle o comportamento da função. As opções mais comuns são:
+
+    0: O comportamento padrão, bloqueia até que um processo filho termine.
+    WNOHANG: Não bloqueia a execução do processo pai; retorna imediatamente se nenhum filho tiver terminado.
+    WUNTRACED: Retorna se o processo filho foi parado (mas não terminado), como quando recebe um sinal SIGSTOP.
+
+_____________________________________________________________________________________________________________________________
+
+
+
+
+
+
+pid_t wait3(int *status, int options, struct rusage *rusage);
+
+struct rusage {
+    struct timeval ru_utime;  /* Tempo de CPU no modo usuário */
+    struct timeval ru_stime;  /* Tempo de CPU no modo kernel */
+    long   ru_maxrss;         /* Uso máximo de memória residente */
+    long   ru_ixrss;          /* Tamanho de memória compartilhada */
+    long   ru_idrss;          /* Tamanho da memória não compartilhada */
+    long   ru_isrss;          /* Tamanho do stack */
+    long   ru_minflt;         /* Page faults que não causaram I/O */
+    long   ru_majflt;         /* Page faults que causaram I/O */
+    long   ru_nswap;          /* Trocas de processos */
+    long   ru_inblock;        /* Operações de bloqueio de entrada */
+    long   ru_oublock;        /* Operações de bloqueio de saída */
+    long   ru_msgsnd;         /* Mensagens enviadas */
+    long   ru_msgrcv;         /* Mensagens recebidas */
+    long   ru_nsignals;       /* Sinais recebidos */
+wait4    long   ru_nvcsw;          /* Trocas voluntárias de contexto */
+    long   ru_nivcsw;         /* Trocas involuntárias de contexto */
+};
+
+espera pelo termino de um pross	 mas tem a vantagem de permite obter os dados  da rusage partir da funsao 
+
+nao resebe pid
+
+temos que enviar a stuct como &dados para ele por as coisas dentro 
+_____________________________________________________________________________________________________________________________
+
+
+
+
+
+
+pid_t wait4(pid_t pid, int *status, int options, struct rusage *rusage);
+
+faz o mesmo que a wait3 mas podemos mandar o pid para usar um processo especifico 
+
+temos que enviar a stuct como &dados para ele por as coisas dentro 
+_____________________________________________________________________________________________________________________________
+
+
+
+
+
+char *getcwd(char *buf, size_t size);
+
+char cwd[PATH_MAX];
+
+retorna o diretorio atual do programa
+
+buf: Um ponteiro para um buffer onde o caminho do diretório de
+		trabalho atual será armazenado. Se buf for NULL, 
+		getcwd() aloca memória para o buffer (mas essa memória deve ser liberada pelo usuário).
+size: O tamanho do buffer fornecido. Isso é importante para garantir que o buffer
+		tenha espaço suficiente para armazenar o caminho completo.
+
+Em caso de erro: Retorna NULL e define errno para indicar o tipo de erro. Os erros comuns incluem:
+
+    ERANGE: O buffer fornecido é muito pequeno para armazenar o caminho.
+    getcwd() pode falhar se o diretório atual não existir ou se houver problemas de permissão.
+
+o desgrasaso alloca memoria mas da para tentar que nao o falta testar ;
+_____________________________________________________________________________________________________________________________
+
+
+
+
+
+int chdir(const char *path);
+
+atualiza o diretório atual para o que queremos.
+
+error:
+0 em caso de sucesso.
+-1 em caso de erro, e errno será configurado para indicar o tipo de erro. Os erros comuns incluem:
+
+    ENOENT: O diretório especificado não existe.
+    EACCES: O processo não tem permissão para acessar o diretório.
+    ENOTDIR: Um componente do caminho não é um diretório.
+    ENOMEM: Falta de memória para realizar a operação.
+
+Diretórios Relativos e Absolutos: Você pode passar um caminho absoluto ou relativo para chdir().
+Por exemplo, chdir("..") mudaria o diretório de trabalho para o pai do diretório atual.
+
+_____________________________________________________________________________________________________________________________
+
+
+
+
+
+int stat(const char *pathname, struct stat *statbuf);
+
+struct stat {
+    dev_t     st_dev;     /* ID do dispositivo */
+    ino_t     st_ino;     /* Número do inode */
+    mode_t    st_mode;    /* Modo do arquivo (permissões) */
+    nlink_t   st_nlink;   /* Número de links para o arquivo */
+    uid_t     st_uid;     /* UID do proprietário */
+    gid_t     st_gid;     /* GID do grupo */
+    dev_t     st_rdev;    /* ID do dispositivo, se é um arquivo especial */
+    off_t     st_size;    /* Tamanho do arquivo em bytes */
+    // Outros campos que podem ser incluídos:
+    struct timespec st_atim; /* Último acesso */
+    struct timespec st_mtim; /* Última modificação */
+    struct timespec st_ctim; /* Última mudança de status */
+    blksize_t st_blksize;    /* Tamanho do bloco de I/O */
+    blkcnt_t  st_blocks;     /* Número de blocos alocados */
+};
+
+obterm varios dados de uma arquivo para a struct stat ;
+
+error :
+0 em caso de sucesso.
+-1 em caso de erro, e errno é definido para indicar o tipo de erro. Os erros comuns incluem:
+
+    ENOENT: O arquivo ou diretório especificado não existe.
+    EACCES: O processo não tem permissão para acessar o arquivo ou diretório.
+    ENOTDIR: Um componente do caminho não é um diretório.
+
+_____________________________________________________________________________________________________________________________
+
+
+
+
+
+int lstat(const char *pathname, struct stat *statbuf);
+
+e igual a de sima mas usa um link simbolico e basicamente um atalho mas ainda nao sei o uso.
+
+_____________________________________________________________________________________________________________________________
+
+
+
+
+
+int fstat(int fd, struct stat *statbuf);
+
+vai buscar a infurmasao como as outras mas usa um fd ;
+
+_____________________________________________________________________________________________________________________________
+
+
+
+
+
+int unlink(const char *pathname);
+
+e um rm -fr da vida ;
+
+    pathname: Uma string que representa o caminho do arquivo que você deseja remover. O caminho pode ser absoluto ou relativo.
+
+Valor de Retorno
+
+    0 em caso de sucesso.
+    -1 em caso de erro, e errno é definido para indicar o tipo de erro. Os erros comuns incluem:
+        ENOENT: O arquivo especificado não existe.
+        EACCES: O processo não tem permissão para remover o arquivo.
+        EPERM: O arquivo é um diretório (em sistemas que não permitem a remoção de diretórios com unlink()).
+        ENOTDIR: Um componente do caminho não é um diretório.
+
+_____________________________________________________________________________________________________________________________
+
+
+
+
+
+int execve(const char *pathname, char *const argv[], char *const envp[]);
+
+premite excutar um programa novo:
+
+    pathname: Uma string que representa o caminho do arquivo executável que você deseja executar.
+		Esse caminho pode ser absoluto ou relativo.
+    argv: Um array de strings (vetor de ponteiros de caracteres) que representa 
+		os argumentos passados para o novo programa. O primeiro elemento argv[0] geralmente é o nome do programa, 
+		e o último elemento deve ser NULL.
+    envp: Um array de strings que representa as variáveis de ambiente para o novo programa. 
+		Cada string deve estar no formato NOME=VALOR, e o último elemento deve ser NULL.
+
+Valor de Retorno
+
+    execve() não retorna em caso de sucesso, pois o processo atual é substituído pelo novo processo.
+    Em caso de erro, retorna -1, e errno é definido para indicar o tipo de erro. Erros comuns incluem:
+        ENOENT: O arquivo especificado não existe.
+        EACCES: O processo não tem permissão para executar o arquivo.
+        ENOMEM: Não há memória suficiente para o novo processo.
+        ENOTDIR: Um componente do caminho não é um diretório.
+
+esta tem utilidade 
+
+_____________________________________________________________________________________________________________________________
+
+
+
+
+int dup(int oldfd);
+
+pode doplicar um fd muito top
+
+_____________________________________________________________________________________________________________________________
+
+int dup2(int oldfd, int newfd);
+
+baiscamente podemos duplicar um fd e dizer para que fd e que ele vai ser enviado
+_____________________________________________________________________________________________________________________________
+
+DIR *opendir(const char *name);
+
+podes abrir um diretorio como um open sem usar um chdir para mudar o diretorio onde esta a excutar o programa
+
+char * name caminho apra o diretorio que queres aceder
+_____________________________________________________________________________________________________________________________
+
+
+
+
+struct dirent *readdir(DIR *dirp);
+
+abre uma pasta com imformasao sober a mesam para uma struct
+
+struct dirent {
+    ino_t          d_ino;       // Número do inode
+    off_t          d_off;       // Offset para o próximo `dirent`
+    unsigned short d_reclen;    // Comprimento da entrada
+    char           d_type;      // Tipo do arquivo
+    char           d_name[256]; // Nome do arquivo
+};
+_____________________________________________________________________________________________________________________________
+
+
+
+
+int closedir(DIR *dirp);
+
+fecha uma pasta com e obvio
+_____________________________________________________________________________________________________________________________
+
+
+
+char *strerror(int errnum);
+
+muito importante ela pode obeter uma string a descrever o erro como base no codigo do mesmo que top;
+_____________________________________________________________________________________________________________________________
+
+
+
+void perror(const char *s);
+
+ja temo numero de erro per feito podemos dar uma str para por atras do erro que vamos imprimr;
+
+_____________________________________________________________________________________________________________________________
+
+
+
+int isatty(int fd);
+
+A função isatty() em C é utilizada para verificar se um descritor de arquivo se refere a um terminal (ou um console). Isso é útil em várias situações, como determinar se a saída padrão do programa está sendo redirecionada para um arquivo ou se está sendo exibida diretamente em um terminal.
+
+Retorna 1 se o descritor de arquivo se referir a um terminal.
+Retorna 0 se não se referir a um terminal.
+Retorna -1 em caso de erro, e errno é definido para indicar o tipo de erro.
+
+_______________________________________________________________________________________________________________________________
+
+
+
+char *ttyname(int fd);
+
+ retornta o nome do que estamos a printar 
+
+ nao entendi muito bem;
+________________________________________________________________________________________________________________________________
+
+
+
+int ttyslot(void);
+
+esta retorna um int em vez de uma string e para gerenciar multi terminal
+_________________________________________________________________________________________________________________________________
+
+
+
+
+int ioctl(int fd, unsigned long request, ...);
+
+e aprar gernciar varias senas do sitema mas e muito complicado para ja 
+
+fd: O descritor de arquivo do dispositivo sobre o qual a operação deve ser realizada. Este descritor deve ser obtido através de chamadas como open().
+
+request: Um número que identifica a operação a ser realizada. O valor desse parâmetro geralmente é definido em cabeçalhos específicos de dispositivos e pode variar de acordo com o tipo de dispositivo (por exemplo, terminais, sockets, etc.).
+
+A função ioctl() em C é uma chamada de sistema utilizada para manipular dispositivos de entrada/saída, permitindo que um programa realize operações que não podem ser realizadas através das chamadas de sistema padrão (como read() e write()). A função ioctl() é bastante versátil e pode ser usada para configurar dispositivos, obter informações sobre eles, ou realizar operações específicas que dependem do tipo de dispositivos
+
+____________________________________________________________________________________________________________________________________
+
+
+int tcsetattr(int fd, int optional_actions, const struct termios *termios_p);
+
+premite alterar como um trminal fonciona.
+
+vai dar jeito para por o rato a foncionar no game 
+
+____________________________________________________________________________________________________________________________________
+
+
+
+
+
+
+A função tcgetattr() em C é utilizada para obter os atributos de controle de um terminal. 
+	Esses atributos incluem configurações de entrada e saída,
+	modos de controle e informações sobre o terminal que podem ser modificadas com tcsetattr().
+	Essa função é uma parte da biblioteca POSIX e é fundamental para o controle de terminais em
+	sistemas Unix-like, como Linux e macOS.
+Sintaxe de tcgetattr()
+
+c
+
+#include <termios.h>
+
+int tcgetattr(int fd, struct termios *termios_p);
+
+Parâmetros
+
+    fd: O descritor de arquivo do terminal cujos atributos você deseja obter.
+	Este descritor pode ser obtido por meio de chamadas como open() ou pode ser um descritor padrão como STDIN_FILENO 
+	(que representa a entrada padrão, geralmente o teclado).
+
+    termios_p: Um ponteiro para uma estrutura termios onde os atributos do terminal serão armazenados. 
+				Essa estrutura contém várias configurações que definem como o terminal deve operar.
+
+Valor de Retorno
+
+    Retorna 0 em caso de sucesso.
+    Retorna -1 em caso de erro, e errno é definido para indicar a causa do erro.
+
+Estrutura termios
+
+A estrutura termios é definida em <termios.h> e contém vários campos que controlam
+o	 comportamento do terminal. Aqui estão alguns dos principais campos:
+
+    c_iflag: Flags de entrada, como controle de fluxo, modo de caractere, entre outros.
+    c_oflag: Flags de saída, que definem o formato da saída do terminal.
+    c_cflag: Flags de controle do terminal, que definem a velocidade de transmissão, paridade, e outras características.
+    c_lflag: Flags de modo local, que controlam o comportamento do terminal em relação a entrada e saída.
+    c_line: Linha de controle de modem (pode não ser relevante para todos os tipos de terminal).
+    c_cc: Um array de caracteres que contém códigos de controle especiais (como EOL, INTR, KILL, etc.).
+________________________________________________________________________________________________________________________________
+
+
+
+
+int tgetent(char *bp, const char *name);
+
+A função tgetent() é utilizada em programas em C para manipulação de terminais e é parte da biblioteca termcap.
+Ela serve para inicializar as informações sobre um terminal e fornecer acesso a informações sobre seu tipo e capacidades.
+Essa função é frequentemente usada em aplicações que precisam lidar com diferentes tipos de terminais e suas características,
+como cores, manipulação de cursor, e outros atributos.
+
+____________________________________________________________________________________________________________________________________
+
+

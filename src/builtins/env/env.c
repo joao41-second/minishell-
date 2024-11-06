@@ -1,0 +1,95 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/15 18:46:23 by jperpct           #+#    #+#             */
+/*   Updated: 2024/11/03 12:30:47 by jperpct          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+#include "../../minishell.h"
+
+t_env	*new_node(char *s1)
+{
+	t_env	*var;
+	char	*content;
+
+	var = (t_env *)ft_malloc(1 * sizeof (t_env), NULL);
+	content = getenv(s1);
+	var->name = ft_strdup(s1);
+	var->content = ft_strdup(content);
+	return (var);
+}
+
+void	free_split(char **ok)
+{
+	int	i;
+
+	i = -1;
+	while (ok[++i] != NULL)
+	{
+		ft_free(ok[i], NULL);
+	}
+	ft_free(ok, NULL);
+}
+
+void	print_env(void *point)
+{
+	t_env	get ;
+	t_list_	*list;
+
+	list = (t_list_ *) point;
+	if (list != NULL)
+	{
+		get = *((t_env *)list->content);
+		if (get.content != NULL)
+			printf("%s=%s \n", get.name, get.content);
+	}
+}
+
+void	free_env(void *point)
+{
+	t_env	get ;
+	t_list_	*list;
+
+	list = (t_list_ *) point;
+	if (list != NULL)
+	{
+		get = *((t_env *)list->content);
+		if (list->content != NULL)
+		{
+			ft_free(get.name, NULL);
+			ft_free(get.content, NULL);
+			ft_free(list->content, NULL);
+		}
+	}
+}
+
+t_list_	*env_split(char **env)
+{
+	char	**var;
+	t_list_	*list;
+	t_list_	*temp;
+	t_env	*envs;
+	int		i;
+
+	if (env[0] == NULL)
+		return (list_env_i());
+	var = ft_split(env[0], '=');
+	envs = new_node(var[0]);
+	list = ft_node_new(envs);
+	free_split(var);
+	i = -1;
+	while (env[++i] != NULL)
+	{
+		var = ft_split(env[i], '=');
+		envs = new_node(var[0]);
+		temp = ft_node_new(envs);
+		ft_node_add_front(&list, temp);
+		free_split(var);
+	}
+	list = ft_node_start(list);
+	return (list);
+}

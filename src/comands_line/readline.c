@@ -6,11 +6,12 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/17 14:48:45 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/04 13:11:09 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stddef.h>
 
 char	*ft_strndup(const char *src, size_t n)
 {
@@ -25,7 +26,7 @@ char	*ft_strndup(const char *src, size_t n)
 	dst = (char *)ft_malloc(len + 1, NULL);
 	if (!dst)
 		return (NULL);
-	while (i < len)
+	while ((size_t)i < len)
 	{
 		dst[i] = src[i];
 		i++;
@@ -44,12 +45,17 @@ void	start_shell(t_minis mini)
 	{
 		prompt = get_shell_prefix();
 		line = readline(prompt);
-		ft_free(prompt,NULL);
+		ft_free(prompt, NULL);
 		if (line == NULL)
 			break ;
-		ft_printf("%s\n", line);
+		mini.line = line;
+		builtins(&mini);
 		check_syntax(line);
+		getcwd(mini.path, PATH_MAX);
 		add_history(line);
 		free(line);
+		mini.line = NULL;
 	}
+	free_list(mini.env, free_env);
+	free_list(mini.env_org, free_env);
 }

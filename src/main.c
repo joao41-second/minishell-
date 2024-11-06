@@ -6,20 +6,31 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:12:18 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/16 15:52:41 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:29:26 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int ac, char **av, char **env)
+t_minis	start_minis(char **env)
 {
-	t_minis  mini;
+	t_minis	mini;
 
-	start_alloc();
-	
 	mini.env = env_split(env);
-	start_shell( mini);
-	free_list(mini.env,free_env);
-	ft_free_all(NULL);
+	mini.env_org = env_split(env);
+	mini.comand = 0;
+	mini.exit_code_error = 0;
+	return (mini);
+}
+
+int	main(int ac, char **av, char **env)
+{
+	t_minis	mini;
+
+	(void)ac;
+	(void)av;
+	start_alloc();
+	mini = start_minis(env);
+	start_shell(mini);
+	//ft_free_all(NULL);
 }

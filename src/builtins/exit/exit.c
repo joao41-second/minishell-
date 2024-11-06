@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 14:01:16 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/10/16 15:29:24 by rpires-c         ###   ########.fr       */
+/*   Created: 2024/10/22 15:56:45 by jperpct           #+#    #+#             */
+/*   Updated: 2024/10/22 16:18:43 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-
-int	check_syntax(char *str)
+void	ft_exit(t_minis *mini)
 {
-	int	i;
-	int	j;
-
-	i = -1;
-	j = 0;
-	while (str[i++] != 0)
-	{
-		if(str[i] == '>' && str[i + 1] == '<')
-			return (1);
-	}
-	if (str)
-	return (0);
-	return(INT_MAX);
+	perror("ola o erro");
+	ft_free_all(NULL);
+	exit(mini->exit_code_error);
 }

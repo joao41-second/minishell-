@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 14:01:16 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/10/16 15:29:24 by rpires-c         ###   ########.fr       */
+/*   Created: 2024/10/23 14:23:46 by jperpct           #+#    #+#             */
+/*   Updated: 2024/10/23 15:54:19 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-
-int	check_syntax(char *str)
+void	ft_pwd(t_minis *mini)
 {
-	int	i;
-	int	j;
-
-	i = -1;
-	j = 0;
-	while (str[i++] != 0)
-	{
-		if(str[i] == '>' && str[i + 1] == '<')
-			return (1);
-	}
-	if (str)
-	return (0);
-	return(INT_MAX);
+	printf("%s\n", mini->path);
 }
