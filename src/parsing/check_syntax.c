@@ -1,167 +1,78 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
-#include <ctype.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_syntax.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/11 12:16:13 by rpires-c          #+#    #+#             */
+/*   Updated: 2024/11/11 14:30:08 by rpires-c         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-bool validate_syntax(const char *command) {
-    bool in_single_quote = false;
-    bool in_double_quote = false;
-    bool last_char_is_pipe = false;
-    bool last_char_is_redirection = false;
-    bool env_variable = false;
-    bool command_started = false;
-    int consecutive_redirections = 0;
-    bool redirection_needs_target = false;
-    int consecutive_dots = 0;
-    int cd_arg_count = 0;
-    bool in_cd_command = false;
-    
-    int i = 0;
-    while (command[i] != '\0') {
-        char c = command[i];
-        
-        if (!command_started && isspace(c)) {
-            i++;
-            continue;
-        }
+#include "syntax.h"
 
-        if (!command_started && !isspace(c)) {
-            command_started = true;
-        }
-
-        if (c == '\'' && !in_double_quote) {
-            in_single_quote = !in_single_quote;
-            i++;
-            continue;
-        } else if (c == '"' && !in_single_quote) {
-            in_double_quote = !in_double_quote;
-            i++;
-            continue;
-        }
-
-        if (in_double_quote || in_single_quote) {
-            i++;
-            continue;
-        }
-
-        if (i == 0 || isspace(command[i - 1])) {
-            if (strncmp(command + i, "cd", 2) == 0 && 
-                (command[i + 2] == '\0' || isspace(command[i + 2]))) {
-                in_cd_command = true;
-                cd_arg_count = 0;
-            }
-        }
-
-        if (in_cd_command) {
-            if (isspace(c)) {
-                if (cd_arg_count > 0) {
-                    int j = i + 1;
-                    while (command[j] != '\0' && isspace(command[j])) j++;
-                    if (command[j] == '|' || command[j] == '\0') {
-                        in_cd_command = false;
-                        consecutive_dots = 0;
-                        i++;
-                        continue;
-                    }
-                }
-                cd_arg_count++;
-                consecutive_dots = 0;
-                if (cd_arg_count > 2) {
-                    int j = i + 1;
-                    while (command[j] != '\0' && isspace(command[j])) j++;
-                    if (command[j] != '|') {
-                        return false;
-                    }
-                }
-            } else if (c == '.') {
-                consecutive_dots++;
-                if (consecutive_dots > 2) return false;
-            } else if (c == '|') {
-                in_cd_command = false;
-                consecutive_dots = 0;
-            } else if (!isalnum(c) && c != '/' && c != '-'
-                    && c != '~' && c != '.') {
-                in_cd_command = false;
-            }
-        }
-
-        if (c == '$' && !in_single_quote && !in_double_quote) {
-            if (command[i + 1] == '?') {
-                i++;  
-                i++;
-                continue;
-            }
-            env_variable = true;
-        } else if (env_variable) {
-            if (!isalpha(c) && c != '_') {
-                return false; 
-            }
-            env_variable = false;
-        }
-
-        if ((c == '>' || c == '<') && !in_single_quote && !in_double_quote) {
-            consecutive_redirections++;
-            if (consecutive_redirections > 2) {
-                return false;
-            }
-            if (last_char_is_redirection) {
-                if (c == '<' && command[i - 1] == '>') {
-                    return false;
-                }
-            }
-            redirection_needs_target = true;
-            last_char_is_redirection = true;
-        } else {
-            if (redirection_needs_target) {
-                if (isspace(c)) {
-                    i++;
-                    continue;
-                }
-                if (c == '|') {
-                    return false;
-                }
-                redirection_needs_target = false;
-            }
-            consecutive_redirections = 0;
-            last_char_is_redirection = false;
-        }
-
-        if (c == '|' && !in_single_quote && !in_double_quote) {
-            if (i > 0 && command[i - 1] == '"') {
-                i++;
-                continue;
-            }
-            if (i == 0 || command[i + 1] == '\0' || 
-                last_char_is_pipe || last_char_is_redirection) {
-                return false;
-            }
-            last_char_is_pipe = true;
-            in_cd_command = false;
-        } else {
-            last_char_is_pipe = false;
-        }
-
-        if (!in_single_quote && !in_double_quote &&
-            (c == '*' || c == '?' || c == '[' || c == ']')) {
-            return false;
-        }
-        i++;
-    }
-
-    if (in_single_quote || in_double_quote || last_char_is_pipe || 
-        last_char_is_redirection || redirection_needs_target) return false;
-
-    return true;
+static void	init_validator_state(struct s_cmd_state *state)
+{
+	state->in_single_quote = false;
+	state->in_double_quote = false;
+	state->last_char_is_pipe = false;
+	state->last_char_is_redirection = false;
+	state->env_variable = false;
+	state->command_started = false;
+	state->consecutive_redirections = 0;
+	state->redirection_needs_target = false;
+	state->cd_arg_count = 0;
+	state->in_cd_command = false;
+	state->wildcard_exception = false;
 }
 
-void test_syntax(const char *command, bool expected) {
-    bool result = validate_syntax(command);
+bool	validate_special_chars(char c,
+									const struct s_cmd_state *state)
+{
+	if (!is_in_quotes(state) && (c == '*'
+			|| (c == '?' && state->wildcard_exception == false)
+			|| c == '[' || c == ']'))
+		return (false);
+	return (true);
+}
+
+bool	process_character(char c, const char *command, int i,
+							struct s_cmd_state *state)
+{
+	if (is_in_quotes(state))
+		return (true);
+	return (validate_cd_command(c, command, i, state)
+		&& validate_env_variable(c, command, i, state)
+		&& validate_redirections(c, state)
+		&& validate_pipes(c, command, i, state)
+		&& validate_special_chars(c, state));
+}
+
+bool	validate_syntax(const char *command)
+{
+	struct s_cmd_state	state;
+
+	init_validator_state(&state);
+	if (!validate_command_structure(command, &state))
+		return (false);
+	return (!(state.in_single_quote || state.in_double_quote
+			|| state.last_char_is_pipe || state.last_char_is_redirection
+			|| state.redirection_needs_target));
+}
+
+/* void	test_syntax(const char *command, bool expected)
+{
+    bool result;
+
+	result = validate_syntax(command);
     printf("Command: %s | Expected: %d Result: %d | %s\n",
            command, expected, result, (result == expected) ? "PASS" : "FAIL");
 }
 
-
-int main() {
+ int main()
+{
+    test_syntax("cd .....", true);  
     test_syntax("", true);
     test_syntax("''", true);
     test_syntax("\"|", false);
@@ -204,8 +115,8 @@ int main() {
     test_syntax("<", false);
     test_syntax(">>", false);
     test_syntax("<<", false);
-    test_syntax(">>>", false);
-    test_syntax("<<<", false);
+    test_syntax("a >>> b", false);
+    test_syntax("a <<< b", false);
     test_syntax("ls > ", false);
     test_syntax("ls < ", false);
     test_syntax("echo hi <", false);
@@ -265,6 +176,7 @@ int main() {
     test_syntax("echo $HOME", true);
     test_syntax("echo \"Hello $USER\"", true);
     test_syntax("echo $?", true);
+    test_syntax("echo \"$?\"", true);
     test_syntax("echo $?>", false);
     test_syntax("echo $\"HOME\"", true);
     test_syntax("echo $'HOME'", true);
@@ -285,7 +197,7 @@ int main() {
     test_syntax("cd /", true);  
     test_syntax("cd .", true);  
     test_syntax("cd ..", true);  
-    test_syntax("cd ...", false);  
+    test_syntax("cd ...", true);  
     test_syntax("cd.", true);  
     test_syntax("cd..", true);  
     test_syntax("cd...", true);
@@ -319,6 +231,8 @@ int main() {
     test_syntax("ls || cat", false);
     test_syntax("ls[1]", false);
     test_syntax("ls[]", false);
+    test_syntax("$?", true);
+    test_syntax("echo $? | echo $PATH", true);
     test_syntax("echo test?", false);
     test_syntax("echo *.c", false);
     test_syntax("echo \"test?\"", true);
@@ -340,4 +254,4 @@ int main() {
     test_syntax("echo a > $USER | echo b | unset USER", true);
     test_syntax("echo a > $USER", true);
     test_syntax("echo a > $USER | echo b, unset USER", true);
-}
+} */
