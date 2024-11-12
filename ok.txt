@@ -1,0 +1,12 @@
+func_read
+git_hep
+libft
+Makefile
+minishell
+Objs
+ok.txt
+readline.supp
+README.md
+src
+tester
+test_fun
