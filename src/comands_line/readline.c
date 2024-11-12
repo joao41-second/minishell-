@@ -22,7 +22,7 @@ char	*ft_strndup(const char *src, size_t n)
 	i = 0;
 	while (len < n && src[len])
 		len++;
-	dst = (char *)malloc(len + 1);
+	dst = (char *)ft_malloc(len + 1, NULL);
 	if (!dst)
 		return (NULL);
 	while (i < len)
@@ -44,11 +44,11 @@ void	start_shell(t_minis mini)
 	{
 		prompt = get_shell_prefix();
 		line = readline(prompt);
-		free(prompt);
+		ft_free(prompt);
 		if (line == NULL)
 			break ;
 		ft_printf("%s\n", line);
-		// check_syntax(line);
+		check_syntax(line);
 		add_history(line);
 		free(line);
 	}
