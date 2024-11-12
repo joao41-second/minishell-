@@ -26,9 +26,7 @@ int redirect_for_new_file(t_minis *mini)
 			break;
 		}
 	}
-	//unlink(mini->split[i]);
-	
-		fds = open(mini->split[i],O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	fds = open(mini->split[i],O_CREAT | O_WRONLY | O_TRUNC);
 
 	return (fds);
 }
@@ -49,7 +47,7 @@ int redirect_for_add_file(t_minis *mini)
 	}
 	//unlink(mini->split[i]);	
 
-	fds = open(mini->split[i],O_CREAT | O_WRONLY | O_APPEND, 0644);
+	fds = open(mini->split[i],O_CREAT | O_WRONLY | O_APPEND);
 
 	return (fds);
 }
