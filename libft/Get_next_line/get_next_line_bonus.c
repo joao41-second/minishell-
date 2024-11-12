@@ -30,7 +30,7 @@ static void	*whilee(char *save, int fd, char *rest, int *n)
 		return (NULL);
 	while (ft_caract_cont(save) <= 0)
 	{
-		ft_bzero(ret_tmp, BUFFER_SIZE + 1);
+		ft_bzzero(ret_tmp, BUFFER_SIZE + 1);
 		n[0] = read(fd, ret_tmp, BUFFER_SIZE);
 		if (n[0] != 0)
 		{
@@ -40,7 +40,7 @@ static void	*whilee(char *save, int fd, char *rest, int *n)
 		}
 		if (ft_strlens(ret_tmp) == 0 && ft_strlens(save) == 0)
 			return (fre(1, 1, ret_tmp, save));
-		ft_bzero(ret_tmp, ft_strlens(ret_tmp) + 1);
+		ft_bzzero(ret_tmp, ft_strlens(ret_tmp) + 1);
 		if (n[0] != BUFFER_SIZE)
 			break ;
 	}

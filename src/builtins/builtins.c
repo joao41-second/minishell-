@@ -19,10 +19,10 @@ void	chek_herdoc(t_minis	*mini, int set)
 	while (mini->split[++i] != NULL)
 	{
 		if(ft_strncmp(mini->split[i], ">", 4) == 0)
-		{
 			change_file(mini,set,'>');
-			//redirect_for_new_file(mini,np);
-		}
+		if(ft_strncmp(mini->split[i], ">>", 4) == 0)
+			change_file(mini,set,'n');
+	
 	}
 
 }

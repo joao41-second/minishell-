@@ -26,7 +26,7 @@
 char	*get_next_line(int fd);
 int		ft_strlens(char *str);
 char	*ft_concatenat_str(char *orig, char *second);
-void	ft_bzero(void *s, size_t n);
+void	ft_bzzero(void *s, size_t n);
 int		ft_caract_cont(char *str);
 
 char	*ft_copy(char *str, int a, int frees);

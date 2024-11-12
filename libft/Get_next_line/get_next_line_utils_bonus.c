@@ -26,7 +26,7 @@ int	ft_strlens(char *str)
 	return (a);
 }
 
-void	ft_bzero(void *s, size_t n)
+void	ft_bzzero(void *s, size_t n)
 {
 	size_t	cont;
 	char	*str;
@@ -77,7 +77,7 @@ char	*ft_concatenat_str(char *orig, char *second)
 	ret = (char *)malloc(len * sizeof(char));
 	if (ret == NULL)
 		return (NULL);
-	ft_bzero(ret, len);
+	ft_bzzero(ret, len);
 	if (orig != NULL)
 	{
 		while (orig[++i] != '\0')
@@ -100,7 +100,7 @@ char	*ft_copy(char *str, int a, int frees)
 	ret = (char *)malloc(a + 1 * sizeof(char));
 	if (ret == NULL)
 		return (NULL);
-	ft_bzero(ret, a + 1);
+	ft_bzzero(ret, a + 1);
 	while (++i < a)
 		ret[i] = str[i];
 	ret[i] = '\0';

@@ -24,19 +24,16 @@ void	change_file(t_minis *mini, int set, char sete)
 		file_origin = dup(1);
 		if(sete == '>')
 			file_new =  redirect_for_new_file(mini);
-			//	file_new = open("ok.t", O_CREAT,777);
+		if(sete == 'n')
+			file_new  = redirect_for_add_file(mini);
 		dup2(file_new,STDOUT_FILENO);
-		ft_putstr_fd("oal",  file_new);
 	}
 	else if (set == 1)
 	{
-		if(sete == '>')
+		if(sete == '>' || sete == 'n')
 			close(1);
-
 		dup2(file_origin,1);
-		//close(file_origin);
-			// fd = file_origin excute the redicion expecific
+		close(file_origin);
 	}
-
 }
 
