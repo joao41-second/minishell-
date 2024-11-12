@@ -44,7 +44,7 @@ void	start_shell(t_minis mini)
 	{
 		prompt = get_shell_prefix();
 		line = readline(prompt);
-		ft_free(prompt);
+		ft_free(prompt, NULL);
 		if (line == NULL)
 			break ;
 		ft_printf("%s\n", line);
