@@ -13,25 +13,29 @@
 #include "../minishell.h"
 #include <unistd.h>
 
-void	change_file(t_minis *mini, int set)
+void	change_file(t_minis *mini, int set, char sete)
 {
 	static int file_origin;
-	static int file_new[2];
+	static int file_new;
+	(void)mini;
 	if (set == 0)
 	{
-	 // delete file_new  create file_new clean copy fd=1 change fd =1 for fd = file_new
-		if (file_new > 0)
-			close(file_new);
-		file_origin = dup(1);
-		pipe(file_new);
-		dup2(file_new[0],1);
 
+		file_origin = dup(1);
+		if(sete == '>')
+			file_new =  redirect_for_new_file(mini);
+			//	file_new = open("ok.t", O_CREAT,777);
+		dup2(file_new,STDOUT_FILENO);
+		ft_putstr_fd("oal",  file_new);
 	}
 	else if (set == 1)
 	{
+		if(sete == '>')
+			close(1);
 
 		dup2(file_origin,1);
-	// fd = file_origin excute the redicion expecific
+		//close(file_origin);
+			// fd = file_origin excute the redicion expecific
 	}
 
 }
