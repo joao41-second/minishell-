@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/22 14:10:21 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/10/17 14:48:45 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	start_shell(t_minis mini)
 	{
 		prompt = get_shell_prefix();
 		line = readline(prompt);
-		ft_free(prompt, NULL);
+		ft_free(prompt,NULL);
 		if (line == NULL)
 			break ;
 		ft_printf("%s\n", line);
