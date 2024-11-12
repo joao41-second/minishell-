@@ -123,6 +123,6 @@ char	*get_shell_prefix(void)
 	if (!host)
 		return (NULL);
 	prefix = build_prefix(user, host);
-	free (host);
+	ft_free (host, NULL);
 	return (prefix);
 }
