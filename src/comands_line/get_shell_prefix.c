@@ -87,7 +87,7 @@ char	*build_prefix(char *user, char *host)
 	if (!build_prefix_aux(cwd, sizeof(cwd), home))
 		return (NULL);
 	prefix_len = ft_strlen(user) + ft_strlen(host) + ft_strlen(cwd) + 5;
-	prefix = (char *)malloc(prefix_len + 1);
+	prefix = (char *)ft_malloc(prefix_len + 1, NULL);
 	if (!prefix)
 	{
 		ft_printf("Error: Memory allocation failed for prefix\n");
