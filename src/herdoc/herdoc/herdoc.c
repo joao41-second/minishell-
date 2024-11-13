@@ -24,13 +24,10 @@ void handle_signal(int sig)
 
     if (sig == SIGINT)
 	{
+		ft_printf("\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
 		//rl_redisplay();
-		//printf("\rLinha nova que substitui a anterior!\n");
-		         // Limpa a linha atual
-	
-		printf("\033[F");
-		printf("\033[K");
-
 		ft_free_all(NULL);
 		exit(sig+128);
 	}
@@ -75,13 +72,9 @@ void herdoc(t_minis *mini,int set,char *end)
 	}
 	else 
 	{
+		signal(SIGINT, SIG_IGN);
 		usleep(1);
 		printf("main a espera\n");
 		wait(NULL);
-
-		//printf("\r");
-		printf("                   \n");
-		server();
-
 	}
 }
