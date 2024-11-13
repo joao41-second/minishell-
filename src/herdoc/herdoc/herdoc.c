@@ -16,6 +16,24 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+
+void handle_signal(int sig)
+{
+
+	get_signal(sig);
+	printf("sig %d\n",sig);
+    if (sig == SIGINT)
+	{
+	
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		//rl_redisplay();
+		ft_free_all(NULL);
+		exit(sig+128);
+	}
+
+}
+
 void herdoc(t_minis *mini,int set,char *end)
 {
 	pid_t pid;
@@ -31,14 +49,24 @@ void herdoc(t_minis *mini,int set,char *end)
 		ft_putstr_fd("error \n", 2);
 	else if (pid == 0)
 	{
+		signal(SIGUSR1, handle_signal);
 		if(end != NULL)
 		{
 			printf("sou filho \n");
+			signal(SIGINT, handle_signal);
+
 			line = readline("herdoc:");
+
+			get_signal(1);
 			while(ft_strncmp(line, end, ft_strlen(end) + 15) != 0)
 			{
 				free(line);
 				line = readline("herdoc:");
+				if(get_signal(0) == 2)
+				{
+					free(line);
+					ft_exit(mini);
+				}
 			}
 			free(line);
 		}
@@ -51,6 +79,7 @@ void herdoc(t_minis *mini,int set,char *end)
 		usleep(1);
 		printf("main a espera\n");
 		wait(NULL);
+		server();
 		printf("end\n");
 	}
 }
