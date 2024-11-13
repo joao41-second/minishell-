@@ -21,13 +21,16 @@ void handle_signal(int sig)
 {
 
 	get_signal(sig);
-	printf("sig %d\n",sig);
+
     if (sig == SIGINT)
 	{
-	
-		rl_replace_line("", 0);
-		rl_on_new_line();
 		//rl_redisplay();
+		//printf("\rLinha nova que substitui a anterior!\n");
+		         // Limpa a linha atual
+	
+		printf("\033[F");
+		printf("\033[K");
+
 		ft_free_all(NULL);
 		exit(sig+128);
 	}
@@ -56,17 +59,13 @@ void herdoc(t_minis *mini,int set,char *end)
 			signal(SIGINT, handle_signal);
 
 			line = readline("herdoc:");
+			signal(SIGINT, handle_signal);
 
 			get_signal(1);
 			while(ft_strncmp(line, end, ft_strlen(end) + 15) != 0)
 			{
 				free(line);
 				line = readline("herdoc:");
-				if(get_signal(0) == 2)
-				{
-					free(line);
-					ft_exit(mini);
-				}
 			}
 			free(line);
 		}
@@ -79,7 +78,10 @@ void herdoc(t_minis *mini,int set,char *end)
 		usleep(1);
 		printf("main a espera\n");
 		wait(NULL);
+
+		//printf("\r");
+		printf("                   \n");
 		server();
-		printf("end\n");
+
 	}
 }
