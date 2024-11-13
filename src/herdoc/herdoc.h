@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 09:39:49 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/12 10:32:33 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/13 10:33:08 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 void	change_file(t_minis *mini, int set, char sete);
 
+
+void herdoc(t_minis *mini,int set,char *end);
 
 int redirect_for_add_file(t_minis *mini);
 

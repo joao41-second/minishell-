@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:12:18 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/23 15:29:26 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/12 20:59:11 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,5 @@ int	main(int ac, char **av, char **env)
 	mini = start_minis(env);
 	start_shell(mini);
 	//ft_free_all(NULL);
+	return (get_signal(0));
 }

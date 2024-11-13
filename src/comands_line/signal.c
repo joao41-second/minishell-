@@ -6,16 +6,26 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 16:44:50 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/15 16:53:36 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/12 20:59:42 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	get_signal(int sig)
+{
+	static int	signals;
+	
+	if (sig != 0)
+		signals = sig;
+	return (signals);
+}
+
 static void	new_line(int sig, siginfo_t *info, void *ucontext)
 {
 	(void)info;
 	(void)ucontext;
+	get_signal(sig);
 	if (sig == SIGINT)
 	{
 		ft_printf("\n");

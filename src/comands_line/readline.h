@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:09:15 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/17 16:12:42 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/12 21:00:01 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ void	start_shell(t_minis mini);
 * @brief deals with the signals
 */
 void	server(void);
+
+
+int	get_signal(int sig);
 
 /**
 * @brief gets command line prefix from env

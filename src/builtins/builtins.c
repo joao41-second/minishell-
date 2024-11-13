@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 14:12:36 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/12 12:35:14 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/13 10:34:11 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ void	chek_herdoc(t_minis	*mini, int set)
 			change_file(mini,set,'>');
 		if(ft_strncmp(mini->split[i], ">>", 4) == 0)
 			change_file(mini,set,'n');
-	
+		if(ft_strncmp(mini->split[i], "<<", 4) == 0)
+			herdoc(mini, set, mini->split[i + 1]);
+
 	}
 
 }
