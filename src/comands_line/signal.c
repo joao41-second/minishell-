@@ -19,10 +19,8 @@ int	get_signal(int sig)
 	
 	if (sig != 0)
 	{
-		printf("a mudar o");
 		signals = sig;
 	}
-	printf("%d sig\n",sig);	
 	return (signals);
 }
 
