@@ -24,9 +24,7 @@ void	chek_herdoc(t_minis	*mini, int set)
 			change_file(mini,set,'n');
 		if(ft_strncmp(mini->split[i], "<<", 4) == 0)
 			herdoc(mini, set, mini->split[i + 1]);
-
 	}
-
 }
 void	builtins(t_minis	*mini)
 {

@@ -31,6 +31,7 @@ typedef struct s_mines
 {
 	t_list_	*env;
 	t_list_	*env_org;
+	int		readline;
 	char	path[PATH_MAX];
 	char	*line;
 	char	**split;

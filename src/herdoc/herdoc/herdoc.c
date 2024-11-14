@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -44,11 +46,14 @@ void herdoc_son_proceed(t_minis *mini, char*end)
 			ft_exit(mini);
 		}
 		line = readline(">");
+		mini->exit_code_error = 1;
 		while(ft_strncmp(line, end, ft_strlen(end) + 15) != 0)
 		{
 			free(line);
 			line = readline(">");
 		}
+
+		 //mini->exit_code_error = 0;
 		free(line);
 	}
 	else
@@ -76,6 +81,12 @@ void herdoc(t_minis *mini,int set,char *end)
 		signal(SIGINT, SIG_IGN);
 		usleep(1);
 		wait3(&status, 0, &usage);
+		printf("signal %d \n",WSTOPSIG(status));
+		if(WSTOPSIG(status) == 0)
+		{
+			ft_putstr_fd("bash: warning: here-document at line 1 delimited by end-of-file (wanted `ok')\n",2);
+		}
 		get_signal(WSTOPSIG(status));
+
 	}
 }
