@@ -34,10 +34,33 @@ void handle_signal(int sig)
 
 }
 
+void herdoc_son_proceed(t_minis *mini, char*end)
+{
+	char *line;
+	signal(SIGUSR1, handle_signal);
+	if(end != NULL)
+	{
+		printf("sou filho \n");
+		signal(SIGINT, handle_signal);
+		line = readline("herdoc:");
+		signal(SIGINT, handle_signal);
+		get_signal(1);
+		while(ft_strncmp(line, end, ft_strlen(end) + 15) != 0)
+		{
+			free(line);
+			line = readline("herdoc:");
+		}
+		free(line);
+	}
+	else
+		ft_putstr_fd("error \n",2);
+	ft_exit(mini);
+}
+
+
 void herdoc(t_minis *mini,int set,char *end)
 {
 	pid_t pid;
-	char *line; 
 
 	(void)mini;
 	(void)set;
@@ -49,26 +72,7 @@ void herdoc(t_minis *mini,int set,char *end)
 		ft_putstr_fd("error \n", 2);
 	else if (pid == 0)
 	{
-		signal(SIGUSR1, handle_signal);
-		if(end != NULL)
-		{
-			printf("sou filho \n");
-			signal(SIGINT, handle_signal);
-
-			line = readline("herdoc:");
-			signal(SIGINT, handle_signal);
-
-			get_signal(1);
-			while(ft_strncmp(line, end, ft_strlen(end) + 15) != 0)
-			{
-				free(line);
-				line = readline("herdoc:");
-			}
-			free(line);
-		}
-		else
-		 ft_putstr_fd("error \n",2);
-		ft_exit(mini);
+		herdoc_son_proceed(mini,end);
 	}
 	else 
 	{
