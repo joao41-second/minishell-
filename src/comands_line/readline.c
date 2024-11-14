@@ -43,6 +43,7 @@ void	start_shell(t_minis mini)
 	server();
 	while (1)
 	{
+		get_signal(1);
 		server();
 		prompt = get_shell_prefix();
 		line = readline(prompt);

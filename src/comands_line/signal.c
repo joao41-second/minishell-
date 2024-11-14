@@ -30,7 +30,7 @@ static void	new_line(int sig, siginfo_t *info, void *ucontext)
 {
 	(void)info;
 	(void)ucontext;
-	get_signal(sig);
+	get_signal(sig+128);
 	if (sig == SIGINT)
 	{
 		ft_printf("\n");
