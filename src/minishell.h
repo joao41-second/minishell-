@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/10/23 15:46:08 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/14 14:52:15 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_mines
 # include "./builtins/builtins.h"
 # include "./comands_line/readline.h"
 
-int			check_syntax(char *str);
+int			check_syntax(const char *str);
 
 void		free_split(char **ok);
 

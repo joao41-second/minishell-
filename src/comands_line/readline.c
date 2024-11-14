@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/04 13:11:09 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/14 16:23:55 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,15 @@ void	start_shell(t_minis mini)
 	server();
 	while (1)
 	{
-		prompt = get_shell_prefix();
+		prompt = get_shell_prefix(&mini);
 		line = readline(prompt);
 		ft_free(prompt, NULL);
 		if (line == NULL)
 			break ;
 		mini.line = line;
+		if (mini.line[0] != '\0')
+			mini.exit_code_error = check_syntax(mini.line);
 		builtins(&mini);
-		check_syntax(line);
 		getcwd(mini.path, PATH_MAX);
 		add_history(line);
 		free(line);

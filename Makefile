@@ -6,7 +6,7 @@
 #    By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/03 06:17:31 by jperpect          #+#    #+#              #
-#    Updated: 2024/10/15 14:40:24 by rpires-c         ###   ########.fr        #
+#    Updated: 2024/11/14 16:38:47 by rpires-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,3 +88,5 @@ s:
 	make re && ./minishell
 v:
 	make re && $(VAL) ./minishell
+e:
+	make re && env -i ./minishell

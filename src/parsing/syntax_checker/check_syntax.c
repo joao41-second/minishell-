@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:16:13 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/11 14:30:08 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:30:17 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,20 @@ bool	process_character(char c, const char *command, int i,
 		&& validate_special_chars(c, state));
 }
 
-bool	validate_syntax(const char *command)
+int	check_syntax(const char *command)
 {
 	struct s_cmd_state	state;
 
 	init_validator_state(&state);
 	if (!validate_command_structure(command, &state))
-		return (false);
-	return (!(state.in_single_quote || state.in_double_quote
-			|| state.last_char_is_pipe || state.last_char_is_redirection
-			|| state.redirection_needs_target));
+		return (2);
+	if (state.in_single_quote
+		|| state.in_double_quote
+		|| state.last_char_is_pipe
+		|| state.last_char_is_redirection
+		|| state.redirection_needs_target)
+		return (2);
+	return (0);
 }
 
 /* void	test_syntax(const char *command, bool expected)

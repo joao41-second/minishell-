@@ -6,14 +6,14 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:17:26 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/11 15:43:52 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:32:05 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define SYNTAX_H
 #ifdef SYNTAX_H
 
-# include "../minishell.h"
+# include "../../minishell.h"
 # include <stdbool.h>
 # include <ctype.h>
 
