@@ -11,13 +11,18 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
 
 int	get_signal(int sig)
 {
 	static int	signals;
 	
 	if (sig != 0)
+	{
+		printf("a mudar o");
 		signals = sig;
+	}
+	printf("%d sig\n",sig);	
 	return (signals);
 }
 

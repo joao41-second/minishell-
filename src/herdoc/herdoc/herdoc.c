@@ -15,7 +15,8 @@
 #include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
-
+#include <sys/wait.h>
+#include <sys/resource.h>
 
 void handle_signal(int sig)
 {
@@ -40,11 +41,13 @@ void herdoc_son_proceed(t_minis *mini, char*end)
 	signal(SIGUSR1, handle_signal);
 	if(end != NULL)
 	{
-		printf("sou filho \n");
 		signal(SIGINT, handle_signal);
+		printf("sou filho  o sig e %d\n",get_signal(0));
+		if(get_signal(0) == 2)
+		{
+			ft_exit(mini);
+		}
 		line = readline("herdoc:");
-		signal(SIGINT, handle_signal);
-		get_signal(1);
 		while(ft_strncmp(line, end, ft_strlen(end) + 15) != 0)
 		{
 			free(line);
@@ -61,7 +64,8 @@ void herdoc_son_proceed(t_minis *mini, char*end)
 void herdoc(t_minis *mini,int set,char *end)
 {
 	pid_t pid;
-
+	int status;
+	struct rusage usage;
 	(void)mini;
 	(void)set;
 	(void)end;
@@ -79,6 +83,7 @@ void herdoc(t_minis *mini,int set,char *end)
 		signal(SIGINT, SIG_IGN);
 		usleep(1);
 		printf("main a espera\n");
-		wait(NULL);
+		wait3(&status, 0, &usage);
+		printf("Processo filho  foi parado devido ao sinal: %d (%s)\n", WSTOPSIG(status), strsignal(WSTOPSIG(status)));
 	}
 }
