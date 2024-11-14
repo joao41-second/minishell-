@@ -84,7 +84,11 @@ void herdoc(t_minis *mini,int set,char *end)
 		printf("signal %d \n",WSTOPSIG(status));
 		if(WSTOPSIG(status) == 0)
 		{
-			ft_putstr_fd("bash: warning: here-document at line 1 delimited by end-of-file (wanted `ok')\n",2);
+			ft_putstr_fd("bash: warning: here-document at line ",2);
+			ft_putnbr_fd(mini->readline, 2);
+			ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+			ft_putstr_fd(end, 2 );
+			ft_putstr_fd("')\n", 2);
 		}
 		get_signal(WSTOPSIG(status));
 
