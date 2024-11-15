@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:55:23 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/04 15:47:27 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/15 15:18:41 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,10 @@ void		ft_echo(t_minis *mini);
 void		builtins(t_minis *mini);
 
 void		export_add(t_list_ **list, t_env *var);
+
+void	organizer_list(t_list_ *list);
+
+void	print_export(void *point);
 
 t_env		*list_to_env(t_list_ *list);
 
