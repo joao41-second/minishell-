@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:10:03 by jperpect          #+#    #+#             */
-/*   Updated: 2024/08/16 12:02:03 by jperpect         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:52:18 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 char	*get_next_line(int fd);
 int		ft_strlens(char *str);
 char	*ft_concatenat_str(char *orig, char *second);
-void	ft_bzero(void *s, size_t n);
+void	ft_bzeros(void *s, size_t n);
 int		ft_caract_cont(char *str);
 
 char	*ft_copy(char *str, int a, int frees);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 14:09:50 by jperpect          #+#    #+#             */
-/*   Updated: 2024/08/16 12:32:00 by jperpect         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:52:08 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	*whilee(char *save, int fd, char *rest, int *n)
 		return (NULL);
 	while (ft_caract_cont(save) <= 0)
 	{
-		ft_bzero(ret_tmp, BUFFER_SIZE + 1);
+		ft_bzeros(ret_tmp, BUFFER_SIZE + 1);
 		n[0] = read(fd, ret_tmp, BUFFER_SIZE);
 		if (n[0] != 0)
 		{
@@ -40,7 +40,7 @@ static void	*whilee(char *save, int fd, char *rest, int *n)
 		}
 		if (ft_strlens(ret_tmp) == 0 && ft_strlens(save) == 0)
 			return (fre(1, 1, ret_tmp, save));
-		ft_bzero(ret_tmp, ft_strlens(ret_tmp) + 1);
+		ft_bzeros(ret_tmp, ft_strlens(ret_tmp) + 1);
 		if (n[0] != BUFFER_SIZE)
 			break ;
 	}
