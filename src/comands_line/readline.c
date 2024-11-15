@@ -46,8 +46,8 @@ void	start_shell(t_minis mini)
 		get_signal(1);
 		server();
 		prompt = get_shell_prefix();
-		mini.readline++;
 		line = readline(prompt);
+		mini.readline++;
 		ft_free(prompt, NULL);
 		if (line == NULL)
 			break ;
