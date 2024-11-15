@@ -11,6 +11,11 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+char *creat_new( char verifc, t_minis *mini)
+{
+
+}
+
 
 char *expand_env(char *str, t_minis *mini)
 {
