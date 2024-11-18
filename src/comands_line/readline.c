@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/14 16:23:55 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:18:54 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	start_shell(t_minis mini)
 		mini.line = line;
 		if (mini.line[0] != '\0')
 			mini.exit_code_error = check_syntax(mini.line);
+		tokenizeAndCheckBashCommand(&mini, );
 		builtins(&mini);
 		getcwd(mini.path, PATH_MAX);
 		add_history(line);

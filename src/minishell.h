@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/11/14 14:52:15 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:03:44 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,17 @@ typedef struct s_mines
 	int		comand;
 	int		exit_code_error;
 }			t_minis;
+
+typedef struct Node
+{
+	char *token;
+	char type[20];
+	struct Node *next;
+} Node;
+
 # include "./builtins/builtins.h"
 # include "./comands_line/readline.h"
+# include "./Pipex/pipex.h"
 
 int			check_syntax(const char *str);
 
