@@ -11,13 +11,20 @@
 /* ************************************************************************** */
 
 #define EXPAND_H
-#ifndef EXPAND_H
+#ifdef EXPAND_H
 
-typedef struct s_quots
+typedef union s_quotes 
 {
- int ok;
-} t_quots
+	struct {
+	int simp;
+	int simp_size;
+	int dub;
+	int dub_size;
+	};
+		int flags[4];
+	char *end;
+}			t_quotes;
 
 
-
+char *expand_env(char *str, t_minis *mini);
 #endif // !EXPAND_H

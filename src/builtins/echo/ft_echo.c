@@ -18,9 +18,11 @@ void	ft_echo(t_minis *mini)
 	int	i;
 
 	i = 0;
-	while (mini->split[++i] != NULL)
-	{
-		printf("%s ", mini->split[i]);
-	}
+	//while (mini->split[++i] != NULL)
+	//{
+	//	printf("%s ",  mini->split[i]);
+	//}
+	printf("%s ",expand_env( mini->line,mini));
+
 	printf("\n");
 }

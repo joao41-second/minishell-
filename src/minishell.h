@@ -37,9 +37,10 @@ typedef struct s_mines
 	int		comand;
 	int		exit_code_error;
 }			t_minis;
+
+# include "./parsing/expand_env/expand.h"
 # include "./builtins/builtins.h"
 # include "./comands_line/readline.h"
-
 int			check_syntax(const char *str);
 
 void		free_split(char **ok);
