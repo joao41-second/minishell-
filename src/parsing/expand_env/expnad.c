@@ -41,7 +41,9 @@ char *rmenv(char *str,t_minis *mini)
 		env = ft_substr(str,1, --i);
 
 		printf("oi %s %s\n",ft_getenv(mini,env),env);
-		ok = ft_strjoin(&str[1], &str[i]);
+		if(ft_getenv(mini,env) == NULL)
+			return (NULL);
+		ok = ft_strjoin(&str[1], ft_getenv(mini,env));
 		return (ok);
 	}
 	return ("");
@@ -69,8 +71,10 @@ char  *creat_new( char verifc, char	*str, t_quotes quotes, t_minis *mini)
 	if( verifc == '$')
 	{
 		save = rmenv(&str[ft_lenchar(str,'$')],mini);
-		if(save == NULL)
-			ft_exit(mini);
+		if(save == NULL){
+			printf("error\n");
+		}
+		temp = ft_strjoin(temp, save);
 		ft_free(str,NULL);
 		str = save;
 	}
