@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 13:26:06 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/11 14:28:22 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:12:15 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool	validate_env_variable(char c, const char *command,
 	}
 	else if (state->env_variable)
 	{
-		if (!isalpha(c) && c != '_')
+		if (!ft_isalpha(c) && c != '_')
 			return (false);
 		state->env_variable = false;
 	}

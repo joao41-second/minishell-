@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:17:26 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/14 16:32:05 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:07:51 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ typedef struct s_cmd_state
 	bool	wildcard_exception;
 }	t_cmd_state;
 
-
+bool	ft_isspace(
+				char c);
 bool	is_cd_command_start(
 				const char *command,
 				int current_index,
