@@ -50,11 +50,12 @@ char *rmenv(char *str,t_minis *mini, int *len)
 	return ("");
 }
 
-char	*creat_new( char verifc, char *str, t_quotes quotes, t_minis *mini,int i)
+char	*creat_new( int i, char *str, t_quotes quotes, t_minis *mini)
 {
 	static char	*temp = NULL;
 	static int not_print;
 	char *save;
+	char verifc = str[i];
 	if(not_print > 0)
 	{
 		not_print--;
@@ -107,7 +108,7 @@ char *expand_env(char *str, t_minis *mini)
 	quotes.flags[2] = 0;
 	quotes.flags[3] = 0;
 	
-	end = creat_new('\0', str, quotes,mini,i);
+	end = creat_new(ft_strlen(str)+1, str, quotes,mini);
 	while (str[++i] != '\0')
 	{
 		if(str[i] == 39)
@@ -130,7 +131,7 @@ char *expand_env(char *str, t_minis *mini)
 			quotes.dub = 0;
 			quotes.dub_size = 0;
 		}
-		end = creat_new(str[i], &str[i], quotes,mini,i);
+		end = creat_new(i, str, quotes,mini);
 	}
 	return (end);
 }
