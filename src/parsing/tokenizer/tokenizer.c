@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:01:39 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/18 16:41:39 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/19 11:33:01 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ Node* tokenizeAndCheckBashCommand(t_minis *mini)
             type = "environment_variable";
         else 
         {
-            if (find_path(token, mini->env)) 
+            if (find_path(token, env_to_matrix(mini))) 
                 type = "command";
             else 
                 type = "string";

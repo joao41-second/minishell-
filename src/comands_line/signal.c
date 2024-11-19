@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 16:44:50 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/15 16:53:36 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/19 11:29:37 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ static void	new_line(int sig, siginfo_t *info, void *ucontext)
 void	server(void)
 {
 	struct sigaction	sa;
-	static int			a;
 
-	a = 0;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_sigaction = new_line;
 	sa.sa_flags = SA_RESTART;

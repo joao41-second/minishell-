@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/11/18 17:03:44 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/19 11:34:42 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,9 @@ int			check_syntax(const char *str);
 void		free_split(char **ok);
 
 void		free_list(t_list_ *list, void (*free_struct)(void *));
+
+char		**env_to_matrix(t_minis *mini);
+
+Node		*tokenizeAndCheckBashCommand(t_minis *mini);
 
 #endif
