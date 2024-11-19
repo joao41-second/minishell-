@@ -69,7 +69,7 @@ char	*creat_new( int i, char *str, t_quotes quotes, t_minis *mini)
 	}
 	if(not_print == 0)
 	{
-			if(temp == NULL)
+		if(temp == NULL)
 			temp = ft_strjoin("","");
 		if( verifc == '"' && quotes.simp == 1 && i > quotes.simp_size)
 			temp = ft_strjoin(temp, &verifc);
@@ -77,7 +77,7 @@ char	*creat_new( int i, char *str, t_quotes quotes, t_minis *mini)
 			temp = ft_strjoin(temp, &verifc);
 		if( (verifc == '$' && quotes.dub == 1 && i > quotes.dub_size)  || (verifc == '$' && quotes.dub == 0 && quotes.simp == 0 ))
 		{
-			save = rmenv(&str[ft_lenchar(str,'$')],mini,&not_print);
+			save = rmenv(&str[i],mini,&not_print);
 			if(save == NULL)
 			{
 				not_print = INT_MAX;
@@ -131,7 +131,11 @@ char *expand_env(char *str, t_minis *mini)
 			quotes.dub = 0;
 			quotes.dub_size = 0;
 		}
+		//ft_free(end,NULL);
+
 		end = creat_new(i, str, quotes,mini);
+		if(end == NULL)
+			return (NULL); 
 	}
 	return (end);
 }
