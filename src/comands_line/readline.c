@@ -38,14 +38,14 @@ char	*ft_strndup(const char *src, size_t n)
 void	start_shell(t_minis mini)
 {
 	char	*line;
-	char	*prompt;
+	//char	*prompt;
 
 	server();
 	while (1)
 	{
-		prompt = get_shell_prefix(&mini);
-		line = readline(prompt);
-		ft_free(prompt, NULL);
+		//prompt = get_shell_prefix(&mini);
+		line = readline("prompt");
+		//ft_free(prompt, NULL);
 		if (line == NULL)
 			break ;
 		mini.line = line;

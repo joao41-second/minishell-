@@ -51,17 +51,38 @@ char *rmenv(char *str,t_minis *mini, int *len)
 	return ("");
 }
 
+int ft_if_expand(char *verifc, t_quotes quotes , int i)
+{
+	if((verifc[0] == '$' && quotes.dub == 1 && i > quotes.dub_size)  || (verifc[0] == '$' && quotes.dub == 0 && quotes.simp == 0 ))
+		return (TRUE);
+	return (FALSE);
+}
+
+char	*ft_strjoin_and_free(char *s1, char *s2)
+{
+	char *save;
+	char *aloc;
+	save = ft_strdup(s1);
+	ft_free(s1,NULL);
+	aloc = ft_strjoin(save, s2);
+	ft_free(save,NULL);
+	return (aloc);
+}
+
 char	*creat_new( int i, char *str, t_quotes quotes, t_minis *mini)
 {
 	static char	*temp = NULL;
 	static int not_print;
 	char *save;
-	char verifc = str[i];
+	char verifc[2];
+
+	verifc[0] = str[i];
+	verifc[1] = '\0';
 	if(not_print > 0)
 	{
 		not_print--;
 	}
-	if(verifc == '\0')
+	if(verifc[0] == '\0')
 	{
 		not_print = 0;
 		ft_free(temp,NULL);
@@ -72,11 +93,11 @@ char	*creat_new( int i, char *str, t_quotes quotes, t_minis *mini)
 	{
 		if(temp == NULL)
 			temp = ft_strdup("");
-		if( verifc == '"' && quotes.simp == 1 && i > quotes.simp_size)
-			temp = ft_strjoin(temp, &verifc);
-		if( verifc == 39  && quotes.dub == 1 && i > quotes.dub_size)
-			temp = ft_strjoin(temp, &verifc);
-		if( (verifc == '$' && quotes.dub == 1 && i > quotes.dub_size)  || (verifc == '$' && quotes.dub == 0 && quotes.simp == 0 ))
+		if( verifc[0] == '"' && quotes.simp == 1 && i > quotes.simp_size)
+			temp  = ft_strjoin_and_free(temp,verifc);;
+		if( verifc[0] == 39  && quotes.dub == 1 && i > quotes.dub_size)
+			temp  = ft_strjoin_and_free(temp,verifc);
+		if(ft_if_expand(verifc,quotes,i) == TRUE)
 		{
 			save = rmenv(&str[i],mini,&not_print);
 			if(save == NULL)
@@ -86,18 +107,13 @@ char	*creat_new( int i, char *str, t_quotes quotes, t_minis *mini)
 				temp = NULL;
 				return (NULL);
 			}
-			temp = ft_strjoin(temp, save);		
+			temp = ft_strjoin(temp, save);
+			ft_free(save,NULL);
 			return (temp);
 		}
-		if (verifc != '"' && verifc != 39)
+		if (verifc[0] != '"' && verifc[0] != 39)
 		{
-			save = ft_strdup(temp);
-			printf("%s\n",save);
-			char *ok;
-			ok = ft_malloc(2*sizeof(char),NULL);
-			ok[0] = verifc;
-			ok[1] = '\0';
-			temp = ft_strjoin(save, ok);
+			temp  = ft_strjoin_and_free(temp,verifc);
 		}
 	}
 		return (temp); 
@@ -130,18 +146,17 @@ char *expand_env(char *str, t_minis *mini)
 			quotes.dub++;
 			quotes.dub_size = i;
 		}
-		if(quotes.simp > 1)
+		if(quotes.simp > 1 || quotes.dub > 1)
 		{
 			quotes.simp = 0;
-			quotes.simp_size = 0;
+			quotes.simp_size = i;
 		}
 		if(quotes.dub > 1)
 		{
 			quotes.dub = 0;
-			quotes.dub_size = 0;
+			quotes.dub_size = i;
 		}
-		//ft_free(end,NULL);
-
+	//	ft_free(end,NULL);
 		end = creat_new(i, str, quotes,mini);
 		if(end == NULL)
 			return (NULL); 
