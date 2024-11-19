@@ -23,7 +23,7 @@ int ft_lenchar(char *str, char cha)
 	return (i);
 }
 
-char *rmenv(char *str,t_minis *mini)
+char *rmenv(char *str,t_minis *mini, int *len)
 {
 	char	*ok;
 	char	*env;
@@ -36,51 +36,55 @@ char *rmenv(char *str,t_minis *mini)
 		while(str[++i] != '\0')
 		{
 			if(str[i] == ' ' || str[i] == '"' || str[i] == 39)
-				break;
+				break ;
 		}
 		env = ft_substr(str,1, --i);
-
 		printf("oi %s %s\n",ft_getenv(mini,env),env);
 		if(ft_getenv(mini,env) == NULL)
 			return (NULL);
-		ok = ft_strjoin(&str[1], ft_getenv(mini,env));
+		ok = ft_strjoin("", ft_getenv(mini,env));
+		*len = ft_strlen(env) + 1;
+		(void)len;
+		ft_free(env, NULL);
 		return (ok);
 	}
 	return ("");
 }
 
-
-char  *creat_new( char verifc, char	*str, t_quotes quotes, t_minis *mini)
+char	*creat_new( char verifc, char *str, t_quotes quotes, t_minis *mini)
 {
-	static char *temp = NULL;
+	static char	*temp = NULL;
+	static int not_print;
 	char *save;
+	if(not_print > 0)
+		not_print--;
 	if(verifc == '\0')
-	{
-		ft_free(temp,NULL);
-		temp = NULL;
-		return (NULL);
-	}
-	if(temp == NULL)
-		temp = ft_strjoin("","");
-	(void)verifc;
-	(void)temp;
-	if( verifc == '"' && quotes.simp == 1 && ft_lenchar(str,verifc) > quotes.simp_size)
-		temp = ft_strjoin(temp, &verifc);
-	if( verifc == 39  && quotes.dub == 1 && ft_lenchar(str,verifc) > quotes.dub_size)
-		temp = ft_strjoin(temp, &verifc);
-	if( verifc == '$')
-	{
-		save = rmenv(&str[ft_lenchar(str,'$')],mini);
-		if(save == NULL){
-			printf("error\n");
+		{
+			ft_free(temp,NULL);
+			temp = NULL;
+			return (NULL);
 		}
-		temp = ft_strjoin(temp, save);
-		ft_free(str,NULL);
-		str = save;
+	if(not_print == 0)
+	{
+			if(temp == NULL)
+			temp = ft_strjoin("","");
+		if( verifc == '"' && quotes.simp == 1 && ft_lenchar(str,verifc) > quotes.simp_size)
+			temp = ft_strjoin(temp, &verifc);
+		if( verifc == 39  && quotes.dub == 1 && ft_lenchar(str,verifc) > quotes.dub_size)
+			temp = ft_strjoin(temp, &verifc);
+		if( verifc == '$')
+		{
+			save = rmenv(&str[ft_lenchar(str,'$')],mini,&not_print);
+			if(save == NULL){
+				printf("error\n");
+			}
+			temp = ft_strjoin(temp, save);		
+			return (temp);
+		}
+		if (verifc != '"' && verifc != 39)
+			temp = ft_strjoin(temp, &verifc);
 	}
-	if (verifc != '"' && verifc != 39)
-		temp = ft_strjoin(temp, &verifc);
-	return (temp); 
+		return (temp); 
 }
 
 char *expand_env(char *str, t_minis *mini)
