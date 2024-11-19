@@ -108,7 +108,7 @@ char *expand_env(char *str, t_minis *mini)
 	quotes.flags[2] = 0;
 	quotes.flags[3] = 0;
 	
-	end = creat_new(ft_strlen(str)+1, str, quotes,mini);
+	end = creat_new(0, "\0", quotes,mini);
 	while (str[++i] != '\0')
 	{
 		if(str[i] == 39)
