@@ -43,7 +43,7 @@ char *rmenv(char *str,t_minis *mini, int *len)
 		if(ft_getenv(mini,env) == NULL)
 			return (NULL);
 		ok = ft_strjoin("", ft_getenv(mini,env));
-		*len = ft_strlen(env) + 1;
+		*len = ft_strlen(env) +1;
 		(void)len;
 		ft_free(env, NULL);
 		return (ok);
@@ -58,15 +58,15 @@ char	*creat_new( char verifc, char *str, t_quotes quotes, t_minis *mini)
 	char *save;
 	if(not_print > 0)
 		not_print--;
-	if(verifc == '\0')
+	if(not_print == 0)
+	{
+		if(verifc == '\0')
 		{
 			ft_free(temp,NULL);
 			temp = NULL;
 			return (NULL);
 		}
-	if(not_print == 0)
-	{
-			if(temp == NULL)
+		if(temp == NULL)
 			temp = ft_strjoin("","");
 		if( verifc == '"' && quotes.simp == 1 && ft_lenchar(str,verifc) > quotes.simp_size)
 			temp = ft_strjoin(temp, &verifc);
@@ -124,7 +124,7 @@ char *expand_env(char *str, t_minis *mini)
 			quotes.dub = 0;
 			quotes.dub_size = 0;
 		}
-		end = creat_new(str[i], str, quotes,mini);
+		end = creat_new(str[i], &str[i], quotes,mini);
 	}
 	return (end);
 }
