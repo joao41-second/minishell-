@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 	
 #include "../../minishell.h"
+#include <stdio.h>
 
 int ft_lenchar(char *str, char cha)
 {
@@ -70,7 +71,7 @@ char	*creat_new( int i, char *str, t_quotes quotes, t_minis *mini)
 	if(not_print == 0)
 	{
 		if(temp == NULL)
-			temp = ft_strjoin("","");
+			temp = ft_strdup("");
 		if( verifc == '"' && quotes.simp == 1 && i > quotes.simp_size)
 			temp = ft_strjoin(temp, &verifc);
 		if( verifc == 39  && quotes.dub == 1 && i > quotes.dub_size)
@@ -89,7 +90,15 @@ char	*creat_new( int i, char *str, t_quotes quotes, t_minis *mini)
 			return (temp);
 		}
 		if (verifc != '"' && verifc != 39)
-			temp = ft_strjoin(temp, &verifc);
+		{
+			save = ft_strdup(temp);
+			printf("%s\n",save);
+			char *ok;
+			ok = ft_malloc(2*sizeof(char),NULL);
+			ok[0] = verifc;
+			ok[1] = '\0';
+			temp = ft_strjoin(save, ok);
+		}
 	}
 		return (temp); 
 }
