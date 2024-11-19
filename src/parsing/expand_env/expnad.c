@@ -50,7 +50,7 @@ char *rmenv(char *str,t_minis *mini, int *len)
 	return ("");
 }
 
-char	*creat_new( char verifc, char *str, t_quotes quotes, t_minis *mini)
+char	*creat_new( char verifc, char *str, t_quotes quotes, t_minis *mini,int i)
 {
 	static char	*temp = NULL;
 	static int not_print;
@@ -67,11 +67,11 @@ char	*creat_new( char verifc, char *str, t_quotes quotes, t_minis *mini)
 		}
 		if(temp == NULL)
 			temp = ft_strjoin("","");
-		if( verifc == '"' && quotes.simp == 1 && ft_lenchar(str,verifc) > quotes.simp_size)
+		if( verifc == '"' && quotes.simp == 1 && i > quotes.simp_size)
 			temp = ft_strjoin(temp, &verifc);
-		if( verifc == 39  && quotes.dub == 1 && ft_lenchar(str,verifc) > quotes.dub_size)
+		if( verifc == 39  && quotes.dub == 1 && i > quotes.dub_size)
 			temp = ft_strjoin(temp, &verifc);
-		if( verifc == '$')
+		if( verifc == '$' && quotes.dub == 1 && i > quotes.dub_size)
 		{
 			save = rmenv(&str[ft_lenchar(str,'$')],mini,&not_print);
 			if(save == NULL)
@@ -104,7 +104,7 @@ char *expand_env(char *str, t_minis *mini)
 	quotes.flags[2] = 0;
 	quotes.flags[3] = 0;
 	
-	end = creat_new('\0', str, quotes,mini);
+	end = creat_new('\0', str, quotes,mini,i);
 	while (str[++i] != '\0')
 	{
 		if(str[i] == 39)
@@ -127,7 +127,7 @@ char *expand_env(char *str, t_minis *mini)
 			quotes.dub = 0;
 			quotes.dub_size = 0;
 		}
-		end = creat_new(str[i], &str[i], quotes,mini);
+		end = creat_new(str[i], &str[i], quotes,mini,i);
 	}
 	return (end);
 }
