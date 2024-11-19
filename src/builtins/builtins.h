@@ -14,13 +14,13 @@
 #ifdef BUILTINS_H
 
 # include "../../libft/Get_next_line/get_next_line_bonus.h"
-# include "../../libft/libft/libft.h"
 # include "../../libft/printf/ft_printf.h"
 
 typedef struct s_env
 {
 	char	*name;
 	char	*content;
+	int		chek;
 }			t_env;
 
 /**

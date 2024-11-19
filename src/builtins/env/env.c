@@ -20,6 +20,7 @@ t_env	*new_node(char *s1)
 	content = getenv(s1);
 	var->name = ft_strdup(s1);
 	var->content = ft_strdup(content);
+	var->chek = TRUE;
 	return (var);
 }
 

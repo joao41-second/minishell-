@@ -13,6 +13,11 @@
 #define MINISHELL_H
 #ifdef MINISHELL_H
 
+
+#define TRUE  0
+#define FALSE 1
+
+
 # include "../libft/Get_next_line/get_next_line_bonus.h"
 # include "../libft/printf/ft_printf.h"
 //#include "../libft/free/free_and_list.h"
