@@ -56,22 +56,25 @@ char	*creat_new( char verifc, char *str, t_quotes quotes, t_minis *mini,int i)
 	static int not_print;
 	char *save;
 	if(not_print > 0)
+	{
 		not_print--;
+	}
+	if(verifc == '\0')
+	{
+		not_print = 0;
+		ft_free(temp,NULL);
+		temp = NULL;
+		return (NULL);
+	}
 	if(not_print == 0)
 	{
-		if(verifc == '\0')
-		{
-			ft_free(temp,NULL);
-			temp = NULL;
-			return (NULL);
-		}
-		if(temp == NULL)
+			if(temp == NULL)
 			temp = ft_strjoin("","");
 		if( verifc == '"' && quotes.simp == 1 && i > quotes.simp_size)
 			temp = ft_strjoin(temp, &verifc);
 		if( verifc == 39  && quotes.dub == 1 && i > quotes.dub_size)
 			temp = ft_strjoin(temp, &verifc);
-		if( verifc == '$' && quotes.dub == 1 && i > quotes.dub_size)
+		if( (verifc == '$' && quotes.dub == 1 && i > quotes.dub_size)  || (verifc == '$' && quotes.dub == 0 && quotes.simp == 0 ))
 		{
 			save = rmenv(&str[ft_lenchar(str,'$')],mini,&not_print);
 			if(save == NULL)
