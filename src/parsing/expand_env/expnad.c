@@ -55,10 +55,9 @@ char *rmenv(char *str,t_minis *mini, int *len)
 int ft_if_expand(char *verifc, t_quotes *quotes, int i)
 {
 	(void)i;
-	if((verifc[0] == '$' && verifc[0] == '$' && quotes->dub == 0 && quotes->simp == 0 ))
+	if((verifc[0] == '$' && quotes->dub == 1 ))
 		return (TRUE);
-	if(verifc[0] == '$' && quotes->dub == 1 && quotes->simp == 1 && quotes->dub > quotes->simp )
-		return TRUE;
+
 	return (FALSE);
 }
 
@@ -97,28 +96,10 @@ char	*creat_new( int i, char *str, t_quotes *quotes,  t_minis *mini)
 
 	if(not_print == 0)
 	{
-		
-		printf("aspas %c = %d index = %d  '= %d index = %d \n",'"',	quotes->dub,quotes->dub_size,quotes->simp,quotes->simp_size);
-		printf("%s %d\n",verifc,i);
+			
 		if(temp == NULL)
 			temp = ft_strdup("");
-
-		if(verifc[0] == '"' || verifc[0] == 39)
-		{ 
-			if(quotes->simp == 1 && quotes->dub == 1)
-			{
-				
-				temp  = ft_strjoin_and_free(temp,verifc);
-				if(verifc[0] == '"' )
-					quotes->dub--;
-				if(verifc[0] == 39 )
-					quotes->simp--;
-
-			}
-
-		}
-	
-
+		
 		if(ft_if_expand(verifc,quotes,i) == TRUE)
 		{
 			save = rmenv(&str[i],mini,&not_print);
@@ -133,6 +114,21 @@ char	*creat_new( int i, char *str, t_quotes *quotes,  t_minis *mini)
 			ft_free(save,NULL);
 			return (temp);
 		}
+
+		if(verifc[0] == '"' || verifc[0] == 39)
+		{ 
+			if(quotes->simp == 1 && quotes->dub == 1)
+			{	
+				temp  = ft_strjoin_and_free(temp,verifc);
+				if(verifc[0] == '"' )
+					quotes->dub--;
+				if(verifc[0] == 39 )
+					quotes->simp--;
+
+			}
+
+		}
+		
 		if (verifc[0] != '"' && verifc[0] != 39)
 		{
 			temp  = ft_strjoin_and_free(temp,verifc);
