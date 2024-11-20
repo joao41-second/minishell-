@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/11/19 11:34:42 by rui              ###   ########.fr       */
+/*   Updated: 2024/11/20 16:48:20 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <stdio.h>
+# include <stdbool.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
@@ -38,12 +39,13 @@ typedef struct s_mines
 	int		exit_code_error;
 }			t_minis;
 
-typedef struct Node
+typedef struct s_token
 {
-	char *token;
-	char type[20];
-	struct Node *next;
-} Node;
+    char *token;
+    char *type;
+    char *redirection_target;
+    char *redirection_source;
+}	t_token;
 
 # include "./builtins/builtins.h"
 # include "./comands_line/readline.h"
@@ -57,6 +59,6 @@ void		free_list(t_list_ *list, void (*free_struct)(void *));
 
 char		**env_to_matrix(t_minis *mini);
 
-Node		*tokenizeAndCheckBashCommand(t_minis *mini);
+t_token		*tokenizeAndCheckBashCommand(t_minis *mini);
 
 #endif
