@@ -12,6 +12,7 @@
 	
 #include "../../minishell.h"
 #include <stdio.h>
+#include <sys/types.h>
 
 int ft_lenchar(char *str, char cha)
 {
@@ -30,7 +31,7 @@ char *rmenv(char *str,t_minis *mini, int *len)
 	char	*env;
 	int i;
 	
-(void)mini;	
+	(void)mini;
 	i = 0;
 	if(str[0] == '$')
 	{
@@ -51,10 +52,13 @@ char *rmenv(char *str,t_minis *mini, int *len)
 	return ("");
 }
 
-int ft_if_expand(char *verifc, t_quotes quotes , int i)
+int ft_if_expand(char *verifc, t_quotes *quotes, int i)
 {
-	if((verifc[0] == '$' && quotes.dub == 1 && i > quotes.dub_size)  || (verifc[0] == '$' && quotes.dub == 0 && quotes.simp == 0 ))
+	(void)i;
+	if((verifc[0] == '$' && verifc[0] == '$' && quotes->dub == 0 && quotes->simp == 0 ))
 		return (TRUE);
+	if(verifc[0] == '$' && quotes->dub == 1 && quotes->simp == 1 && quotes->dub > quotes->simp )
+		return TRUE;
 	return (FALSE);
 }
 
@@ -69,7 +73,8 @@ char	*ft_strjoin_and_free(char *s1, char *s2)
 	return (aloc);
 }
 
-char	*creat_new( int i, char *str, t_quotes quotes, t_minis *mini)
+
+char	*creat_new( int i, char *str, t_quotes *quotes,  t_minis *mini)
 {
 	static char	*temp = NULL;
 	static int not_print;
@@ -89,14 +94,31 @@ char	*creat_new( int i, char *str, t_quotes quotes, t_minis *mini)
 		temp = NULL;
 		return (NULL);
 	}
+
 	if(not_print == 0)
 	{
+		
+		printf("aspas %c = %d index = %d  '= %d index = %d \n",'"',	quotes->dub,quotes->dub_size,quotes->simp,quotes->simp_size);
+		printf("%s %d\n",verifc,i);
 		if(temp == NULL)
 			temp = ft_strdup("");
-		if( verifc[0] == '"' && quotes.simp == 1 && i > quotes.simp_size)
-			temp  = ft_strjoin_and_free(temp,verifc);;
-		if( verifc[0] == 39  && quotes.dub == 1 && i > quotes.dub_size)
-			temp  = ft_strjoin_and_free(temp,verifc);
+
+		if(verifc[0] == '"' || verifc[0] == 39)
+		{ 
+			if(quotes->simp == 1 && quotes->dub == 1)
+			{
+				
+				temp  = ft_strjoin_and_free(temp,verifc);
+				if(verifc[0] == '"' )
+					quotes->dub++;
+				if(verifc[0] == 39 )
+					quotes->simp++;
+
+			}
+
+		}
+	
+
 		if(ft_if_expand(verifc,quotes,i) == TRUE)
 		{
 			save = rmenv(&str[i],mini,&not_print);
@@ -133,11 +155,11 @@ char *expand_env(char *str, t_minis *mini)
 	quotes.flags[2] = 0;
 	quotes.flags[3] = 0;
 	
-	end = creat_new(0, "\0", quotes,mini);
+	end = creat_new(0, "\0", &quotes,mini);
 	while (str[++i] != '\0')
 	{
 		if(str[i] == 39)
-		{
+		{ 
 			quotes.simp++;
 			quotes.simp_size = i;
 		}
@@ -146,7 +168,8 @@ char *expand_env(char *str, t_minis *mini)
 			quotes.dub++;
 			quotes.dub_size = i;
 		}
-		if(quotes.simp > 1 || quotes.dub > 1)
+
+		if(quotes.simp > 1)
 		{
 			quotes.simp = 0;
 			quotes.simp_size = i;
@@ -154,10 +177,11 @@ char *expand_env(char *str, t_minis *mini)
 		if(quotes.dub > 1)
 		{
 			quotes.dub = 0;
-			quotes.dub_size = i;
+			quotes.dub_size = i; 
 		}
 	//	ft_free(end,NULL);
-		end = creat_new(i, str, quotes,mini);
+
+		end = creat_new(i, str, &quotes,mini);
 		if(end == NULL)
 			return (NULL); 
 	}
