@@ -110,9 +110,9 @@ char	*creat_new( int i, char *str, t_quotes *quotes,  t_minis *mini)
 				
 				temp  = ft_strjoin_and_free(temp,verifc);
 				if(verifc[0] == '"' )
-					quotes->dub++;
+					quotes->dub--;
 				if(verifc[0] == 39 )
-					quotes->simp++;
+					quotes->simp--;
 
 			}
 
