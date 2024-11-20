@@ -57,7 +57,8 @@ int ft_if_expand(char *verifc, t_quotes *quotes, int i)
 	(void)i;
 	if((verifc[0] == '$' && quotes->dub == 1 ))
 		return (TRUE);
-
+	if((verifc[0] == '$' && quotes->dub == 0 && quotes->simp == 0 ))
+		return (TRUE);
 	return (FALSE);
 }
 
