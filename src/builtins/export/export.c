@@ -151,8 +151,9 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	else
 		env->content = NULL;
 	
+	if(ft_getenv(mini, export[0]) == NULL)
+		export_add(&list, env);
 	free_split(export);
-	export_add(&list, env);
 }
 
 void	ft_export(t_minis *mini)
