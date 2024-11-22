@@ -68,4 +68,7 @@ void	print_export(void *point);
 
 t_env		*list_to_env(t_list_ *list);
 
+
+t_env *ft_getenv_content(t_list_ *list,char *var);
+
 #endif // DEBUG
