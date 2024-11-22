@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/19 17:56:42 by rui              ###   ########.fr       */
+/*   Updated: 2024/11/22 11:43:17 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,30 @@ char	*ft_strndup(const char *src, size_t n)
 	}
 	dst[len] = 0;
 	return (dst);
+}
+
+char *ft_strcpy(char *dst, const char *src)
+{
+	int	i;
+
+	i = 0;
+    while (src[i])
+	{
+		dst[i] = src[i];
+        i++;
+	}
+    dst[i] = '\0';
+    return (dst);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+    while (*s1 && (*s1 == *s2))
+	{
+        s1++;
+        s2++;
+    }
+    return *(unsigned char *)s1 - *(unsigned char *)s2;
 }
 
 void	start_shell(t_minis mini)
