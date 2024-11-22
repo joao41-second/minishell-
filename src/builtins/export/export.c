@@ -134,10 +134,14 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	env = ft_malloc(1 * sizeof(t_env), NULL);
 	export = ft_split(str, '=');
 	env->name = ft_strdup(export[0]);
+	if(ft_strncmp("PWD",env->name,10) == 0)
+	{
+
+	}
 	if (export[1] != NULL && ft_getenv(mini, export[0]) == NULL)
 		env->content = ft_strjoin("",
 				&mini->split[1][strlen(export[0]) + 1]);
-	else if (str[ft_strlen(export[0])] == '=')
+	else if (str[ft_strlen(export[0])] == '=' && ft_getenv(mini,export[0]) == NULL)
 	{
 		printf("wat\n");
 		temp = ft_malloc(1 * sizeof(char), NULL);
@@ -146,10 +150,10 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	}
 	else
 		env->content = NULL;
-	if (export[1] == NULL)
-		env = set_pwd(env, export[0], mini);
+	
+	if(ft_getenv(mini, export[0]) == NULL)
+		export_add(&list, env);
 	free_split(export);
-	export_add(&list, env);
 }
 
 void	ft_export(t_minis *mini)
