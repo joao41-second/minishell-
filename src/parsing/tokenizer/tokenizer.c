@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:01:39 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/22 11:39:55 by rui              ###   ########.fr       */
+/*   Updated: 2024/11/22 17:36:59 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_token *create_token(char *str, char *type)
     if (!token)
         return (NULL);
     token->token = ft_strdup(str);
-    token->type = type ? ft_strdup(type) : NULL;
+    token->type = ft_strdup(type);
     token->redirection_target = NULL;
     token->redirection_source = NULL;
     return (token);
@@ -98,13 +98,13 @@ static char *get_redirection_type(char *str)
     return (NULL);
 }
 
-// Helper function to handle redirection relationships
 static void set_redirection_relations(t_list_ *list)
 {
     t_list_ *current;
     t_token *token;
-    t_token *prev_token;
-    t_token *next_token;
+    t_list_ *search;
+    t_token *found_target;
+    t_token *found_source;
 
     current = list;
     while (current)
@@ -113,21 +113,98 @@ static void set_redirection_relations(t_list_ *list)
         if (token && (ft_strcmp(token->type, "redir") == 0 || 
                      ft_strcmp(token->type, "append") == 0))
         {
-            if (current->previous)
+            found_target = NULL;
+            found_source = NULL;
+
+            // For ">" and ">>" - source is before, target is after
+            if (!ft_strcmp(token->token, ">") || !ft_strcmp(token->token, ">>"))
             {
-                prev_token = (t_token *)current->previous->content;
-                token->redirection_source = ft_strdup(prev_token->token);
+                // Find source (previous token)
+                if (current->previous && 
+                    ((t_token *)current->previous->content)->token)
+                {
+                    found_source = (t_token *)current->previous->content;
+                    token->redirection_source = ft_strdup(found_source->token);
+                }
+
+                // Find target (next token)
+                if (current->next && 
+                    ((t_token *)current->next->content)->token)
+                {
+                    found_target = (t_token *)current->next->content;
+                    token->redirection_target = ft_strdup(found_target->token);
+                }
             }
-            if (current->next)
+            // For "<" and "<<" - target is before, source is after
+            else 
             {
-                next_token = (t_token *)current->next->content;
-                token->redirection_target = ft_strdup(next_token->token);
+                // Search backward for target (first non-redirection token)
+                search = current->previous;
+                while (search)
+                {
+                    t_token *potential_target = (t_token *)search->content;
+                    if (potential_target && potential_target->type && 
+                        ft_strcmp(potential_target->type, "redir") != 0 &&
+                        ft_strcmp(potential_target->type, "append") != 0)
+                    {
+                        found_target = potential_target;
+                        token->redirection_target = ft_strdup(found_target->token);
+                        break;
+                    }
+                    search = search->previous;
+                }
+
+                // Search forward for source (first non-redirection token)
+                search = current->next;
+                while (search)
+                {
+                    t_token *potential_source = (t_token *)search->content;
+                    if (potential_source && potential_source->type && 
+                        ft_strcmp(potential_source->type, "redir") != 0 &&
+                        ft_strcmp(potential_source->type, "append") != 0)
+                    {
+                        found_source = potential_source;
+                        token->redirection_source = ft_strdup(found_source->token);
+                        break;
+                    }
+                    search = search->next;
+                }
             }
         }
         current = current->next;
     }
 }
 
+static void modify_token_types(t_list_ *token_list)
+{
+    int first_command_seen = 0;
+    t_list_ *current = token_list;
+
+    while (current)
+    {
+        t_token *token = (t_token *)current->content;
+        
+        // Reset logic for pipe token
+        if (token && ft_strcmp(token->type, "pipe") == 0)
+            first_command_seen = 0;
+        
+        // Modify command tokens
+        if (token && ft_strcmp(token->type, "command") == 0)
+        {
+            if (first_command_seen)
+            {
+                free(token->type);
+                token->type = ft_strdup("argument");
+            }
+            else
+                first_command_seen = 1;
+        }
+        
+        current = current->next;
+    }
+}
+
+// Main tokenization function
 t_list_ *tokenizeAndCheckBashCommand(t_minis *mini)
 {
     t_list_ *token_list;
@@ -221,5 +298,6 @@ t_list_ *tokenizeAndCheckBashCommand(t_minis *mini)
         free(env_matrix);
     }
 
+    modify_token_types(token_list);
     return (token_list);
 }

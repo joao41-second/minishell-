@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/22 11:43:17 by rui              ###   ########.fr       */
+/*   Updated: 2024/11/22 16:56:13 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,39 @@ int	ft_strcmp(const char *s1, const char *s2)
     return *(unsigned char *)s1 - *(unsigned char *)s2;
 }
 
+#include <stdio.h>
+
+// Function to print the token list
+void print_token_list(t_list_ *list)
+{
+    t_list_ *current = list;
+    t_token *token;
+
+    printf("Token List:\n");
+    printf("-----------------------------------\n");
+
+    while (current)
+    {
+        token = (t_token *)current->content;
+        if (token)
+        {
+            printf("Token: %s\n", token->token ? token->token : "NULL");
+            printf("Type: %s\n", token->type ? token->type : "NULL");
+            if (token->redirection_source)
+                printf("Redirection Source: %s\n", token->redirection_source);
+            if (token->redirection_target)
+                printf("Redirection Target: %s\n", token->redirection_target);
+        }
+        else
+        {
+            printf("Empty token\n");
+        }
+        printf("-----------------------------------\n");
+        current = current->next;
+    }
+}
+
+
 void	start_shell(t_minis mini)
 {
 	char	*line;
@@ -75,7 +108,7 @@ void	start_shell(t_minis mini)
 		mini.line = line;
 		if (mini.line[0] != '\0')
 			mini.exit_code_error = check_syntax(mini.line);
-		tokenizeAndCheckBashCommand(&mini);
+		print_token_list(tokenizeAndCheckBashCommand(&mini));
 		builtins(&mini);
 		getcwd(mini.path, PATH_MAX);
 		add_history(line);
