@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:31:11 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/11 14:28:35 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:08:36 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ bool	handle_non_redirection_character(char c,
 {
 	if (state->redirection_needs_target)
 	{
-		if (!isspace(c))
+		if (!ft_isspace(c))
 		{
 			if (c == '|')
 				return (false);

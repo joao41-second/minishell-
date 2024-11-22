@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 13:22:57 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/11 14:21:12 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:08:48 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 bool	initialize_command_state(char c, struct s_cmd_state *state)
 {
-	if (!state->command_started && isspace(c))
+	if (!state->command_started && ft_isspace(c))
 		return (false);
-	if (!state->command_started && !isspace(c))
+	if (!state->command_started && !ft_isspace(c))
 		state->command_started = true;
 	return (true);
 }

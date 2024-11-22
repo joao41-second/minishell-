@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:09:15 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/14 15:04:12 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/15 18:27:44 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ void	server(void);
 * @return command line prefix almost like shell
 */
 char	*get_shell_prefix(t_minis *mini);
+
+/**
+* @brief gets user from "whoami" command
+* @return name of the user logged in
+*/
+char	*get_user(void);
 
 /**
 * @brief duplicates part of a stirngs

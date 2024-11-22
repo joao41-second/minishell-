@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 # Compiler flags
-WFLGS = -Wall -Wextra -Werror
+#WFLGS = -Wall -Wextra -Werror
 READ_FLG = -g 
 FLGS = $(WFLGS) $(READ_FLG)
 
