@@ -32,19 +32,23 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	t_env	*env;
 	char	**export;
 	char	*temp;
-	
-	env = ft_malloc(1 * sizeof(t_env), NULL);
 	export = ft_split(str, '=');
-	env->name = ft_strdup(export[0]);
-	if(ft_strncmp("PWD",env->name,10) == 0)
-	{
+	if(export[1]== NULL && str[ft_strlen(export[0])] != '=')
+		return	;
+	if(ft_getenv_content(list, export[0]) != NULL){
 
-
+		env = ft_getenv_content(list, export[0]);
+		if(export[1] != NULL)
+			ft_free(env->content,NULL);	
 	}
-	if (export[1] != NULL && ft_getenv_content(list, export[0]) == NULL)
+	else
+		env = ft_malloc(1 * sizeof(t_env), NULL);
+	
+	env->name = ft_strdup(export[0]);
+	if (export[1] != NULL )
 		env->content = ft_strjoin("",
 				&mini->split[1][strlen(export[0]) + 1]);
-	else if (str[ft_strlen(export[0])] == '=' && ft_getenv_content(list,export[0]) == NULL)
+	else if (str[ft_strlen(export[0])] == '=' )
 	{
 		printf("wat\n");
 		temp = ft_malloc(1 * sizeof(char), NULL);
