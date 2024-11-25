@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:01:39 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/22 17:36:59 by rui              ###   ########.fr       */
+/*   Updated: 2024/11/25 18:14:35 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@ static int is_whitespace(char c)
     return (c == ' ' || c == '\t' || c == '\n');
 }
 
-// Helper function to check if character is a quote
 static int is_quote(char c)
 {
     return (c == '\'' || c == '"');
 }
 
-// Helper function to create a new token node
 static t_token *create_token(char *str, char *type)
 {
     t_token *token;
@@ -38,7 +36,6 @@ static t_token *create_token(char *str, char *type)
     return (token);
 }
 
-// Helper function to add node to list
 static void add_to_list(t_list_ **list, t_token *token)
 {
     t_list_ *new;
@@ -62,7 +59,6 @@ static void add_to_list(t_list_ **list, t_token *token)
     new->previous = last;
 }
 
-// Helper function to extract quoted string
 static int extract_quoted_string(char *line, int *i, char **token)
 {
     char quote;
@@ -84,7 +80,6 @@ static int extract_quoted_string(char *line, int *i, char **token)
     return (1);
 }
 
-// Helper function to check if string is a redirection
 static char *get_redirection_type(char *str)
 {
     if (!ft_strcmp(str, ">"))
@@ -98,84 +93,7 @@ static char *get_redirection_type(char *str)
     return (NULL);
 }
 
-static void set_redirection_relations(t_list_ *list)
-{
-    t_list_ *current;
-    t_token *token;
-    t_list_ *search;
-    t_token *found_target;
-    t_token *found_source;
-
-    current = list;
-    while (current)
-    {
-        token = (t_token *)current->content;
-        if (token && (ft_strcmp(token->type, "redir") == 0 || 
-                     ft_strcmp(token->type, "append") == 0))
-        {
-            found_target = NULL;
-            found_source = NULL;
-
-            // For ">" and ">>" - source is before, target is after
-            if (!ft_strcmp(token->token, ">") || !ft_strcmp(token->token, ">>"))
-            {
-                // Find source (previous token)
-                if (current->previous && 
-                    ((t_token *)current->previous->content)->token)
-                {
-                    found_source = (t_token *)current->previous->content;
-                    token->redirection_source = ft_strdup(found_source->token);
-                }
-
-                // Find target (next token)
-                if (current->next && 
-                    ((t_token *)current->next->content)->token)
-                {
-                    found_target = (t_token *)current->next->content;
-                    token->redirection_target = ft_strdup(found_target->token);
-                }
-            }
-            // For "<" and "<<" - target is before, source is after
-            else 
-            {
-                // Search backward for target (first non-redirection token)
-                search = current->previous;
-                while (search)
-                {
-                    t_token *potential_target = (t_token *)search->content;
-                    if (potential_target && potential_target->type && 
-                        ft_strcmp(potential_target->type, "redir") != 0 &&
-                        ft_strcmp(potential_target->type, "append") != 0)
-                    {
-                        found_target = potential_target;
-                        token->redirection_target = ft_strdup(found_target->token);
-                        break;
-                    }
-                    search = search->previous;
-                }
-
-                // Search forward for source (first non-redirection token)
-                search = current->next;
-                while (search)
-                {
-                    t_token *potential_source = (t_token *)search->content;
-                    if (potential_source && potential_source->type && 
-                        ft_strcmp(potential_source->type, "redir") != 0 &&
-                        ft_strcmp(potential_source->type, "append") != 0)
-                    {
-                        found_source = potential_source;
-                        token->redirection_source = ft_strdup(found_source->token);
-                        break;
-                    }
-                    search = search->next;
-                }
-            }
-        }
-        current = current->next;
-    }
-}
-
-static void modify_token_types(t_list_ *token_list)
+static void modify_token_types(t_list_ *token_list, t_minis *mini)
 {
     int first_command_seen = 0;
     t_list_ *current = token_list;
@@ -183,28 +101,69 @@ static void modify_token_types(t_list_ *token_list)
     while (current)
     {
         t_token *token = (t_token *)current->content;
-        
-        // Reset logic for pipe token
+
         if (token && ft_strcmp(token->type, "pipe") == 0)
             first_command_seen = 0;
-        
-        // Modify command tokens
-        if (token && ft_strcmp(token->type, "command") == 0)
+        if (token && (ft_strcmp(token->type, "command") == 0 || 
+                     (ft_strncmp(token->token, "\"", 1) == 0 || 
+                      ft_strncmp(token->token, "'", 1) == 0)))
         {
-            if (first_command_seen)
+            char *stripped_token = token->token;
+            if ((stripped_token[0] == '"' || stripped_token[0] == '\'') && 
+                stripped_token[0] == stripped_token[ft_strlen(stripped_token) - 1])
+                stripped_token = ft_substr(stripped_token, 1, ft_strlen(stripped_token) - 2);
+            char **env_matrix = env_to_matrix(mini);
+            char *path = find_path(stripped_token, env_matrix);
+            
+            if (path)
+            {
+                if (first_command_seen)
+                {
+                    free(token->type);
+                    token->type = ft_strdup("argument");
+                }
+                else
+                    first_command_seen = 1;
+                
+                free(path);
+            }
+            else
             {
                 free(token->type);
                 token->type = ft_strdup("argument");
             }
-            else
-                first_command_seen = 1;
+            if (env_matrix)
+            {
+                int i = 0;
+                while (env_matrix[i])
+                    free(env_matrix[i++]);
+                free(env_matrix);
+            }
+            if (stripped_token != token->token)
+                free(stripped_token);
         }
         
         current = current->next;
     }
 }
 
-// Main tokenization function
+static int is_quoted_string_command(char *str, char **env_matrix)
+{
+    if ((str[0] == '"' || str[0] == '\'') && 
+        str[0] == str[strlen(str) - 1])
+    {
+        char *stripped = ft_substr(str, 1, strlen(str) - 2);
+        char *path = find_path(stripped, env_matrix);
+        free(stripped);
+        if (path)
+        {
+            free(path);
+            return 1;
+        }
+    }
+    return 0;
+}
+
 t_list_ *tokenizeAndCheckBashCommand(t_minis *mini)
 {
     t_list_ *token_list;
@@ -221,23 +180,30 @@ t_list_ *tokenizeAndCheckBashCommand(t_minis *mini)
 
     while (line[i])
     {
-        // Skip whitespace
         while (line[i] && is_whitespace(line[i]))
             i++;
         if (!line[i])
             break;
-
-        // Handle quotes
         if (is_quote(line[i]))
         {
             if (!extract_quoted_string(line, &i, &current_token))
                 continue;
-            add_to_list(&token_list, create_token(current_token, "argument"));
+            char **env_matrix = env_to_matrix(mini);
+            int is_command = is_quoted_string_command(current_token, env_matrix);
+            if (env_matrix)
+            {
+                int j = 0;
+                while (env_matrix[j])
+                    free(env_matrix[j++]);
+                free(env_matrix);
+            }
+            add_to_list(&token_list, 
+                create_token(current_token, 
+                    is_command ? "command" : "argument"));
+            
             free(current_token);
             continue;
         }
-
-        // Handle redirections and pipes
         if (line[i] == '>' || line[i] == '<' || line[i] == '|')
         {
             token_start = i;
@@ -260,16 +226,12 @@ t_list_ *tokenizeAndCheckBashCommand(t_minis *mini)
             free(current_token);
             continue;
         }
-
-        // Handle regular tokens
         token_start = i;
         while (line[i] && !is_whitespace(line[i]) && 
                !is_quote(line[i]) && line[i] != '>' && 
                line[i] != '<' && line[i] != '|')
             i++;
         current_token = ft_substr(line, token_start, i - token_start);
-
-        // Check if token is a command, env_var, or argument
         if (current_token[0] == '$')
             add_to_list(&token_list, create_token(current_token, "env_var"));
         else
@@ -285,11 +247,7 @@ t_list_ *tokenizeAndCheckBashCommand(t_minis *mini)
         }
         free(current_token);
     }
-
-    // Handle redirection relationships
     set_redirection_relations(token_list);
-
-    // Clean up
     if (env_matrix)
     {
         i = 0;
@@ -297,7 +255,6 @@ t_list_ *tokenizeAndCheckBashCommand(t_minis *mini)
             free(env_matrix[i++]);
         free(env_matrix);
     }
-
-    modify_token_types(token_list);
+    modify_token_types(token_list, mini);
     return (token_list);
 }

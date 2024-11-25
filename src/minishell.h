@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/11/22 10:02:20 by rui              ###   ########.fr       */
+/*   Updated: 2024/11/25 17:42:24 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ void		free_list(t_list_ *list, void (*free_struct)(void *));
 char		**env_to_matrix(t_minis *mini);
 
 t_list_		*tokenizeAndCheckBashCommand(t_minis *mini);
+
+void		set_redirection_relations(t_list_ *list);
 
 #endif
