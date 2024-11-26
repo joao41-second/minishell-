@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:16:58 by jperpect          #+#    #+#             */
-/*   Updated: 2024/08/16 12:18:31 by jperpect         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:52:20 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	ft_strlens(char *str)
 	return (a);
 }
 
-void	ft_bzzero(void *s, size_t n)
+
+void	ft_bzeros(void *s, size_t n)
 {
 	size_t	cont;
 	char	*str;
@@ -77,7 +78,7 @@ char	*ft_concatenat_str(char *orig, char *second)
 	ret = (char *)malloc(len * sizeof(char));
 	if (ret == NULL)
 		return (NULL);
-	ft_bzzero(ret, len);
+	ft_bzeros(ret, len);
 	if (orig != NULL)
 	{
 		while (orig[++i] != '\0')
@@ -100,7 +101,7 @@ char	*ft_copy(char *str, int a, int frees)
 	ret = (char *)malloc(a + 1 * sizeof(char));
 	if (ret == NULL)
 		return (NULL);
-	ft_bzzero(ret, a + 1);
+	ft_bzeros(ret, a + 1);
 	while (++i < a)
 		ret[i] = str[i];
 	ret[i] = '\0';

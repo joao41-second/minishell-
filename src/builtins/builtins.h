@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:55:23 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/04 15:47:27 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/15 15:18:41 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 #ifdef BUILTINS_H
 
 # include "../../libft/Get_next_line/get_next_line_bonus.h"
-# include "../../libft/libft/libft.h"
 # include "../../libft/printf/ft_printf.h"
 
 typedef struct s_env
 {
 	char	*name;
 	char	*content;
+	int		chek;
 }			t_env;
 
 /**
@@ -62,6 +62,13 @@ void		builtins(t_minis *mini);
 
 void		export_add(t_list_ **list, t_env *var);
 
+void	organizer_list(t_list_ *list);
+
+void	print_export(void *point);
+
 t_env		*list_to_env(t_list_ *list);
+
+
+t_env *ft_getenv_content(t_list_ *list,char *var);
 
 #endif // DEBUG

@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   expand.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 14:01:16 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/10/16 15:29:24 by rpires-c         ###   ########.fr       */
+/*   Created: 2024/11/15 17:28:34 by jperpct           #+#    #+#             */
+/*   Updated: 2024/11/15 17:29:54 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#define EXPAND_H
+#ifdef EXPAND_H
 
-
-int	check_syntax(char *str)
+typedef union s_quotes 
 {
-	int	i;
-	int	j;
+	struct {
+	int simp;
+	int simp_size;
+	int dub;
+	int dub_size;
+	};
+		int flags[4];
+	char *end;
+}			t_quotes;
 
-	i = -1;
-	j = 0;
-	while (str[i++] != 0)
-	{
-		if(str[i] == '>' && str[i + 1] == '<')
-			return (1);
-	}
-	if (str)
-	return (0);
-	return(INT_MAX);
-}
+
+char *expand_env(char *str, t_minis *mini);
+#endif // !EXPAND_H

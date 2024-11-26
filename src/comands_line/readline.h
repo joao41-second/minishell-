@@ -39,7 +39,13 @@ int	get_signal(int sig);
 * @brief gets command line prefix from env
 * @return command line prefix almost like shell
 */
-char	*get_shell_prefix(void);
+char	*get_shell_prefix(t_minis *mini);
+
+/**
+* @brief gets user from "whoami" command
+* @return name of the user logged in
+*/
+char	*get_user(void);
 
 /**
 * @brief duplicates part of a stirngs

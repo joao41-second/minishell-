@@ -6,123 +6,88 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 11:26:12 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/10/18 17:29:13 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/15 18:42:16 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_user(void)
+char	*get_hostname(void)
 {
-	char	*user;
+	char	hostname[256];
+	int		fd;
+	int		len;
+	char	*result;
 
-	user = getenv("USER");
-	if (!user)
-	{
-		ft_printf("Error: Could not get USER environment variable\n");
-		return (NULL);
-	}
-	return (user);
+	fd = open("/etc/hostname", O_RDONLY);
+	if (fd == -1)
+		return ("");
+	len = read(fd, hostname, sizeof(hostname) - 1);
+	close(fd);
+	if (len <= 0)
+		return ("");
+	hostname[len] = '\0';
+	result = ft_strdup(hostname);
+	return (result);
 }
 
-char	*get_host_from_session(char *session_manager)
+char	*get_host_from_session(void)
 {
-	char	*start;
-	char	*end;
 	char	*host;
-	size_t	session_len;
+	char	*dot;
+	char	*hostname;
 
-	session_len = ft_strlen(session_manager);
-	start = ft_strnstr(session_manager, "local/", session_len);
-	if (!start)
-	{
-		ft_printf_fd (2, "Error: SESSION_MANAGER format (missing 'local/')\n");
-		return (NULL);
-	}
-	start += 6;
-	end = ft_strchr(start, '.');
-	if (!end)
-	{
-		ft_printf_fd (2, "Error: SESSION_MANAGER format (missing '.')\n");
-		return (NULL);
-	}
-	host = ft_strndup(start, end - start);
-	if (!host)
-		return (NULL);
+	hostname = get_hostname();
+	if (hostname[0] == '\0')
+		return ("");
+	dot = ft_strchr(hostname, '.');
+	if (dot)
+		*dot = '\0';
+	host = ft_strdup(hostname);
+	ft_free(hostname, NULL);
 	return (host);
 }
 
-char	*build_prefix_aux(char *cwd, size_t cwd_size, char *home)
-{
-	size_t	home_len;
-	int		cwd_starts_with_home;
-
-	if (!getcwd(cwd, cwd_size))
-	{
-		ft_printf_fd (2, "Error: Could not get current working directory\n");
-		return (NULL);
-	}
-	if (home)
-	{
-		home_len = ft_strlen(home);
-		cwd_starts_with_home = (ft_strncmp(cwd, home, home_len) == 0
-				&& cwd[home_len] == '/');
-		if (cwd_starts_with_home)
-		{
-			ft_memmove(cwd + 1, cwd + home_len, ft_strlen(cwd + home_len) + 1);
-			cwd[0] = '~';
-		}
-	}
-	return (cwd);
-}
-
-char	*build_prefix(char *user, char *host)
+char	*build_prefix(char *user, char *host, t_minis *mini)
 {
 	char	*prefix;
+	char	*ext_code;
 	size_t	prefix_len;
-	char	cwd[1024];
-	char	*home;
+	char	*cwd;
 
-	home = getenv("HOME");
-	if (!build_prefix_aux(cwd, sizeof(cwd), home))
-		return (NULL);
-	prefix_len = ft_strlen(user) + ft_strlen(host) + ft_strlen(cwd) + 5;
+	cwd = ft_getenv(mini, "PWD");
+	prefix_len = ft_strlen(user) + ft_strlen(host) + ft_strlen(cwd) + 10;
 	prefix = (char *)ft_malloc(prefix_len + 1, NULL);
 	if (!prefix)
-	{
-		ft_printf("Error: Memory allocation failed for prefix\n");
 		return (NULL);
-	}
 	prefix[0] = '\0';
+	ext_code = ft_itoa(mini->exit_code_error);
 	ft_strlcat(prefix, user, prefix_len + 1);
 	ft_strlcat(prefix, "@", prefix_len + 1);
 	ft_strlcat(prefix, host, prefix_len + 1);
 	ft_strlcat(prefix, ":", prefix_len + 1);
 	ft_strlcat(prefix, cwd, prefix_len + 1);
-	ft_strlcat(prefix, "$ ", prefix_len + 1);
+	ft_strlcat(prefix, "$ [", prefix_len + 1);
+	ft_strlcat(prefix, ext_code, prefix_len + 1);
+	ft_strlcat(prefix, "]: ", prefix_len + 1);
+	ft_free(ext_code, NULL);
 	return (prefix);
 }
 
-char	*get_shell_prefix(void)
+char	*get_shell_prefix(t_minis *mini)
 {
 	char	*user;
 	char	*host;
 	char	*prefix;
-	char	*session_manager;
 
 	user = get_user();
 	if (!user)
 		return (NULL);
-	session_manager = getenv("SESSION_MANAGER");
-	if (!session_manager)
-	{
-		ft_printf("Error: Could not get SESSION_MANAGER\n");
-		return (NULL);
-	}
-	host = get_host_from_session(session_manager);
+	host = get_host_from_session();
 	if (!host)
 		return (NULL);
-	prefix = build_prefix(user, host);
+	prefix = build_prefix(user, host, mini);
+	ft_free (user, NULL);
 	ft_free (host, NULL);
 	return (prefix);
 }

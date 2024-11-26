@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 # Compiler flags
-WFLGS = -Wall -Wextra -Werror
+#WFLGS = -Wall -Wextra -Werror
 READ_FLG = -g 
 FLGS = $(WFLGS) $(READ_FLG)
 
@@ -88,3 +88,8 @@ s:
 	make re && ./minishell
 v:
 	make re && $(VAL) ./minishell
+e:
+	make re && env -i ./minishell
+
+b:
+	tmux \; split-window -h \; send-keys 'bash' C-m \; select-pane -t 1 \; send-keys 'make s' C-m \; setw synchronize-panes on

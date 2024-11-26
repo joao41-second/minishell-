@@ -22,10 +22,10 @@ void	set_path(t_list_ **list, char *path)
 
 	pwd = list_to_env((t_list_ *)get_list(*list, "PWD", get_env_node));
 	oldpwd = list_to_env((t_list_ *)get_list(*list, "OLDPWD", get_env_node));
-	if (oldpwd != NULL)
+	if (oldpwd != NULL && pwd->content != NULL)
 	{
 		ft_free(oldpwd->content, NULL);
-		oldpwd->content = ft_strdup(path);
+		oldpwd->content = ft_strdup(pwd->content);
 	}
 	getcwd(paths, PATH_MAX);
 	if (pwd != NULL)
