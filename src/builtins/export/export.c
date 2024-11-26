@@ -38,6 +38,7 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	if(ft_getenv_content(list, export[0]) != NULL){
 
 		env = ft_getenv_content(list, export[0]);
+		env->chek = TRUE;
 		if(export[1] != NULL)
 			ft_free(env->content,NULL);	
 	}

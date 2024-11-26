@@ -35,9 +35,15 @@ void	*get_env_node(void *point, void *locate)
 void	unset_list(t_list_ **list, char *str)
 {
 	t_list_	*ok;
-
+	t_env	*env;
 	if (*list == NULL)
 		return ;
+	if(ft_strncmp(str, "PWD", 23) == 0)
+	{
+		env = ft_getenv_content(*list, "PWD");
+		env->chek = FALSE;
+		return ;
+	}
 	ok = *list;
 	ok = ft_node_start(ok);
 	ok = (t_list_ *)get_list(*list, str, get_env_node);
