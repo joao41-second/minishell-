@@ -1,10 +1,5 @@
 {
     "files.associations": {
-        "free.h": "c",
-        "ft_printf.h": "c",
-        "pipex.h": "c",
-        "minishell.h": "c",
-        "get_next_line_bonus.h": "c",
-        "libft.h": "c"
+        "minishell.h": "c"
     }
 }

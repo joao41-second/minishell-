@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/11/25 17:42:24 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/26 18:06:43 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/Get_next_line/get_next_line_bonus.h"
 # include "../libft/printf/ft_printf.h"
+# include "parsing/tokenizer/tokenizer.h"
 //#include "../libft/free/free_and_list.h"
 //#include "../libft/free/list.h"
 //#include "./comands_line/readline.h"
@@ -39,14 +40,6 @@ typedef struct s_mines
 	int		exit_code_error;
 }			t_minis;
 
-typedef struct s_token
-{
-    char *token;
-    char *type;
-    char *redirection_target;
-    char *redirection_source;
-}	t_token;
-
 # include "./builtins/builtins.h"
 # include "./comands_line/readline.h"
 # include "./Pipex/pipex.h"
@@ -62,5 +55,24 @@ char		**env_to_matrix(t_minis *mini);
 t_list_		*tokenizeAndCheckBashCommand(t_minis *mini);
 
 void		set_redirection_relations(t_list_ *list);
+
+int			is_whitespace(char c);
+
+int			is_quote(char c);
+
+t_token		*create_token(char *str, char *type);
+
+void		add_to_list(t_list_ **list, t_token *token);
+
+char		*get_redirection_type(char *str);
+
+void		free_env_matrix(char **env_matrix);
+
+int			extract_quoted_string(char *line, int *i, char **token);
+
+int			is_quoted_string_command(char *str, char **env_matrix);
+
+void		modify_token_types(t_list_ *token_list, t_minis *mini);
+
 
 #endif

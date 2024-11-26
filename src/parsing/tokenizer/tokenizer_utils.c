@@ -1,0 +1,61 @@
+#include "../../minishell.h"
+
+int is_whitespace(char c)
+{
+    return (c == ' ' || c == '\t' || c == '\n');
+}
+
+int is_quote(char c)
+{
+    return (c == '\'' || c == '"');
+}
+
+t_token *create_token(char *str, char *type)
+{
+    t_token *token;
+
+    token = (t_token *)malloc(sizeof(t_token));
+    if (!token)
+        return (NULL);
+    token->token = ft_strdup(str);
+    token->type = ft_strdup(type);
+    token->redirection_target = NULL;
+    token->redirection_source = NULL;
+    return (token);
+}
+
+void add_to_list(t_list_ **list, t_token *token)
+{
+    t_list_ *new;
+    t_list_ *last;
+
+    new = (t_list_ *)malloc(sizeof(t_list_));
+    if (!new)
+        return;
+    new->content = token;
+    new->next = NULL;
+    if (!*list)
+    {
+        new->previous = NULL;
+        *list = new;
+        return;
+    }
+    last = *list;
+    while (last->next)
+        last = last->next;
+    last->next = new;
+    new->previous = last;
+}
+
+char *get_redirection_type(char *str)
+{
+    if (!ft_strcmp(str, ">"))
+        return (ft_strdup("redir"));
+    if (!ft_strcmp(str, "<"))
+        return (ft_strdup("redir"));
+    if (!ft_strcmp(str, ">>"))
+        return (ft_strdup("append"));
+    if (!ft_strcmp(str, "<<"))
+        return (ft_strdup("append"));
+    return (NULL);
+}
