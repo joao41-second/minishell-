@@ -32,7 +32,10 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 			ft_free(env->content,NULL);
 	}
 	else
-		env = ft_malloc(1 * sizeof(t_env), NULL);	
+	{
+		env = ft_malloc(1 * sizeof(t_env), NULL);
+		env->content = NULL;
+	}
 	env->name = ft_strdup(export[0]);
 	if (export[1] != NULL )
 		env->content = ft_strjoin("",
@@ -43,8 +46,7 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 		temp[0] = '\0';
 		env->content = temp;
 	}
-	else
-		env->content = NULL;
+	
 	if(ft_getenv_content(list, export[0]) == NULL)
 		export_add(&list, env);
 	free_split(export);
