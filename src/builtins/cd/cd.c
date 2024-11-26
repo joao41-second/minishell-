@@ -25,7 +25,7 @@ void	set_path(t_list_ **list, char *path)
 	if (oldpwd != NULL)
 	{
 		ft_free(oldpwd->content, NULL);
-		oldpwd->content = ft_strdup(path);
+		oldpwd->content = ft_strdup(pwd->content);
 	}
 	getcwd(paths, PATH_MAX);
 	if (pwd != NULL)
