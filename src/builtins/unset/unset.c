@@ -42,12 +42,16 @@ void	unset_list(t_list_ **list, char *str)
 	{
 		env = ft_getenv_content(*list, "PWD");
 		env->chek = FALSE;
+		ft_free(env->content,NULL);
+		env->content = NULL;
 		return ;
 	}
 	if(ft_strncmp(str, "OLDPWD", 23) == 0)
 	{
 		env = ft_getenv_content(*list, "PWD");
 		env->chek = FALSE;
+		ft_free(env->content,NULL);
+		env->content = NULL;
 		return ;
 	}
 	ok = *list;
