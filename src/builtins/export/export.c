@@ -58,10 +58,6 @@ void	ft_export(t_minis *mini)
 	{
 		ft_export_add(mini->env, mini->split[1], mini);
 		ft_export_add(mini->env_org, mini->split[1], mini);
-		printf("end\n");
-		
-		organizer_list(mini->env_org);
-
 	}
 	if (mini->split[1] == NULL)
 		organizer_list(mini->env_org);
