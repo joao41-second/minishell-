@@ -113,16 +113,23 @@ void	herdoc_son_proceed(t_minis *mini, char*end)
 		{
 			ft_exit(mini);
 		}
+		
 		line = readline(">");
 		if(line == NULL)
-			return;
+			{
+				ft_exit(mini);
+				return;
+			}
 		mini->exit_code_error = 1;
 		while (ft_strncmp(line, end, ft_strlen(end) + 15) != 0)
 		{
 			free(line);
 			line = readline(">");
 			if(line == NULL)
+			{
+				ft_exit(mini);
 				return;
+			}
 			new_line = expand_heradoc(mini, line);
 			printf("new_line %s\n", new_line);
 		}
