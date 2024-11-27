@@ -37,12 +37,12 @@ char *rmenv(char *str,t_minis *mini, int *len)
 	{
 		while(str[++i] != '\0')
 		{
-			if(str[i] == ' ' || str[i] == '"' || str[i] == 39)
+			if(str[i] == ' ' || str[i] == '"' || str[i] == 39 || str[i] == '$')
 				break ;
 		}
 		env = ft_substr(str,1, --i);
-		if(ft_getenv(mini,env) == NULL)
-			return (NULL);
+		//if(ft_getenv(mini,env) == NULL)
+		//	return (NULL);
 		ok = ft_strjoin("", ft_getenv(mini,env));
 		*len = ft_strlen(env) +1;
 		(void)len;
@@ -119,7 +119,7 @@ char	*creat_new( int i, char *str, t_quotes *quotes,  t_minis *mini)
 		if(verifc[0] == '"' || verifc[0] == 39)
 		{ 
 			if(quotes->simp == 1 && quotes->dub == 1)
-			{	
+			{
 				temp  = ft_strjoin_and_free(temp,verifc);
 				if(verifc[0] == '"' )
 					quotes->dub--;
@@ -129,7 +129,6 @@ char	*creat_new( int i, char *str, t_quotes *quotes,  t_minis *mini)
 			}
 
 		}
-		
 		if (verifc[0] != '"' && verifc[0] != 39)
 		{
 			temp  = ft_strjoin_and_free(temp,verifc);

@@ -25,13 +25,28 @@ void handle_signal(int sig)
 	get_signal(sig+128);
     if (sig == SIGINT)
 	{
-		printf("\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		//rl_redisplay();
 		ft_free_all(NULL);
 		exit(sig+128);
 	}
+}
+
+char* expand_heradoc(t_minis *mini, char *str)
+{
+	char *ret;
+	int i;
+	
+
+	i = -1;
+	while (str[++i] != '\0')
+	{
+		if(str[i] == '$')
+		{
+
+		}
+	}
+	return "o";
 }
 
 void herdoc_son_proceed(t_minis *mini, char*end)
@@ -52,8 +67,6 @@ void herdoc_son_proceed(t_minis *mini, char*end)
 			free(line);
 			line = readline(">");
 		}
-
-		 //mini->exit_code_error = 0;
 		free(line);
 	}
 	else
