@@ -27,4 +27,7 @@ typedef union s_quotes
 
 
 char *expand_env(char *str, t_minis *mini);
+
+
+char	*ft_strjoin_and_free(char *s1, char *s2);
 #endif // !EXPAND_H
