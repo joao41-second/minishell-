@@ -114,11 +114,15 @@ void	herdoc_son_proceed(t_minis *mini, char*end)
 			ft_exit(mini);
 		}
 		line = readline(">");
+		if(line == NULL)
+			return;
 		mini->exit_code_error = 1;
 		while (ft_strncmp(line, end, ft_strlen(end) + 15) != 0)
 		{
 			free(line);
 			line = readline(">");
+			if(line == NULL)
+				return;
 			new_line = expand_heradoc(mini, line);
 			printf("new_line %s\n", new_line);
 		}
@@ -142,7 +146,7 @@ void herdoc(t_minis *mini,int set,char *end)
 	else if (pid == 0)
 	{
 		herdoc_son_proceed(mini,end);
-		ft_free_all(NULL);
+		//ft_free_all(NULL);
 	}
 	else 
 	{
