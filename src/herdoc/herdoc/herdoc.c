@@ -11,15 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <asm-generic/errno.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <sys/resource.h>
 
 void handle_signal(int sig)
 {
@@ -31,33 +22,6 @@ void handle_signal(int sig)
 		ft_free_all(NULL);
 		exit(sig+128);
 	}
-}
-
-char *rmenvs(char *str,t_minis *mini, int *len)
-{
-	char	*ok;
-	char	*env;
-	int i;
-	
-	(void)mini;
-	i = 0;
-	if(str[0] == '$')
-	{
-		while(str[++i] != '\0')
-		{
-			if(str[i] == ' ' || str[i] == '"' || str[i] == 39 || str[i] == '$')
-				break ;
-		}
-		env = ft_substr(str,1, --i);
-		//if(ft_getenv(mini,env) == NULL)
-		//	return (NULL);
-		ok = ft_strjoin("", ft_getenv(mini,env));
-		*len = ft_strlen(env) +1;
-		(void)len;
-		ft_free(env, NULL);
-		return (ok);
-	}
-	return ("");
 }
 
 char* expand_heradoc(t_minis *mini, char *str)
@@ -85,7 +49,7 @@ char* expand_heradoc(t_minis *mini, char *str)
 
 		if(str[i] == '$')
 		{
-			temp = rmenvs(str,mini,&not_print);
+			temp = concatenate_the_str_with_env_var(str,mini,&not_print);
 			ret = ft_strjoin_and_free(ret,temp);
 			ft_free(temp,NULL);
 			

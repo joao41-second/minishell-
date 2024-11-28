@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 	
 #include "../../minishell.h"
-#include <stdio.h>
-#include <sys/types.h>
+
 
 int ft_lenchar(char *str, char cha)
 {
@@ -25,7 +24,7 @@ int ft_lenchar(char *str, char cha)
 	return (i);
 }
 
-char *rmenv(char *str,t_minis *mini, int *len)
+char *concatenate_the_str_with_env_var(char *str,t_minis *mini, int *len)
 {
 	char	*ok;
 	char	*env;
@@ -103,7 +102,7 @@ char	*creat_new( int i, char *str, t_quotes *quotes,  t_minis *mini)
 		
 		if(ft_if_expand(verifc,quotes,i) == TRUE)
 		{
-			save = rmenv(&str[i],mini,&not_print);
+			save = concatenate_the_str_with_env_var(&str[i],mini,&not_print);
 			if(save == NULL)
 			{
 				not_print = INT_MAX;

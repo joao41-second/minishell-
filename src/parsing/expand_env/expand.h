@@ -30,4 +30,7 @@ char *expand_env(char *str, t_minis *mini);
 
 
 char	*ft_strjoin_and_free(char *s1, char *s2);
+
+char *concatenate_the_str_with_env_var(char *str,t_minis *mini, int *len);
+
 #endif // !EXPAND_H

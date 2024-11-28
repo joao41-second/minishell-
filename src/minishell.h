@@ -29,6 +29,9 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <asm-generic/errno.h>
+#include <sys/types.h>
+#include <sys/resource.h>
 
 typedef struct s_mines
 {
@@ -44,8 +47,9 @@ typedef struct s_mines
 
 # include "./builtins/builtins.h"
 # include "./comands_line/readline.h"
-# include "./herdoc/herdoc.h"
 # include "./parsing/expand_env/expand.h"
+# include "./herdoc/herdoc.h"
+
 int			check_syntax(const char *str);
 
 void		free_split(char **ok);
