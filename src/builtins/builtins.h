@@ -168,7 +168,7 @@ t_env		*list_to_env(t_list_ *list);
  * @param var for detent the content 
  * @return content
  */
-t_env 		*ft_getenv_content(t_list_ *list, char *var);
+t_env		*ft_getenv_content(t_list_ *list, char *var);
 
 /**
  * @brief set and aloc the stuct t_env variabels to null
