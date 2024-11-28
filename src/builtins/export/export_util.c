@@ -12,7 +12,6 @@
 
 #include "../../minishell.h"
 
-
 void	export_add( t_list_ **list, t_env *var)
 {
 	t_list_	*node;
@@ -51,10 +50,10 @@ void	*get_env_content(void *point, void *locate)
 	return (NULL);
 }
 
-
-t_env *ft_getenv_content(t_list_ *list,char *var)
+t_env	*ft_getenv_content(t_list_ *list, char *var)
 {
 	t_env	*env;
-	env = (t_env *) get_list(list, var, get_env_content);
+
+	env = (t_env *)get_list(list, var, get_env_content);
 	return (env);
 }

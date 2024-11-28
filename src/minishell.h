@@ -13,10 +13,8 @@
 #define MINISHELL_H
 #ifdef MINISHELL_H
 
-
-#define TRUE  0
-#define FALSE 1
-
+# define TRUE 0
+# define FALSE 1
 
 # include "../libft/Get_next_line/get_next_line_bonus.h"
 # include "../libft/printf/ft_printf.h"
@@ -44,12 +42,11 @@ typedef struct s_mines
 	int		exit_code_error;
 }			t_minis;
 
-# include "./herdoc/herdoc.h"
-# include "./parsing/expand_env/expand.h"
 # include "./builtins/builtins.h"
 # include "./comands_line/readline.h"
+# include "./herdoc/herdoc.h"
+# include "./parsing/expand_env/expand.h"
 int			check_syntax(const char *str);
-
 
 void		free_split(char **ok);
 

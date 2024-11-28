@@ -107,4 +107,3 @@ void	organizer_list(t_list_ *list)
 	list = ft_node_start(list);
 	print_list(list, print_export);
 }
-

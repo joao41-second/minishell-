@@ -11,10 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <stddef.h>
-#include <stdio.h>
-#include <string.h>
-#include <strings.h>
 
 t_env	*local_use(t_list_ *list, char *str)
 {
@@ -28,9 +24,9 @@ t_env	*local_use(t_list_ *list, char *str)
 	if (str[ft_strlen(export[0]) - 1] == '+')
 	{
 		temp = ft_substr(export[0], 0, ft_strlen(export[0]) - 1);
-		ft_free(export[0],NULL);
+		ft_free(export[0], NULL);
 		export[0] = temp;
-		printf("oi o %s, \n",export[0]);
+		printf("oi o %s, \n", export[0]);
 		temp = NULL;
 		i++;
 	}
@@ -38,10 +34,10 @@ t_env	*local_use(t_list_ *list, char *str)
 	{
 		env = ft_getenv_content(list, export[0]);
 		env->chek = TRUE;
-		if(export[1] != NULL && i == 0)
-			ft_free(env->content,NULL);
+		if (export[1] != NULL && i == 0)
+			ft_free(env->content, NULL);
 	}
-	else 
+	else
 	{
 		env = ft_malloc(1 * sizeof(t_env), NULL);
 		env->content = NULL;
@@ -60,32 +56,32 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	i = 0;
 	export = ft_split(str, '=');
 	env = local_use(list, str);
-	if (str[ft_strlen(export[0])-1] == '+')
+	if (str[ft_strlen(export[0]) - 1] == '+')
 	{
-		temp = ft_substr(export[0], 0, ft_strlen(export[0])-1);
+		temp = ft_substr(export[0], 0 , ft_strlen(export[0]) - 1);
 		env->name = temp;
 		temp = NULL;
 		i++;
-	}else
+	}
+	else
 		env->name = ft_strdup(export[0]);
-	if (export[1] != NULL  && i == 0)
+	if (export[1] != NULL && i == 0)
 		env->content = ft_strjoin("",
 				&mini->split[1][strlen(export[0]) + 1]);
-	else if (str[ft_strlen(export[0])] == '=' && i == 0 )
+	else if (str[ft_strlen(export[0])] == '=' && i == 0)
 	{
 		temp = ft_malloc(1 * sizeof(char), NULL);
 		temp[0] = '\0';
 		env->content = temp;
 	}
-	else if (export[1] != NULL  && i == 1)
+	else if (export[1] != NULL && i == 1)
 	{
-		temp = ft_strjoin(env->content,ft_strjoin("",
-				&mini->split[1][strlen(export[0]) + 1]));
-		ft_free(env->content,NULL);
+		temp = ft_strjoin(env->content, ft_strjoin("",
+					&mini->split[1][strlen(export[0]) + 1]));
+		ft_free(env->content, NULL);
 		env->content = temp;
 	}
-	
-	if(ft_getenv_content(list, env->name) == NULL)
+	if (ft_getenv_content(list, env->name) == NULL)
 		export_add(&list, env);
 	free_split(export);
 }
