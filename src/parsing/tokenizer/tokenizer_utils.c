@@ -2,7 +2,7 @@
 
 int is_whitespace(char c)
 {
-    return (c == ' ' || c == '\t' || c == '\n');
+    return ((c >= 9 & c <= 13) || c == 32);
 }
 
 int is_quote(char c)

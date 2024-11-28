@@ -6,13 +6,13 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:16:13 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/14 16:30:17 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:17:44 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "syntax.h"
 
-static void	init_validator_state(struct s_cmd_state *state)
+void	init_validator_state(struct s_cmd_state *state)
 {
 	state->in_single_quote = false;
 	state->in_double_quote = false;
@@ -37,14 +37,17 @@ bool	validate_special_chars(char c,
 	return (true);
 }
 
-bool	process_character(char c, const char *command, int i,
-							struct s_cmd_state *state)
+bool	process_character(char c, const char *command,
+							int i, struct s_cmd_state *state)
 {
 	if (is_in_quotes(state))
+	{
+		handle_quotes(c, state);
 		return (true);
+	}
 	return (validate_cd_command(c, command, i, state)
 		&& validate_env_variable(c, command, i, state)
-		&& validate_redirections(c, state)
+		&& validate_redirections(c, command, i, state)
 		&& validate_pipes(c, command, i, state)
 		&& validate_special_chars(c, state));
 }
@@ -52,14 +55,20 @@ bool	process_character(char c, const char *command, int i,
 int	check_syntax(const char *command)
 {
 	struct s_cmd_state	state;
+	int					i;
+	char				c;
 
 	init_validator_state(&state);
-	if (!validate_command_structure(command, &state))
-		return (2);
-	if (state.in_single_quote
-		|| state.in_double_quote
-		|| state.last_char_is_pipe
-		|| state.last_char_is_redirection
+	i = 0;
+	while (command[i] != '\0')
+	{
+		c = command[i];
+		if (!process_character(c, command, i, &state))
+			return (2);
+		i++;
+	}
+	if (state.in_single_quote || state.in_double_quote
+		|| state.last_char_is_pipe || state.last_char_is_redirection
 		|| state.redirection_needs_target)
 		return (2);
 	return (0);

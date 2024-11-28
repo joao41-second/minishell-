@@ -38,11 +38,17 @@ int extract_quoted_string(char *line, int *i, char **token)
 
 int is_quoted_string_command(char *str, char **env_matrix)
 {
+    char *stripped;
+    char *path;
+
+
+    stripped = NULL;
+    path = NULL;
     if ((str[0] == '"' || str[0] == '\'') && 
         str[0] == str[strlen(str) - 1])
     {
-        char *stripped = ft_substr(str, 1, strlen(str) - 2);
-        char *path = find_path(stripped, env_matrix);
+        stripped = ft_substr(str, 1, strlen(str) - 2);
+        path = find_path(stripped, env_matrix);
         free(stripped);
         if (path)
         {
