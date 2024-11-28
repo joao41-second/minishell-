@@ -37,9 +37,10 @@ t_list_		*env_split(char **env);
 void		print_env(void *point);
 
 /**
- * @brief 
- *
- * @return 
+ * @brief the start env in case the env -i
+ * @details file ./env/set_start_env.c
+ * @param list where aloc the vaiabel
+ * @return the list alocade
  */
 t_list_		*list_env_i(void);
 
@@ -154,10 +155,10 @@ void		organizer_list(t_list_ *list);
 void		print_export(void *point);
 
 /**
- * @brief the start env in case the env -i
- * @details file ./env/set_start_env.c
- * @param list where aloc the vaiabel
- * @return the list alocade
+ * @brief transfor the t_list node int t_env node 
+ *
+ * @param list node the list
+ * @return t_env node 
  */
 t_env		*list_to_env(t_list_ *list);
 
