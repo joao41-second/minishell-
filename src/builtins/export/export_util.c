@@ -57,3 +57,14 @@ t_env	*ft_getenv_content(t_list_ *list, char *var)
 	env = (t_env *)get_list(list, var, get_env_content);
 	return (env);
 }
+
+t_env	*new_tenv(void)
+{
+	t_env	*env;
+
+	env = ft_malloc(2 * sizeof(t_env), NULL);
+	env->content = NULL;
+	env->name = NULL;
+	env->chek = 0;
+	return (env);
+}

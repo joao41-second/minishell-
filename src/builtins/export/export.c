@@ -12,22 +12,18 @@
 
 #include "../../minishell.h"
 
-t_env	*local_use(t_list_ *list, char *str)
+t_env	*set_env_in_export(t_list_ *list, char *str, char **export)
 {
 	t_env	*env;
 	char	*temp;
-	char	**export;
 	int		i;
 
 	i = 0;
-	export = ft_split(str, '=');
 	if (str[ft_strlen(export[0]) - 1] == '+')
 	{
 		temp = ft_substr(export[0], 0, ft_strlen(export[0]) - 1);
 		ft_free(export[0], NULL);
 		export[0] = temp;
-		printf("oi o %s, \n", export[0]);
-		temp = NULL;
 		i++;
 	}
 	if (ft_getenv_content(list, export[0]) != NULL)
@@ -38,12 +34,37 @@ t_env	*local_use(t_list_ *list, char *str)
 			ft_free(env->content, NULL);
 	}
 	else
-	{
-		env = ft_malloc(1 * sizeof(t_env), NULL);
-		env->content = NULL;
-	}
-	free_split(export);
+		env = new_tenv();
 	return (env);
+}
+
+int	set_env_in_case_of_the_plus(char *str, char **export,
+								t_env *env, char *temp)
+{
+	int	i;
+
+	i = 0;
+	if (str[ft_strlen(export[0]) - 1] == '+')
+	{
+		temp = ft_substr(export[0], 0, ft_strlen(export[0]) - 1);
+		env->name = temp;
+		temp = NULL;
+		i++;
+	}
+	else
+		env->name = ft_strdup(export[0]);
+	return (i);
+}
+
+int	inicilaze_variabel(t_env **env, char ***export, t_list_ *list, char *str)
+{
+	char	*temp;
+
+	*export = ft_split(str, '=');
+	*env = set_env_in_export(list, str, *export);
+	free_split(*export);
+	*export = ft_split(str, '=');
+	return (set_env_in_case_of_the_plus(str, *export, *env, temp));
 }
 
 void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
@@ -53,18 +74,7 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	char	*temp;
 	int		i;
 
-	i = 0;
-	export = ft_split(str, '=');
-	env = local_use(list, str);
-	if (str[ft_strlen(export[0]) - 1] == '+')
-	{
-		temp = ft_substr(export[0], 0 , ft_strlen(export[0]) - 1);
-		env->name = temp;
-		temp = NULL;
-		i++;
-	}
-	else
-		env->name = ft_strdup(export[0]);
+	i = inicilaze_variabel(&env, &export, list, str);
 	if (export[1] != NULL && i == 0)
 		env->content = ft_strjoin("",
 				&mini->split[1][strlen(export[0]) + 1]);
