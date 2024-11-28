@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <stdio.h>
 
 void	*get_env_node(void *point, void *locate)
 {
@@ -32,28 +31,36 @@ void	*get_env_node(void *point, void *locate)
 	return (NULL);
 }
 
+int	chek_varabel(t_env *env, t_list_ **list, char *str)
+{
+	if (*list == NULL)
+		return (TRUE);
+	if (ft_strncmp(str, "PWD", 23) == 0)
+	{
+		env = ft_getenv_content(*list, "PWD");
+		env->chek = FALSE;
+		ft_free(env->content, NULL);
+		env->content = NULL;
+		return (TRUE);
+	}
+	if (ft_strncmp(str, "OLDPWD", 23) == 0)
+	{
+		env = ft_getenv_content(*list, "PWD");
+		env->chek = FALSE;
+		ft_free(env->content, NULL);
+		env->content = NULL;
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
 void	unset_list(t_list_ **list, char *str)
 {
 	t_list_	*ok;
 	t_env	*env;
-	if (*list == NULL)
+
+	if (chek_varabel(env, list, str) == TRUE)
 		return ;
-	if(ft_strncmp(str, "PWD", 23) == 0)
-	{
-		env = ft_getenv_content(*list, "PWD");
-		env->chek = FALSE;
-		ft_free(env->content,NULL);
-		env->content = NULL;
-		return ;
-	}
-	if(ft_strncmp(str, "OLDPWD", 23) == 0)
-	{
-		env = ft_getenv_content(*list, "PWD");
-		env->chek = FALSE;
-		ft_free(env->content,NULL);
-		env->content = NULL;
-		return ;
-	}
 	ok = *list;
 	ok = ft_node_start(ok);
 	ok = (t_list_ *)get_list(*list, str, get_env_node);

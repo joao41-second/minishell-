@@ -11,22 +11,18 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <stdio.h>
 
 void	ft_echo(t_minis *mini)
 {
-	int	i;
-	char *str;
+	int		i;
+	char	*str;
+
 	i = 0;
-	//while (mini->split[++i] != NULL)
-	//{
-	//	printf("%s ",  mini->split[i]);
-	//}
 	str = expand_env(mini->line, mini);
-	if(str == NULL)
+	if (str == NULL)
 		printf("error");
 	else
-		printf("%s",str);
-	ft_free(str,NULL);
+		printf("%s", str);
+	ft_free(str, NULL);
 	printf("\n");
 }
