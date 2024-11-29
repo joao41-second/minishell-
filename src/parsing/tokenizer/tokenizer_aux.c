@@ -6,11 +6,29 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:41:07 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/29 15:55:13 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/29 16:45:37 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	free_token(void *content)
+{
+	t_token	token;
+	t_list_	*list;
+
+	list = (t_list_ *) content;
+	token = *((t_token *)list->content);
+	if (token.token)
+		ft_free(token.token, NULL);
+	if (token.type)
+		ft_free(token.type, NULL);
+	if (token.redirection_target)
+		ft_free(token.redirection_target, NULL);
+	if (token.redirection_source)
+		ft_free(token.redirection_source, NULL);
+	ft_free(list->content, NULL);
+}
 
 t_list_	*initialize_tokenizer(t_minis *mini, char ***env_matrix)
 {
@@ -30,8 +48,8 @@ void	finalize_tokens(t_list_ *token_list, char **env_matrix, t_minis *mini)
 	{
 		i = 0;
 		while (env_matrix[i])
-			free(env_matrix[i++]);
-		free(env_matrix);
+			ft_free(env_matrix[i++], NULL);
+		ft_free(env_matrix, NULL);
 	}
 	modify_token_types(token_list, mini);
 }
@@ -58,5 +76,5 @@ void	process_quoted_string(char *line, int *i,
 		add_to_list(token_list, create_token(current_token, "command"));
 	else
 		add_to_list(token_list, create_token(current_token, "argument"));
-	free(current_token);
+	ft_free(current_token, NULL);
 }

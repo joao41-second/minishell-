@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:25:40 by rui               #+#    #+#             */
-/*   Updated: 2024/11/29 14:58:06 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/29 17:11:49 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	treat_current(t_list_ *current, char **matrix, int i)
 	{
 		temp = matrix[i];
 		matrix[i] = ft_strjoin(temp, content);
-		free(temp);
+		ft_free(temp, NULL);
 	}
 }
 

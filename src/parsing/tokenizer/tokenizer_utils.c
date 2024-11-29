@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:56:03 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/29 15:57:44 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/29 17:16:03 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_token	*create_token(char *str, char *type)
 {
 	t_token	*token;
 
-	token = (t_token *)malloc(sizeof(t_token));
+	token = (t_token *)ft_malloc(sizeof(t_token) * 1, NULL);
 	if (!token)
 		return (NULL);
 	token->token = ft_strdup(str);
@@ -40,24 +40,34 @@ void	add_to_list(t_list_ **list, t_token *token)
 {
 	t_list_	*new;
 	t_list_	*last;
-
-	new = (t_list_ *)malloc(sizeof(t_list_));
-	if (!new)
-		return ;
-	new->content = token;
-	new->next = NULL;
-	if (!*list)
-	{
-		new->previous = NULL;
-		*list = new;
-		return ;
-	}
-	last = *list;
-	while (last->next)
-		last = last->next;
-	last->next = new;
-	new->previous = last;
+	new = ft_node_new(token);
+	ft_node_end(list);
+	ft_node_add_front(list, new);
 }
+
+// void	add_to_list(t_list_ **list, t_token *token)
+// {
+// 	t_list_	*new;
+// 	t_list_	*last;
+
+// 	new = (t_list_ *)ft_malloc(sizeof(t_list_), NULL);
+// 	if (!new)
+// 		return ;
+// 	new->content = token;
+// 	new->next = NULL;
+// 	if (!*list)
+// 	{
+// 		new->previous = NULL;
+// 		*list = new;
+// 		return ;
+// 	}
+// 	last = *list;
+// 	while (last->next)
+// 		last = last->next;
+// 	last->next = new;
+// 	new->previous = last;
+// }
+
 
 char	*get_redirection_type(char *str)
 {

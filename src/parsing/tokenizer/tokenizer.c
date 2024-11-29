@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:01:39 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/29 15:54:49 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/29 17:03:16 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	process_operator_tokens(const char *line, int *i, t_list_ **token_list)
 	else
 		add_to_list(token_list, create_token(current_token,
 				get_redirection_type(current_token)));
-	free(current_token);
+	ft_free(current_token, NULL);
 }
 
 void	process_regular_token(const char *line, int *i, char ***env_matrix,
@@ -53,12 +53,12 @@ void	process_regular_token(const char *line, int *i, char ***env_matrix,
 		if (path)
 		{
 			add_to_list(token_list, create_token(current_token, "command"));
-			free(path);
+			ft_free(path, NULL);
 		}
 		else
 			add_to_list(token_list, create_token(current_token, "argument"));
 	}
-	free(current_token);
+	ft_free(current_token, NULL);
 }
 
 void	tokenize_bash_command_core(char *line, t_list_ **token_list,

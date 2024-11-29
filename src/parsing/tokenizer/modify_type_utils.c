@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:10:21 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/29 15:13:36 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/29 17:06:48 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	extract_quoted_string(char *line, int *i, char **token)
 	if (line[*i] == quote)
 		(*i)++;
 	len = *i - start;
-	*token = (char *)malloc(len + 1);
+	*token = (char *)ft_malloc(len + 1, NULL);
 	if (!*token)
 		return (0);
 	ft_strlcpy(*token, line + start, len + 1);
@@ -56,14 +56,14 @@ int	is_quoted_string_command(char *str, char **env_matrix)
 	stripped = NULL;
 	path = NULL;
 	if ((str[0] == '"' || str[0] == '\'')
-		&& str[0] == str[strlen(str) - 1])
+		&& str[0] == str[ft_strlen(str) - 1])
 	{
-		stripped = ft_substr(str, 1, strlen(str) - 2);
+		stripped = ft_substr(str, 1, ft_strlen(str) - 2);
 		path = find_path(stripped, env_matrix);
-		free(stripped);
+		ft_free(stripped, NULL);
 		if (path)
 		{
-			free(path);
+			ft_free(path, NULL);
 			return (1);
 		}
 	}
