@@ -3,73 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   env_to_matrix.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:25:40 by rui               #+#    #+#             */
-/*   Updated: 2024/11/19 17:54:25 by rui              ###   ########.fr       */
+/*   Updated: 2024/11/29 14:58:06 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void treat_current(t_list_ *current, char **matrix, int i)
+void	treat_current(t_list_ *current, char **matrix, int i)
 {
-    t_env   *env_node;
-    char    *temp;
-    char    *name;
-    char    *content;
+	t_env	*env_node;
+	char	*temp;
+	char	*name;
+	char	*content;
 
-    env_node = (t_env *)current->content;
-    name = "";
-    if (env_node->name)
-        name = env_node->name;
-    content = "";
-    if (env_node->content)
-        content = env_node->content;
-    matrix[i] = ft_strjoin(name, "=");
-    if (matrix[i])
-    {
-        temp = matrix[i];
-        matrix[i] = ft_strjoin(temp, content);
-        free(temp);
-    }
+	env_node = (t_env *)current->content;
+	name = "";
+	if (env_node->name)
+		name = env_node->name;
+	content = "";
+	if (env_node->content)
+		content = env_node->content;
+	matrix[i] = ft_strjoin(name, "=");
+	if (matrix[i])
+	{
+		temp = matrix[i];
+		matrix[i] = ft_strjoin(temp, content);
+		free(temp);
+	}
 }
 
 void	env_to_matrix_aux(t_list_ *current, char **matrix, int i)
 {
 	if (current->content)
-        treat_current(current, matrix, i);
-    else
-        matrix[i] = ft_strjoin("", "");
+		treat_current(current, matrix, i);
+	else
+		matrix[i] = ft_strjoin("", "");
 }
 
-char **env_to_matrix(t_minis *mini)
+int	count_env_size(t_list_ *env)
 {
-    char    **matrix;
-    t_list_	*current;
-    int     size;
-    int     i;
+	int		size;
+	t_list_	*current;
 
-    if (!mini || !mini->env)
-        return (NULL);
-    size = 0;
-    current = mini->env;
-    while (current)
-    {
-        size++;
-        current = current->next;
-    }
-    matrix = (char **)ft_malloc(sizeof(char *) * (size + 1), NULL);
-    if (!matrix)
-        return (NULL);
-    current = mini->env;
-    i = 0;
-    while (current)
-    {
-        env_to_matrix_aux(current, matrix, i);
-        i++;
-        current = current->next;
-    }
-    matrix[size] = NULL;
-    return (matrix);
+	size = 0;
+	current = env;
+	while (current)
+	{
+		size++;
+		current = current->next;
+	}
+	return (size);
+}
+
+char	**env_to_matrix(t_minis *mini)
+{
+	char	**matrix;
+	t_list_	*current;
+	int		size;
+	int		i;
+
+	if (!mini || !mini->env)
+		return (NULL);
+	size = count_env_size(mini->env);
+	matrix = (char **)ft_malloc(sizeof(char *) * (size + 1), NULL);
+	if (!matrix)
+		return (NULL);
+	current = mini->env;
+	i = 0;
+	while (current)
+	{
+		env_to_matrix_aux(current, matrix, i);
+		i++;
+		current = current->next;
+	}
+	matrix[size] = NULL;
+	return (matrix);
 }
