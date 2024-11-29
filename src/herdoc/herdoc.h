@@ -15,12 +15,10 @@
 
 void	change_file(t_minis *mini, int set, char sete);
 
+void	herdoc(t_minis *mini, int set, char *end);
 
-void herdoc(t_minis *mini,int set,char *end);
+int		redirect_for_add_file(t_minis *mini);
 
-int redirect_for_add_file(t_minis *mini);
-
-int	redirect_for_new_file(t_minis *mini);
+int		redirect_for_new_file(t_minis *mini);
 
 #endif // !HERDOC_H
-
