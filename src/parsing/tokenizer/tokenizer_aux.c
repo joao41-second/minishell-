@@ -6,11 +6,25 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:41:07 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/29 15:55:13 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/29 16:17:55 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	free_token(void *content)
+{
+	t_token	*token;
+
+	token = (t_token *)content;
+	if (!token)
+		return ;
+	free(token->token);
+	free(token->type);
+	free(token->redirection_target);
+	free(token->redirection_source);
+	free(token);
+}
 
 t_list_	*initialize_tokenizer(t_minis *mini, char ***env_matrix)
 {
