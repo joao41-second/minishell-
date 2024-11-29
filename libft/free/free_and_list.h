@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:19:37 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/05 11:19:58 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/11/29 14:23:55 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <aio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
 /**
  * @brief this function is used for allocate memory 
@@ -52,4 +53,12 @@ void	start_alloc(void);
  */
 t_list_	*ft_node_new_free(void *n);
 
+// utilis.c
+t_list_	*ft_maolloc_next(t_list_ *list_set, t_list_ *list, size_t size);
+
+t_list_	*ft_node_new_free(void *n);
+
+void	ft_remove(t_list_ **node);
+
+t_list_	*free_next(t_list_ *list);
 #endif

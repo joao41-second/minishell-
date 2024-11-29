@@ -6,7 +6,7 @@
 /*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 15:30:35 by jperpect          #+#    #+#             */
-/*   Updated: 2024/05/01 15:31:00 by jperpect         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:37:08 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		len = 0;
 		start = 0;
 	}
-	str = (char *)ft_malloc(((len + 1) * sizeof(char)),NULL);
+	str = (char *)ft_malloc(((len + 1) * sizeof(char)), NULL);
 	if (str != NULL)
 	{
 		ft_strlcpy(str, &s[start], len + 1);

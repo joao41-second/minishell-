@@ -19,7 +19,7 @@
 
 int		ft_printf(const char *formant, ...);
 
-int		ft_printp(unsigned long int decimal,int fd);
+int		ft_printp(unsigned long int decimal, int fd);
 
 int		ft_putnbr_base(long int nbr, char *base, int neg, int fd);
 
@@ -29,7 +29,6 @@ int		ft_putstr_fds(char *s, int fd);
 
 size_t	ft_strlen(const char *s);
 
-int	ft_printf_fd(int fd,const char *str, ...);
-
+int		ft_printf_fd(int fd, const char *str, ...);
 
 #endif

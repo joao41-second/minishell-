@@ -6,7 +6,7 @@
 /*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 16:29:07 by jperpect          #+#    #+#             */
-/*   Updated: 2024/04/30 13:27:42 by jperpect         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:38:19 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*ft_itoa(int n)
 		neg = 1;
 	}
 	cont = conta(n, cont);
-	ret = (char *)ft_malloc((cont + 1) * sizeof(char),NULL);
+	ret = (char *)ft_malloc((cont + 1) * sizeof(char), NULL);
 	if (ret == NULL)
 		return (NULL);
 	ret[cont] = '\0';
