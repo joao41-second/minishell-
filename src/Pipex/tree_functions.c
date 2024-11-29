@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tree_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:42:28 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/10/01 14:20:57 by rui              ###   ########.fr       */
+/*   Updated: 2024/11/18 17:05:25 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../minishell.h"
 
 t_btree	*create_node(char *cmd, t_btree *l, t_btree *r, int first_cmd)
 {

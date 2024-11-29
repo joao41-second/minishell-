@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:31:11 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/18 14:08:36 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:15:00 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ bool	check_redirection_character(char c,
 	return (true);
 }
 
-bool	handle_non_redirection_character(char c,
-											struct s_cmd_state *state)
+bool	handle_non_redirection_character(char c, struct s_cmd_state *state)
 {
 	if (state->redirection_needs_target)
 	{
@@ -35,6 +34,11 @@ bool	handle_non_redirection_character(char c,
 		{
 			if (c == '|')
 				return (false);
+			if (c == '\'' || c == '"')
+			{
+				state->redirection_needs_target = false;
+				return (true);
+			}
 			state->redirection_needs_target = false;
 		}
 	}
@@ -43,10 +47,44 @@ bool	handle_non_redirection_character(char c,
 	return (true);
 }
 
-bool	validate_redirections(char c, struct s_cmd_state *state)
+bool	handle_redirection_char(char c, const char *command,
+								int current_index,
+								struct s_cmd_state *state)
 {
-	if ((c == '>' || c == '<') && !is_in_quotes(state))
-		return (check_redirection_character(c, state));
-	else
-		return (handle_non_redirection_character(c, state));
+	if (c == '<' || c == '>')
+	{
+		state->consecutive_redirections++;
+		if (command[current_index + 1] == c)
+		{
+			if (state->consecutive_redirections > 1)
+				return (false);
+			state->redirection_needs_target = true;
+			state->consecutive_redirections = 0;
+			return (true);
+		}
+		if (state->consecutive_redirections > 1)
+			return (false);
+		state->redirection_needs_target = true;
+		return (true);
+	}
+	return (true);
+}
+
+bool	validate_redirections(char c, const char *command,
+							int current_index,
+							struct s_cmd_state *state)
+{
+	if (is_in_quotes(state))
+		return (true);
+	if (!handle_redirection_char(c, command, current_index, state))
+		return (false);
+	if (state->redirection_needs_target)
+	{
+		if (!ft_isspace(c))
+		{
+			state->redirection_needs_target = false;
+			state->consecutive_redirections = 0;
+		}
+	}
+	return (true);
 }
