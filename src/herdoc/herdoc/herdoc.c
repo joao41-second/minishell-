@@ -71,6 +71,22 @@ char	*expand_heradoc(t_minis *mini, char *str)
 	return (ret);
 }
 
+void	loop_heradoc(char *line, char *new_line, char *end, t_minis *mini)
+{
+	while (ft_strncmp(line, end, ft_strlen(end) + 15) != 0)
+	{
+		free(line);
+		line = readline(">");
+		if (line == NULL)
+		{
+			ft_exit(mini);
+			return ;
+		}
+		new_line = expand_heradoc(mini, line);
+		printf("new_line %s\n", new_line);
+	}
+}
+
 void	herdoc_son_proceed(t_minis *mini, char*end)
 {
 	char	*line;
@@ -83,29 +99,31 @@ void	herdoc_son_proceed(t_minis *mini, char*end)
 		if (get_signal(0) == 130)
 			ft_exit(mini);
 		line = readline(">");
+		new_line = expand_heradoc(mini, line);
 		if (line == NULL)
 		{
 			ft_exit(mini);
 			return ;
 		}
 		mini->exit_code_error = 1;
-		while (ft_strncmp(line, end, ft_strlen(end) + 15) != 0)
-		{
-			free(line);
-			line = readline(">");
-			if (line == NULL)
-			{
-				ft_exit(mini);
-				return ;
-			}
-			new_line = expand_heradoc(mini, line);
-			printf("new_line %s\n", new_line);
-		}
+		loop_heradoc(line, new_line, end, mini);
 		free(line);
 	}
 	else
 		ft_putstr_fd("error \n", 2);
 	ft_exit(mini);
+}
+void	print_erro_line_herdoc(t_minis *mini,char *end,int status)
+{
+	if (WSTOPSIG(status) == 0)
+	{
+		mini->readline++;
+		ft_putstr_fd("bash: warning: here-document at line ", 2);
+		ft_putnbr_fd(mini->readline, 2);
+		ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+		ft_putstr_fd(end, 2);
+		ft_putstr_fd("')\n", 2);
+	}
 }
 
 void	herdoc(t_minis *mini, int set, char *end)
@@ -126,16 +144,7 @@ void	herdoc(t_minis *mini, int set, char *end)
 		signal(SIGINT, SIG_IGN);
 		usleep(1);
 		wait3(&status, 0, &usage);
-		printf("signal %d \n", WSTOPSIG(status));
-		if (WSTOPSIG(status) == 0)
-		{
-			mini->readline++;
-			ft_putstr_fd("bash: warning: here-document at line ", 2);
-			ft_putnbr_fd(mini->readline, 2);
-			ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-			ft_putstr_fd(end, 2);
-			ft_putstr_fd("')\n", 2);
-		}
+		print_erro_line_herdoc(mini, end, status);
 		get_signal(WSTOPSIG(status));
 	}
 }
