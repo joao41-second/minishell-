@@ -24,6 +24,24 @@ void	handle_signal(int sig)
 	}
 }
 
+int	not_join(int not, char join)
+{
+	if (join == '$' || join == ' ')
+		not = 0;
+	if (not > 0)
+	{
+		not--;
+	}
+	return (not);
+}
+
+void	start_var_expand_heradoc(char **ret, char *set, char **temp)
+{
+	set[1] = '\0';
+	*ret = ft_strdup("");
+	*temp = ft_strdup("");
+}
+
 char	*expand_heradoc(t_minis *mini, char *str)
 {
 	char	*ret;
@@ -34,19 +52,13 @@ char	*expand_heradoc(t_minis *mini, char *str)
 
 	i = -1;
 	not_print = 0;
-	set[1] = '\0';
-	ret = ft_strdup("");
-	temp = ft_strdup("");
+	start_var_expand_heradoc(&ret, set, &temp);
 	while (str[++i] != '\0')
 	{
 		set[0] = str[i];
-		if(str[i] == '$'|| str[i] == ' ')
-			not_print = 0;
+		not_print = not_join(not_print, str[i]);
 		if (not_print > 0)
-		{
-			not_print--;
 			continue ;
-		}
 		if (str[i] == '$')
 		{
 			temp = concatenate_the_str_with_env_var(&str[i], mini, &not_print);
