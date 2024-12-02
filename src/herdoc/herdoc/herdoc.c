@@ -6,11 +6,12 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:09:31 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/02 13:58:22 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/02 14:49:16 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stdlib.h>
 
 static void	handle_signal(int sig)
 {
@@ -54,8 +55,9 @@ static void	herdoc_son_proceed(t_minis *mini, char*end)
 		signal(SIGINT, handle_signal);
 		if (get_signal(0) == 130)
 			ft_exit(mini);
-		line = readline(">");
-		new_line = expand_heradoc(mini, line);
+		line = malloc(2 * sizeof(char));
+		line[0] = '1';
+		line[0] = '\0';
 		if (line == NULL)
 		{
 			ft_exit(mini);
