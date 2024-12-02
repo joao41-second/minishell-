@@ -6,12 +6,12 @@
 #    By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/03 06:17:31 by jperpect          #+#    #+#              #
-#    Updated: 2024/11/14 16:38:47 by rpires-c         ###   ########.fr        #
+#    Updated: 2024/12/02 17:51:19 by rpires-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compiler flags
-#WFLGS = -Wall -Wextra -Werror
+WFLGS = -Wall -Wextra -Werror
 READ_FLG = -g 
 FLGS = $(WFLGS) $(READ_FLG)
 
@@ -85,8 +85,8 @@ normi:
 	cd ./libft && norminette
 
 s:
-	make re && ./minishell
+	clear && make re && ./minishell
 v:
-	make re && $(VAL) ./minishell
+	clear && make re && $(VAL) ./minishell
 e:
-	make re && env -i ./minishell
+	clear && make re && env -i ./minishell

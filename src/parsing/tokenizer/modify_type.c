@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:00:28 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/29 15:06:04 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:22:01 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void	update_token_type(t_token *token, int *first_command_seen, char *path)
 		}
 		else
 			*first_command_seen = 1;
-		free(path);
+		ft_free(path, NULL);
 	}
 	else
 	{
-		free(token->type);
+		ft_free(token->type, NULL);
 		token->type = ft_strdup("argument");
 	}
 }
@@ -63,7 +63,7 @@ void	handle_token_type(t_token *token, int *first_command_seen,
 	update_token_type(token, first_command_seen, path);
 	free_env_matrix(env_matrix);
 	if (stripped_token != token->token)
-		free(stripped_token);
+		ft_free(stripped_token, NULL);
 }
 
 void	modify_token_types(t_list_ *token_list, t_minis *mini)

@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:10:21 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/29 17:06:48 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:23:02 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	free_env_matrix(char **env_matrix)
 	i = 0;
 	while (env_matrix[i])
 	{
-		free(env_matrix[i]);
+		ft_free(env_matrix[i], NULL);
 		i++;
 	}
-	free(env_matrix);
+	ft_free(env_matrix, NULL);
 }
 
 int	extract_quoted_string(char *line, int *i, char **token)

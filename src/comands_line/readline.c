@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/29 16:55:01 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:21:12 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return *(unsigned char *)s1 - *(unsigned char *)s2;
 }
 
-/* void print_token_list(t_list_ *list)
+void print_token_list(t_list_ *list)
 {
     t_list_ *current = list;
     t_token *token;
@@ -74,10 +74,10 @@ int	ft_strcmp(const char *s1, const char *s2)
         {
             printf("Token: %s\n", token->token ? token->token : "NULL");
             printf("Type: %s\n", token->type ? token->type : "NULL");
+			if (token->redirection_target)
+                printf("Redirection Target: %s\n", token->redirection_target);
             if (token->redirection_source)
                 printf("Redirection Source: %s\n", token->redirection_source);
-            if (token->redirection_target)
-                printf("Redirection Target: %s\n", token->redirection_target);
         }
         else
         {
@@ -86,7 +86,7 @@ int	ft_strcmp(const char *s1, const char *s2)
         printf("-----------------------------------\n");
         current = current->next;
     }
-} */
+}
 
 void	start_shell(t_minis mini)
 {
@@ -105,6 +105,7 @@ void	start_shell(t_minis mini)
 		if (mini.line[0] != '\0')
 			mini.exit_code_error = check_syntax(mini.line);
 		mini.tokens = tokenize_and_check_bash_command(&mini);
+		print_token_list(tokenize_and_check_bash_command(&mini));
 		builtins(&mini);
 		getcwd(mini.path, PATH_MAX);
 		add_history(line);
