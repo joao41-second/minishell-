@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:27:15 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/29 15:29:35 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/02 14:31:04 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ void	change_file(t_minis *mini, int set, char sete)
 		close(file_origin);
 		close(save[0]);
 		close(save[1]);
+		close(file_new);
 	}
 }
