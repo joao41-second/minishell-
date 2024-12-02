@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:59:23 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/29 15:02:11 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/02 16:11:01 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../minishell.h"
@@ -101,7 +101,7 @@ char	*creat_new(int i, char *str, t_quotes *quotes, t_minis *mini)
 				temp = NULL;
 				return (NULL);
 			}
-			temp = ft_strjoin(temp, save);
+			temp = ft_strjoin_and_free(temp, save);
 			ft_free(save, NULL);
 			return (temp);
 		}
