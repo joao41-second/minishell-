@@ -40,6 +40,8 @@ char	*expand_heradoc(t_minis *mini, char *str)
 	while (str[++i] != '\0')
 	{
 		set[0] = str[i];
+		if(str[i] == '$'|| str[i] == ' ')
+			not_print = 0;
 		if (not_print > 0)
 		{
 			not_print--;
@@ -47,7 +49,7 @@ char	*expand_heradoc(t_minis *mini, char *str)
 		}
 		if (str[i] == '$')
 		{
-			temp = concatenate_the_str_with_env_var(str, mini, &not_print);
+			temp = concatenate_the_str_with_env_var(&str[i], mini, &not_print);
 			ret = ft_strjoin_and_free(ret, temp);
 			ft_free(temp, NULL);
 		}
