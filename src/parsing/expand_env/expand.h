@@ -55,6 +55,6 @@ char		*ft_strjoin_and_free(char *s1, char *s2);
 char		*concatenate_the_str_with_env_var(char *str, t_minis *mini,
 				int *len);
 
-char	*creat_new(int i, char *str, t_quotes *quotes, t_minis *mini);
+char		*creat_new(int i, char *str, t_quotes *quotes, t_minis *mini);
 
 #endif // !EXPAND_H
