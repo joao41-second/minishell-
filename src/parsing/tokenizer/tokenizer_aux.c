@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:41:07 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/02 17:47:10 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/03 11:19:25 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 void free_token(void *content)
 {
+	t_list *list;
     t_token *token;
 
-	token = (t_token *)content;
-    if (!token)
+	list = (t_list *)content;
+	if(list == NULL)
 		return;
+	token = (t_token *)list->content;
     ft_free(token->token, NULL);
     ft_free(token->type, NULL);
     ft_free(token->redirection_target, NULL);

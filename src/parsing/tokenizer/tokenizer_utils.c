@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:56:03 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/02 17:50:16 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/03 10:42:35 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void add_to_list(t_list_ **list, t_token *token)
     else
 	{
         t_list_ *last = ft_node_end(*list);
-        ft_node_add_front(last, new_node);
+        ft_node_add_front(&last, new_node);
     }
 }
 
