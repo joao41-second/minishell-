@@ -6,7 +6,7 @@
 /*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 09:46:35 by jperpect          #+#    #+#             */
-/*   Updated: 2024/06/28 14:05:58 by jperpect         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:32:22 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	nuber(unsigned long nbr, int fd, char *b, int len)
 	return (len);
 }
 
-int	ft_putnbr_base(long nbr, char *base, int neg,int fd)
+int	ft_putnbr_base(long nbr, char *base, int neg, int fd)
 {
 	int	len;
 

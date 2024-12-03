@@ -6,152 +6,93 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:05:55 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/04 13:12:31 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/03 10:00:34 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <stddef.h>
-#include <stdio.h>
-#include <string.h>
-#include <strings.h>
 
-void	swap_env(t_list_ **node1, t_list_ **node2)
+t_env	*set_env_in_export(t_list_ *list, char *str, char **export)
 {
-	t_env	*nod1;
-	t_env	*nod2;
-	char	*save;
-
-	nod1 = (t_env *)(*node1)->content;
-	nod2 = (t_env *)(*node2)->content;
-	save = nod1->name;
-	nod1->name = nod2->name;
-	nod2->name = save;
-	save = nod1->content;
-	nod1->content = nod2->content;
-	nod2->content = save;
-}
-
-int	env_char_max(t_list_ *list, int len)
-{
+	t_env	*env;
+	char	*temp;
 	int		i;
-	t_env	*node;
-	t_list_	*chek;
-	int		len_max;
 
-	len_max = 0;
-	i = -1;
-	while (++i < len)
+	i = 0;
+	if (str[ft_strlen(export[0]) - 1] == '+')
 	{
-		chek = get_list_index(list, i);
-		if (chek == NULL)
-			break ;
-		node = chek->content;
-		if (ft_strlen(node->name) > (size_t)len_max)
-			len_max = ft_strlen(node->name);
+		temp = ft_substr(export[0], 0, ft_strlen(export[0]) - 1);
+		ft_free(export[0], NULL);
+		export[0] = temp;
+		i++;
 	}
-	return (len_max);
+	if (ft_getenv_content(list, export[0]) != NULL)
+	{
+		env = ft_getenv_content(list, export[0]);
+		env->chek = TRUE;
+		if (export[1] != NULL && i == 0)
+			ft_free(env->content, NULL);
+	}
+	else
+		env = new_tenv();
+	return (env);
 }
 
-void	print_export(void *point)
+int	set_env_in_case_of_the_plus(char *str, char **export,
+								t_env *env, char *temp)
 {
-	t_env	get ;
-	t_list_	*list;
-
-	list = (t_list_ *)point;
-	if (list != NULL)
-	{
-		get = *((t_env *)list->content);
-		if (get.content != NULL)
-			printf("declare -x %s=\"%s\" \n", get.name, get.content);
-		else if (get.content == NULL)
-		{
-			printf("declare -x %s\n", get.name);
-		}
-	}
-}
-
-void	org_nex(t_list_ *list, int *i, int *set, int char_max)
-{
-	t_list_	*nod1;
-	t_list_	*nod2;
-
-	nod1 = get_list_index(list, *i);
-	nod2 = get_list_index(list, *i + 1);
-	if (nod1 != NULL && nod2 != NULL)
-	{
-		if (ft_strncmp(list_to_env(nod1)->name,
-				list_to_env(nod2)->name, char_max) > 0)
-		{
-			swap_env(&nod1, &nod2);
-			*set = 1;
-		}
-	}
-}
-
-void	organizer_list(t_list_ *list)
-{
-	int	len;
-	int	char_max;
-	int	set;
 	int	i;
 
-	len = ft_list_size(list);
-	char_max = env_char_max(list, len);
 	i = 0;
-	set = 0;
-	while (i++ <= len)
+	if (str[ft_strlen(export[0]) - 1] == '+')
 	{
-		org_nex(list, &i, &set, char_max);
-		if (i >= len && set == 1)
-		{
-			i = -1;
-			set = 0;
-		}
+		temp = ft_substr(export[0], 0, ft_strlen(export[0]) - 1);
+		env->name = temp;
+		temp = NULL;
+		i++;
 	}
-	list = ft_node_start(list);
-	print_list(list, print_export);
+	else
+		env->name = ft_strdup(export[0]);
+	return (i);
 }
 
-t_env	*set_pwd(t_env *env, char *str, t_minis *mini)
+int	inicilaze_variabel(t_env **env, char ***export, t_list_ *list, char *str)
 {
-	if (str != NULL)
-	{
-		if (ft_strncmp(str, "PWD", 5) == 0)
-		{
-			env->content = mini->path;
-		}
-	}
-	return (env);
+	char	*temp;
+
+	temp = NULL;
+	*export = ft_split(str, '=');
+	*env = set_env_in_export(list, str, *export);
+	free_split(*export);
+	*export = ft_split(str, '=');
+	return (set_env_in_case_of_the_plus(str, *export, *env, temp));
 }
 
 void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 {
 	t_env	*env;
 	char	**export;
-	char *temp;
+	char	*temp;
+	int		i;
 
-	env = ft_malloc(1 * sizeof(t_env), NULL);
-	export = ft_split(str, '=');
-	env->name = ft_strdup(export[0]);
-	if(ft_strncmp("PWD",env->name,10) == 0)
-	{
-
-	}
-	if (export[1] != NULL && ft_getenv(mini, export[0]) == NULL)
+	i = inicilaze_variabel(&env, &export, list, str);
+	if (export[1] != NULL && i == 0)
 		env->content = ft_strjoin("",
 				&mini->split[1][strlen(export[0]) + 1]);
-	else if (str[ft_strlen(export[0])] == '=' && ft_getenv(mini,export[0]) == NULL)
+	else if (str[ft_strlen(export[0])] == '=' && i == 0)
 	{
-		printf("wat\n");
 		temp = ft_malloc(1 * sizeof(char), NULL);
 		temp[0] = '\0';
 		env->content = temp;
 	}
-	else
-		env->content = NULL;
-	
-	if(ft_getenv(mini, export[0]) == NULL)
+	else if (export[1] != NULL && i == 1)
+	{
+		temp = ft_strjoin(env->content, ft_strjoin("",
+					&mini->split[1][strlen(export[0]) + 1]));
+		ft_free(env->content, NULL);
+		env->content = temp;
+	}
+	if (ft_getenv_content(list, env->name) == NULL)
 		export_add(&list, env);
 	free_split(export);
 }

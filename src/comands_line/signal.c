@@ -6,16 +6,29 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 16:44:50 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/19 11:29:37 by rui              ###   ########.fr       */
+/*   Updated: 2024/11/12 20:59:42 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
+
+int	get_signal(int sig)
+{
+	static int	signals;
+	
+	if (sig != 0)
+	{
+		signals = sig;
+	}
+	return (signals);
+}
 
 static void	new_line(int sig, siginfo_t *info, void *ucontext)
 {
 	(void)info;
 	(void)ucontext;
+	get_signal(sig+128);
 	if (sig == SIGINT)
 	{
 		ft_printf("\n");
@@ -34,4 +47,5 @@ void	server(void)
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
 }

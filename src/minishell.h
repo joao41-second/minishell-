@@ -6,12 +6,15 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/11/29 16:25:51 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/12 10:33:12 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define MINISHELL_H
 #ifdef MINISHELL_H
+
+# define TRUE 0
+# define FALSE 1
 
 # include "../libft/Get_next_line/get_next_line_bonus.h"
 # include "../libft/printf/ft_printf.h"
@@ -27,11 +30,15 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <asm-generic/errno.h>
+#include <sys/types.h>
+#include <sys/resource.h>
 
 typedef struct s_mines
 {
 	t_list_	*env;
 	t_list_	*env_org;
+	int		readline;
 	t_list_	*tokens;
 	char	path[PATH_MAX];
 	char	*line;
@@ -42,6 +49,8 @@ typedef struct s_mines
 
 # include "./builtins/builtins.h"
 # include "./comands_line/readline.h"
+# include "./parsing/expand_env/expand.h"
+# include "./herdoc/herdoc.h"
 # include "./Pipex/pipex.h"
 # include "parsing/tokenizer/tokenizer.h"
 

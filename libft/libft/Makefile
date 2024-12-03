@@ -6,7 +6,7 @@
 #    By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/03 06:17:31 by jperpect          #+#    #+#              #
-#    Updated: 2024/08/16 15:04:41 by jperpect         ###   ########.fr        #
+#    Updated: 2024/11/29 14:25:46 by jperpct          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS = ft_atoi.c ft_isdigit.c ft_memmove.c ft_split.c ft_strlcat.c ft_strrchr.c 
  ft_isalpha.c ft_memcmp.c ft_putnbr_fd.c ft_striteri.c ft_strncmp.c ft_toupper.c \
  ft_isascii.c ft_memcpy.c ft_putstr_fd.c ft_strjoin.c ft_strnstr.c ft_str_btis.c ft_atol.c \
  ft_verfic_char_list.c ../free/list_f.c ../free/list_f_2.c ../free/ft_free.c \
- ../free/list_free.c \
+ ../free/list_free.c ../free/ft_free_utilis.c\
 
 BONUS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c \
 		ft_lstlast.c ft_lstadd_back.c  ft_lstdelone.c \

@@ -6,7 +6,7 @@
 #    By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/03 06:17:31 by jperpect          #+#    #+#              #
-#    Updated: 2024/12/02 17:51:19 by rpires-c         ###   ########.fr        #
+#    Updated: 2024/12/03 09:51:36 by jperpct          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,4 +89,7 @@ s:
 v:
 	clear && make re && $(VAL) ./minishell
 e:
-	clear && make re && env -i ./minishell
+	make re && env -i ./minishell
+b:
+	tmux \; split-window -h \; send-keys 'bash' C-m \; select-pane -t 1 \; send-keys 'make s' C-m \; setw synchronize-panes on
+

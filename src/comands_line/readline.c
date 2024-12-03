@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 10:54:12 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/03 09:52:17 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,17 @@ void print_token_list(t_list_ *list)
 void	start_shell(t_minis mini)
 {
 	char	*line;
-	char	*prompt;
+	//char	*prompt;
 
 	server();
 	while (1)
 	{
-		prompt = get_shell_prefix(&mini);
-		line = readline(prompt);
-		ft_free(prompt, NULL);
+		get_signal(1);
+		server();
+		//prompt = get_shell_prefix(&mini);
+		line = readline("prompt ");
+		mini.readline++;
+		//ft_free(prompt, NULL);
 		if (line == NULL)
 			break ;
 		mini.line = line;

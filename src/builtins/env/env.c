@@ -20,6 +20,7 @@ t_env	*new_node(char *s1)
 	content = getenv(s1);
 	var->name = ft_strdup(s1);
 	var->content = ft_strdup(content);
+	var->chek = TRUE;
 	return (var);
 }
 
@@ -44,7 +45,7 @@ void	print_env(void *point)
 	if (list != NULL)
 	{
 		get = *((t_env *)list->content);
-		if (get.content != NULL)
+		if (get.content != NULL && get.chek != FALSE)
 			printf("%s=%s \n", get.name, get.content);
 	}
 }

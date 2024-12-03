@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 11:20:32 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/29 16:50:00 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/05 11:21:00 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ void				free_list(t_list_ *list, void (*free_struct)(void *));
 
 /**
 
-	* @brief scroll through the list unit you find the 
-	* something the is returnde for funcion locate_node
+* @brief scroll through the list unit you find the 
+ * something the is returnde for funcion locate_node
  *
  * @param list 
  * @param loc past variabel int the funcio locate_node
@@ -94,9 +94,27 @@ void				free_list(t_list_ *list, void (*free_struct)(void *));
 void				*get_list(t_list_ *list, void *loc,
 						void *(*locate_node)(void *, void *));
 
+/**
+ * @brief this funcion frees in sent node 
+ * @param list in node to free;
+ * @param free_struct 
+ */
 void				ft_free_node(t_list_ **list, void (*free_struct)(void *));
 
+/**
+ * @brief not suppossed to use 
+ *
+ * @param pointer 
+ * @param index 
+ */
 void				*get_index(void *pointer, void *index);
 
+/**
+ * @brief get the node corresponding to int index
+ *
+ * @param list get 
+ * @param index number 
+ * @return 
+ */
 t_list_				*get_list_index(t_list_ *list, int index);
 #endif

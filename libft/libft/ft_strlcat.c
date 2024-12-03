@@ -6,7 +6,7 @@
 /*   By: jperpect <jperpect@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 15:11:09 by jperpect          #+#    #+#             */
-/*   Updated: 2024/04/22 15:02:22 by jperpect         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:36:24 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	i = 0;
 	j = ft_strlen(dst);
 	des_len = ft_strlen(dst);
+	if (src == NULL)
+		return (des_len + ft_strlen(src));
 	if (des_len < size - 1 && size > 0)
 	{
 		while (src[i] != '\0' && des_len + i < size - 1)

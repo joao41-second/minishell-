@@ -6,12 +6,11 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:06:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/04 15:49:33 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/03 10:20:41 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <stdio.h>
 
 void	*get_env_node(void *point, void *locate)
 {
@@ -32,11 +31,36 @@ void	*get_env_node(void *point, void *locate)
 	return (NULL);
 }
 
+int	chek_varabel(t_env *env, t_list_ **list, char *str)
+{
+	if (*list == NULL)
+		return (TRUE);
+	if (ft_strncmp(str, "PWD", 23) == 0)
+	{
+		env = ft_getenv_content(*list, "PWD");
+		env->chek = FALSE;
+		ft_free(env->content, NULL);
+		env->content = NULL;
+		return (TRUE);
+	}
+	if (ft_strncmp(str, "OLDPWD", 23) == 0)
+	{
+		env = ft_getenv_content(*list, "PWD");
+		env->chek = FALSE;
+		ft_free(env->content, NULL);
+		env->content = NULL;
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
 void	unset_list(t_list_ **list, char *str)
 {
 	t_list_	*ok;
+	t_env	*env;
 
-	if (*list == NULL)
+	env = NULL;
+	if (chek_varabel(env, list, str) == TRUE)
 		return ;
 	ok = *list;
 	ok = ft_node_start(ok);

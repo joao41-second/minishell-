@@ -12,16 +12,33 @@
 
 #include "../minishell.h"
 
+void	chek_herdoc(t_minis	*mini, int set)
+{
+	int	i;
+
+	i = -1;
+	while (mini->split[++i] != NULL)
+	{
+		if (ft_strncmp(mini->split[i], ">", 4) == 0)
+			change_file(mini, set, '>');
+		if (ft_strncmp(mini->split[i], ">>", 4) == 0)
+			change_file(mini, set, 'n');
+		if (ft_strncmp(mini->split[i], "<<", 4) == 0)
+			herdoc(mini, set, mini->split[i + 1]);
+	}
+}
+
 void	builtins(t_minis	*mini)
 {
 	if (ft_strlen(mini->line) < 1)
 		return ;
 	mini->split = ft_split(mini->line, ' ');
-	if (mini->split[0] == NULL)
-		return (free_split(mini->split));
+	chek_herdoc(mini, 0);
+	if (mini->split == NULL)
+		return ;
 	if (ft_strncmp(mini->split[0], "env", 4) == 0)
 		ft_env(mini);
-	if (ft_strncmp(mini->split[0], "exit;", 10) == 0)
+	if (ft_strncmp(mini->split[0], "exit", 10) == 0)
 		ft_exit(mini);
 	if (ft_strncmp(mini->split[0], "cd", 10) == 0)
 		ft_cd(mini);
@@ -33,5 +50,6 @@ void	builtins(t_minis	*mini)
 		ft_export(mini);
 	if (ft_strncmp(mini->split[0], "echo", 10) == 0)
 		ft_echo(mini);
+	chek_herdoc(mini, 1);
 	free_split(mini->split);
 }
