@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:41 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/29 17:10:50 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/03 15:50:40 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,13 @@ char	*find_path(char *cmd, char **envp)
 		path = build_and_check_path(paths[i], cmd);
 		if (path)
 		{
-			while (paths[i])
-				ft_free(paths[i++], NULL);
+			free_split(paths);
 			ft_free(paths, NULL);
 			return (path);
 		}
 	}
 	i = -1;
-	while (paths[++i])
-		ft_free (paths[i], NULL);
-	ft_free (paths, NULL);
+	free_split(paths);
 	return (NULL);
 }
 

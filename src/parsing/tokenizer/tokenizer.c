@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:01:39 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/03 15:20:55 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/03 15:27:11 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void process_regular_token(const char *line, int *i, char ***env_matrix, t_list_
             add_to_list(token_list, create_token(current_token, "argument"));
         }
     }
-    ft_free(current_token, NULL); // Clean up token memory
+    ft_free(current_token, NULL);
 }
 
 void	tokenize_bash_command_core(char *line, t_list_ **token_list,
