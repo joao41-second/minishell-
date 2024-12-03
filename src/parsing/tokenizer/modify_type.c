@@ -64,6 +64,7 @@ void	handle_token_type(t_token *token, int *first_command_seen,
 	free_env_matrix(env_matrix);
 	if (stripped_token != token->token)
 		ft_free(stripped_token, NULL);
+	ft_free(path,NULL);
 }
 
 void	modify_token_types(t_list_ *token_list, t_minis *mini)
