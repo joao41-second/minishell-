@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 09:52:17 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/03 15:51:02 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,59 @@ char	*ft_strndup(const char *src, size_t n)
 	return (dst);
 }
 
+char *ft_strcpy(char *dst, const char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	return *(unsigned char *)s1 - *(unsigned char *)s2;
+}
+
+void print_token_list(t_list_ *list)
+{
+    t_list_ *current = list;
+    t_token *token;
+
+    printf("Token List:\n");
+    printf("-----------------------------------\n");
+
+    while (current)
+    {
+        token = (t_token *)current->content;
+        if (token)
+        {
+            printf("Token: %s\n", token->token ? token->token : "NULL");
+            printf("Type: %s\n", token->type ? token->type : "NULL");
+			if (token->redirection_target)
+                printf("Redirection Target: %s\n", token->redirection_target);
+            if (token->redirection_source)
+                printf("Redirection Source: %s\n", token->redirection_source);
+        }
+        else
+        {
+            printf("Empty token\n");
+        }
+        printf("-----------------------------------\n");
+        current = current->next;
+    }
+}
+
 void	start_shell(t_minis mini)
 {
 	char	*line;
@@ -54,11 +107,14 @@ void	start_shell(t_minis mini)
 		mini.line = line;
 		if (mini.line[0] != '\0')
 			mini.exit_code_error = check_syntax(mini.line);
+		mini.tokens = tokenize_and_check_bash_command(&mini);
+		print_token_list(mini.tokens);
 		builtins(&mini);
 		getcwd(mini.path, PATH_MAX);
 		add_history(line);
 		free(line);
 		mini.line = NULL;
+		free_list(mini.tokens, free_token);
 	}
 	free_list(mini.env, free_env);
 	free_list(mini.env_org, free_env);

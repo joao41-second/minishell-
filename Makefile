@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+         #
+#    By: rui <rui@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/03 06:17:31 by jperpect          #+#    #+#              #
-#    Updated: 2024/12/03 09:51:36 by jperpct          ###   ########.fr        #
+#    Updated: 2024/12/03 15:32:47 by rui              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compiler flags
-WFLGS = -Wall -Wextra -Werror
+# WFLGS = -Wall -Wextra -Werror
 READ_FLG = -g 
 FLGS = $(WFLGS) $(READ_FLG)
 
@@ -85,11 +85,11 @@ normi:
 	cd ./libft && norminette
 
 s:
-	make re && ./minishell
+	clear && make re && ./minishell
 v:
-	make re && $(VAL) ./minishell
+	clear && make re && $(VAL) ./minishell
 e:
 	make re && env -i ./minishell
-
 b:
 	tmux \; split-window -h \; send-keys 'bash' C-m \; select-pane -t 1 \; send-keys 'make s' C-m \; setw synchronize-panes on
+

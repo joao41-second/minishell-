@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:41 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/10/15 16:54:46 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/03 15:50:40 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../minishell.h"
 
 char	**get_paths_from_env(char **envp)
 {
@@ -37,10 +37,10 @@ char	*build_and_check_path(char *path, char *cmd)
 
 	part_path = ft_strjoin(path, "/");
 	full_path = ft_strjoin(part_path, cmd);
-	free(part_path);
+	ft_free(part_path, NULL);
 	if (access(full_path, F_OK) == 0)
 		return (full_path);
-	free(full_path);
+	ft_free(full_path, NULL);
 	return (NULL);
 }
 
@@ -59,16 +59,13 @@ char	*find_path(char *cmd, char **envp)
 		path = build_and_check_path(paths[i], cmd);
 		if (path)
 		{
-			while (paths[i])
-				free(paths[i++]);
-			free(paths);
+			free_split(paths);
+			ft_free(paths, NULL);
 			return (path);
 		}
 	}
 	i = -1;
-	while (paths[++i])
-		free (paths[i]);
-	free (paths);
+	free_split(paths);
 	return (NULL);
 }
 
@@ -84,8 +81,8 @@ void	execute(char *argv, char **envp)
 	if (!path)
 	{
 		while (cmd[++i])
-			free(cmd[i]);
-		free(cmd);
+			ft_free(cmd[i], NULL);
+		ft_free(cmd, NULL);
 		no_path_error(argv);
 	}
 	if (execve(path, cmd, envp) == -1)
