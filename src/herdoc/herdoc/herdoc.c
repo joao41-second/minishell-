@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:09:31 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/02 14:49:16 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/03 09:58:31 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	herdoc_son_proceed(t_minis *mini, char*end)
 	char	*line;
 	char	*new_line;
 
+	new_line = NULL;
 	signal(SIGUSR1, handle_signal);
 	if (end != NULL)
 	{

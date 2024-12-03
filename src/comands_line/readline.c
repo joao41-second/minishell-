@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/14 16:23:55 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/03 09:52:17 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_strndup(const char *src, size_t n)
 void	start_shell(t_minis mini)
 {
 	char	*line;
-	char	*prompt;
+	//char	*prompt;
 
 	server();
 	while (1)

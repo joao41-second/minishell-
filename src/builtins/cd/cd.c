@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 20:46:51 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/23 16:06:37 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/03 09:54:38 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <linux/limits.h>
 #include <stdio.h>
 
-void	set_path(t_list_ **list, char *path)
+void	set_path(t_list_ **list)
 {
 	t_env	*pwd;
 	t_env	*oldpwd;
@@ -55,8 +55,8 @@ void	ft_cd(t_minis *mini)
 		}
 		else
 		{
-			set_path(&mini->env, path);
-			set_path(&mini->env_org, path);
+			set_path(&mini->env);
+			set_path(&mini->env_org);
 			getcwd(mini->path, PATH_MAX);
 		}
 		ft_free(fd, NULL);

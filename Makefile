@@ -6,12 +6,12 @@
 #    By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/03 06:17:31 by jperpect          #+#    #+#              #
-#    Updated: 2024/11/12 10:36:16 by jperpct          ###   ########.fr        #
+#    Updated: 2024/12/03 09:51:36 by jperpct          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compiler flags
-#WFLGS = -Wall -Wextra -Werror
+WFLGS = -Wall -Wextra -Werror
 READ_FLG = -g 
 FLGS = $(WFLGS) $(READ_FLG)
 

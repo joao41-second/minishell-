@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:05:55 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/26 18:34:33 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/03 10:00:34 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	inicilaze_variabel(t_env **env, char ***export, t_list_ *list, char *str)
 {
 	char	*temp;
 
+	temp = NULL;
 	*export = ft_split(str, '=');
 	*env = set_env_in_export(list, str, *export);
 	free_split(*export);

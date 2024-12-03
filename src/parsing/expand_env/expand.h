@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 17:28:34 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/29 15:45:10 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/03 10:02:18 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,7 @@ char		*ft_strjoin_and_free(char *s1, char *s2);
  */
 char		*concatenate_the_str_with_env_var(char *str, t_minis *mini,
 				int *len);
+
+char	*creat_new(int i, char *str, t_quotes *quotes, t_minis *mini);
 
 #endif // !EXPAND_H

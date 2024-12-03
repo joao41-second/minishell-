@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:06:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/04 15:49:33 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/03 09:56:47 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void	unset_list(t_list_ **list, char *str)
 {
 	t_list_	*ok;
 	t_env	*env;
-
+	
+	env = NULL;
 	if (chek_varabel(env, list, str) == TRUE)
 		return ;
 	ok = *list;
