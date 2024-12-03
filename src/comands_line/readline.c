@@ -91,17 +91,17 @@ void print_token_list(t_list_ *list)
 void	start_shell(t_minis mini)
 {
 	char	*line;
-	//char	*prompt;
+	char	*prompt;
 
 	server();
 	while (1)
 	{
 		get_signal(1);
 		server();
-		//prompt = get_shell_prefix(&mini);
-		line = readline("prompt ");
+		prompt = get_shell_prefix(&mini);
+		line = readline(prompt);
 		mini.readline++;
-		//ft_free(prompt, NULL);
+		ft_free(prompt, NULL);
 		if (line == NULL)
 			break ;
 		mini.line = line;
