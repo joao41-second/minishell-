@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:01:39 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/02 17:47:47 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/03 15:20:55 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ t_list_	*tokenize_and_check_bash_command(t_minis *mini)
 	token_list = initialize_tokenizer(mini, &env_matrix);
 	tokenize_bash_command_core(mini->line, &token_list, &env_matrix);
 	finalize_tokens(token_list, env_matrix, mini);
+    ft_free_node(&token_list, free_token);
 	return (token_list);
 }

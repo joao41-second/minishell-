@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_aux.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:41:07 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/03 11:19:25 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/03 15:19:56 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void free_token(void *content)
+void	free_token(void *content)
 {
-	t_list *list;
-    t_token *token;
+	t_list	*list;
+	t_token	*token;
 
 	list = (t_list *)content;
 	if(list == NULL)
 		return;
 	token = (t_token *)list->content;
-    ft_free(token->token, NULL);
-    ft_free(token->type, NULL);
-    ft_free(token->redirection_target, NULL);
-    ft_free(token->redirection_source, NULL);
-    ft_free(token, NULL);
+	ft_free(token->token, NULL);
+	ft_free(token->type, NULL);
+	ft_free(token->redirection_target, NULL);
+	ft_free(token->redirection_source, NULL);
+	ft_free(token, NULL);
 }
 
 t_list_ *initialize_tokenizer(t_minis *mini, char ***env_matrix)
