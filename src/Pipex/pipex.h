@@ -6,15 +6,12 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:31 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/10/15 16:52:49 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/11/18 17:03:41 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
-# define BUFFER_SIZE 10000
-
-# include "../minishell.h"
 
 typedef struct s_btree
 {
@@ -23,6 +20,8 @@ typedef struct s_btree
 	struct s_btree	*left;
 	struct s_btree	*right;
 }	t_btree;
+
+
 
 void	fork_error(void);
 void	pipe_error(void);

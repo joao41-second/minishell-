@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   readline.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:09:15 by jperpct           #+#    #+#             */
 /*   Updated: 2024/11/12 21:00:01 by jperpct          ###   ########.fr       */
@@ -54,5 +54,21 @@ char	*get_user(void);
 * @return part of the original string as a separate string
 */
 char	*ft_strndup(const char *src, size_t n);
+
+/**
+* @brief copies a string
+* @param dst copied string
+* @param src string to copy
+* @return copy of the src string
+*/
+char *ft_strcpy(char *dst, const char *src);
+
+/**
+* @brief compares two strings
+* @param s1 first string to compare
+* @param s2 second string to compare
+* @return value of the diference of the strings
+*/
+int	ft_strcmp(const char *s1, const char *s2);
 
 #endif // !READLINE_H

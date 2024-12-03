@@ -25,6 +25,7 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <stdio.h>
+# include <stdbool.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
@@ -38,6 +39,7 @@ typedef struct s_mines
 	t_list_	*env;
 	t_list_	*env_org;
 	int		readline;
+	t_list_	*tokens;
 	char	path[PATH_MAX];
 	char	*line;
 	char	**split;
@@ -49,6 +51,9 @@ typedef struct s_mines
 # include "./comands_line/readline.h"
 # include "./parsing/expand_env/expand.h"
 # include "./herdoc/herdoc.h"
+# include "./Pipex/pipex.h"
+# include "parsing/tokenizer/tokenizer.h"
+
 
 int			check_syntax(const char *str);
 
