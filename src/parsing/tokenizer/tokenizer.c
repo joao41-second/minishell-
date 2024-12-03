@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:01:39 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/03 15:27:11 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/03 16:00:52 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,24 @@
 void process_operator_tokens(const char *line, int *i, t_list_ **token_list)
 {
     char *current_token;
+    char *redir_type;
     int token_length;
 
-    token_length = ((line[*i] == '>' && line[*i + 1] == '>') ||
-                    (line[*i] == '<' && line[*i + 1] == '<')) ? 2 : 1;
-
+    if ((line[*i] == '>' && line[*i + 1] == '>') || 
+        (line[*i] == '<' && line[*i + 1] == '<'))
+        token_length = 2;
+    else
+        token_length = 1;
     current_token = ft_substr(line, *i, token_length);
     *i += token_length;
-
-    if (current_token[0] == '|') {
+    if (current_token[0] == '|')
         add_to_list(token_list, create_token(current_token, "pipe"));
-    } else {
-        add_to_list(token_list, create_token(current_token, get_redirection_type(current_token)));
+    else
+    {
+        redir_type = get_redirection_type(current_token);
+        add_to_list(token_list, create_token(current_token, redir_type));
     }
-
+    ft_free(redir_type, NULL);
     ft_free(current_token, NULL);
 }
 
