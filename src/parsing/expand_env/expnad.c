@@ -141,6 +141,30 @@ char	*creat_new(int i, char *str, t_quotes *quotes, t_minis *mini)
 	return (temp);
 }
 
+void	set_quotes(t_quotes *quotes, char *str, int i)
+{
+	if (str[i] == 39)
+	{
+		quotes->simp++;
+		quotes->simp_size = i;
+	}
+	if (str[i] == '"')
+	{
+		quotes->dub++;
+		quotes->dub_size = i;
+	}
+	if (quotes->simp > 1)
+	{
+		quotes->simp = 0;
+		quotes->simp_size = i;
+	}
+	if (quotes->dub > 1)
+	{
+		quotes->dub = 0;
+		quotes->dub_size = i;
+	}
+}
+
 char	*expand_env(char *str, t_minis *mini)
 {
 	int			i;
@@ -157,26 +181,7 @@ char	*expand_env(char *str, t_minis *mini)
 	end = creat_new(0, "\0", &quotes, mini);
 	while (str[++i] != '\0')
 	{
-		if (str[i] == 39)
-		{
-			quotes.simp++;
-			quotes.simp_size = i;
-		}
-		if (str[i] == '"')
-		{
-			quotes.dub++;
-			quotes.dub_size = i;
-		}
-		if (quotes.simp > 1)
-		{
-			quotes.simp = 0;
-			quotes.simp_size = i;
-		}
-		if (quotes.dub > 1)
-		{
-			quotes.dub = 0;
-			quotes.dub_size = i;
-		}
+		set_quotes(&quotes, str, i);
 		end = creat_new(i, str, &quotes, mini);
 		if (end == NULL)
 			return (NULL);
