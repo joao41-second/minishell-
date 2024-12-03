@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:56:03 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/03 10:42:35 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/03 11:39:44 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_whitespace(char c)
 {
-	return ((c >= 9 & c <= 13) || c == 32);
+	return ((c >= 9 && c <= 13) || c == 32);
 }
 
 int	is_quote(char c)
@@ -30,7 +30,9 @@ t_token	*create_token(char *str, char *type)
 	if (!token)
 		return (NULL);
 	token->token = ft_strdup(str);
+	ft_free(str, NULL);
 	token->type = ft_strdup(type);
+	ft_free(type, NULL);
 	token->redirection_target = NULL;
 	token->redirection_source = NULL;
 	return (token);

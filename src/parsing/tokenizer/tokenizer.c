@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:01:39 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/02 17:47:47 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/03 11:41:29 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,12 @@ void process_operator_tokens(const char *line, int *i, t_list_ **token_list)
 
     token_length = ((line[*i] == '>' && line[*i + 1] == '>') ||
                     (line[*i] == '<' && line[*i + 1] == '<')) ? 2 : 1;
-
     current_token = ft_substr(line, *i, token_length);
     *i += token_length;
-
-    if (current_token[0] == '|') {
+    if (current_token[0] == '|')
         add_to_list(token_list, create_token(current_token, "pipe"));
-    } else {
+    else
         add_to_list(token_list, create_token(current_token, get_redirection_type(current_token)));
-    }
-
     ft_free(current_token, NULL);
 }
 
@@ -40,23 +36,23 @@ void process_regular_token(const char *line, int *i, char ***env_matrix, t_list_
 
     token_start = *i;
     while (line[*i] && !is_whitespace(line[*i]) && !is_quote(line[*i]) &&
-           line[*i] != '>' && line[*i] != '<' && line[*i] != '|') {
+           line[*i] != '>' && line[*i] != '<' && line[*i] != '|')
         (*i)++;
-    }
     current_token = ft_substr(line, token_start, *i - token_start);
-
-    if (current_token[0] == '$') {
+    if (current_token[0] == '$')
         add_to_list(token_list, create_token(current_token, "env_var"));
-    } else {
+    else
+    {
         path = find_path(current_token, *env_matrix);
-        if (path) {
+        if (path)
+        {
             add_to_list(token_list, create_token(current_token, "command"));
             ft_free(path, NULL);
-        } else {
-            add_to_list(token_list, create_token(current_token, "argument"));
         }
+        else
+            add_to_list(token_list, create_token(current_token, "argument"));
     }
-    ft_free(current_token, NULL); // Clean up token memory
+    ft_free(current_token, NULL);
 }
 
 void	tokenize_bash_command_core(char *line, t_list_ **token_list,
