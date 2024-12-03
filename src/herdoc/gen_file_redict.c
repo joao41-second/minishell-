@@ -6,13 +6,27 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:27:15 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/02 14:31:04 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/03 10:17:00 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
-#include <unistd.h>
+
+static void	ft_close_all(int fd1, int fd2, int fd3, int fd4)
+{
+	close(fd1);
+	close(fd2);
+	close(fd3);
+	close(fd4);
+}
+
+static void	redirect(t_minis *mini, char sete, int *file_new)
+{
+	if (sete == '>')
+		*file_new = redirect_for_new_file(mini);
+	if (sete == 'n')
+		*file_new = redirect_for_add_file(mini);
+}
 
 void	change_file(t_minis *mini, int set, char sete)
 {
@@ -24,10 +38,7 @@ void	change_file(t_minis *mini, int set, char sete)
 	{
 		pipe(save);
 		file_origin = dup(1);
-		if (sete == '>')
-			file_new = redirect_for_new_file(mini);
-		if (sete == 'n')
-			file_new = redirect_for_add_file(mini);
+		redirect(mini, sete, &file_new);
 		if (file_new == -1)
 		{
 			perror("raiva");
@@ -40,9 +51,6 @@ void	change_file(t_minis *mini, int set, char sete)
 		if (sete == '>' || sete == 'n')
 			close(1);
 		dup2(file_origin, 1);
-		close(file_origin);
-		close(save[0]);
-		close(save[1]);
-		close(file_new);
+		ft_close_all(file_new, file_origin, save[0], save[1]);
 	}
 }
