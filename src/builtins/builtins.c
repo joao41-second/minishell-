@@ -51,7 +51,7 @@ void	builtins(t_minis	*mini)
 		ft_env(mini);
 	if (ft_strncmp(token->token, "exit", 10) == 0)
 		ft_exit(mini);
-	if (ft_strncmp(mini->split[0], "cd", 10) == 0)
+	if (ft_strncmp(token->token, "cd", 10) == 0)
 		ft_cd(mini);
 	if (ft_strncmp(mini->split[0], "pwd", 10) == 0)
 		ft_pwd(mini);

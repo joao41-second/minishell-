@@ -38,29 +38,38 @@ void	set_path(t_list_ **list)
 void	ft_cd(t_minis *mini)
 {
 	char	*fd;
-
-	if (mini->split[1])
+	t_token *token;
+	
+	fd = NULL;
+	if(too_arg_print("cd" ,1,mini) == TRUE)
+		return;
+	
+	printf("raiva\n");
+	if(mini->tokens->next != NULL)
 	{
-		if (mini->split[1][0] == '~')
+		token = get_token(mini->tokens->next);
+		if (token->token[0] == '~')
 		{
 			fd = ft_strjoin(ft_getenv(mini, "HOME"), &mini->split[1][1]);
 		}
 		else
-			fd = ft_strdup(mini->split[1]);
-		//getcwd(path, PATH_MAX);
-		if (chdir(fd) < 0)
-		{
-			ft_print_error("cd",fd,NOT_FILE,"bash");
-			ft_free(fd, NULL);
-			mini->exit_code_error = 1;
-			return;
-		}
-		else
-		{
-			set_path(&mini->env);
-			set_path(&mini->env_org);
-			getcwd(mini->path, PATH_MAX);
-		}
-		ft_free(fd, NULL);
+			fd = ft_strdup(token->token);
 	}
+
+	//getcwd(path, PATH_MAX);
+	if (chdir(fd) < 0)
+	{
+		ft_print_error("cd",fd,NOT_FILE,"bash");
+		ft_free(fd, NULL);
+		mini->exit_code_error = 1;
+		return;
+	}
+	else
+	{
+		set_path(&mini->env);
+		set_path(&mini->env_org);
+		getcwd(mini->path, PATH_MAX);
+	}
+	ft_free(fd, NULL);
+	
 }

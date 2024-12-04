@@ -24,6 +24,35 @@ void ft_print_error(char *comand, char *error,char *error_char, char* start)
 	ft_putstr_fd("\n", 2);
 }
 
+int too_arg_print(char *comand ,int args,t_minis *mini)
+{
+	t_token	*token;
+	t_list_	*list;
+	int exits;
+	
+	exits = 0;
+	list = mini->tokens;
+		mini->tokens = mini->tokens->next;
+
+	while (mini->tokens != NULL) 
+	{
+		token = get_token(mini->tokens);
+		if (ft_strncmp(token->type,"argument",15) == 0)
+		{
+			if(exits == args)
+				exits++;
+			else
+			{
+				ft_print_error(comand, "", TOO_ARG, "bash");
+				return (TRUE);
+			}
+		}
+		mini->tokens = mini->tokens->next;
+	}
+		mini->tokens = list;
+	return (FALSE);
+}
+
 void ft_error(t_minis *mini)
 {
 

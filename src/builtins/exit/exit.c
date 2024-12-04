@@ -26,32 +26,16 @@ int ft_str_is_nb(char *str)
 }
 
 void	ft_exit(t_minis *mini)
-{	
+{
 	t_token	*token;
 	t_list_	*list;
-	int exits;
-	
+	int		exits;
+
 	exits = 0;
 	printf("exit\n");
 	list = mini->tokens;
-	//tmep
-	mini->tokens= mini->tokens->next;
-	while (mini->tokens != NULL) 
-	{
-		token = get_token(mini->tokens);
-		if (ft_strncmp(token->type,"argument",15) == 0)
-		{
-			if(exits == 0)
-				exits++;
-			else
-			{
-				ft_print_error("exit", token->token, TOO_ARG, "bash");
-				return;
-			}
-		}
-		mini->tokens = mini->tokens->next;
-	}
-		mini->tokens = list;
+	if (too_arg_print("exit", 0, mini) == TRUE)
+		return;
 	if(mini->tokens != NULL && mini->tokens->next != NULL)
 	{
 		token = get_token(mini->tokens->next);
