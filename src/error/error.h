@@ -13,6 +13,9 @@
 #ifndef ERROR_H
 #define ERROR_H
 
-void ft_print_error(char *comand, char *error,int nb_error, char* start);
+#define NOT_FILE "No such file or directory"
+#define TOO_ARG "too many arguments"
+
+void ft_print_error(char *comand, char *error,char *error_char, char* start);
 
 #endif // !

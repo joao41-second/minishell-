@@ -37,7 +37,6 @@ void	set_path(t_list_ **list)
 
 void	ft_cd(t_minis *mini)
 {
-	char	path[PATH_MAX];
 	char	*fd;
 
 	if (mini->split[1])
@@ -51,9 +50,9 @@ void	ft_cd(t_minis *mini)
 		//getcwd(path, PATH_MAX);
 		if (chdir(fd) < 0)
 		{
-			ft_print_error("cd",fd,2,"bash");
+			ft_print_error("cd",fd,NOT_FILE,"bash");
 			ft_free(fd, NULL);
-
+			mini->exit_code_error = 1;
 			return;
 		}
 		else

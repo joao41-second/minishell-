@@ -28,15 +28,26 @@ void	chek_herdoc(t_minis	*mini, int set)
 	}
 }
 
+t_token *get_token(t_list_ *list)
+{
+	t_token *set;
+
+	set = (t_token *)list->content;
+	return (set);
+}
+
 void	builtins(t_minis	*mini)
 {
+	t_token *token;
 	if (ft_strlen(mini->line) < 1)
 		return ;
 	mini->split = ft_split(mini->line, ' ');
+
 	chek_herdoc(mini, 0);
-	if (mini->split == NULL)
+	if (mini->tokens == NULL)
 		return ;
-	if (ft_strncmp(mini->split[0], "env", 4) == 0)
+	token = get_token(mini->tokens);
+	if (ft_strncmp(token->token, "env", 4) == 0)
 		ft_env(mini);
 	if (ft_strncmp(mini->split[0], "exit", 10) == 0)
 		ft_exit(mini);

@@ -12,19 +12,15 @@
 
 # include "../minishell.h"
 
-void ft_print_error(char *comand, char *error,int nb_error, char* start)
+void ft_print_error(char *comand, char *error,char *error_char, char* start)
 {
-	char *str;
-
-	str = strerror(nb_error);
-
 	ft_putstr_fd(start, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(comand, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(error , 2);
 	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(str, 2);
+	ft_putstr_fd(error_char, 2);
 	ft_putstr_fd("\n", 2);
 }
 

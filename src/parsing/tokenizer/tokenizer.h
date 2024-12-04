@@ -21,6 +21,7 @@ typedef struct s_token
 	char	*redirection_source;
 }	t_token;
 
+t_token *get_token(t_list_ *list);
 
 char		**env_to_matrix(t_minis *mini);
 
