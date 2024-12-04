@@ -49,9 +49,11 @@ void	ft_cd(t_minis *mini)
 		else
 			fd = ft_strdup(mini->split[1]);
 		//getcwd(path, PATH_MAX);
-		if (chdir(fd) == -1)
+		if (chdir(fd) < 0)
 		{
 			ft_print_error("cd",fd,2,"bash");
+			ft_free(fd, NULL);
+
 			return;
 		}
 		else

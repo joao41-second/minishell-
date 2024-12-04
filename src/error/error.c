@@ -26,7 +26,6 @@ void ft_print_error(char *comand, char *error,int nb_error, char* start)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd("\n", 2);
-	free(str);
 }
 
 void ft_error(t_minis *mini)
