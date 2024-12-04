@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:42:52 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/29 16:26:24 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/04 14:33:03 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ typedef struct s_token
 	char	*redirection_target;
 	char	*redirection_source;
 }	t_token;
-
 
 char		**env_to_matrix(t_minis *mini);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 15:51:02 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/04 16:13:33 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void print_token_list(t_list_ *list)
 void	start_shell(t_minis mini)
 {
 	char	*line;
+	char	**env_matrix;
 	//char	*prompt;
 
 	server();
@@ -106,15 +107,18 @@ void	start_shell(t_minis mini)
 			break ;
 		mini.line = line;
 		if (mini.line[0] != '\0')
+		{
 			mini.exit_code_error = check_syntax(mini.line);
-		mini.tokens = tokenize_and_check_bash_command(&mini);
-		print_token_list(mini.tokens);
+			mini.tokens = tokenize_and_check_bash_command(&mini);
+			env_matrix = env_to_matrix(&mini);
+			process_token_list(mini.tokens, env_matrix);
+			free_list(mini.tokens, free_token);
+		}
 		builtins(&mini);
 		getcwd(mini.path, PATH_MAX);
 		add_history(line);
 		free(line);
 		mini.line = NULL;
-		free_list(mini.tokens, free_token);
 	}
 	free_list(mini.env, free_env);
 	free_list(mini.env_org, free_env);

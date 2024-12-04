@@ -6,95 +6,118 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:42:28 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/18 17:05:25 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:35:24 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_btree	*create_node(char *cmd, t_btree *l, t_btree *r, int first_cmd)
+int* handle_redirections(t_list_ *tokens)
 {
-	t_btree	*new_node;
+    static int fds[2];
 
-	new_node = malloc(sizeof(t_btree));
-	if (!new_node)
-		exit(EXIT_FAILURE);
-	new_node->cmd = cmd;
-	new_node->left = l;
-	new_node->right = r;
-	new_node->first_cmd = first_cmd;
-	return (new_node);
+    fds[0] = STDIN_FILENO;
+    fds[1] = STDOUT_FILENO;
+    t_list_ *current = tokens;
+    while (current)
+    {
+        t_token *token = (t_token *)current->content;
+        if (token && ft_strcmp(token->type, "redir") == 0)
+        {
+            if (!ft_strcmp(token->token, ">"))
+            {
+                close(fds[1]);
+                fds[1] = open(token->redirection_target, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            }
+            else if (!ft_strcmp(token->token, ">>"))
+            {
+                close(fds[1]);
+                fds[1] = open(token->redirection_target, O_WRONLY | O_CREAT | O_APPEND, 0644);
+            }
+            else if (!ft_strcmp(token->token, "<"))
+            {
+                close(fds[0]);
+                fds[0] = open(token->redirection_target, O_RDONLY);
+            }
+        }
+        current = current->next;
+    }
+    return fds;
 }
 
-t_btree	*build_tree(char **argv, int i, int end)
+int execute_command_group(t_list_ *tokens, char **envp)
 {
-	t_btree	*node;
+    char **command_argv;
+    int command_argc = 0;
+    int output_redirected = 0;
+    char *full_path;
 
-	if (i == 2)
-		node = create_node(argv[i], NULL, NULL, 1);
-	else if (i == end)
-		node = create_node(argv[i], NULL, NULL, 2);
-	else
-		node = create_node(argv[i], NULL, NULL, 0);
-	if (i < end)
-	{
-		node = create_node(NULL, node, build_tree(argv, i + 1, end), 0);
-	}
-	return (node);
+    full_path = find_path("ls", envp);
+    if (!full_path) {
+        perror("Command not found");
+        return -1;
+    }
+
+    // Replace first argument with full path
+    command_argv[0] = full_path;
+    int i = 0;
+    while (command_argv[i])
+    {
+        printf("%s", command_argv[i]);
+        i++;
+    }
+    int *fds = handle_redirections(tokens);
+    dup2(fds[0], STDIN_FILENO);
+    if (!output_redirected)
+        dup2(STDOUT_FILENO, fds[1]);
+    else
+        dup2(fds[1], STDOUT_FILENO);
+	printf("%s\n", full_path);
+    // execve(full_path, command_argv, envp);
+    // perror("execve");
+    free(full_path);
+    free(command_argv);
+    return -1;
 }
 
-void	handle_pipe_fork(char **argv, int argc, t_btree *node, char **envp)
+void process_token_list(t_list_ *tokens, char **envp)
 {
-	int		fd[2];
-	pid_t	pid;
+    int pipefd[2];
+    pid_t pid;
+    t_list_ *current;
 
-	if (pipe(fd) == -1)
-		pipe_error();
-	pid = fork();
-	if (pid == -1)
-		fork_error();
-	if (pid == 0)
-	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-		process_tree(argv, argc, node->left, envp);
-	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		process_tree(argv, argc, node->right, envp);
-	}
-}
+	current = tokens;
+    while (current)
+    {
+        t_token *token = (t_token *)current->content;
+        
+        if (ft_strcmp(token->type, "pipe") == 0)
+        {
+            if (pipe(pipefd) == -1)
+                pipe_error();
 
-void	handle_redirection(char **argv, int argc, t_btree *node)
-{
-	int	infile;
-	int	outfile;
+            pid = fork();
+            if (pid == -1)
+                fork_error();
 
-	if (node->first_cmd == 1)
-	{
-		infile = open_file(argv[1], 2);
-		dup2(infile, STDIN_FILENO);
-		close(infile);
-	}
-	else if (node->first_cmd == 2)
-	{
-		outfile = open_file(argv[argc - 1], 1);
-		dup2(outfile, STDOUT_FILENO);
-		close(outfile);
-	}
-}
-
-void	process_tree(char **argv, int argc, t_btree *node, char **envp)
-{
-	if (node->cmd == NULL)
-		handle_pipe_fork(argv, argc, node, envp);
-	else
-	{
-		handle_redirection(argv, argc, node);
-		execute(node->cmd, envp);
-	}
+            if (pid == 0)
+            {
+                close(pipefd[0]);
+                dup2(pipefd[1], STDOUT_FILENO);
+                close(pipefd[1]);
+                execute_command_group(tokens, envp);
+                exit(1);
+            }
+            else
+            {
+                close(pipefd[1]);
+                dup2(pipefd[0], STDIN_FILENO);
+                close(pipefd[0]);
+                current = current->next;
+            }
+        }
+        
+        current = current->next;
+    }
+    execute_command_group(tokens, envp);
 }
