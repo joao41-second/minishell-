@@ -49,7 +49,7 @@ void	builtins(t_minis	*mini)
 	token = get_token(mini->tokens);
 	if (ft_strncmp(token->token, "env", 4) == 0)
 		ft_env(mini);
-	if (ft_strncmp(mini->split[0], "exit", 10) == 0)
+	if (ft_strncmp(token->token, "exit", 10) == 0)
 		ft_exit(mini);
 	if (ft_strncmp(mini->split[0], "cd", 10) == 0)
 		ft_cd(mini);

@@ -45,6 +45,7 @@ void	ft_env(t_minis *mini)
 		}
 		mini->tokens = mini->tokens->next;
 	}
+	mini->tokens = ft_node_start(mini->tokens);
 	print_list(mini->env, print_env);
 }
 

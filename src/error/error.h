@@ -15,6 +15,7 @@
 
 #define NOT_FILE "No such file or directory"
 #define TOO_ARG "too many arguments"
+#define NOT_NUB "numeric argument required"
 
 void ft_print_error(char *comand, char *error,char *error_char, char* start);
 
