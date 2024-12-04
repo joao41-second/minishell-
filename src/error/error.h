@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#define ERROR_H
 #ifndef ERROR_H
+#define ERROR_H
 
+void ft_print_error(char *comand, char *error,int nb_error, char* start);
 
 #endif // !

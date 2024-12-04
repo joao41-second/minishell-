@@ -48,10 +48,11 @@ void	ft_cd(t_minis *mini)
 		}
 		else
 			fd = ft_strdup(mini->split[1]);
-		getcwd(path, PATH_MAX);
+		//getcwd(path, PATH_MAX);
 		if (chdir(fd) == -1)
 		{
-			perror("ola o error");
+			ft_print_error("cd",fd,2,"bash");
+			return;
 		}
 		else
 		{

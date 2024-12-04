@@ -47,6 +47,7 @@ typedef struct s_mines
 	int		exit_code_error;
 }			t_minis;
 
+# include "./error/error.h"
 # include "./builtins/builtins.h"
 # include "./comands_line/readline.h"
 # include "./parsing/expand_env/expand.h"
