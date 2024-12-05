@@ -20,21 +20,21 @@ void	ft_pwd(t_minis *mini)
 	
 	if(mini->tokens->next != NULL)
 	{
-		token = get_token(mini->tokens->next);
-		//if(ft_strlen(token->token) > 3)
-		//{
-			if(token->token[0]== '-' && token->token[1] != '-')
+			token = get_token(mini->tokens->next);
+			if(token->token[0]== '-')
 			{
-				ft_strlcpy(opcion, token->token, 3);
-				ft_print_error("mini", opcion, INV_OPT, "bash");
+				if(ft_strlen(token->token) >= 2)
+				{
+					if(token->token[1] == '-' && token->token[2] == '\0');
+					else
+					{
+					memset(opcion, 'a', 5);
+					ft_strlcpy(opcion, token->token, 3);
+					ft_print_error("pwd", opcion, INV_OPT, "bash");
+					return ;
+					}
+				}
 			}
-			if(token->token[0]== '-' && token->token[1] == '-' && token->token[2] == '\0')
-			{
-				ft_strlcpy(opcion, token->token, 3);
-				ft_print_error("mini", opcion, INV_OPT, "bash");
-			}
-	//	}
-
 	}
 	printf("%s\n", mini->path);
 }
