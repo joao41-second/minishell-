@@ -41,7 +41,7 @@ void	ft_cd(t_minis *mini)
 	t_token *token;
 	
 	fd = NULL;
-	if(too_arg_print("cd" ,1,mini) == TRUE)
+	if(too_arg_print("cd" ,0,mini) == TRUE)
 		return;
 	
 	printf("raiva\n");

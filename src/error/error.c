@@ -32,7 +32,6 @@ int too_arg_print(char *comand ,int args,t_minis *mini)
 	
 	exits = 0;
 	list = mini->tokens;
-		mini->tokens = mini->tokens->next;
 
 	while (mini->tokens != NULL) 
 	{

@@ -107,9 +107,9 @@ void	start_shell(t_minis mini)
 			mini.exit_code_error = check_syntax(mini.line);
 			mini.tokens = tokenize_and_check_bash_command(&mini);
 			print_token_list(mini.tokens);
+			builtins(&mini);
 			free_list(mini.tokens, free_token);
 		}
-		builtins(&mini);
 		getcwd(mini.path, PATH_MAX);
 		add_history(line);
 		free(line);
