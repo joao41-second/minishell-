@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_aux.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:41:07 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/03 15:19:56 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/04 15:06:54 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_token(void *content)
 
 	list = (t_list *)content;
 	if(list == NULL)
-		return;
+		return ;
 	token = (t_token *)list->content;
 	ft_free(token->token, NULL);
 	ft_free(token->type, NULL);

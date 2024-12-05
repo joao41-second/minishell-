@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/18 16:01:39 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/03 16:00:52 by rui              ###   ########.fr       */
+/*   Created: 2024/12/04 14:22:36 by rpires-c          #+#    #+#             */
+/*   Updated: 2024/12/05 16:27:32 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,24 @@ void process_regular_token(const char *line, int *i, char ***env_matrix, t_list_
 
     token_start = *i;
     while (line[*i] && !is_whitespace(line[*i]) && !is_quote(line[*i]) &&
-           line[*i] != '>' && line[*i] != '<' && line[*i] != '|') {
+           line[*i] != '>' && line[*i] != '<' && line[*i] != '|')
         (*i)++;
-    }
     current_token = ft_substr(line, token_start, *i - token_start);
-
-    if (current_token[0] == '$') {
+    if (current_token[0] == '$')
         add_to_list(token_list, create_token(current_token, "env_var"));
-    } else {
+    else
+    {
         path = find_path(current_token, *env_matrix);
-        if (path) {
-            add_to_list(token_list, create_token(current_token, "command"));
-            ft_free(path, NULL);
-        } else {
-            add_to_list(token_list, create_token(current_token, "argument"));
+        if (path || ft_strcmp(current_token, "cd") == 0
+			|| ft_strcmp(current_token, "export") == 0
+			|| ft_strcmp(current_token, "unset") == 0
+			|| ft_strcmp(current_token, "exit") == 0)
+        {
+			add_to_list(token_list, create_token(current_token, "command"));
+			ft_free(path, NULL);
         }
+        else
+            add_to_list(token_list, create_token(current_token, "argument"));
     }
     ft_free(current_token, NULL);
 }

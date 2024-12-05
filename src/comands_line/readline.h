@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:09:15 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/12 21:00:01 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/04 16:14:21 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,7 @@ char *ft_strcpy(char *dst, const char *src);
 * @return value of the diference of the strings
 */
 int	ft_strcmp(const char *s1, const char *s2);
+
+void process_token_list(t_list_ *tokens, char **envp);
 
 #endif // !READLINE_H
