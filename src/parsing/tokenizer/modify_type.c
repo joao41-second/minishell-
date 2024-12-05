@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:00:28 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/05 16:29:40 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:33:59 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,12 @@ char	*strip_quotes(char *stripped_token)
 void	update_token_type(t_token *token, int *first_command_seen, char *path)
 {
 	if (path || ft_strcmp(token->token, "cd") == 0
+		|| ft_strcmp(token->token, "echo") == 0
+		|| ft_strcmp(token->token, "env") == 0
+		|| ft_strcmp(token->token, "exit") == 0
 		|| ft_strcmp(token->token, "export") == 0
-		|| ft_strcmp(token->token, "unset") == 0
-		|| ft_strcmp(token->token, "exit") == 0)
+		|| ft_strcmp(token->token, "pwd") == 0
+		|| ft_strcmp(token->token, "unset") == 0)
 	{
 		if (*first_command_seen)
 		{
