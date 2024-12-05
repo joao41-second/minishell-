@@ -53,7 +53,7 @@ void	builtins(t_minis	*mini)
 		ft_exit(mini);
 	if (ft_strncmp(token->token, "cd", 10) == 0)
 		ft_cd(mini);
-	if (ft_strncmp(mini->split[0], "pwd", 10) == 0)
+	if (ft_strncmp(token->token, "pwd", 10) == 0)
 		ft_pwd(mini);
 	if (ft_strncmp(mini->split[0], "unset", 10) == 0)
 		ft_unset(mini);
