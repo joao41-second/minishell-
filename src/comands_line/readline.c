@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/04 16:13:33 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:31:05 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void print_token_list(t_list_ *list)
 
     printf("Token List:\n");
     printf("-----------------------------------\n");
-
     while (current)
     {
         token = (t_token *)current->content;
@@ -80,9 +79,7 @@ void print_token_list(t_list_ *list)
                 printf("Redirection Source: %s\n", token->redirection_source);
         }
         else
-        {
             printf("Empty token\n");
-        }
         printf("-----------------------------------\n");
         current = current->next;
     }
@@ -91,7 +88,6 @@ void print_token_list(t_list_ *list)
 void	start_shell(t_minis mini)
 {
 	char	*line;
-	char	**env_matrix;
 	//char	*prompt;
 
 	server();
@@ -110,8 +106,7 @@ void	start_shell(t_minis mini)
 		{
 			mini.exit_code_error = check_syntax(mini.line);
 			mini.tokens = tokenize_and_check_bash_command(&mini);
-			env_matrix = env_to_matrix(&mini);
-			process_token_list(mini.tokens, env_matrix);
+			print_token_list(mini.tokens);
 			free_list(mini.tokens, free_token);
 		}
 		builtins(&mini);
