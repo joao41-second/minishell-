@@ -34,7 +34,9 @@ void	*get_env(void *point, void *locate)
 void	ft_env(t_minis *mini)
 {
 	t_token *token;
+	t_list_ *list;
 
+	list = mini->tokens;
 	while (mini->tokens != NULL) 
 	{
 		token = get_token(mini->tokens);
@@ -43,9 +45,10 @@ void	ft_env(t_minis *mini)
 			ft_print_error("env", token->token, TOO_ARG, "bash");
 			return ;
 		}
+		
 		mini->tokens = mini->tokens->next;
 	}
-	mini->tokens = ft_node_start(mini->tokens);
+	mini->tokens = list;
 	print_list(mini->env, print_env);
 }
 
