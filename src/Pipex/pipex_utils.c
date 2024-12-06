@@ -6,20 +6,11 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 11:26:26 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/18 17:04:50 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/06 14:56:46 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	usage(void)
-{
-	ft_putstr_fd("Error: Bad arguments\n", 2);
-	ft_putstr_fd("Ex: ./pipex_bonus <file1> <cmd1> <cmd2> <...> <file2>\n", 2);
-	ft_putstr_fd("./pipex_bonus \"here_doc\" <LIMITER>", 2);
-	ft_putstr_fd(" <cmd> <cmd1> <...> <file>\n", 2);
-	exit(EXIT_SUCCESS);
-}
 
 int	open_file(char *argv, int i)
 {

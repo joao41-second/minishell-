@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/05 16:31:05 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:17:54 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,11 @@ void print_token_list(t_list_ *list)
 void	start_shell(t_minis mini)
 {
 	char	*line;
+	char	**envp;
+	t_list_	*exec_list;
 	//char	*prompt;
 
+	envp = NULL;
 	server();
 	while (1)
 	{
@@ -106,10 +109,13 @@ void	start_shell(t_minis mini)
 		{
 			mini.exit_code_error = check_syntax(mini.line);
 			mini.tokens = tokenize_and_check_bash_command(&mini);
-			print_token_list(mini.tokens);
+			envp = env_to_matrix(&mini);
+			exec_list = merge_command_tokens(mini.tokens);
+			print_token_list(exec_list);
+			builtins(&mini);
+			free_env_matrix(envp);
 			free_list(mini.tokens, free_token);
 		}
-		builtins(&mini);
 		getcwd(mini.path, PATH_MAX);
 		add_history(line);
 		free(line);

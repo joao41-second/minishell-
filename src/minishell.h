@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/11/12 10:33:12 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/06 16:18:17 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ int			check_syntax(const char *str);
 void		free_split(char **ok);
 
 void		free_list(t_list_ *list, void (*free_struct)(void *));
+
+t_list_		*merge_command_tokens(t_list_ *original_list);
 
 #endif
