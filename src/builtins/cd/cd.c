@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <linux/limits.h>
-#include <stdio.h>
 
 void	set_path(t_list_ **list)
 {
@@ -35,6 +33,36 @@ void	set_path(t_list_ **list)
 	}
 }
 
+
+char *fd_generat(t_minis *mini)
+{
+	t_token *token;
+	char *fd;
+
+	fd = NULL;
+	if(mini->tokens->next != NULL)
+	{
+		token = get_token(mini->tokens->next);
+		if (token->token[0] == '~')
+		{
+			if (ft_getenv(mini, "HOME") == NULL)
+			{
+				ft_print_error("cd",NOT_HOME,"","bash"); 
+				return (NULL);
+			}
+			fd = ft_strjoin(ft_getenv(mini, "HOME"), &token->token[1]);
+		}
+		else
+			fd = ft_strdup(token->token);
+	}
+	if(fd == NULL)
+		fd =  ft_strdup(ft_getenv(mini, "HOME"));
+	if(fd == NULL)
+		ft_print_error("cd",NOT_HOME,"","bash"); 
+	return (fd);
+}
+
+
 void	ft_cd(t_minis *mini)
 {
 	char	*fd;
@@ -44,19 +72,9 @@ void	ft_cd(t_minis *mini)
 	if(too_arg_print("cd" ,0,mini) == TRUE)
 		return;
 	
-	printf("raiva\n");
-	if(mini->tokens->next != NULL)
-	{
-		token = get_token(mini->tokens->next);
-		if (token->token[0] == '~')
-		{
-			fd = ft_strjoin(ft_getenv(mini, "HOME"), &mini->split[1][1]);
-		}
-		else
-			fd = ft_strdup(token->token);
-	}
-
-	//getcwd(path, PATH_MAX);
+	fd = fd_generat(mini);
+	if(fd == NULL)
+		return ;
 	if (chdir(fd) < 0)
 	{
 		ft_print_error("cd",fd,NOT_FILE,"bash");

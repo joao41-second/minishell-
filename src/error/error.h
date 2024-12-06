@@ -17,6 +17,7 @@
 #define TOO_ARG "too many arguments"
 #define NOT_NUB "numeric argument required"
 #define INV_OPT "invalid option"
+#define NOT_HOME "HOME not set"
 
 void ft_print_error(char *comand, char *error,char *error_char, char* start);
 
