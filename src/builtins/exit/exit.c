@@ -17,9 +17,11 @@
 int ft_str_is_nb(char *str)
 {
 	int	i;
+
+	i = -1;
 	while (str[++i] != '\0')
 	{
-		if(ft_isdigit(str[i]) != 1 || str[i] !='-' || str[i] != '+')
+		if(ft_isdigit(str[i]) != 1 && str[i] !='-' && str[i] != '+')
 			return (FALSE);
 	}
 	return (TRUE);
