@@ -69,6 +69,8 @@ void	ft_cd(t_minis *mini)
 	t_token *token;
 	
 	fd = NULL;
+	if(not_opcion(mini, "cd") == TRUE)
+		return;
 	if(too_arg_print("cd" ,0,mini) == TRUE)
 		return;
 	

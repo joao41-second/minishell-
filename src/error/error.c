@@ -52,6 +52,32 @@ int too_arg_print(char *comand ,int args,t_minis *mini)
 	return (FALSE);
 }
 
+int not_opcion(t_minis *mini , char *comand)
+{
+	t_token *token;
+	char opcion[6];
+	
+	if(mini->tokens->next != NULL)
+	{
+		token = get_token(mini->tokens->next);
+		if(token->token[0]== '-')
+		{
+			if(ft_strlen(token->token) >= 2)
+			{
+				if(token->token[1] == '-' && token->token[2] == '\0');
+				else
+				{
+					memset(opcion, 'a', 5);
+					ft_strlcpy(opcion, token->token, 3);
+					ft_print_error(comand, opcion, INV_OPT, "bash");
+					return (TRUE);
+				}
+			}
+		}
+	}
+	return (FALSE);
+}
+
 void ft_error(t_minis *mini)
 {
 

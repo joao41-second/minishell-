@@ -23,4 +23,6 @@ void ft_print_error(char *comand, char *error,char *error_char, char* start);
 
 int too_arg_print(char *comand ,int args,t_minis *mini);
 
+int not_opcion(t_minis *mini , char *comand);
+
 #endif // !

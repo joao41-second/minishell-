@@ -11,30 +11,10 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <string.h>
 
 void	ft_pwd(t_minis *mini)
 {
-	t_token *token;
-	char opcion[6];
-	
-	if(mini->tokens->next != NULL)
-	{
-			token = get_token(mini->tokens->next);
-			if(token->token[0]== '-')
-			{
-				if(ft_strlen(token->token) >= 2)
-				{
-					if(token->token[1] == '-' && token->token[2] == '\0');
-					else
-					{
-					memset(opcion, 'a', 5);
-					ft_strlcpy(opcion, token->token, 3);
-					ft_print_error("pwd", opcion, INV_OPT, "bash");
-					return ;
-					}
-				}
-			}
-	}
+	if(not_opcion(mini, "pwd") == TRUE)
+		return;
 	printf("%s\n", mini->path);
 }
