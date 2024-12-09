@@ -36,7 +36,9 @@ void	ft_env(t_minis *mini)
 	t_token *token;
 	t_list_ *list;
 
-	list = mini->tokens;
+	list = mini->tokens;	
+	if(not_opcion(mini, "env") == TRUE)
+		return;
 	while (mini->tokens != NULL) 
 	{
 		token = get_token(mini->tokens);
