@@ -59,7 +59,7 @@ void	builtins(t_minis	*mini)
 		ft_unset(mini);
 	if (ft_strncmp(mini->split[0], "export", 10) == 0)
 		ft_export(mini);
-	if (ft_strncmp(mini->split[0], "echo", 10) == 0)
+	if (ft_strncmp(token->token, "echo", 10) == 0)
 		ft_echo(mini);
 	chek_herdoc(mini, 1);
 	free_split(mini->split);
