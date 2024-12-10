@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stdbool.h>
 
 t_env	*set_env_in_export(t_list_ *list, char *str, char **export)
 {
@@ -78,7 +79,7 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	i = inicilaze_variabel(&env, &export, list, str);
 	if (export[1] != NULL && i == 0)
 		env->content = ft_strjoin("",
-				&mini->split[1][strlen(export[0]) + 1]);
+				&str[strlen(export[0]) + 1]);
 	else if (str[ft_strlen(export[0])] == '=' && i == 0)
 	{
 		temp = ft_malloc(1 * sizeof(char), NULL);
@@ -88,7 +89,7 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	else if (export[1] != NULL && i == 1)
 	{
 		temp = ft_strjoin(env->content, ft_strjoin("",
-					&mini->split[1][strlen(export[0]) + 1]));
+					&str[strlen(export[0]) + 1]));
 		ft_free(env->content, NULL);
 		env->content = temp;
 	}
@@ -97,13 +98,66 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	free_split(export);
 }
 
+int valid_export(char	*token)
+{
+	int i;
+
+	i = 0;
+	if(ft_isalpha(token[0]) == TRUE)
+		return (FALSE);
+	while(token[++i] != '\0')
+	{
+		if(token[i] == '=')
+		{
+			if(token[i-1] != '+' && ft_isalnum(token[i-1]) == TRUE)
+				return (FALSE);
+		}
+	}
+	if(token[--i] != '+' && token[--i] != '=' && ft_isalnum(token[--i]) == TRUE)
+		return (FALSE);
+	return (TRUE);
+}
+
+int locate(char *str ,char src)
+{
+	int	i;
+	
+	i = -1;
+	while (str[++i] != '\0')
+	{
+		if (str[i] == src)
+			return (TRUE);
+	}
+	
+	return (FALSE);
+}
+
 void	ft_export(t_minis *mini)
 {
-	if (mini->split[1] != NULL)
+	t_token *token;
+	t_list_ *list;
+	
+	list =  mini->tokens; 
+	if(mini->tokens != NULL && mini->tokens->next != NULL)
 	{
-		ft_export_add(mini->env, mini->split[1], mini);
-		ft_export_add(mini->env_org, mini->split[1], mini);
+		token = get_token(list->next);
+		if( locate(token->token,'=') == FALSE && not_opcion(mini, "export") == TRUE)
+			return;
+		list = list->next;
+		while (list != NULL)
+		{
+			token = get_token(list);
+			if(valid_export(token->token) == TRUE)
+			{
+				ft_export_add(mini->env, token->token, mini);
+				ft_export_add(mini->env_org, token->token, mini);
+			}
+			else
+				return(ft_print_error("export",token->token,SNTAX_ERROR,"bash"));
+			list = list->next;
+		}
 	}
-	if (mini->split[1] == NULL)
+	if (mini->tokens->next == NULL)
 		organizer_list(mini->env_org);
+	//mini->tokens = list;
 }
