@@ -74,6 +74,15 @@ void	unset_list(t_list_ **list, char *str)
 
 void	ft_unset(t_minis *mini)
 {
-	unset_list(&mini->env, mini->split[1]);
-	unset_list(&mini->env_org, mini->split[1]);
+	t_token	*token;
+
+	if (not_opcion(mini, "unset") == TRUE)
+		return;
+
+	if(mini->tokens != NULL && mini->tokens->next != NULL)
+	{
+		token = get_token(mini->tokens->next);
+		unset_list(&mini->env, token->token);
+		unset_list(&mini->env_org, token->token);
+	}
 }
