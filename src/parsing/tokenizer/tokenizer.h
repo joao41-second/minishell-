@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:42:52 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/04 14:33:03 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:22:15 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int			is_whitespace(char c);
 
 int			is_quote(char c);
 
-t_token		*create_token(char *str, char *type);
+t_token		*create_token(char *str, char *type, char *target, char *source);
 
 void		add_to_list(t_list_ **list, t_token *token);
 

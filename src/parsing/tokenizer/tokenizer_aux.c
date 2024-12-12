@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:41:07 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/04 15:06:54 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:24:54 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_list_ *initialize_tokenizer(t_minis *mini, char ***env_matrix)
 {
     t_list_ *token_list;
 
-    token_list = ft_node_new(create_token("", ""));
+    token_list = ft_node_new(create_token("", "", "", ""));
     *env_matrix = env_to_matrix(mini);
     return token_list;
 }
@@ -64,8 +64,8 @@ void	process_quoted_string(char *line, int *i,
 		return ;
 	is_command = is_quoted_string_command(current_token, *env_matrix);
 	if (is_command)
-		add_to_list(token_list, create_token(current_token, "command"));
+		add_to_list(token_list, create_token(current_token, "command", NULL));
 	else
-		add_to_list(token_list, create_token(current_token, "argument"));
+		add_to_list(token_list, create_token(current_token, "argument", NULL));
 	ft_free(current_token, NULL);
 }

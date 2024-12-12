@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:36 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/05 16:27:32 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:25:34 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void process_operator_tokens(const char *line, int *i, t_list_ **token_list)
     current_token = ft_substr(line, *i, token_length);
     *i += token_length;
     if (current_token[0] == '|')
-        add_to_list(token_list, create_token(current_token, "pipe"));
+        add_to_list(token_list, create_token(current_token, "pipe", NULL, NULL));
     else
     {
         redir_type = get_redirection_type(current_token);
-        add_to_list(token_list, create_token(current_token, redir_type));
+        add_to_list(token_list, create_token(current_token, redir_type, NULL, NULL));
     }
     ft_free(redir_type, NULL);
     ft_free(current_token, NULL);
@@ -48,7 +48,7 @@ void process_regular_token(const char *line, int *i, char ***env_matrix, t_list_
         (*i)++;
     current_token = ft_substr(line, token_start, *i - token_start);
     if (current_token[0] == '$')
-        add_to_list(token_list, create_token(current_token, "env_var"));
+        add_to_list(token_list, create_token(current_token, "env_var", NULL, NULL));
     else
     {
         path = find_path(current_token, *env_matrix);
@@ -57,11 +57,11 @@ void process_regular_token(const char *line, int *i, char ***env_matrix, t_list_
 			|| ft_strcmp(current_token, "unset") == 0
 			|| ft_strcmp(current_token, "exit") == 0)
         {
-			add_to_list(token_list, create_token(current_token, "command"));
+			add_to_list(token_list, create_token(current_token, "command", NULL, NULL));
 			ft_free(path, NULL);
         }
         else
-            add_to_list(token_list, create_token(current_token, "argument"));
+            add_to_list(token_list, create_token(current_token, "argument", NULL, NULL));
     }
     ft_free(current_token, NULL);
 }
