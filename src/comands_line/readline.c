@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/13 15:50:52 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/13 16:38:22 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,11 @@ void	start_shell(t_minis mini)
 			mini.exit_code_error = check_syntax(mini.line);
 			mini.tokens = tokenize_and_check_bash_command(&mini);
 			envp = env_to_matrix(&mini);
-			// exec_list = merge_command_tokens(mini.tokens);
-			print_token_list(mini.tokens);
+			exec_list = token_merger(&mini);
+			print_token_list(exec_list);
 			builtins(&mini);
 			free_env_matrix(envp);
-			// free_list(exec_list, free_token);
+			free_list(exec_list, free_token);
 			free_list(mini.tokens, free_token);
 		}
 		getcwd(mini.path, PATH_MAX);
