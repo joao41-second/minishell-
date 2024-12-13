@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:17:19 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/13 16:46:33 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/13 17:13:50 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,44 @@ void copy_tokens(t_list_ *original_tokens, t_list_ **merged_list)
 	}
 }
 
+void join_arguments_to_commands(t_list_ **merged_list)
+{
+    t_list_ *current;
+    t_token *command_token;
+    t_list_ *temp;
+    t_token *current_token;
+    char *new_token;
+    char *updated_token;
+
+	current = *merged_list;
+	command_token = NULL;
+	while (current)
+	{
+		current_token = (t_token *)current->content;
+		if (ft_strcmp(current_token->type, "command") == 0)
+			command_token = current_token;
+		else if (command_token && ft_strcmp(current_token->type, "argument") == 0)
+		{
+			new_token = ft_strjoin(command_token->token, " ");
+			updated_token = ft_strjoin(new_token, current_token->token);
+			ft_free(command_token->token, NULL);
+			command_token->token = updated_token;
+			ft_free(new_token, NULL);
+			temp = current->next;
+			ft_free_node(&current, free_token);
+			current = temp;
+		}
+		else
+			command_token = NULL;
+		current = current->next;
+	}
+}
+
 t_list_ *token_merger(t_minis *mini)
 {
 	t_list_	*merged_list;
 
 	copy_tokens(mini->tokens, &merged_list);
+	join_arguments_to_commands(&merged_list);
 	return (merged_list);
 }

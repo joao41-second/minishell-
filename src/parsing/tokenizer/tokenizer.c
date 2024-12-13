@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:36 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/13 16:22:47 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/13 16:59:46 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,10 @@ void process_regular_token(const char *line, int *i, t_list_ **token_list, bool 
         	&& line[*i] != '>' && line[*i] != '<' && line[*i] != '|')
         (*i)++;
     current_token = ft_substr(line, token_start, *i - token_start);
-    if (current_token[0] == '$')
-        add_to_list(token_list, create_token(current_token, "env_var", NULL, NULL));
+    if (command)
+		add_to_list(token_list, create_token(current_token, "command", NULL, NULL));
     else
-    {
-        if (command)
-			add_to_list(token_list, create_token(current_token, "command", NULL, NULL));
-        else
-            add_to_list(token_list, create_token(current_token, "argument", NULL, NULL));
-    }
+        add_to_list(token_list, create_token(current_token, "argument", NULL, NULL));
     ft_free(current_token, NULL);
 }
 
