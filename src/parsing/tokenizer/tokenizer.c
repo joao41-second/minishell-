@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:36 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/12 18:25:34 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:22:47 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,59 +36,58 @@ void process_operator_tokens(const char *line, int *i, t_list_ **token_list)
     ft_free(current_token, NULL);
 }
 
-void process_regular_token(const char *line, int *i, char ***env_matrix, t_list_ **token_list)
+void process_regular_token(const char *line, int *i, t_list_ **token_list, bool command)
 {
     char *current_token;
     char *path;
     int token_start;
 
     token_start = *i;
-    while (line[*i] && !is_whitespace(line[*i]) && !is_quote(line[*i]) &&
-           line[*i] != '>' && line[*i] != '<' && line[*i] != '|')
+    while (line[*i] && !is_whitespace(line[*i]) 
+        	&& line[*i] != '>' && line[*i] != '<' && line[*i] != '|')
         (*i)++;
     current_token = ft_substr(line, token_start, *i - token_start);
     if (current_token[0] == '$')
         add_to_list(token_list, create_token(current_token, "env_var", NULL, NULL));
     else
     {
-        path = find_path(current_token, *env_matrix);
-        if (path || ft_strcmp(current_token, "cd") == 0
-			|| ft_strcmp(current_token, "export") == 0
-			|| ft_strcmp(current_token, "unset") == 0
-			|| ft_strcmp(current_token, "exit") == 0)
-        {
+        if (command)
 			add_to_list(token_list, create_token(current_token, "command", NULL, NULL));
-			ft_free(path, NULL);
-        }
         else
             add_to_list(token_list, create_token(current_token, "argument", NULL, NULL));
     }
     ft_free(current_token, NULL);
 }
 
-void	tokenize_bash_command_core(char *line, t_list_ **token_list,
-						char ***env_matrix)
+void	tokenize_bash_command_core(char *line, t_list_ **token_list)
 {
-	int	i;
+	int		i;
+	bool	command;
 
 	i = 0;
+	command = true;
 	while (line[i])
 	{
 		while (line[i] && is_whitespace(line[i]))
 			i++;
 		if (!line[i])
 			break ;
-		if (is_quote(line[i]))
+		if ((line[i] == '>' || (line[i] == '>' && line[i + 1] == '>'))
+			|| (line[i] == '<' || (line[i] == '<' && line[i + 1] == '<'))
+			|| line[i] == '|')
 		{
-			process_quoted_string(line, &i, env_matrix, token_list);
-			continue ;
-		}
-		if (line[i] == '>' || line[i] == '<' || line[i] == '|')
-		{
+			if (line[i] == '|')
+				command = true;
+			else
+				command = false;
 			process_operator_tokens(line, &i, token_list);
-			continue ;
 		}
-		process_regular_token(line, &i, env_matrix, token_list);
+		else
+		{
+			process_regular_token(line, &i, token_list, command);
+			command = false;
+		}
+		
 	}
 }
 
@@ -98,7 +97,7 @@ t_list_	*tokenize_and_check_bash_command(t_minis *mini)
 	char	**env_matrix;
 
 	token_list = initialize_tokenizer(mini, &env_matrix);
-	tokenize_bash_command_core(mini->line, &token_list, &env_matrix);
+	tokenize_bash_command_core(mini->line, &token_list);
 	finalize_tokens(token_list, env_matrix, mini);
     ft_free_node(&token_list, free_token);
 	return (token_list);

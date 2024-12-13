@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_aux.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:41:07 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/12 18:24:54 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/13 16:12:16 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void finalize_tokens(t_list_ *token_list, char **env_matrix, t_minis *mini)
     set_redirection_relations(token_list);
     if (env_matrix)
         free_env_matrix(env_matrix);
-    modify_token_types(token_list, mini);
 }
 
 t_list_ *initialize_and_finalize_tokenizer(t_minis *mini, char ***env_matrix)
@@ -64,8 +63,8 @@ void	process_quoted_string(char *line, int *i,
 		return ;
 	is_command = is_quoted_string_command(current_token, *env_matrix);
 	if (is_command)
-		add_to_list(token_list, create_token(current_token, "command", NULL));
+		add_to_list(token_list, create_token(current_token, "command", NULL, NULL));
 	else
-		add_to_list(token_list, create_token(current_token, "argument", NULL));
+		add_to_list(token_list, create_token(current_token, "argument", NULL, NULL));
 	ft_free(current_token, NULL);
 }

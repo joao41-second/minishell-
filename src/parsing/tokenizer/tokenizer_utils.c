@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:43 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/04 14:22:45 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/13 15:33:04 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_quote(char c)
 	return (c == '\'' || c == '"');
 }
 
-t_token	*create_token(char *str, char *type)
+t_token	*create_token(char *str, char *type, char *target, char *source)
 {
 	t_token	*token;
 
@@ -31,8 +31,14 @@ t_token	*create_token(char *str, char *type)
 		return (NULL);
 	token->token = ft_strdup(str);
 	token->type = ft_strdup(type);
-	token->redirection_target = NULL;
-	token->redirection_source = NULL;
+	if (!target)
+		token->redirection_target = NULL;
+	else
+		token->redirection_target = ft_strdup(target);
+	if (!source)
+		token->redirection_source = NULL;
+	else
+		token->redirection_source = ft_strdup(source);
 	return (token);
 }
 
