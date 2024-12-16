@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:36 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/16 14:47:32 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/16 16:40:31 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,33 +69,47 @@ void tokenize_bash_command_core(char *line, t_list_ **token_list)
 {
     int i;
     bool command;
+	bool redir;
 
     i = 0;
+	redir = false;
     command = true;
     while (line[i])
     {
         while (line[i] && is_whitespace(line[i]))
             i++;
         if (!line[i])
-            break;
-        if (((line[i] == '>' && line[i + 1] == '>') || 
-            (line[i] == '<' && line[i + 1] == '<')) || 
+            break ;
+        if (((line[i] == '>' && line[i + 1] == '>') ||
+            (line[i] == '<' && line[i + 1] == '<')) ||
             line[i] == '>' || line[i] == '<' || line[i] == '|')
         {
             if (line[i] == '|')
+            {
                 command = true;
+                process_operator_tokens(line, &i, token_list);
+            }
             else
-                command = false;
-            process_operator_tokens(line, &i, token_list);
+			{
+				command = false;
+				if(!redir)
+					redir = true;
+				process_operator_tokens(line, &i, token_list);
+			}
         }
         else
         {
             process_regular_token(line, &i, token_list, command);
-            command = false;
+			if (redir)
+			{
+				command = true;
+				redir = false;
+			}
+			else
+				command = false;
         }
     }
 }
-
 
 t_list_	*tokenize_and_check_bash_command(t_minis *mini)
 {
