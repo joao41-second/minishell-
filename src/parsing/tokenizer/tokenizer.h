@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:42:52 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/13 15:33:37 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/16 14:15:25 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,13 @@ void		free_env_matrix(char **env_matrix);
 
 int			extract_quoted_string(char *line, int *i, char **token);
 
-int			is_quoted_string_command(char *str, char **env_matrix);
+int			is_quoted_string(char *line);
 
 void		modify_token_types(t_list_ *token_list, t_minis *mini);
 
 t_list_		*initializeAndFinalizeTokenizer(t_minis *mini, char ***env_matrix);
 
 t_list_		*initialize_tokenizer(t_minis *mini, char ***env_matrix);
-
-void		process_quoted_string(char *line, int *i,
-						char ***env_matrix, t_list_ **token_list);
 
 void		finalize_tokens(t_list_ *token_list, char **env_matrix, t_minis *mini);
 

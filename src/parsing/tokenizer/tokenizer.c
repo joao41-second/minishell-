@@ -6,11 +6,40 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:36 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/13 16:59:46 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/16 14:47:32 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void process_regular_token(const char *line, int *i, t_list_ **token_list, bool command)
+{
+    char *current_token;
+    int token_start;
+    char quote;
+
+    token_start = *i;
+    while (line[*i] && (!is_whitespace(line[*i]) &&
+           line[*i] != '>' && line[*i] != '<' && line[*i] != '|'))
+    {
+        if (line[*i] == '\'' || line[*i] == '"')
+        {
+            quote = line[*i];
+            (*i)++;
+            while (line[*i] && line[*i] != quote)
+                (*i)++;
+            if (line[*i]) (*i)++;
+        }
+        else
+            (*i)++;
+    }
+    current_token = ft_substr(line, token_start, *i - token_start);
+    if (command)
+        add_to_list(token_list, create_token(current_token, "command", NULL, NULL));
+    else
+        add_to_list(token_list, create_token(current_token, "argument", NULL, NULL));
+    ft_free(current_token, NULL);
+}
 
 void process_operator_tokens(const char *line, int *i, t_list_ **token_list)
 {
@@ -18,8 +47,8 @@ void process_operator_tokens(const char *line, int *i, t_list_ **token_list)
     char *redir_type;
     int token_length;
 
-    if ((line[*i] == '>' && line[*i + 1] == '>') || 
-        (line[*i] == '<' && line[*i + 1] == '<'))
+    if ((line[*i] == '>' && line[*i + 1] == '>')
+    	|| (line[*i] == '<' && line[*i + 1] == '<'))
         token_length = 2;
     else
         token_length = 1;
@@ -36,55 +65,37 @@ void process_operator_tokens(const char *line, int *i, t_list_ **token_list)
     ft_free(current_token, NULL);
 }
 
-void process_regular_token(const char *line, int *i, t_list_ **token_list, bool command)
+void tokenize_bash_command_core(char *line, t_list_ **token_list)
 {
-    char *current_token;
-    char *path;
-    int token_start;
+    int i;
+    bool command;
 
-    token_start = *i;
-    while (line[*i] && !is_whitespace(line[*i]) 
-        	&& line[*i] != '>' && line[*i] != '<' && line[*i] != '|')
-        (*i)++;
-    current_token = ft_substr(line, token_start, *i - token_start);
-    if (command)
-		add_to_list(token_list, create_token(current_token, "command", NULL, NULL));
-    else
-        add_to_list(token_list, create_token(current_token, "argument", NULL, NULL));
-    ft_free(current_token, NULL);
+    i = 0;
+    command = true;
+    while (line[i])
+    {
+        while (line[i] && is_whitespace(line[i]))
+            i++;
+        if (!line[i])
+            break;
+        if (((line[i] == '>' && line[i + 1] == '>') || 
+            (line[i] == '<' && line[i + 1] == '<')) || 
+            line[i] == '>' || line[i] == '<' || line[i] == '|')
+        {
+            if (line[i] == '|')
+                command = true;
+            else
+                command = false;
+            process_operator_tokens(line, &i, token_list);
+        }
+        else
+        {
+            process_regular_token(line, &i, token_list, command);
+            command = false;
+        }
+    }
 }
 
-void	tokenize_bash_command_core(char *line, t_list_ **token_list)
-{
-	int		i;
-	bool	command;
-
-	i = 0;
-	command = true;
-	while (line[i])
-	{
-		while (line[i] && is_whitespace(line[i]))
-			i++;
-		if (!line[i])
-			break ;
-		if ((line[i] == '>' || (line[i] == '>' && line[i + 1] == '>'))
-			|| (line[i] == '<' || (line[i] == '<' && line[i + 1] == '<'))
-			|| line[i] == '|')
-		{
-			if (line[i] == '|')
-				command = true;
-			else
-				command = false;
-			process_operator_tokens(line, &i, token_list);
-		}
-		else
-		{
-			process_regular_token(line, &i, token_list, command);
-			command = false;
-		}
-		
-	}
-}
 
 t_list_	*tokenize_and_check_bash_command(t_minis *mini)
 {

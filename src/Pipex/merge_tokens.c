@@ -6,18 +6,17 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:17:19 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/13 17:13:50 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/16 15:01:57 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void copy_tokens(t_list_ *original_tokens, t_list_ **merged_list)
+void deep_copy_tokens(t_list_ *original_tokens, t_list_ **merged_list)
 {
 	t_list_	*current_original;
 	t_token	*original_token;
 	char	*new_token;
-	char	*new_type;
 	char	*new_target;
 	char	*new_source;
 
@@ -73,7 +72,9 @@ t_list_ *token_merger(t_minis *mini)
 {
 	t_list_	*merged_list;
 
-	copy_tokens(mini->tokens, &merged_list);
+	deep_copy_tokens(mini->tokens, &merged_list);
 	join_arguments_to_commands(&merged_list);
 	return (merged_list);
 }
+char	*new_type;
+	
