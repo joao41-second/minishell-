@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:17:19 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/16 15:01:57 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/16 15:18:42 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void deep_copy_tokens(t_list_ *original_tokens, t_list_ **merged_list)
 	t_list_	*current_original;
 	t_token	*original_token;
 	char	*new_token;
+	char	*new_type;
 	char	*new_target;
 	char	*new_source;
 
@@ -38,35 +39,36 @@ void deep_copy_tokens(t_list_ *original_tokens, t_list_ **merged_list)
 void join_arguments_to_commands(t_list_ **merged_list)
 {
     t_list_ *current;
-    t_token *command_token;
+    t_token *command_token = NULL;
     t_list_ *temp;
     t_token *current_token;
     char *new_token;
     char *updated_token;
 
-	current = *merged_list;
-	command_token = NULL;
-	while (current)
-	{
-		current_token = (t_token *)current->content;
-		if (ft_strcmp(current_token->type, "command") == 0)
-			command_token = current_token;
-		else if (command_token && ft_strcmp(current_token->type, "argument") == 0)
-		{
-			new_token = ft_strjoin(command_token->token, " ");
-			updated_token = ft_strjoin(new_token, current_token->token);
-			ft_free(command_token->token, NULL);
-			command_token->token = updated_token;
-			ft_free(new_token, NULL);
-			temp = current->next;
-			ft_free_node(&current, free_token);
-			current = temp;
-		}
-		else
-			command_token = NULL;
-		current = current->next;
-	}
+    current = *merged_list;
+    while (current)
+    {
+        current_token = (t_token *)current->content;
+        if (ft_strcmp(current_token->type, "command") == 0)
+            command_token = current_token;
+        else if (command_token && ft_strcmp(current_token->type, "argument") == 0)
+        {
+            new_token = ft_strjoin(command_token->token, " ");
+            updated_token = ft_strjoin(new_token, current_token->token);
+            ft_free(command_token->token, NULL);
+            command_token->token = updated_token;
+            ft_free(new_token, NULL);
+            temp = current->next;
+            ft_free_node(&current, free_token);
+            current = temp;
+            continue;
+        }
+        else
+            command_token = NULL;
+        current = current->next;
+    }
 }
+
 
 t_list_ *token_merger(t_minis *mini)
 {
