@@ -30,8 +30,8 @@ void deep_copy_tokens(t_list_ *original_tokens, t_list_ **merged_list)
 		new_target = ft_strdup(original_token->redirection_target);
 		new_source = ft_strdup(original_token->redirection_source);
 		add_to_list(merged_list, create_token(new_token, new_type, new_target, new_source));
-		//if (original_token->type && ft_strcmp(original_token->type, "redir") == 0)
-		//	current_original = current_original->next;
+		if (original_token->type && ft_strcmp(original_token->type, "redir") == 0)
+			current_original = current_original->next;
 		current_original = current_original->next;
 	}
 }
@@ -73,13 +73,16 @@ void join_arguments_to_commands(t_list_ **merged_list)
 t_list_ *token_merger(t_minis *mini)
 {
 	t_list_	*merged_list;
+	t_list_ *save;
 
 	mini->tokens = ft_node_start(mini->tokens);
 	merged_list = ft_node_new(create_token("", "", "", ""));
 	deep_copy_tokens(mini->tokens, &merged_list);
-//	print_token_list(mini->tokens);
-	join_arguments_to_commands(&merged_list);
-	return (merged_list);
+	save = ft_node_end(merged_list);
+	merged_list = ft_node_start(merged_list);
+	merged_list = save;
+	merged_list = ft_node_start(merged_list);
+	ft_free_node(&merged_list, free_token);
+	join_arguments_to_commands(&merged_list); return (merged_list);
 }
-char	*new_type;
 	
