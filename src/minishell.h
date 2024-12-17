@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/11/12 10:33:12 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/13 16:34:05 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,7 @@ int			check_syntax(const char *str);
 void		free_split(char **ok);
 
 void		free_list(t_list_ *list, void (*free_struct)(void *));
+
+t_list_		*token_merger(t_minis *mini);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:43 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/04 14:22:45 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/17 13:49:39 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_quote(char c)
 	return (c == '\'' || c == '"');
 }
 
-t_token	*create_token(char *str, char *type)
+t_token	*create_token(char *str, char *type, char *target, char *source)
 {
 	t_token	*token;
 
@@ -31,8 +31,14 @@ t_token	*create_token(char *str, char *type)
 		return (NULL);
 	token->token = ft_strdup(str);
 	token->type = ft_strdup(type);
-	token->redirection_target = NULL;
-	token->redirection_source = NULL;
+	if (!target)
+		token->redirection_target = NULL;
+	else
+		token->redirection_target = ft_strdup(target);
+	if (!source)
+		token->redirection_source = NULL;
+	else
+		token->redirection_source = ft_strdup(source);
 	return (token);
 }
 
@@ -48,17 +54,4 @@ void add_to_list(t_list_ **list, t_token *token)
         t_list_ *last = ft_node_end(*list);
         ft_node_add_front(&last, new_node);
     }
-}
-
-char	*get_redirection_type(char *str)
-{
-	if (!ft_strcmp(str, ">"))
-		return (ft_strdup("redir"));
-	if (!ft_strcmp(str, "<"))
-		return (ft_strdup("redir"));
-	if (!ft_strcmp(str, ">>"))
-		return (ft_strdup("append"));
-	if (!ft_strcmp(str, "<<"))
-		return (ft_strdup("append"));
-	return (NULL);
 }

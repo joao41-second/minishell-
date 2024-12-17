@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/* /* /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   tree_functions.c                                   :+:      :+:    :+:   */
@@ -6,118 +6,120 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 16:42:28 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/04 17:35:24 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/06 15:15:04 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int* handle_redirections(t_list_ *tokens)
-{
-    static int fds[2];
+int handle_single_redirection(t_token *redir_token) {
+    int fd;
+    if (strcmp(redir_token->type, "redir") != 0)
+        return 0;
 
-    fds[0] = STDIN_FILENO;
-    fds[1] = STDOUT_FILENO;
-    t_list_ *current = tokens;
-    while (current)
-    {
-        t_token *token = (t_token *)current->content;
-        if (token && ft_strcmp(token->type, "redir") == 0)
-        {
-            if (!ft_strcmp(token->token, ">"))
-            {
-                close(fds[1]);
-                fds[1] = open(token->redirection_target, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-            }
-            else if (!ft_strcmp(token->token, ">>"))
-            {
-                close(fds[1]);
-                fds[1] = open(token->redirection_target, O_WRONLY | O_CREAT | O_APPEND, 0644);
-            }
-            else if (!ft_strcmp(token->token, "<"))
-            {
-                close(fds[0]);
-                fds[0] = open(token->redirection_target, O_RDONLY);
-            }
-        }
-        current = current->next;
+    if (strcmp(redir_token->token, "<") == 0) {
+        fd = open(redir_token->redirection_source, O_RDONLY);
+        dup2(fd, STDIN_FILENO);
+        close(fd);
+    } else if (strcmp(redir_token->token, ">") == 0) {
+        fd = open(redir_token->redirection_target, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        dup2(fd, STDOUT_FILENO);
+        close(fd);
+    } else if (strcmp(redir_token->token, ">>") == 0) {
+        fd = open(redir_token->redirection_target, O_WRONLY | O_CREAT | O_APPEND, 0644);
+        dup2(fd, STDOUT_FILENO);
+        close(fd);
     }
-    return fds;
+    return 1;
 }
 
-int execute_command_group(t_list_ *tokens, char **envp)
-{
-    char **command_argv;
-    int command_argc = 0;
-    int output_redirected = 0;
-    char *full_path;
-
-    full_path = find_path("ls", envp);
-    if (!full_path) {
-        perror("Command not found");
-        return -1;
+void apply_redirections(t_list_ *current) {
+    t_list_ *look_ahead = current->next;
+    while (look_ahead && strcmp(((t_token *)look_ahead->content)->type, "redir") == 0) {
+        handle_single_redirection((t_token *)look_ahead->content);
+        look_ahead = look_ahead->next;
     }
-
-    // Replace first argument with full path
-    command_argv[0] = full_path;
-    int i = 0;
-    while (command_argv[i])
-    {
-        printf("%s", command_argv[i]);
-        i++;
-    }
-    int *fds = handle_redirections(tokens);
-    dup2(fds[0], STDIN_FILENO);
-    if (!output_redirected)
-        dup2(STDOUT_FILENO, fds[1]);
-    else
-        dup2(fds[1], STDOUT_FILENO);
-	printf("%s\n", full_path);
-    // execve(full_path, command_argv, envp);
-    // perror("execve");
-    free(full_path);
-    free(command_argv);
-    return -1;
 }
 
-void process_token_list(t_list_ *tokens, char **envp)
+void execute_command(t_token *cmd_token, char **envp) {
+    execute(cmd_token->token, envp);
+    perror("execvp"); // If execvp fails
+    exit(EXIT_FAILURE);
+}
+
+pid_t create_pipe_and_fork(int *pipe_fd) {
+    if (pipe(pipe_fd) == -1) {
+        perror("pipe");
+        exit(EXIT_FAILURE);
+    }
+    pid_t pid = fork();
+    if (pid == -1) {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    }
+    return pid;
+}
+
+void setup_child_pipe(int *pipe_fd) {
+    close(pipe_fd[0]);
+    dup2(pipe_fd[1], STDOUT_FILENO);
+    close(pipe_fd[1]);
+}
+
+void setup_parent_pipe(int *pipe_fd) {
+    close(pipe_fd[1]);
+    dup2(pipe_fd[0], STDIN_FILENO);
+    close(pipe_fd[0]);
+}
+
+void process_merged_list(t_list_ *merged_list, char **envp)
 {
-    int pipefd[2];
+    t_list_ *current = merged_list;
+    int pipe_fd[2];
     pid_t pid;
-    t_list_ *current;
+    int original_stdin = dup(STDIN_FILENO);
+    int original_stdout = dup(STDOUT_FILENO);
 
-	current = tokens;
-    while (current)
-    {
+    while (current) {
         t_token *token = (t_token *)current->content;
-        
-        if (ft_strcmp(token->type, "pipe") == 0)
-        {
-            if (pipe(pipefd) == -1)
-                pipe_error();
 
+        // Reset standard input/output for each command
+        dup2(original_stdin, STDIN_FILENO);
+        dup2(original_stdout, STDOUT_FILENO);
+
+        if (strcmp(token->type, "command") == 0) {
+            apply_redirections(current);
             pid = fork();
-            if (pid == -1)
-                fork_error();
-
-            if (pid == 0)
-            {
-                close(pipefd[0]);
-                dup2(pipefd[1], STDOUT_FILENO);
-                close(pipefd[1]);
-                execute_command_group(tokens, envp);
-                exit(1);
+            if (pid == 0) {
+                // Child process
+                execute_command(token, envp);
+            } else if (pid > 0) {
+                // Parent process waits for child
+                waitpid(pid, NULL, 0);
+            } else {
+                perror("fork");
+                exit(EXIT_FAILURE);
             }
-            else
-            {
-                close(pipefd[1]);
-                dup2(pipefd[0], STDIN_FILENO);
-                close(pipefd[0]);
+        } else if (strcmp(token->type, "pipe") == 0) {
+            pid = create_pipe_and_fork(pipe_fd);
+            if (pid == 0) {
+                setup_child_pipe(pipe_fd);
                 current = current->next;
+                if (current && strcmp(((t_token *)current->content)->type, "command") == 0) {
+                    execute_command((t_token *)current->content, envp);
+                }
+                exit(EXIT_SUCCESS);
+            } else {
+                setup_parent_pipe(pipe_fd);
+                waitpid(pid, NULL, 0);
             }
         }
-        
         current = current->next;
     }
-    execute_command_group(tokens, envp);
+
+    // Restore original stdin and stdout
+    dup2(original_stdin, STDIN_FILENO);
+    dup2(original_stdout, STDOUT_FILENO);
+    close(original_stdin);
+    close(original_stdout);
 }
