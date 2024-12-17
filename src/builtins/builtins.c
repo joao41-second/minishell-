@@ -39,10 +39,12 @@ t_token	*get_token(t_list_ *list)
 void	builtins(t_minis	*mini)
 {
 	t_token	*token;
+	t_list_ *save;
 
 	if (ft_strlen(mini->line) < 1)
 		return ;
 	mini->split = ft_split(mini->line, ' ');
+	save = mini->tokens;
 	chek_herdoc(mini, 0);
 	if (mini->tokens == NULL)
 		return ;
@@ -63,4 +65,5 @@ void	builtins(t_minis	*mini)
 		ft_echo(mini);
 	chek_herdoc(mini, 1);
 	free_split(mini->split);
+	mini->tokens = save;
 }

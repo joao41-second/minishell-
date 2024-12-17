@@ -24,6 +24,19 @@ t_env	*new_node(char *s1)
 	return (var);
 }
 
+t_env	*new_node_une(char *s1, char *s2)
+{
+	t_env	*var;
+	char	*content;
+
+	var = (t_env *)ft_malloc(1 * sizeof (t_env), NULL);
+	content = s2;
+	var->name = ft_strdup(s1);
+	var->content = ft_strdup(content);
+	var->chek = TRUE;
+	return (var);
+}
+
 void	free_split(char **ok)
 {
 	int	i;
@@ -91,6 +104,7 @@ t_list_	*env_split(char **env)
 		ft_node_add_front(&list, temp);
 		free_split(var);
 	}
+	ft_node_add_front(&list,ft_node_new( (void *) new_node_une("?","0")));
 	list = ft_node_start(list);
 	return (list);
 }

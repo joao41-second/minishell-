@@ -107,14 +107,15 @@ void	start_shell(t_minis mini)
 		mini.line = line;
 		if (mini.line[0] != '\0')
 		{
+			mini.line = expand_env(mini.line, &mini);
 			mini.exit_code_error = check_syntax(mini.line);
 			mini.tokens = tokenize_and_check_bash_command(&mini);
 			envp = env_to_matrix(&mini);
 			exec_list = token_merger(&mini);
-		//	print_token_list(exec_list);
-		//	printf("\n\n");
+			//	print_token_list(exec_list);
+			//	printf("\n\n");
+			//	builtins(&mini);
 			process_merged_list(exec_list, envp);
-			// builtins(&mini);
 			fflush(stdout);
 			free_env_matrix(envp);
 			free_list(exec_list, free_token);

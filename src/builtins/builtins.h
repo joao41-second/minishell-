@@ -177,4 +177,7 @@ t_env		*ft_getenv_content(t_list_ *list, char *var);
  * @return t_env stuct aloced 
  */
 t_env		*new_tenv(void);
+
+
+t_env	*new_node_une(char *s1, char *s2);
 #endif // DEBUG
