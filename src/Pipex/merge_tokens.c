@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:17:19 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/17 14:43:44 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/17 15:12:02 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,3 @@ t_list_ *token_merger(t_minis *mini)
 	join_arguments_to_commands(&merged_list);
 	return (merged_list);
 }
-	

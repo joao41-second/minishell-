@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:31 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/18 17:03:41 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/17 15:41:48 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	here_doc(char *limiter);
 void	execute(char *argv, char **envp);
 int		open_file(char *argv, int i);
 char	**pipex_split(char const *s, char c);
-void	process_tree(char **argv, int argc, t_btree *node, char **envp);
+void	process_merged_list(t_list_ *merged_list, char **envp);
 t_btree	*build_tree(char **argv, int i, int end);
 t_btree	*create_node(char *cmd, t_btree *l, t_btree *r, int first_cmd);
 void	usage(void);

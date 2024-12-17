@@ -12,58 +12,83 @@
 
 #include "../minishell.h"
 
-void	handle_pipe_fork(char **argv, int argc, t_btree *node, char **envp)
+void handle_redirection(t_list_ *redir_token)
 {
-	int		fd[2];
-	pid_t	pid;
-
-	if (pipe(fd) == -1)
-		pipe_error();
-	pid = fork();
-	if (pid == -1)
-		fork_error();
-	if (pid == 0)
-	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-		process_tree(argv, argc, node->left, envp);
-	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		process_tree(argv, argc, node->right, envp);
-	}
+    t_token *token = (t_token *)redir_token->content;
+    int fd;
+    
+    if (ft_strcmp(token->type, "redir") != 0)
+        return;
+    
+    if (ft_strcmp(token->token, "<") == 0)
+    {
+        fd = open(token->redirection_source, O_RDONLY);
+        dup2(fd, STDIN_FILENO);
+        close(fd);
+    }
+    else if (ft_strcmp(token->token, ">") == 0)
+    {
+        fd = open(token->redirection_target, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        dup2(fd, STDOUT_FILENO);
+        close(fd);
+    }
+    else if (ft_strcmp(token->token, ">>") == 0)
+    {
+        fd = open(token->redirection_target, O_WRONLY | O_CREAT | O_APPEND, 0644);
+        dup2(fd, STDOUT_FILENO);
+        close(fd);
+    }
 }
 
-void	handle_redirection(t_minis mini, char **envp)
+void process_merged_list(t_list_ *merged_list, char **envp)
 {
-	int	infile;
-	int	outfile;
-
-	if (node->first_cmd == 1)
-	{
-		infile = open_file(argv[1], 2);
-		dup2(infile, STDIN_FILENO);
-		close(infile);
-	}
-	else if (node->first_cmd == 2)
-	{
-		outfile = open_file(argv[argc - 1], 1);
-		dup2(outfile, STDOUT_FILENO);
-		close(outfile);
-	}
-}
-
-void	process_tree(char **argv, int argc, t_btree *node, char **envp)
-{
-	if (node->cmd == NULL)
-		handle_pipe_fork(argv, argc, node, envp);
-	else
-	{
-		handle_redirection(argv, argc, node);
-		execute(node->cmd, envp);
-	}
+    t_list_ *current = merged_list;
+    pid_t pid;
+    int pipe_fd[2];
+    
+    while (current)
+    {
+        t_token *token = (t_token *)current->content;
+        if (ft_strcmp(token->type, "command") == 0)
+        {
+            t_list_ *look_ahead = current->next;
+            while (look_ahead && ft_strcmp(((t_token *)look_ahead->content)->type, "redir") == 0)
+            {
+                handle_redirection(look_ahead);
+                look_ahead = look_ahead->next;
+            }
+            execute(token->token, envp);
+        }
+        else if (ft_strcmp(token->type, "pipe") == 0)
+        {
+            if (pipe(pipe_fd) == -1)
+                pipe_error();
+            
+            pid = fork();
+            if (pid == -1)
+                fork_error();
+            
+            if (pid == 0)
+            {
+                close(pipe_fd[0]);
+                dup2(pipe_fd[1], STDOUT_FILENO);
+                close(pipe_fd[1]);
+                current = current->next;
+                if (current && ft_strcmp(((t_token *)current->content)->type, "command") == 0)
+                {
+                    t_token *next_cmd = (t_token *)current->content;
+                    execute(next_cmd->token, envp);
+                }
+                exit(0);
+            }
+            else
+            {
+                close(pipe_fd[1]);
+                dup2(pipe_fd[0], STDIN_FILENO);
+                close(pipe_fd[0]);
+            }
+        }
+        
+        current = current->next;
+    }
 }
