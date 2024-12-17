@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:43 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/13 15:33:04 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/17 13:49:39 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,4 @@ void add_to_list(t_list_ **list, t_token *token)
         t_list_ *last = ft_node_end(*list);
         ft_node_add_front(&last, new_node);
     }
-}
-
-char	*get_redirection_type(char *str)
-{
-	if (!ft_strcmp(str, ">"))
-		return (ft_strdup("redir"));
-	if (!ft_strcmp(str, "<"))
-		return (ft_strdup("redir"));
-	if (!ft_strcmp(str, ">>"))
-		return (ft_strdup("append"));
-	if (!ft_strcmp(str, "<<"))
-		return (ft_strdup("append"));
-	return (NULL);
 }

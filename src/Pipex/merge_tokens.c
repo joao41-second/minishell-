@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   merge_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:17:19 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/16 15:18:42 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/17 14:43:44 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,28 +61,26 @@ void join_arguments_to_commands(t_list_ **merged_list)
             temp = current->next;
             ft_free_node(&current, free_token);
             current = temp;
-            continue;
+            continue ;
         }
-        else
+        else if (ft_strcmp(current_token->type, "pipe") == 0)
             command_token = NULL;
         current = current->next;
     }
 }
-
 
 t_list_ *token_merger(t_minis *mini)
 {
 	t_list_	*merged_list;
 	t_list_ *save;
 
-	mini->tokens = ft_node_start(mini->tokens);
 	merged_list = ft_node_new(create_token("", "", "", ""));
 	deep_copy_tokens(mini->tokens, &merged_list);
-	save = ft_node_end(merged_list);
+	save = merged_list;
+	merged_list = merged_list->next;
+	ft_free_node(&save, free_token);
 	merged_list = ft_node_start(merged_list);
-	merged_list = save;
-	merged_list = ft_node_start(merged_list);
-	ft_free_node(&merged_list, free_token);
-	join_arguments_to_commands(&merged_list); return (merged_list);
+	join_arguments_to_commands(&merged_list);
+	return (merged_list);
 }
 	

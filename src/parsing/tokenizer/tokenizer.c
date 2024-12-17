@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:36 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/16 16:40:31 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/17 13:58:00 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,7 @@ void process_operator_tokens(const char *line, int *i, t_list_ **token_list)
     if (current_token[0] == '|')
         add_to_list(token_list, create_token(current_token, "pipe", NULL, NULL));
     else
-    {
-        redir_type = get_redirection_type(current_token);
-        add_to_list(token_list, create_token(current_token, redir_type, NULL, NULL));
-    }
+        add_to_list(token_list, create_token(current_token, "redir", NULL, NULL));
     ft_free(redir_type, NULL);
     ft_free(current_token, NULL);
 }
@@ -69,10 +66,8 @@ void tokenize_bash_command_core(char *line, t_list_ **token_list)
 {
     int i;
     bool command;
-	bool redir;
 
     i = 0;
-	redir = false;
     command = true;
     while (line[i])
     {
@@ -92,21 +87,13 @@ void tokenize_bash_command_core(char *line, t_list_ **token_list)
             else
 			{
 				command = false;
-				if(!redir)
-					redir = true;
 				process_operator_tokens(line, &i, token_list);
 			}
         }
         else
         {
             process_regular_token(line, &i, token_list, command);
-			if (redir)
-			{
-				command = true;
-				redir = false;
-			}
-			else
-				command = false;
+			command = false;
         }
     }
 }
