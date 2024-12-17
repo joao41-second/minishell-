@@ -52,3 +52,10 @@ void	ft_exit(t_minis *mini)
 	ft_free_all(NULL);
 	exit(mini->exit_code_error);
 }
+
+void	ft_exit_end(int code)
+{
+	ft_free_all(NULL);
+	exit(code);
+
+}

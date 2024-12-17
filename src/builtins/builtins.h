@@ -180,4 +180,6 @@ t_env		*new_tenv(void);
 
 
 t_env	*new_node_une(char *s1, char *s2);
+void	ft_exit_end(int code);
+
 #endif // DEBUG

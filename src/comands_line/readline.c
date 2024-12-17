@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stddef.h>
 
 char	*ft_strndup(const char *src, size_t n)
 {
@@ -84,46 +83,59 @@ void print_token_list(t_list_ *list)
         current = current->next;
     }
 }
-
-void	start_shell(t_minis mini)
+void exit_comand(t_minis *mini)
 {
-	char	*line;
-	char	*prompt;
 	char	**envp;
 	t_list_	*exec_list;
 
-	envp = NULL;
+	mini->line = expand_env(mini->line, mini);
+	mini->exit_code_error = check_syntax(mini->line);
+	mini->tokens = tokenize_and_check_bash_command(mini);
+	envp = env_to_matrix(mini);
+	exec_list = token_merger(mini);
+	builtins(mini);
+	process_merged_list(exec_list, envp);
+	fflush(stdout);
+	free_env_matrix(envp);
+	free_list(exec_list, free_token);
+	free_list(mini->tokens, free_token);
+}
+
+void	start_prompt_and_sig(t_minis *mini)
+{
+	char	*prompt;
+	char	*line;
+
+	get_signal(1);
 	server();
+	prompt = get_shell_prefix(mini);
+	line = readline("prompt ");
+	ft_free(prompt, NULL);
+	if (line == NULL)
+		ft_exit_end(0);
+	if (mini->line)
+	{
+		ft_free(mini->line, NULL);
+		mini->line = NULL;
+	}
+	mini->line = ft_strdup(line);
+	add_history(line);
+	free(line);
+}
+
+void	start_shell(t_minis mini)
+{
+	char	**envp;
+
+	envp = NULL;
 	while (1)
 	{
-		get_signal(1);
-		server();
-		prompt = get_shell_prefix(&mini);
-		line = readline(prompt);
-		mini.readline++;
-		ft_free(prompt, NULL);
-		if (line == NULL)
-			break ;
-		mini.line = line;
+		start_prompt_and_sig(&mini);
 		if (mini.line[0] != '\0')
-		{
-			mini.line = expand_env(mini.line, &mini);
-			mini.exit_code_error = check_syntax(mini.line);
-			mini.tokens = tokenize_and_check_bash_command(&mini);
-			envp = env_to_matrix(&mini);
-			exec_list = token_merger(&mini);
-			//	print_token_list(exec_list);
-			//	printf("\n\n");
-			//	builtins(&mini);
-			process_merged_list(exec_list, envp);
-			fflush(stdout);
-			free_env_matrix(envp);
-			free_list(exec_list, free_token);
-			free_list(mini.tokens, free_token);
-		}
+			exit_comand(&mini);
 		getcwd(mini.path, PATH_MAX);
-		add_history(line);
-		free(line);
+		if (get_signal(0) != 1)
+			mini.exit_code_error = get_signal(0);
 		mini.line = NULL;
 	}
 	free_list(mini.env, free_env);
