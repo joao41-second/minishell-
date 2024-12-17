@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:43:45 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/04 15:54:27 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/17 17:04:00 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	ft_echo(t_minis *mini)
 {
 	int		i;
-	char	*str;
 	int		new_line;
 	t_token	*token;
 	t_list_	*save;

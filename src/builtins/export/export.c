@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:05:55 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 10:00:34 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/17 17:05:24 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	char	*temp;
 	int		i;
 
+	(void)mini;
 	i = inicilaze_variabel(&env, &export, list, str);
 	if (export[1] != NULL && i == 0)
 		env->content = ft_strjoin("",

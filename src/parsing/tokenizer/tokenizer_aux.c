@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:41:07 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/16 13:57:38 by rui              ###   ########.fr       */
+/*   Updated: 2024/12/17 17:07:45 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	free_token(void *content)
 t_list_ *initialize_tokenizer(t_minis *mini, char ***env_matrix)
 {
     t_list_ *token_list;
-
+	
+	(void)mini;
     token_list = ft_node_new(create_token("", "", "", ""));
     *env_matrix = env_to_matrix(mini);
     return token_list;
@@ -39,6 +40,8 @@ t_list_ *initialize_tokenizer(t_minis *mini, char ***env_matrix)
 
 void finalize_tokens(t_list_ *token_list, char **env_matrix, t_minis *mini)
 {
+
+	(void)mini;
     set_redirection_relations(token_list);
     if (env_matrix)
         free_env_matrix(env_matrix);

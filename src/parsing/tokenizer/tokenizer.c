@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:36 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/17 13:58:00 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:07:19 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void process_regular_token(const char *line, int *i, t_list_ **token_list, bool 
 void process_operator_tokens(const char *line, int *i, t_list_ **token_list)
 {
     char *current_token;
-    char *redir_type;
     int token_length;
 
     if ((line[*i] == '>' && line[*i + 1] == '>')
@@ -58,7 +57,6 @@ void process_operator_tokens(const char *line, int *i, t_list_ **token_list)
         add_to_list(token_list, create_token(current_token, "pipe", NULL, NULL));
     else
         add_to_list(token_list, create_token(current_token, "redir", NULL, NULL));
-    ft_free(redir_type, NULL);
     ft_free(current_token, NULL);
 }
 

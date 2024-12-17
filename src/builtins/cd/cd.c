@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 10:20:11 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/17 10:20:14 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/17 17:03:44 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ char	*fd_generat(t_minis *mini)
 void	ft_cd(t_minis *mini)
 {
 	char	*fd;
-	t_token	*token;
 
 	fd = NULL;
 	if (not_opcion(mini, "cd") == TRUE)

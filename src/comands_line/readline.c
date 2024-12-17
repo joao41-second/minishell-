@@ -111,8 +111,8 @@ void	start_shell(t_minis mini)
 			mini.tokens = tokenize_and_check_bash_command(&mini);
 			envp = env_to_matrix(&mini);
 			exec_list = token_merger(&mini);
-			print_token_list(exec_list);
-			printf("\n\n");
+		//	print_token_list(exec_list);
+		//	printf("\n\n");
 			process_merged_list(exec_list, envp);
 			// builtins(&mini);
 			fflush(stdout);
