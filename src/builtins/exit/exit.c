@@ -14,14 +14,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int ft_str_is_nb(char *str)
+int	ft_str_is_nb(char *str)
 {
 	int	i;
 
 	i = -1;
 	while (str[++i] != '\0')
 	{
-		if(ft_isdigit(str[i]) != 1 && str[i] !='-' && str[i] != '+')
+		if (ft_isdigit(str[i]) != 1 && str[i] != '-' && str[i] != '+')
 			return (FALSE);
 	}
 	return (TRUE);
@@ -37,12 +37,11 @@ void	ft_exit(t_minis *mini)
 	printf("exit\n");
 	list = mini->tokens;
 	if (too_arg_print("exit", 0, mini) == TRUE)
-		return;
-	if(mini->tokens != NULL && mini->tokens->next != NULL)
+		return ;
+	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
 		token = get_token(mini->tokens->next);
-		
-		if(ft_str_is_nb(token->token) != TRUE)
+		if (ft_str_is_nb(token->token) != TRUE)
 		{
 			ft_print_error("exit", token->token, NOT_NUB, "bash");
 			mini->exit_code_error = 2;

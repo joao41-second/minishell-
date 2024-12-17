@@ -33,21 +33,20 @@ void	*get_env(void *point, void *locate)
 
 void	ft_env(t_minis *mini)
 {
-	t_token *token;
-	t_list_ *list;
+	t_token	*token;
+	t_list_	*list;
 
-	list = mini->tokens;	
-	if(not_opcion(mini, "env") == TRUE)
-		return;
-	while (mini->tokens != NULL) 
+	list = mini->tokens;
+	if (not_opcion(mini, "env") == TRUE)
+		return ;
+	while (mini->tokens != NULL)
 	{
 		token = get_token(mini->tokens);
-		if (ft_strncmp(token->type,"argument",15) == 0)
+		if (ft_strncmp(token->type, "argument", 15) == 0)
 		{
 			ft_print_error("env", token->token, TOO_ARG, "bash");
 			return ;
 		}
-		
 		mini->tokens = mini->tokens->next;
 	}
 	mini->tokens = list;

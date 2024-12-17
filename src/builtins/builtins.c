@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 14:12:36 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/14 16:11:48 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/17 10:21:13 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	chek_herdoc(t_minis	*mini, int set)
 	}
 }
 
-t_token *get_token(t_list_ *list)
+t_token	*get_token(t_list_ *list)
 {
-	t_token *set;
+	t_token	*set;
 
 	set = (t_token *)list->content;
 	return (set);
@@ -38,11 +38,11 @@ t_token *get_token(t_list_ *list)
 
 void	builtins(t_minis	*mini)
 {
-	t_token *token;
+	t_token	*token;
+
 	if (ft_strlen(mini->line) < 1)
 		return ;
 	mini->split = ft_split(mini->line, ' ');
-
 	chek_herdoc(mini, 0);
 	if (mini->tokens == NULL)
 		return ;

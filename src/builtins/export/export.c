@@ -98,66 +98,67 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	free_split(export);
 }
 
-int valid_export(char	*token)
+int	valid_export(char	*token)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(ft_isalpha(token[0]) == TRUE)
+	if (ft_isalpha(token[0]) == TRUE)
 		return (FALSE);
-	while(token[++i] != '\0')
+	while (token[++i] != '\0')
 	{
-		if(token[i] == '=')
+		if (token[i] == '=')
 		{
-			if(token[i-1] != '+' && ft_isalnum(token[i-1]) == TRUE)
+			if (token[i - 1] != '+' && ft_isalnum(token[i - 1]) == TRUE)
 				return (FALSE);
 		}
 	}
-	if(token[--i] != '+' && token[--i] != '=' && ft_isalnum(token[--i]) == TRUE)
+	if (token[--i] != '+' && token[--i] != '='
+		&& ft_isalnum(token[--i]) == TRUE)
 		return (FALSE);
 	return (TRUE);
 }
 
-int locate(char *str ,char src)
+int	locate(char *str, char src)
 {
 	int	i;
-	
+
 	i = -1;
 	while (str[++i] != '\0')
 	{
 		if (str[i] == src)
 			return (TRUE);
 	}
-	
 	return (FALSE);
 }
 
 void	ft_export(t_minis *mini)
 {
-	t_token *token;
-	t_list_ *list;
-	
-	list =  mini->tokens; 
-	if(mini->tokens != NULL && mini->tokens->next != NULL)
+	t_token	*token;
+	t_list_	*list;
+
+	list = mini->tokens;
+	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
 		token = get_token(list->next);
-		if( locate(token->token,'=') == FALSE && not_opcion(mini, "export") == TRUE)
-			return;
+		if (locate(token->token, '=') == FALSE
+			&& not_opcion(mini, "export") == TRUE)
+			return ;
 		list = list->next;
 		while (list != NULL)
 		{
 			token = get_token(list);
-			if(valid_export(token->token) == TRUE)
+			if (valid_export(token->token) == TRUE)
 			{
 				ft_export_add(mini->env, token->token, mini);
 				ft_export_add(mini->env_org, token->token, mini);
 			}
 			else
-				return(ft_print_error("export",token->token,SNTAX_ERROR,"bash"));
+				return (ft_print_error("export", token->token,
+						SNTAX_ERROR, "bash"));
 			list = list->next;
 		}
 	}
 	if (mini->tokens->next == NULL)
 		organizer_list(mini->env_org);
-	//mini->tokens = list;
 }

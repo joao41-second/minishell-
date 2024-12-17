@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 20:46:51 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 09:54:38 by jperpct          ###   ########.fr       */
+/*   Created: 2024/12/17 10:20:11 by jperpct           #+#    #+#             */
+/*   Updated: 2024/12/17 10:20:14 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,20 @@ void	set_path(t_list_ **list)
 	}
 }
 
-
-char *fd_generat(t_minis *mini)
+char	*fd_generat(t_minis *mini)
 {
-	t_token *token;
-	char *fd;
+	t_token	*token;
+	char	*fd;
 
 	fd = NULL;
-	if(mini->tokens->next != NULL)
+	if (mini->tokens->next != NULL)
 	{
 		token = get_token(mini->tokens->next);
 		if (token->token[0] == '~')
 		{
 			if (ft_getenv(mini, "HOME") == NULL)
 			{
-				ft_print_error("cd",NOT_HOME,"","bash"); 
+				ft_print_error("cd", NOT_HOME, "", "bash");
 				return (NULL);
 			}
 			fd = ft_strjoin(ft_getenv(mini, "HOME"), &token->token[1]);
@@ -55,34 +54,32 @@ char *fd_generat(t_minis *mini)
 		else
 			fd = ft_strdup(token->token);
 	}
-	if(fd == NULL)
-		fd =  ft_strdup(ft_getenv(mini, "HOME"));
-	if(fd == NULL)
-		ft_print_error("cd",NOT_HOME,"","bash"); 
+	if (fd == NULL)
+		fd = ft_strdup(ft_getenv(mini, "HOME"));
+	if (fd == NULL)
+		ft_print_error("cd", NOT_HOME, "", "bash");
 	return (fd);
 }
-
 
 void	ft_cd(t_minis *mini)
 {
 	char	*fd;
-	t_token *token;
-	
+	t_token	*token;
+
 	fd = NULL;
-	if(not_opcion(mini, "cd") == TRUE)
-		return;
-	if(too_arg_print("cd" ,0,mini) == TRUE)
-		return;
-	
+	if (not_opcion(mini, "cd") == TRUE)
+		return ;
+	if (too_arg_print("cd", 0, mini) == TRUE)
+		return ;
 	fd = fd_generat(mini);
-	if(fd == NULL)
+	if (fd == NULL)
 		return ;
 	if (chdir(fd) < 0)
 	{
-		ft_print_error("cd",fd,NOT_FILE,"bash");
+		ft_print_error("cd", fd, NOT_FILE, "bash");
 		ft_free(fd, NULL);
 		mini->exit_code_error = 1;
-		return;
+		return ;
 	}
 	else
 	{
@@ -91,5 +88,4 @@ void	ft_cd(t_minis *mini)
 		getcwd(mini->path, PATH_MAX);
 	}
 	ft_free(fd, NULL);
-	
 }

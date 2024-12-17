@@ -14,7 +14,7 @@
 
 void	ft_pwd(t_minis *mini)
 {
-	if(not_opcion(mini, "pwd") == TRUE)
-		return;
+	if (not_opcion(mini, "pwd") == TRUE)
+		return ;
 	printf("%s\n", mini->path);
 }

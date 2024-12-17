@@ -77,9 +77,8 @@ void	ft_unset(t_minis *mini)
 	t_token	*token;
 
 	if (not_opcion(mini, "unset") == TRUE)
-		return;
-
-	if(mini->tokens != NULL && mini->tokens->next != NULL)
+		return ;
+	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
 		token = get_token(mini->tokens->next);
 		unset_list(&mini->env, token->token);

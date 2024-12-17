@@ -16,21 +16,21 @@ void	ft_echo(t_minis *mini)
 {
 	int		i;
 	char	*str;
-	int new_line;
-	t_token *token;
-	t_list_ *save;
+	int		new_line;
+	t_token	*token;
+	t_list_	*save;
 
 	i = 0;
 	new_line = TRUE;
 	save = mini->tokens;
-	if(mini->tokens != NULL && mini->tokens->next != NULL)
+	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
 		token = get_token(mini->tokens->next);
-		if(token->token[0] == '-')
+		if (token->token[0] == '-')
 		{
 			while (token->token[++i] != '\0' )
 			{
-				if(token->token[i] != 'n')
+				if (token->token[i] != 'n')
 					new_line = FALSE;
 			}
 		}
@@ -39,15 +39,12 @@ void	ft_echo(t_minis *mini)
 			mini->tokens = mini->tokens->next->next;
 		else if (new_line == FALSE)
 			mini->tokens = mini->tokens->next;
-
 		while (mini->tokens != NULL)
 		{
-			printf("%s ",get_token(mini->tokens)->token);
+			printf("%s ", get_token(mini->tokens)->token);
 			mini->tokens = mini->tokens->next;
 		}
-		//str = expand_env(mini->line, mini);
-		//ft_free(str, NULL);
 	}
-	if(new_line == FALSE)
+	if (new_line == FALSE)
 		printf("\n");
 }
