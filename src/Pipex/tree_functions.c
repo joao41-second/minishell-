@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-/* void	handle_pipe_fork(char **argv, int argc, t_btree *node, char **envp)
+void	handle_pipe_fork(char **argv, int argc, t_btree *node, char **envp)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -66,4 +66,4 @@ void	process_tree(char **argv, int argc, t_btree *node, char **envp)
 		handle_redirection(argv, argc, node);
 		execute(node->cmd, envp);
 	}
-} */
+}

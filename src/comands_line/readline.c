@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/17 13:51:59 by rpires-c         ###   ########.fr       */
+/*   Updated: 2024/12/17 14:50:12 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	start_shell(t_minis mini)
 			envp = env_to_matrix(&mini);
 			exec_list = token_merger(&mini);
 			print_token_list(exec_list);
-			// builtins(&mini);
+			builtins(&mini);
 			free_env_matrix(envp);
 			free_list(exec_list, free_token);
 			free_list(mini.tokens, free_token);
