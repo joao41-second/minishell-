@@ -43,7 +43,7 @@ void	ft_echo(t_minis *mini)
 			mini->tokens = mini->tokens->next;
 		while (mini->tokens != NULL)
 		{
-			printf("%s ", get_token(mini->tokens)->token);
+			printf("%s", get_token(mini->tokens)->token);
 			mini->tokens = mini->tokens->next;
 		}
 	}

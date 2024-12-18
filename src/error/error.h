@@ -20,6 +20,8 @@
 # define NOT_HOME "HOME not set"
 # define SNTAX_ERROR "not a valid identifier"
 
+//# define SNTAX_ERROR "not a valid identifier"
+
 void	ft_print_error(char *comand, char *error, char *error_char,
 			char *start);
 

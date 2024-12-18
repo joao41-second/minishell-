@@ -98,24 +98,48 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	free_split(export);
 }
 
-int	valid_export(char	*token)
+int	valid_export(char	*token, t_minis	*mini)
 {
+	int	save;
 	int	i;
 
-	i = 0;
+	save = 0;
+	i = -1;
 	if (ft_isalpha(token[0]) == TRUE)
+	{
+		mini->exit_code_error = 1;
 		return (FALSE);
+	}
 	while (token[++i] != '\0')
 	{
 		if (token[i] == '=')
 		{
+			save = 1;
 			if (token[i - 1] != '+' && ft_isalnum(token[i - 1]) == TRUE)
+			{
+				mini->exit_code_error = 1;
 				return (FALSE);
+			}
 		}
 	}
-	if (token[--i] != '+' && token[--i] != '='
-		&& ft_isalnum(token[--i]) == TRUE)
+	if	(save != 1)
+		mini->exit_code_error = 0;
+	if	(save == 0 && token[--i] != '+' && token[--i] != '='
+		&& ft_isalnum(token[--i]) != TRUE)
+	{
+//		mini->exit_code_error = 1;
+	}
+
+	if (token[i] != '+' && token[i] != '='
+		&& ft_isalnum(token[i]) == TRUE)
+	{
+		if(save == 0)
+			mini->exit_code_error = 1;
+
 		return (FALSE);
+	}
+	
+	mini->exit_code_error = 0;
 	return (TRUE);
 }
 
@@ -148,14 +172,16 @@ void	ft_export(t_minis *mini)
 		while (list != NULL)
 		{
 			token = get_token(list);
-			if (valid_export(token->token) == TRUE)
+			if (valid_export(token->token, mini) == TRUE)
 			{
 				ft_export_add(mini->env, token->token, mini);
 				ft_export_add(mini->env_org, token->token, mini);
 			}
 			else
+			{
 				return (ft_print_error("export", token->token,
 						SNTAX_ERROR, "bash"));
+			}
 			list = list->next;
 		}
 	}
