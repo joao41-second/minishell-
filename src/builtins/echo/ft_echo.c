@@ -21,6 +21,7 @@ void	ft_echo(t_minis *mini)
 
 	i = 0;
 	new_line = TRUE;
+	mini->tokens = ft_node_start(mini->tokens);
 	save = mini->tokens;
 	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
@@ -32,10 +33,12 @@ void	ft_echo(t_minis *mini)
 				if (token->token[i] != 'n')
 					new_line = FALSE;
 			}
+		}else {
+		new_line = FALSE;
 		}
 		i = 0;
-		if (mini->tokens->next->next != NULL && new_line == TRUE)
-			mini->tokens = mini->tokens->next->next;
+		if (mini->tokens->next != NULL && new_line == TRUE)
+			mini->tokens = mini->tokens->next;
 		else if (new_line == FALSE)
 			mini->tokens = mini->tokens->next;
 		while (mini->tokens != NULL)
