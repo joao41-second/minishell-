@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <stdbool.h>
 
 t_env	*set_env_in_export(t_list_ *list, char *str, char **export)
 {

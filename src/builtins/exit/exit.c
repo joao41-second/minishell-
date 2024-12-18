@@ -55,6 +55,7 @@ void	ft_exit(t_minis *mini)
 
 void	ft_exit_end(int code)
 {
+	printf("exit\n");
 	ft_free_all(NULL);
 	exit(code);
 

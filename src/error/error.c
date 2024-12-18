@@ -41,6 +41,7 @@ int	too_arg_print(char *comand, int args, t_minis *mini)
 			else
 			{
 				ft_print_error(comand, "", TOO_ARG, "bash");
+				mini->exit_code_error = 1; 
 				return (TRUE);
 			}
 		}
@@ -69,6 +70,7 @@ int	not_opcion(t_minis *mini, char *comand)
 					memset(opcion, 'a', 5);
 					ft_strlcpy(opcion, token->token, 3);
 					ft_print_error(comand, opcion, INV_OPT, "bash");
+					mini->exit_code_error = 1; 
 					return (TRUE);
 				}
 			}

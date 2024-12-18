@@ -33,7 +33,7 @@ t_env	*new_node_une(char *s1, char *s2)
 	content = s2;
 	var->name = ft_strdup(s1);
 	var->content = ft_strdup(content);
-	var->chek = TRUE;
+	var->chek = FALSE;
 	return (var);
 }
 
