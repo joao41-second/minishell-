@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stdio.h>
 
 void	ft_echo(t_minis *mini)
 {
@@ -44,6 +45,8 @@ void	ft_echo(t_minis *mini)
 		while (mini->tokens != NULL)
 		{
 			printf("%s", get_token(mini->tokens)->token);
+			if(mini->tokens->next != NULL)
+				printf(" ");
 			mini->tokens = mini->tokens->next;
 		}
 	}

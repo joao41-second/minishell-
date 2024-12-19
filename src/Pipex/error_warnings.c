@@ -15,19 +15,19 @@
 void	fork_error(void)
 {
 	perror("Error creating child process");
-	exit(EXIT_FAILURE);
+	ft_exit_end(EXIT_FAILURE);
 }
 
 void	pipe_error(void)
 {
 	perror("Error creating the pipe");
-	exit(EXIT_FAILURE);
+	ft_exit_end(EXIT_FAILURE);
 }
 
 void	open_file_error(void)
 {
 	perror("Error opening the file");
-	exit(EXIT_FAILURE);
+	ft_exit_end(EXIT_FAILURE);
 }
 
 void	no_path_error(char *cmd)
@@ -41,11 +41,11 @@ void	no_path_error(char *cmd)
 		i++;
 	}
 	write(2, ": command not found\n", 21);
-	exit(127);
+	ft_exit_end(127);
 }
 
 void	command_error(void)
 {
 	perror("Error executing the command");
-	exit(EXIT_FAILURE);
+	ft_exit_end(EXIT_FAILURE);
 }

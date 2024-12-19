@@ -59,7 +59,7 @@ void	builtins(t_minis	*mini)
 		ft_pwd(mini);
 	if (ft_strncmp(token->token, "unset", 10) == 0)
 		ft_unset(mini);
-	if (ft_strncmp(mini->split[0], "export", 10) == 0)
+	if (ft_strncmp(token->token, "export", 10) == 0)
 		ft_export(mini);
 	if (ft_strncmp(token->token, "echo", 10) == 0)
 		ft_echo(mini);

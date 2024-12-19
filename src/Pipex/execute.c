@@ -69,7 +69,30 @@ char	*find_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-void	execute(char *argv, char **envp)
+int chek_biltin(char **cmd)
+{	
+
+	if(  cmd[0] == NULL)
+		return (FALSE);
+	if(ft_strncmp(cmd[0], "env", 5) == 0)
+		return (TRUE);
+	if (ft_strncmp(cmd[0], "exit", 10) == 0)
+		return (TRUE);
+	if (ft_strncmp(cmd[0], "cd", 10) == 0)
+		return (TRUE);
+	if (ft_strncmp(cmd[0], "pwd", 10) == 0)
+		return (TRUE);
+	if (ft_strncmp( cmd[0],"unset", 10) == 0)
+		return (TRUE);
+	if (ft_strncmp( cmd[0],"export", 10) == 0)
+		return (TRUE);
+	if (ft_strncmp(cmd[0], "echo", 10) == 0)
+		return (TRUE);
+	return (FALSE);
+}
+
+
+void	execute(char *argv, t_minis *mini)
 {
 	char	**cmd;
 	int		i;
@@ -77,7 +100,7 @@ void	execute(char *argv, char **envp)
 
 	i = -1;
 	cmd = ft_split(argv, ' ');
-	path = find_path(cmd[0], envp);
+	path = find_path(cmd[0], env_to_matrix(mini));
 	if (!path)
 	{
 		while (cmd[++i])
@@ -85,6 +108,6 @@ void	execute(char *argv, char **envp)
 		ft_free(cmd, NULL);
 		no_path_error(argv);
 	}
-	if (execve(path, cmd, envp) == -1)
+	 if (execve(path, cmd, env_to_matrix(mini)) == -1)
 		command_error();
 }
