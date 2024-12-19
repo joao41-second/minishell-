@@ -34,7 +34,7 @@ static void	loop_heradoc(char *line, char *new_line, char *end, t_minis *mini)
 		line = readline(">");
 		if (line == NULL)
 		{
-			ft_exit(mini);
+			ft_exit_end(0);
 			line = NULL;
 			return ;
 		}
@@ -55,13 +55,13 @@ static void	herdoc_son_proceed(t_minis *mini, char*end)
 	{
 		signal(SIGINT, handle_signal);
 		if (get_signal(0) == 130)
-			ft_exit(mini);
+			ft_exit_end(130);
 		line = malloc(2 * sizeof(char));
 		line[0] = '1';
 		line[0] = '\0';
 		if (line == NULL)
 		{
-			ft_exit(mini);
+			ft_exit_end(0);
 			return ;
 		}
 		mini->exit_code_error = 1;
@@ -69,7 +69,7 @@ static void	herdoc_son_proceed(t_minis *mini, char*end)
 	}
 	else
 		ft_putstr_fd("error \n", 2);
-	ft_exit(mini);
+	ft_exit_end(0);
 }
 
 static void	print_erro_line_herdoc(t_minis *mini, char *end, int status)

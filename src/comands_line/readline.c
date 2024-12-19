@@ -102,6 +102,7 @@ void excute_comand(t_minis *mini)
 {
 	char	**envp;
 	t_list_	*exec_list;
+	int temp;
 
 	if (get_signal(0) != 1)
 			mini->exit_code_error = get_signal(0);
@@ -112,8 +113,10 @@ void excute_comand(t_minis *mini)
 //	print_token_list(mini->tokens);
 	builtins(mini);
 	envp = env_to_matrix(mini);
-	exec_list = token_merger(mini);
-	process_merged_list(exec_list, envp);
+	exec_list = token_merger(mini);	
+	temp = process_merged_list(exec_list, envp);
+	if(temp != 0)
+		mini->exit_code_error = temp;
 	fflush(stdout);
 	free_env_matrix(envp);
 	free_list(exec_list, free_token);

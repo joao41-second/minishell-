@@ -72,10 +72,11 @@ void setup_parent_pipe(int *pipe_fd) {
     close(pipe_fd[0]);
 }
 
-void process_merged_list(t_list_ *merged_list, char **envp)
+int process_merged_list(t_list_ *merged_list, char **envp)
 {
     t_list_ *current = merged_list;
     int pipe_fd[2];
+	int status; 
     pid_t pid;
     int original_stdin = dup(STDIN_FILENO);
     int original_stdout = dup(STDOUT_FILENO);
@@ -95,7 +96,7 @@ void process_merged_list(t_list_ *merged_list, char **envp)
                 execute_command(token, envp);
             } else if (pid > 0) {
                 // Parent process waits for child
-                waitpid(pid, NULL, 0);
+                waitpid(pid, &status, 0);
             } else {
                 perror("fork");
                 exit(EXIT_FAILURE);
@@ -111,7 +112,7 @@ void process_merged_list(t_list_ *merged_list, char **envp)
                 exit(EXIT_SUCCESS);
             } else {
                 setup_parent_pipe(pipe_fd);
-                waitpid(pid, NULL, 0);
+                waitpid(pid, &status, 0);
             }
         }
         current = current->next;
@@ -122,4 +123,5 @@ void process_merged_list(t_list_ *merged_list, char **envp)
     dup2(original_stdout, STDOUT_FILENO);
     close(original_stdin);
     close(original_stdout);
+	return (WEXITSTATUS(status));
 }

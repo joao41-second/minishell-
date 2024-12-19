@@ -33,9 +33,9 @@ void	here_doc(char *limiter);
 void	execute(char *argv, char **envp);
 int		open_file(char *argv, int i);
 char	**pipex_split(char const *s, char c);
-void	process_merged_list(t_list_ *merged_list, char **envp);
 t_btree	*build_tree(char **argv, int i, int end);
 t_btree	*create_node(char *cmd, t_btree *l, t_btree *r, int first_cmd);
 void	usage(void);
+int process_merged_list(t_list_ *merged_list, char **envp);
 
 #endif

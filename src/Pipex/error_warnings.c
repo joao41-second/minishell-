@@ -41,7 +41,7 @@ void	no_path_error(char *cmd)
 		i++;
 	}
 	write(2, ": command not found\n", 21);
-	exit(EXIT_FAILURE);
+	exit(127);
 }
 
 void	command_error(void)
