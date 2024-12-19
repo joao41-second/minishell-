@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stdio.h>
 
 char	*ft_strjoin_and_free(char *s1, char *s2)
 {
@@ -31,11 +32,11 @@ char	*concatenate_the_str_with_env_var(char *str, t_minis *mini, int *len)
 	int		i;
 
 	i = 0;
-	if (str[0] == '$')
+	if (str[0] == '$' && !(str[1] == '\0' || str[1] == ' ' || str[1] == '"' || str[1] == 39 || str[1] == '$'))
 	{
 		while (str[++i] != '\0')
 		{
-			if (str[i] == ' ' || str[i] == '"' || str[i] == 39 || str[i] == '$')
+			if (str[i] == ' ' || str[i] == '"' || str[i] == 39 || str[i] == '$' || str[i-1] == '?')
 				break ;
 		}
 		env = ft_substr(str, 1, --i);
@@ -44,6 +45,9 @@ char	*concatenate_the_str_with_env_var(char *str, t_minis *mini, int *len)
 		(void)len;
 		ft_free(env, NULL);
 		return (ok);
+	}else if (str[1] == '\0' || str[1] == ' ' || str[1] == '"' || str[1] == 39 || str[1] == '$')
+	{
+		return ("$");
 	}
 	return ("");
 }

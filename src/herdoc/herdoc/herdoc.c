@@ -101,7 +101,6 @@ void	herdoc(t_minis *mini, int set, char *end)
 	else
 	{
 		signal(SIGINT, SIG_IGN);
-		usleep(1);
 		wait3(&status, 0, &usage);
 		print_erro_line_herdoc(mini, end, status);
 		get_signal(WSTOPSIG(status));

@@ -100,8 +100,8 @@ void set_error_env(t_minis *mini)
 
 void excute_comand(t_minis *mini)
 {
-//	char	**envp;
-//	t_list_	*exec_list;
+	char	**envp;
+	t_list_	*exec_list;
 
 	if (get_signal(0) != 1)
 			mini->exit_code_error = get_signal(0);
@@ -109,13 +109,14 @@ void excute_comand(t_minis *mini)
 	mini->line = expand_env(mini->line, mini);
 	mini->exit_code_error = check_syntax(mini->line);
 	mini->tokens = tokenize_and_check_bash_command(mini);
+//	print_token_list(mini->tokens);
 	builtins(mini);
-//	envp = env_to_matrix(mini);
-//	exec_list = token_merger(mini);
-//	process_merged_list(exec_list, envp);
-//	fflush(stdout);
-//	free_env_matrix(envp);
-//	free_list(exec_list, free_token);
+	envp = env_to_matrix(mini);
+	exec_list = token_merger(mini);
+	process_merged_list(exec_list, envp);
+	fflush(stdout);
+	free_env_matrix(envp);
+	free_list(exec_list, free_token);
 	free_list(mini->tokens, free_token);
 }
 
@@ -146,6 +147,7 @@ void	start_shell(t_minis mini)
 {
 	char	**envp;
 
+	getcwd(mini.path, PATH_MAX);
 	envp = NULL;
 	while (1)
 	{
