@@ -13,12 +13,60 @@
 #include "../../minishell.h"
 #include <stdio.h>
 
+char *rm_char_str(char *str,int len)
+{
+	char *src;
+	src = ft_malloc(ft_strlen(str) ,  NULL);
+	ft_strlcpy(src, str, len-1);
+	//ft_strlcat(src, &str[len], ft_strlen(str));
+	return (src);
+}
+
+char * remove_couts(char *str)
+{
+	int i;
+	int quot1;
+	int quot2;
+	char temp;
+	char *dup;
+	
+	i = -1;
+	temp = '\0';
+	quot1 = TRUE;
+	quot2 = 0;
+	
+	while (str[++i] != '\0') 
+	{
+		if(str[i] == temp && temp != '\0')
+		{
+			temp = '\0';
+			quot1 = TRUE;
+			dup =rm_char_str(str, i);
+			ft_free(str,NULL);
+			str = dup;
+			dup = NULL;
+		}
+		if((str[i] == 36 || str[i] == '"') && quot1 == TRUE )
+		{
+			temp = str[i];
+			quot1 = FALSE;
+			dup =rm_char_str(str, i);
+			ft_free(str,NULL);
+			str = dup;
+			dup = NULL;
+		}
+	}
+	return(str);
+}
+
+
 void	ft_echo(t_minis *mini)
 {
 	int		i;
 	int		new_line;
 	t_token	*token;
 	t_list_	*save;
+	char *str;
 
 	i = 0;
 	new_line = TRUE;
@@ -44,7 +92,8 @@ void	ft_echo(t_minis *mini)
 			mini->tokens = mini->tokens->next;
 		while (mini->tokens != NULL)
 		{
-			printf("%s", get_token(mini->tokens)->token);
+			str = remove_couts(get_token(mini->tokens)->token);
+			printf("%s", str);
 			if(mini->tokens->next != NULL)
 				printf(" ");
 			mini->tokens = mini->tokens->next;
