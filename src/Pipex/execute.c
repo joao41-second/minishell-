@@ -106,7 +106,7 @@ void	execute(char *argv, t_minis *mini)
 		while (cmd[++i])
 			ft_free(cmd[i], NULL);
 		ft_free(cmd, NULL);
-		ft_exit_end(no_path_error(argv));
+		no_path_error(argv);
 	}
 	 if (execve(path, cmd, env_to_matrix(mini)) == -1)
 		command_error();
