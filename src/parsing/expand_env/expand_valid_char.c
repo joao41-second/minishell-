@@ -47,7 +47,6 @@ char	*concatenate_not_env( char *verifc, t_quotes *quotes, char *temp )
 				quotes->simp--;
 		}
 	}
-	if (verifc[0] != '"' && verifc[0] != 39)
 		temp = ft_strjoin_and_free(temp, verifc);
 	return (temp);
 }
