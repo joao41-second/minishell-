@@ -30,7 +30,7 @@ void	open_file_error(void)
 	ft_exit_end(EXIT_FAILURE);
 }
 
-void	no_path_error(char *cmd)
+int	no_path_error(char *cmd)
 {
 	int	i;
 
@@ -41,6 +41,10 @@ void	no_path_error(char *cmd)
 		i++;
 	}
 	write(2, ": command not found\n", 21);
+	return (127);
+// trabalha aqui
+
+
 	ft_exit_end(127);
 }
 
