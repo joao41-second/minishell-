@@ -33,6 +33,8 @@
 #include <asm-generic/errno.h>
 #include <sys/types.h>
 #include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 typedef struct s_mines
 {

@@ -19,6 +19,9 @@
 # define INV_OPT "invalid option"
 # define NOT_HOME "HOME not set"
 # define SNTAX_ERROR "not a valid identifier"
+# define REC_FILE "filename argument required"
+# define DIR "is a directory"
+# define NOT_COMAND "command not found"
 
 //# define SNTAX_ERROR "not a valid identifier"
 

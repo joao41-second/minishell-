@@ -110,8 +110,10 @@ void excute_comand(t_minis *mini)
 	mini->line = expand_env(mini->line, mini);
 	mini->exit_code_error = check_syntax(mini->line);
 	mini->tokens = tokenize_and_check_bash_command(mini);
-	//print_token_list(mini->tokens);
-//	builtins(mini);
+	printf("%s ",mini->line);
+	print_token_list(mini->tokens);
+	//	builtins(mini);
+	
 	exec_list = token_merger(mini);
 	process_merged_list(exec_list, mini);
 	fflush(stdout);

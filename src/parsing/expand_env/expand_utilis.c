@@ -45,7 +45,7 @@ char	*concatenate_the_str_with_env_var(char *str, t_minis *mini, int *len)
 		(void)len;
 		ft_free(env, NULL);
 		return (ok);
-	}else if (str[1] == '\0' || str[1] == ' ' || str[1] == '"' || str[1] == 39 || str[1] == '$')
+	}else if (str[1] == '\0' || str[1] == ' ' || str[1] == '$')
 	{
 		return ("$");
 	}
