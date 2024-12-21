@@ -99,7 +99,7 @@ void	execute(char *argv, t_minis *mini)
 	char	*path;
 
 	i = -1;
-	cmd = ft_split(argv, ' ');
+	cmd = ft_split(expand_env(argv,mini), ' ');
 	path = find_path(cmd[0], env_to_matrix(mini));
 	if (!path)
 	{	

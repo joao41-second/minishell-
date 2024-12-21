@@ -107,7 +107,7 @@ void excute_comand(t_minis *mini)
 	if (get_signal(0) != 1)
 			mini->exit_code_error = get_signal(0);
 	set_error_env(mini);
-	mini->line = expand_env(mini->line, mini);
+//	mini->line = expand_env(mini->line, mini);
 	mini->exit_code_error = check_syntax(mini->line);
 	mini->tokens = tokenize_and_check_bash_command(mini);
 	//printf("%s \n",mini->line);

@@ -27,79 +27,6 @@ void rm_char_str(char *str,int len)
 	ft_strlcat(str,src , i);
 }
 
-void remove_couts(char *str)
-{
-	int i;
-	int quot1;
-	int cord1;
-	char temp;
-	char *dup;
-	int use;
-	
-	i = -1;
-	temp = '\0';
-	quot1 = TRUE;
-	cord1 = 0;
-	use = 0;
-
-	while(str[++i] != '\0')
-	{
-		if(str[i] == 39 && quot1 == TRUE)
-		{
-			quot1=FALSE;
-			temp = 39;
-			cord1= i;
-			continue;
-		}
-		if( str[i] == 39 && quot1 == FALSE)
-		{
-			if(cord1 == 0)
-				cord1=1;
-			quot1 = TRUE;
-			//rm_char_str(str, i+use);
-			//rm_char_str(str, cord1+use);
-			str[cord1] = (char) 255;
-			str[i] = (char) 255;
-//			printf("str %s \n",str);
-			use++;
-			//i-=2;
-			continue;
-		}
-		if(str[i] == '"' && quot1 == TRUE)
-		{
-			quot1=FALSE;
-			temp = '"';
-			cord1= i;
-			continue;
-		}
-		if( str[i] == '"' && quot1 == FALSE)
-		{
-			quot1 = TRUE;	
-			str[cord1] = (char) 25;
-			str[i] = (char) 25;
-			use++;
-			continue;
-		}
-	}
-	i = -1;
-	/* 
-	int tmep = 0;
-	
-	char * src = ft_malloc(ft_strlen(str) ,  NULL);
-	while (str[++i] != '\0')
-	{
-		if(str[i] != (char) 25)
-			src[i-temp] = str[i];
-		else
-			temp++;
-	}
-	src[i] = '\0';
-//	printf("%s",src);
-	temp = ft_strlen(str);
-	ft_bzero(str, temp);
-	ft_strlcat(str, src, temp);
-*/	
-}
 
 
 void	ft_echo(t_minis *mini)
@@ -134,8 +61,8 @@ void	ft_echo(t_minis *mini)
 			mini->tokens = mini->tokens->next;
 		while (mini->tokens != NULL)
 		{
-			remove_couts(get_token(mini->tokens)->token);
-			printf("%s", get_token(mini->tokens)->token);
+			str = expand_env(get_token(mini->tokens)->token,mini);
+			printf("%s",str);
 			if(mini->tokens->next != NULL)
 				printf(" ");
 			mini->tokens = mini->tokens->next;
