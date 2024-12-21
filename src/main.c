@@ -16,6 +16,7 @@ t_minis	start_minis(char **env)
 {
 	t_minis	mini;
 
+	mini.line = NULL;
 	mini.env = env_split(env);
 	mini.env_org = env_split(env);
 	mini.readline = 0;

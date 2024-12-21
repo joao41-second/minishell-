@@ -127,9 +127,9 @@ void	start_prompt_and_sig(t_minis *mini)
 	char	*line;
 
 	server();
-	prompt = get_shell_prefix(mini);
+//	prompt = get_shell_prefix(mini);
 	line = readline("prompt " );
-	ft_free(prompt, NULL);
+//	ft_free(prompt, NULL);
 	if (line == NULL)
 		ft_exit_end(0);
 	if (mini->line)

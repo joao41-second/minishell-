@@ -13,50 +13,56 @@
 #include "../../minishell.h"
 #include <stdio.h>
 
-char *rm_char_str(char *str,int len)
+void rm_char_str(char *str,int len)
 {
 	char *src;
-	src = ft_malloc(ft_strlen(str) ,  NULL);
-	ft_strlcpy(src, str, len-1);
-	//ft_strlcat(src, &str[len], ft_strlen(str));
-	return (src);
+	int i;
+	
+
+	i = ft_strlen(str);
+	src = ft_calloc(i+1 ,  sizeof(char));
+	if(len != 0)
+	{
+	ft_strlcpy(src, str, len);
+	ft_strlcat(src, &str[len], i);
+	}
+	else
+	{
+		ft_strlcat(src, &str[1], i-1);
+	}
+	ft_bzero(str,  i);
+	ft_strlcat(str,src , i);
+	ft_free(src,NULL);
 }
 
-char * remove_couts(char *str)
+void remove_couts(char *str)
 {
 	int i;
 	int quot1;
-	int quot2;
+	int remuve;
 	char temp;
-	char *dup;
 	
 	i = -1;
 	temp = '\0';
 	quot1 = TRUE;
-	quot2 = 0;
-	
+	remuve = 0;
+
 	while (str[++i] != '\0') 
 	{
 		if(str[i] == temp && temp != '\0')
 		{
 			temp = '\0';
 			quot1 = TRUE;
-			dup =rm_char_str(str, i);
-			ft_free(str,NULL);
-			str = dup;
-			dup = NULL;
+			rm_char_str(str, i+remuve);
+			remuve++;
 		}
-		if((str[i] == 36 || str[i] == '"') && quot1 == TRUE )
-		{
+		if((str[i] == 39 || str[i] == '"') && quot1 == TRUE ) {
 			temp = str[i];
 			quot1 = FALSE;
-			dup =rm_char_str(str, i);
-			ft_free(str,NULL);
-			str = dup;
-			dup = NULL;
+			rm_char_str(str, i+remuve);
+			remuve++;
 		}
-	}
-	return(str);
+	}	
 }
 
 
@@ -92,8 +98,8 @@ void	ft_echo(t_minis *mini)
 			mini->tokens = mini->tokens->next;
 		while (mini->tokens != NULL)
 		{
-			str = remove_couts(get_token(mini->tokens)->token);
-			printf("%s", str);
+			remove_couts(get_token(mini->tokens)->token);
+			printf("%s", get_token(mini->tokens)->token);
 			if(mini->tokens->next != NULL)
 				printf(" ");
 			mini->tokens = mini->tokens->next;

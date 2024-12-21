@@ -109,7 +109,6 @@ void	execute(char *argv, t_minis *mini)
 		path = mini->path;
 	
 	//printf("io o a pasta e %s comd %s\n",cmd[0], path );
-	char *test[]= {"declare", "safd='dsfadf sd'", NULL};;
-	  if (execve(path, test, env_to_matrix(mini)) == -1)
+	  if (execve(path, cmd, env_to_matrix(mini)) == -1)
 		command_error();
 }
