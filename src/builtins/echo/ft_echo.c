@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:43:45 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/17 17:04:00 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/21 15:35:54 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,52 +17,88 @@ void rm_char_str(char *str,int len)
 {
 	char *src;
 	int i;
-	
 
+	len++;
 	i = ft_strlen(str);
-	src = ft_calloc(i+1 ,  sizeof(char));
-	if(len != 0)
-	{
+	src = ft_malloc(ft_strlen(str) ,  NULL);
 	ft_strlcpy(src, str, len);
 	ft_strlcat(src, &str[len], i);
-	}
-	else
-	{
-		ft_strlcat(src, &str[1], i-1);
-	}
 	ft_bzero(str,  i);
 	ft_strlcat(str,src , i);
-	ft_free(src,NULL);
 }
 
 void remove_couts(char *str)
 {
 	int i;
 	int quot1;
-	int remuve;
+	int cord1;
 	char temp;
+	char *dup;
+	int use;
 	
 	i = -1;
 	temp = '\0';
 	quot1 = TRUE;
-	remuve = 0;
+	cord1 = 0;
+	use = 0;
 
-	while (str[++i] != '\0') 
+	while(str[++i] != '\0')
 	{
-		if(str[i] == temp && temp != '\0')
+		if(str[i] == 39 && quot1 == TRUE)
 		{
-			temp = '\0';
+			quot1=FALSE;
+			temp = 39;
+			cord1= i;
+			continue;
+		}
+		if( str[i] == 39 && quot1 == FALSE)
+		{
+			if(cord1 == 0)
+				cord1=1;
 			quot1 = TRUE;
-			rm_char_str(str, i+remuve);
-			remuve++;
+			//rm_char_str(str, i+use);
+			//rm_char_str(str, cord1+use);
+			str[cord1] = (char) 255;
+			str[i] = (char) 255;
+//			printf("str %s \n",str);
+			use++;
+			//i-=2;
+			continue;
 		}
-		if((str[i] == 39 || str[i] == '"') && quot1 == TRUE ) {
-			temp = str[i];
-			quot1 = FALSE;
-			rm_char_str(str, i+remuve);
-			remuve++;
+		if(str[i] == '"' && quot1 == TRUE)
+		{
+			quot1=FALSE;
+			temp = '"';
+			cord1= i;
+			continue;
 		}
-	}	
+		if( str[i] == '"' && quot1 == FALSE)
+		{
+			quot1 = TRUE;	
+			str[cord1] = (char) 25;
+			str[i] = (char) 25;
+			use++;
+			continue;
+		}
+	}
+	i = -1;
+	/* 
+	int tmep = 0;
+	
+	char * src = ft_malloc(ft_strlen(str) ,  NULL);
+	while (str[++i] != '\0')
+	{
+		if(str[i] != (char) 25)
+			src[i-temp] = str[i];
+		else
+			temp++;
+	}
+	src[i] = '\0';
+//	printf("%s",src);
+	temp = ft_strlen(str);
+	ft_bzero(str, temp);
+	ft_strlcat(str, src, temp);
+*/	
 }
 
 
