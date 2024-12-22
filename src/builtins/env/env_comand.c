@@ -35,6 +35,7 @@ void	ft_env(t_minis *mini)
 {
 	t_token	*token;
 	t_list_	*list;
+	char	*comand;
 
 	list = mini->tokens;
 	if (not_opcion(mini, "env") == TRUE)
@@ -42,9 +43,11 @@ void	ft_env(t_minis *mini)
 	while (mini->tokens != NULL)
 	{
 		token = get_token(mini->tokens);
+		comand = expand_env(token->token,mini);
 		if (ft_strncmp(token->type, "argument", 15) == 0)
 		{
-			ft_print_error("env", token->token, TOO_ARG, "bash");
+			ft_print_error("env", comand, TOO_ARG, "bash");
+			ft_free(comand,NULL);
 			return ;
 		}
 		mini->tokens = mini->tokens->next;

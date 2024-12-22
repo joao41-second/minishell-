@@ -14,24 +14,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int	ft_str_is_nb(char *str)
+int	ft_str_is_nb(char *src,t_minis *mini)
 {
 	int	i;
 
 	i = -1;
-	while (str[++i] != '\0')
+	while (src[++i] != '\0')
 	{
-		if (ft_isdigit(str[i]) != 1 && str[i] != '-' && str[i] != '+')
+		if (ft_isdigit(src[i]) != 1 && src[i] != '-' && src[i] != '+')
+		{
+			ft_free(src,NULL);
 			return (FALSE);
+		}
 	}
 	return (TRUE);
 }
+
 
 void	ft_exit(t_minis *mini)
 {
 	t_token	*token;
 	t_list_	*list;
 	int		exits;
+	char	*comand;
 
 	exits = 0;
 	printf("exit\n");
@@ -41,13 +46,14 @@ void	ft_exit(t_minis *mini)
 	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
 		token = get_token(mini->tokens->next);
-		if (ft_str_is_nb(token->token) != TRUE)
+		comand = expand_env(token->token,mini);
+		if (ft_str_is_nb(comand,mini) != TRUE)
 		{
-			ft_print_error("exit", token->token, NOT_NUB, "bash");
+			ft_print_error("exit", comand, NOT_NUB, "bash");
 			mini->exit_code_error = 2;
 		}
 		else
-			mini->exit_code_error = ft_atoi(token->token);
+			mini->exit_code_error = ft_atoi(comand);
 	}
 	ft_free_all(NULL);
 	exit(mini->exit_code_error);

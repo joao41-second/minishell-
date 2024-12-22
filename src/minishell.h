@@ -50,9 +50,9 @@ typedef struct s_mines
 }			t_minis;
 
 # include "./error/error.h"
+# include "./parsing/expand_env/expand.h"
 # include "./builtins/builtins.h"
 # include "./comands_line/readline.h"
-# include "./parsing/expand_env/expand.h"
 # include "./herdoc/herdoc.h"
 # include "./Pipex/pipex.h"
 # include "parsing/tokenizer/tokenizer.h"
