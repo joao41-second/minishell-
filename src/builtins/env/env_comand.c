@@ -47,6 +47,7 @@ void	ft_env(t_minis *mini)
 		if (ft_strncmp(token->type, "argument", 15) == 0)
 		{
 			ft_print_error("env", comand, TOO_ARG, "bash");
+			mini->exit_code_error = 1;
 			ft_free(comand,NULL);
 			return ;
 		}
