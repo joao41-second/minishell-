@@ -40,26 +40,29 @@ void	builtins(t_minis	*mini)
 {
 	t_token	*token;
 	t_list_ *save;
+	char *comand;
 
 	save = mini->tokens;
 	//chek_herdoc(mini, 0);
 	if (mini->tokens == NULL)
 		return ;
 	token = get_token(mini->tokens);
-	if (ft_strncmp(token->token, "env", 4) == 0)
+	comand = expand_env(token->token,mini);
+	if (ft_strncmp(comand, "env", 4) == 0)
 		ft_env(mini);
-	if (ft_strncmp(token->token, "exit", 10) == 0)
+	if (ft_strncmp(comand, "exit", 10) == 0)
 		ft_exit(mini);
-	if (ft_strncmp(token->token, "cd", 10) == 0)
+	if (ft_strncmp(comand, "cd", 10) == 0)
 		ft_cd(mini);
-	if (ft_strncmp(token->token, "pwd", 10) == 0)
+	if (ft_strncmp(comand, "pwd", 10) == 0)
 		ft_pwd(mini);
-	if (ft_strncmp(token->token, "unset", 10) == 0)
+	if (ft_strncmp(comand, "unset", 10) == 0)
 		ft_unset(mini);
-	if (ft_strncmp(token->token, "export", 10) == 0)
+	if (ft_strncmp(comand, "export", 10) == 0)
 		ft_export(mini);
-	if (ft_strncmp(token->token, "echo", 10) == 0)
+	if (ft_strncmp(comand, "echo", 10) == 0)
 		ft_echo(mini);
+	ft_free(comand,NULL);
 	//chek_herdoc(mini, 1);
 	mini->tokens = save;
 }

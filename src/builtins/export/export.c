@@ -145,36 +145,62 @@ int	locate(char *str, char src)
 	return (FALSE);
 }
 
+int simpel_export(char *comand)
+{
+	char **split;
+	int i;
+	
+	i = -1;
+	split = ft_split(comand,'=');
+	while (split[++i] != NULL)
+	{
+		if(valid_export(split[i]) != TRUE)
+		{
+			free_split(split);
+			return (FALSE);
+		}
+	}
+	free_split(split);
+	return (TRUE);
+
+}
+
 void	ft_export(t_minis *mini)
 {
 	t_token	*token;
 	t_list_	*list;
+	char	*comand;
 
 	list = mini->tokens;
 	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
 		token = get_token(list->next);
-		if (locate(token->token, '=') == FALSE
+		comand = expand_env(token->token,mini);
+		if (locate(comand, '=') == FALSE
 			&& not_opcion(mini, "export") == TRUE)
 			return ;
 		list = list->next;
 		while (list != NULL)
 		{
+			ft_free(comand,NULL);
 			token = get_token(list);
+			comand = expand_env(token->token,mini);
 			if (valid_export(token->token) == TRUE )
 			{
-				ft_export_add(mini->env, token->token, mini);
-				ft_export_add(mini->env_org, token->token, mini);
+				ft_export_add(mini->env, comand, mini);
+				ft_export_add(mini->env_org, comand, mini);
 			}
 			else
 			{
 				mini->exit_code_error = 1;
-				return (ft_print_error("export", token->token,
-						SNTAX_ERROR, "bash"));
+				return (ft_print_error("export", comand,
+						SNTAX_ERROR, "bash"),ft_free(comand,NULL));
 			}
 			list = list->next;
 		}
+		ft_free(comand,NULL);
 	}
 	if (mini->tokens->next == NULL)
 		organizer_list(mini->env_org);
+
 }
