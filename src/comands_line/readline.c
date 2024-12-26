@@ -150,6 +150,8 @@ void	start_shell(t_minis mini)
 
 	getcwd(mini.path, PATH_MAX);
 	envp = NULL;
+	mini.exit_code_error = 0;
+	set_error_env(&mini);
 	while (1)
 	{
 		get_signal(1);

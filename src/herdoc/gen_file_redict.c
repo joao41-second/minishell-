@@ -30,20 +30,22 @@ static void	redirect(t_minis *mini, char sete, int *file_new,t_token *name)
 
 void	change_file(t_minis *mini, int set, char sete, t_token *name)
 {
-	static int	file_origin;
-	static int	file_new;
+	static int	file_origin = 0;
+	static int	file_new =  0;
 	static int	save[2];
 
 	if (set == 0)
 	{
-		pipe(save);
-		file_origin = dup(1);
 		redirect(mini, sete, &file_new,name);
 		if (file_new == -1)
 		{
-			perror("raiva");
-			file_new = save[0];
+			perror("bash:");
+			mini->comand = 1;
+			mini->exit_code_error = 1;
+			return;
 		}
+		pipe(save);
+		file_origin = dup(1);
 		dup2(file_new, STDOUT_FILENO);
 	}
 	else if (set == 1)

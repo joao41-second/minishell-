@@ -15,7 +15,6 @@
 int	redirect_for_new_file(t_minis *mini,t_token *name)
 {
 	int	fds;
-
 	fds = open(name->redirection_target, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	return (fds);
 }
