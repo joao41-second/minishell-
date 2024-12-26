@@ -73,4 +73,6 @@ int	ft_strcmp(const char *s1, const char *s2);
 
 void process_token_list(t_list_ *tokens, char **envp);
 
+void print_token_list(t_list_ *list);
+
 #endif // !READLINE_H

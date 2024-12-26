@@ -20,15 +20,15 @@ static void	ft_close_all(int fd1, int fd2, int fd3, int fd4)
 	close(fd4);
 }
 
-static void	redirect(t_minis *mini, char sete, int *file_new)
+static void	redirect(t_minis *mini, char sete, int *file_new,t_token *name)
 {
 	if (sete == '>')
-		*file_new = redirect_for_new_file(mini);
+		*file_new = redirect_for_new_file(mini,name);
 	if (sete == 'n')
-		*file_new = redirect_for_add_file(mini);
+		*file_new = redirect_for_new_file(mini,name);
 }
 
-void	change_file(t_minis *mini, int set, char sete)
+void	change_file(t_minis *mini, int set, char sete, t_token *name)
 {
 	static int	file_origin;
 	static int	file_new;
@@ -38,7 +38,7 @@ void	change_file(t_minis *mini, int set, char sete)
 	{
 		pipe(save);
 		file_origin = dup(1);
-		redirect(mini, sete, &file_new);
+		redirect(mini, sete, &file_new,name);
 		if (file_new == -1)
 		{
 			perror("raiva");

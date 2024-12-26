@@ -13,13 +13,13 @@
 #define HERDOC_H
 #ifdef HERDOC_H
 
-void	change_file(t_minis *mini, int set, char sete);
+void	change_file(t_minis *mini, int set, char sete, t_token *name);
 
 void	herdoc(t_minis *mini, int set, char *end);
 
-int		redirect_for_add_file(t_minis *mini);
+int		redirect_for_add_file(t_minis *mini, t_token *name);
 
-int		redirect_for_new_file(t_minis *mini);
+int		redirect_for_new_file(t_minis *mini,t_token *name);
 
 char	*expand_heradoc(t_minis *mini, char *str);
 

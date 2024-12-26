@@ -42,6 +42,7 @@ typedef struct s_mines
 	t_list_	*env_org;
 	int		readline;
 	t_list_	*tokens;
+	t_list_	*tokens_copy;
 	char	path[PATH_MAX];
 	char	*line;
 	char	**split;
@@ -53,9 +54,9 @@ typedef struct s_mines
 # include "./parsing/expand_env/expand.h"
 # include "./builtins/builtins.h"
 # include "./comands_line/readline.h"
+# include "parsing/tokenizer/tokenizer.h"
 # include "./herdoc/herdoc.h"
 # include "./Pipex/pipex.h"
-# include "parsing/tokenizer/tokenizer.h"
 
 
 int			check_syntax(const char *str);

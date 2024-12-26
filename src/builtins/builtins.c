@@ -11,20 +11,43 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
 
 void	chek_herdoc(t_minis	*mini, int set)
 {
 	int	i;
+	t_list_ *token;
+	t_token	*element;
 
 	i = -1;
-	while (mini->split[++i] != NULL)
+	token = mini->tokens;
+	token = ft_node_start(token);
+	
+	while (token != NULL)
 	{
-		if (ft_strncmp(mini->split[i], ">", 4) == 0)
-			change_file(mini, set, '>');
-		if (ft_strncmp(mini->split[i], ">>", 4) == 0)
-			change_file(mini, set, 'n');
-		if (ft_strncmp(mini->split[i], "<<", 4) == 0)
-			herdoc(mini, set, mini->split[i + 1]);
+		if (ft_strncmp(get_token(token)->token, ">", 4) == 0)
+		{
+			change_file(mini, set, '>',get_token(token));
+			ft_free_node(&token, free_token);
+			ft_free_node(&token, free_token);
+		}
+		if (ft_strncmp(get_token(token)->token, ">>", 4) == 0)
+		{
+			printf("ou\n");
+			change_file(mini, set, 'n',get_token(token));
+			ft_free_node(&token, free_token);
+			ft_free_node(&token, free_token);
+		}
+		if (ft_strncmp(get_token(token)->token, "<<", 4) == 0)
+		{
+			herdoc(mini, set, get_token(token)->redirection_source);
+			if(set == 1){
+			ft_free_node(&token, free_token);
+			ft_free_node(&token, free_token);
+			}
+
+		}
+		token = token->next;
 	}
 }
 
@@ -43,11 +66,12 @@ void	builtins(t_minis	*mini)
 	char *comand;
 
 	save = mini->tokens;
-	//chek_herdoc(mini, 0);
 	if (mini->tokens == NULL)
 		return ;
+	chek_herdoc(mini, 0);
 	token = get_token(mini->tokens);
 	comand = expand_env(token->token,mini);
+	//print_token_list(mini->tokens);
 	if (ft_strncmp(comand, "env", 4) == 0)
 		ft_env(mini);
 	if (ft_strncmp(comand, "exit", 10) == 0)
@@ -63,6 +87,6 @@ void	builtins(t_minis	*mini)
 	if (ft_strncmp(comand, "echo", 10) == 0)
 		ft_echo(mini);
 	ft_free(comand,NULL);
-	//chek_herdoc(mini, 1);
 	mini->tokens = save;
+	chek_herdoc(mini, 1);
 }

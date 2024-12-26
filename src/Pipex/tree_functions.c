@@ -94,11 +94,8 @@ void process_merged_list(t_list_ *merged_list, t_minis *mini)
 		str = ft_split(token->token,' ');
 		if(chek_biltin(str) == TRUE)
 		{
-
-		 //   if (strcmp(token->type, "command") == 0) {
-		  //      apply_redirections(current);
-				mini->tokens = tokenize_and_check_bash_command(mini);
-		//	}
+			mini->tokens = tokenize_and_check_bash_command(mini);
+			mini->tokens_copy = tokenize_and_check_bash_command(mini);
 			builtins(mini);
 		}
 		else
