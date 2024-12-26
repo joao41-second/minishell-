@@ -45,6 +45,19 @@ void	chek_herdoc(t_minis	*mini, int set)
 			ft_free_node(&token, free_token);
 			ft_free_node(&token, free_token);
 		}
+		if (ft_strncmp(get_token(token)->token, "<", 4) == 0)
+		{
+			i = open(get_token(token)->redirection_target,  O_WRONLY);
+			if(i == -1)
+			{
+				perror("bash");
+				mini->comand = 1;
+				mini->exit_code_error = 1;
+				return;
+			}
+			ft_free_node(&token, free_token);
+			ft_free_node(&token, free_token);
+		}
 		token = token->next;
 	}
 }

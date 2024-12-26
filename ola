@@ -1,1 +1,14 @@
-ola
+05:00.0 Non-Volatile memory controller: SK hynix Gold P31/BC711/PC711 NVMe Solid State Drive (prog-if 02 [NVM Express])
+	Subsystem: SK hynix Gold P31/BC711/PC711 NVMe Solid State Drive
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin A routed to IRQ 57
+	IOMMU group: 15
+	Region 0: Memory at fc600000 (64-bit, non-prefetchable) [size=16K]
+	Region 2: Memory at fc605000 (32-bit, non-prefetchable) [size=4K]
+	Region 3: Memory at fc604000 (32-bit, non-prefetchable) [size=4K]
+	Capabilities: <access denied>
+	Kernel driver in use: nvme
+	Kernel modules: nvme
+

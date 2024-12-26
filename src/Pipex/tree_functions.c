@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/17 17:02:49 by jperpct          ###   ########.fr       */
+/*   Updated: 2024/12/26 15:33:16 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,38 @@ int handle_single_redirection(t_token *redir_token) {
 
     if (ft_strcmp(redir_token->token, "<") == 0) {
         fd = open(redir_token->redirection_source, O_RDONLY);
+		if(fd == -1)
+			return(-1);
         dup2(fd, STDIN_FILENO);
         close(fd);
     } else if (ft_strcmp(redir_token->token, ">") == 0) {
         fd = open(redir_token->redirection_target, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if(fd == -1)
+			return(-1);
         dup2(fd, STDOUT_FILENO);
         close(fd);
     } else if (ft_strcmp(redir_token->token, ">>") == 0) {
         fd = open(redir_token->redirection_target, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if(fd == -1)
+			return(-1);
         dup2(fd, STDOUT_FILENO);
         close(fd);
     }
     return 1;
 }
 
-void apply_redirections(t_list_ *current) {
-    t_list_ *look_ahead = current->next;
-    while (look_ahead && strcmp(((t_token *)look_ahead->content)->type, "redir") == 0) {
-        handle_single_redirection((t_token *)look_ahead->content);
+int apply_redirections(t_list_ *current)
+{
+    t_list_	*look_ahead = current->next;
+	int		flag;
+    while (look_ahead && strcmp(((t_token *)look_ahead->content)->type, "redir") == 0)
+	{
+        flag = handle_single_redirection((t_token *)look_ahead->content);
+		if(flag == -1)
+			return(1);
         look_ahead = look_ahead->next;
     }
+	return(0);
 }
 
 void execute_command(t_token *cmd_token, t_minis *mini)
@@ -101,7 +113,16 @@ void process_merged_list(t_list_ *merged_list, t_minis *mini)
 		else
 		{
 		    if (strcmp(token->type, "command") == 0) {
-		        apply_redirections(current);
+		        if(apply_redirections(current) == 1)
+				{ 
+					dup2(original_stdin, STDIN_FILENO);
+					dup2(original_stdout, STDOUT_FILENO);
+				    close(original_stdin);
+					close(original_stdout);
+					
+			        perror("bash");
+					mini->exit_code_error = 1;
+				}
 		        pid = fork();
 		        if (pid == 0) {
 		            // Child process
@@ -112,7 +133,7 @@ void process_merged_list(t_list_ *merged_list, t_minis *mini)
 					if(WEXITSTATUS(status) != 0 )
 						mini->exit_code_error =  WEXITSTATUS(status);
 			    } else {
-			        perror("fork");
+			        perror("bas");
 					ft_exit_end(0);
 			    }
 			} else if (strcmp(token->type, "pipe") == 0) {

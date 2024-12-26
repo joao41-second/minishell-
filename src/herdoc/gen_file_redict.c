@@ -25,7 +25,7 @@ static void	redirect(t_minis *mini, char sete, int *file_new,t_token *name)
 	if (sete == '>')
 		*file_new = redirect_for_new_file(mini,name);
 	if (sete == 'n')
-		*file_new = redirect_for_new_file(mini,name);
+		*file_new = redirect_for_add_file(mini,name);
 }
 
 void	change_file(t_minis *mini, int set, char sete, t_token *name)
@@ -39,7 +39,7 @@ void	change_file(t_minis *mini, int set, char sete, t_token *name)
 		redirect(mini, sete, &file_new,name);
 		if (file_new == -1)
 		{
-			perror("bash:");
+			perror("bash");
 			mini->comand = 1;
 			mini->exit_code_error = 1;
 			return;
