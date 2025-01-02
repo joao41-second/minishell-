@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:05:55 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/02 16:19:13 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/02 16:23:33 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,13 @@ int	inicilaze_variabel(t_env **env, char ***export, t_list_ *list, char *str)
 	return (set_env_in_case_of_the_plus(str, *export, *env, temp));
 }
 
-void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
+void	ft_export_add( t_list_ *list, char *str)
 {
 	t_env	*env;
 	char	**export;
 	char	*temp;
 	int		i;
 
-	(void)mini;
 	i = inicilaze_variabel(&env, &export, list, str);
 	if (export[1] != NULL && i == 0)
 		env->content = ft_strjoin("",
@@ -160,7 +159,8 @@ int	simpel_export(char *comand)
 	return (TRUE);
 }
 
-void export_add_while(t_minis *mini, t_list_ *list, t_token *token, char *comand)
+void	export_add_while(t_minis *mini, t_list_ *list,
+					t_token *token, char *comand)
 {
 	while (list != NULL)
 	{
@@ -169,8 +169,8 @@ void export_add_while(t_minis *mini, t_list_ *list, t_token *token, char *comand
 		comand = expand_env(token->token, mini);
 		if (valid_export(token->token) == TRUE)
 		{
-			ft_export_add(mini->env, comand, mini);
-			ft_export_add(mini->env_org, comand, mini);
+			ft_export_add(mini->env, comand);
+			ft_export_add(mini->env_org, comand);
 		}
 		else
 		{
@@ -179,8 +179,7 @@ void export_add_while(t_minis *mini, t_list_ *list, t_token *token, char *comand
 					SNTAX_ERROR, "bash"), ft_free(comand, NULL));
 		}
 		list = list->next;
-		}
-
+	}
 }
 
 void	ft_export(t_minis *mini)

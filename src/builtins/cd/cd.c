@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 10:20:11 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/17 17:03:44 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/02 16:35:19 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ void	set_path(t_list_ **list)
 		ft_free(pwd->content, NULL);
 		pwd->content = ft_strdup(paths);
 	}
+}
+
+void	ft_generat_if(char *fd, t_minis *mini)
+{
+	if (fd == NULL)
+		fd = ft_strdup(ft_getenv(mini, "HOME"));
+	if (fd == NULL)
+		ft_print_error("cd", NOT_HOME, "", "bash");
 }
 
 char	*fd_generat(t_minis *mini)
@@ -58,10 +66,7 @@ char	*fd_generat(t_minis *mini)
 			fd = ft_strdup(comand);
 		ft_free(comand, NULL);
 	}
-	if (fd == NULL)
-		fd = ft_strdup(ft_getenv(mini, "HOME"));
-	if (fd == NULL)
-		ft_print_error("cd", NOT_HOME, "", "bash");
+	ft_generat_if(fd, mini);
 	return (fd);
 }
 
