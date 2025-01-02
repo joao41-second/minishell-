@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:05:55 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/17 17:05:24 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/02 16:19:13 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,29 @@ int	simpel_export(char *comand)
 	return (TRUE);
 }
 
+void export_add_while(t_minis *mini, t_list_ *list, t_token *token, char *comand)
+{
+	while (list != NULL)
+	{
+		ft_free(comand, NULL);
+		token = get_token(list);
+		comand = expand_env(token->token, mini);
+		if (valid_export(token->token) == TRUE)
+		{
+			ft_export_add(mini->env, comand, mini);
+			ft_export_add(mini->env_org, comand, mini);
+		}
+		else
+		{
+			mini->exit_code_error = 1;
+			return (ft_print_error("export", comand,
+					SNTAX_ERROR, "bash"), ft_free(comand, NULL));
+		}
+		list = list->next;
+		}
+
+}
+
 void	ft_export(t_minis *mini)
 {
 	t_token	*token;
@@ -175,24 +198,7 @@ void	ft_export(t_minis *mini)
 			&& not_opcion(mini, "export") == TRUE)
 			return ;
 		list = list->next;
-		while (list != NULL)
-		{
-			ft_free(comand, NULL);
-			token = get_token(list);
-			comand = expand_env(token->token, mini);
-			if (valid_export(token->token) == TRUE)
-			{
-				ft_export_add(mini->env, comand, mini);
-				ft_export_add(mini->env_org, comand, mini);
-			}
-			else
-			{
-				mini->exit_code_error = 1;
-				return (ft_print_error("export", comand,
-						SNTAX_ERROR, "bash"), ft_free(comand, NULL));
-			}
-			list = list->next;
-		}
+		export_add_while(mini, list, token, comand);
 		ft_free(comand, NULL);
 	}
 	if (mini->tokens->next == NULL)

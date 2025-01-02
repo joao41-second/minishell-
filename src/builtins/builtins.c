@@ -69,12 +69,22 @@ void	chek_herdoc(t_minis	*mini, int set)
 	}
 }
 
-t_token	*get_token(t_list_ *list)
+void	if_builtins(t_minis *mini, char *comand)
 {
-	t_token	*set;
-
-	set = (t_token *)list->content;
-	return (set);
+	if (ft_strncmp(comand, "env", 4) == 0)
+		ft_env(mini);
+	if (ft_strncmp(comand, "exit", 10) == 0)
+		ft_exit(mini);
+	if (ft_strncmp(comand, "cd", 10) == 0)
+		ft_cd(mini);
+	if (ft_strncmp(comand, "pwd", 10) == 0)
+		ft_pwd(mini);
+	if (ft_strncmp(comand, "unset", 10) == 0)
+		ft_unset(mini);
+	if (ft_strncmp(comand, "export", 10) == 0)
+		ft_export(mini);
+	if (ft_strncmp(comand, "echo", 10) == 0)
+		ft_echo(mini);
 }
 
 void	builtins(t_minis	*mini)
@@ -90,22 +100,7 @@ void	builtins(t_minis	*mini)
 	token = get_token(mini->tokens);
 	comand = expand_env(token->token, mini);
 	if (mini->comand != 1)
-	{
-		if (ft_strncmp(comand, "env", 4) == 0)
-			ft_env(mini);
-		if (ft_strncmp(comand, "exit", 10) == 0)
-			ft_exit(mini);
-		if (ft_strncmp(comand, "cd", 10) == 0)
-			ft_cd(mini);
-		if (ft_strncmp(comand, "pwd", 10) == 0)
-			ft_pwd(mini);
-		if (ft_strncmp(comand, "unset", 10) == 0)
-			ft_unset(mini);
-		if (ft_strncmp(comand, "export", 10) == 0)
-			ft_export(mini);
-		if (ft_strncmp(comand, "echo", 10) == 0)
-			ft_echo(mini);
-	}
+		if_builtins(mini, comand);
 	else
 		mini->comand = 0;
 	ft_free(comand, NULL);
