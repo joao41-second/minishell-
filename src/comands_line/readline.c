@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/17 16:03:51 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:46:03 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_strndup(const char *src, size_t n)
 	return (dst);
 }
 
-char *ft_strcpy(char *dst, const char *src)
+char	*ft_strcpy(char *dst, const char *src)
 {
 	int	i;
 
@@ -56,64 +56,62 @@ int	ft_strcmp(const char *s1, const char *s2)
 		s1++;
 		s2++;
 	}
-	return *(unsigned char *)s1 - *(unsigned char *)s2;
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
-void print_token_list(t_list_ *list)
+void	print_token_list(t_list_ *list)
 {
-    t_list_ *current = list;
-    t_token *token;
+	t_list_	*current;
+	t_token	*token;
 
-    printf("Token List:\n");
-    printf("-----------------------------------\n");
-    while (current)
-    {
-        token = (t_token *)current->content;
-        if (token)
-        {
-            printf("Token: %s\n", token->token ? token->token : "NULL");
+	current = list;
+	printf("Token List:\n");
+	printf("-----------------------------------\n");
+	while (current)
+	{
+		token = (t_token *)current->content;
+		if (token)
+		{
+			printf("Token: %s\n", token->token ? token->token : "NULL");
             printf("Type: %s\n", token->type ? token->type : "NULL");
 			if (token->redirection_target)
-                printf("Redirection Target: %s\n", token->redirection_target);
-            if (token->redirection_source)
-                printf("Redirection Source: %s\n", token->redirection_source);
-        }
-        else
-            printf("Empty token\n");
-        printf("-----------------------------------\n");
-        current = current->next;
-    }
+				printf("Redirection Target: %s\n", token->redirection_target);
+			if (token->redirection_source)
+				printf("Redirection Source: %s\n", token->redirection_source);
+		}
+		else
+			printf("Empty token\n");
+		printf("-----------------------------------\n");
+		current = current->next;
+	}
 }
 
-void set_error_env(t_minis *mini)
+void	set_error_env(t_minis *mini)
 {
 	t_env	*code_error_env;
-	
+
 	mini->env = ft_node_start(mini->env);
-	code_error_env = list_to_env((t_list_ *)get_list(mini->env, "?", get_env_node));
-	ft_free(code_error_env->content,NULL);
-	code_error_env->content =  ft_itoa(mini->exit_code_error);
-	code_error_env = list_to_env((t_list_ *)get_list(mini->env_org, "?", get_env_node));
-	ft_free(code_error_env->content,NULL);
-	code_error_env->content =  ft_itoa(mini->exit_code_error);
+	code_error_env = list_to_env(
+			(t_list_ *)get_list(mini->env, "?", get_env_node));
+	ft_free(code_error_env->content, NULL);
+	code_error_env->content = ft_itoa(mini->exit_code_error);
+	code_error_env = list_to_env(
+			(t_list_ *)get_list(mini->env_org, "?", get_env_node));
+	ft_free(code_error_env->content, NULL);
+	code_error_env->content = ft_itoa(mini->exit_code_error);
 }
 
 void excute_comand(t_minis *mini)
 {
 	t_list_	*exec_list;
-	int temp;
+	int		temp;
 
 	temp = 0;
 	if (get_signal(0) != 1)
-			mini->exit_code_error = get_signal(0);
+		mini->exit_code_error = get_signal(0);
 	set_error_env(mini);
-//	mini->line = expand_env(mini->line, mini);
 	check_syntax(mini->line);
 	mini->tokens = tokenize_and_check_bash_command(mini);
-	//printf("%s \n",mini->line);
-//	print_token_list(mini->tokens);
-	//	builtins(mini);
-	
 	exec_list = token_merger(mini);
 	process_merged_list(exec_list, mini);
 	fflush(stdout);
@@ -127,9 +125,7 @@ void	start_prompt_and_sig(t_minis *mini)
 	char	*line;
 
 	server();
-//	prompt = get_shell_prefix(mini);
 	line = readline("prompt " );
-//	ft_free(prompt, NULL);
 	if (line == NULL)
 		ft_exit_end(0);
 	if (mini->line)
@@ -142,8 +138,6 @@ void	start_prompt_and_sig(t_minis *mini)
 	free(line);
 }
 
-
-
 void	start_shell(t_minis mini)
 {
 	char	**envp;
@@ -155,9 +149,7 @@ void	start_shell(t_minis mini)
 	while (1)
 	{
 		get_signal(1);
-
 		start_prompt_and_sig(&mini);
-
 		if (mini.line[0] != '\0')
 			excute_comand(&mini);
 		set_error_env(&mini);

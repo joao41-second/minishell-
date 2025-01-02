@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:24:52 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/17 10:30:21 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/02 16:38:19 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../minishell.h"
@@ -41,7 +41,7 @@ int	too_arg_print(char *comand, int args, t_minis *mini)
 			else
 			{
 				ft_print_error(comand, "", TOO_ARG, "bash");
-				mini->exit_code_error = 1; 
+				mini->exit_code_error = 1;
 				return (TRUE);
 			}
 		}
@@ -70,7 +70,7 @@ int	not_opcion(t_minis *mini, char *comand)
 					memset(opcion, 'a', 5);
 					ft_strlcpy(opcion, token->token, 3);
 					ft_print_error(comand, opcion, INV_OPT, "bash");
-					mini->exit_code_error = 1; 
+					mini->exit_code_error = 1;
 					return (TRUE);
 				}
 			}
