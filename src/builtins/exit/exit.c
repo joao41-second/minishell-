@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int	ft_str_is_nb(char *src,t_minis *mini)
+int	ft_str_is_nb(char *src, t_minis *mini)
 {
 	int	i;
 
@@ -23,13 +23,12 @@ int	ft_str_is_nb(char *src,t_minis *mini)
 	{
 		if (ft_isdigit(src[i]) != 1 && src[i] != '-' && src[i] != '+')
 		{
-			ft_free(src,NULL);
+			ft_free(src, NULL);
 			return (FALSE);
 		}
 	}
 	return (TRUE);
 }
-
 
 void	ft_exit(t_minis *mini)
 {
@@ -46,8 +45,8 @@ void	ft_exit(t_minis *mini)
 	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
 		token = get_token(mini->tokens->next);
-		comand = expand_env(token->token,mini);
-		if (ft_str_is_nb(comand,mini) != TRUE)
+		comand = expand_env(token->token, mini);
+		if (ft_str_is_nb(comand, mini) != TRUE)
 		{
 			ft_print_error("exit", comand, NOT_NUB, "bash");
 			mini->exit_code_error = 2;
@@ -61,8 +60,6 @@ void	ft_exit(t_minis *mini)
 
 void	ft_exit_end(int code)
 {
-//	printf("exit\n");
 	ft_free_all(NULL);
 	exit(code);
-
 }

@@ -178,7 +178,6 @@ t_env		*ft_getenv_content(t_list_ *list, char *var);
  */
 t_env		*new_tenv(void);
 
-
 t_env	*new_node_une(char *s1, char *s2);
 void	ft_exit_end(int code);
 

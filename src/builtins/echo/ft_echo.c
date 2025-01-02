@@ -13,21 +13,19 @@
 #include "../../minishell.h"
 #include <stdio.h>
 
-void rm_char_str(char *str,int len)
+void	rm_char_str(char *str, int len)
 {
-	char *src;
-	int i;
+	char	*src;
+	int		i;
 
 	len++;
 	i = ft_strlen(str);
-	src = ft_malloc(ft_strlen(str) ,  NULL);
+	src = ft_malloc(ft_strlen(str), NULL);
 	ft_strlcpy(src, str, len);
 	ft_strlcat(src, &str[len], i);
-	ft_bzero(str,  i);
-	ft_strlcat(str,src , i);
+	ft_bzero(str, i);
+	ft_strlcat(str, src, i);
 }
-
-
 
 void	ft_echo(t_minis *mini)
 {
@@ -35,7 +33,7 @@ void	ft_echo(t_minis *mini)
 	int		new_line;
 	t_token	*token;
 	t_list_	*save;
-	char *str;
+	char	*str;
 
 	i = 0;
 	new_line = TRUE;
@@ -51,9 +49,9 @@ void	ft_echo(t_minis *mini)
 				if (token->token[i] != 'n')
 					new_line = FALSE;
 			}
-		}else {
-		new_line = FALSE;
 		}
+		else
+			new_line = FALSE;
 		i = 0;
 		if (mini->tokens->next != NULL && new_line == TRUE)
 			mini->tokens = mini->tokens->next;
@@ -61,9 +59,9 @@ void	ft_echo(t_minis *mini)
 			mini->tokens = mini->tokens->next;
 		while (mini->tokens != NULL)
 		{
-			str = expand_env(get_token(mini->tokens)->token,mini);
-			printf("%s",str);
-			if(mini->tokens->next != NULL)
+			str = expand_env(get_token(mini->tokens)->token, mini);
+			printf("%s", str);
+			if (mini->tokens->next != NULL)
 				printf(" ");
 			mini->tokens = mini->tokens->next;
 		}

@@ -116,18 +116,14 @@ int	valid_export(char	*token)
 		{
 			save = 1;
 			if (token[i - 1] != '+' && ft_isalnum(token[i - 1]) == TRUE)
-			{
 				return (FALSE);
-			}
 		}
 	}
 	i = -1;
-	while (token[++i] != '\0') 
+	while (token[++i] != '\0')
 	{
-		if(save != 1 && ft_isalnum(token[i]) == TRUE)
-		{
+		if (save != 1 && ft_isalnum(token[i]) == TRUE)
 			return (FALSE);
-		}
 	}
 	return (TRUE);
 }
@@ -145,16 +141,16 @@ int	locate(char *str, char src)
 	return (FALSE);
 }
 
-int simpel_export(char *comand)
+int	simpel_export(char *comand)
 {
-	char **split;
-	int i;
-	
+	char	**split;
+	int		i;
+
 	i = -1;
-	split = ft_split(comand,'=');
+	split = ft_split(comand, '=');
 	while (split[++i] != NULL)
 	{
-		if(valid_export(split[i]) != TRUE)
+		if (valid_export(split[i]) != TRUE)
 		{
 			free_split(split);
 			return (FALSE);
@@ -162,7 +158,6 @@ int simpel_export(char *comand)
 	}
 	free_split(split);
 	return (TRUE);
-
 }
 
 void	ft_export(t_minis *mini)
@@ -175,17 +170,17 @@ void	ft_export(t_minis *mini)
 	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
 		token = get_token(list->next);
-		comand = expand_env(token->token,mini);
+		comand = expand_env(token->token, mini);
 		if (locate(comand, '=') == FALSE
 			&& not_opcion(mini, "export") == TRUE)
 			return ;
 		list = list->next;
 		while (list != NULL)
 		{
-			ft_free(comand,NULL);
+			ft_free(comand, NULL);
 			token = get_token(list);
-			comand = expand_env(token->token,mini);
-			if (valid_export(token->token) == TRUE )
+			comand = expand_env(token->token, mini);
+			if (valid_export(token->token) == TRUE)
 			{
 				ft_export_add(mini->env, comand, mini);
 				ft_export_add(mini->env_org, comand, mini);
@@ -194,13 +189,12 @@ void	ft_export(t_minis *mini)
 			{
 				mini->exit_code_error = 1;
 				return (ft_print_error("export", comand,
-						SNTAX_ERROR, "bash"),ft_free(comand,NULL));
+						SNTAX_ERROR, "bash"), ft_free(comand, NULL));
 			}
 			list = list->next;
 		}
-		ft_free(comand,NULL);
+		ft_free(comand, NULL);
 	}
 	if (mini->tokens->next == NULL)
 		organizer_list(mini->env_org);
-
 }

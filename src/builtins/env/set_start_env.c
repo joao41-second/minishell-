@@ -9,6 +9,7 @@
 /*   Updated: 2024/10/28 14:35:02 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../../minishell.h"
 
 t_list_	*list_env_i(void)
@@ -34,6 +35,6 @@ t_list_	*list_env_i(void)
 	ft_node_add_front(&list, l2);
 	l2 = ft_node_new(&vars[3]);
 	ft_node_add_front(&list, l2);
-	ft_node_add_front(&list,ft_node_new( (void *) new_node_une("?","0")));
+	ft_node_add_front(&list, ft_node_new((void *)new_node_une("?", "0")));
 	return (list);
 }

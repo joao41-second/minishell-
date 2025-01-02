@@ -122,6 +122,7 @@ void process_merged_list(t_list_ *merged_list, t_minis *mini)
 					
 			        perror("bash");
 					mini->exit_code_error = 1;
+					return;
 				}
 		        pid = fork();
 		        if (pid == 0) {

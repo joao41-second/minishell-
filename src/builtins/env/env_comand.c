@@ -43,12 +43,12 @@ void	ft_env(t_minis *mini)
 	while (mini->tokens != NULL)
 	{
 		token = get_token(mini->tokens);
-		comand = expand_env(token->token,mini);
+		comand = expand_env(token->token, mini);
 		if (ft_strncmp(token->type, "argument", 15) == 0)
 		{
 			ft_print_error("env", comand, TOO_ARG, "bash");
 			mini->exit_code_error = 1;
-			ft_free(comand,NULL);
+			ft_free(comand, NULL);
 			return ;
 		}
 		mini->tokens = mini->tokens->next;

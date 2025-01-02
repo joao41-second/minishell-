@@ -104,7 +104,7 @@ t_list_	*env_split(char **env)
 		ft_node_add_front(&list, temp);
 		free_split(var);
 	}
-	ft_node_add_front(&list,ft_node_new( (void *) new_node_une("?","0")));
+	ft_node_add_front(&list, ft_node_new((void *)new_node_une("?", "0")));
 	list = ft_node_start(list);
 	return (list);
 }

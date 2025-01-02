@@ -43,20 +43,20 @@ char	*fd_generat(t_minis *mini)
 	if (mini->tokens->next != NULL)
 	{
 		token = get_token(mini->tokens->next);
-		comand = expand_env(token->token,mini);
+		comand = expand_env(token->token, mini);
 		if (comand[0] == '~')
 		{
 			if (ft_getenv(mini, "HOME") == NULL)
 			{
 				ft_print_error("cd", NOT_HOME, "", "bash");
-				ft_free(comand,NULL);
+				ft_free(comand, NULL);
 				return (NULL);
 			}
 			fd = ft_strjoin(ft_getenv(mini, "HOME"), &comand[1]);
 		}
 		else
 			fd = ft_strdup(comand);
-		ft_free(comand,NULL);
+		ft_free(comand, NULL);
 	}
 	if (fd == NULL)
 		fd = ft_strdup(ft_getenv(mini, "HOME"));
