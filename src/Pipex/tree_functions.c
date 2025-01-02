@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tree_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/26 15:33:16 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/02 19:35:52 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
 
 int handle_single_redirection(t_token *redir_token) {
     int fd;
@@ -43,6 +42,7 @@ int handle_single_redirection(t_token *redir_token) {
 int apply_redirections(t_list_ *current)
 {
     t_list_	*look_ahead = current->next;
+
 	int		flag;
     while (look_ahead && strcmp(((t_token *)look_ahead->content)->type, "redir") == 0)
 	{
@@ -90,73 +90,84 @@ void process_merged_list(t_list_ *merged_list, t_minis *mini)
 {
     t_list_ *current = merged_list;
     int pipe_fd[2];
-	int status; 
-    pid_t pid;
+    int status;
+    pid_t pid1, pid2;
     int original_stdin = dup(STDIN_FILENO);
     int original_stdout = dup(STDOUT_FILENO);
+    char **str;
 
-	char **str;
     while (current) {
         t_token *token = (t_token *)current->content;
-
-        // Reset standard input/output for each command
         dup2(original_stdin, STDIN_FILENO);
         dup2(original_stdout, STDOUT_FILENO);
-			
-		str = ft_split(token->token,' ');
-		if(chek_biltin(str) == TRUE)
-		{
-			mini->tokens = tokenize_and_check_bash_command(mini);
-			mini->tokens_copy = tokenize_and_check_bash_command(mini);
-			builtins(mini);
-		}
-		else
-		{
-		    if (strcmp(token->type, "command") == 0) {
-		        if(apply_redirections(current) == 1)
-				{ 
-					dup2(original_stdin, STDIN_FILENO);
-					dup2(original_stdout, STDOUT_FILENO);
-				    close(original_stdin);
-					close(original_stdout);
-					
-			        perror("bash");
-					mini->exit_code_error = 1;
-					return;
-				}
-		        pid = fork();
-		        if (pid == 0) {
-		            // Child process
-		            execute_command(token, mini);
-		        } else if (pid > 0) {
-		            // Parent process waits for child
-		            waitpid(pid, &status, 0);
-					if(WEXITSTATUS(status) != 0 )
-						mini->exit_code_error =  WEXITSTATUS(status);
-			    } else {
-			        perror("bas");
-					ft_exit_end(0);
-			    }
-			} else if (strcmp(token->type, "pipe") == 0) {
-			    pid = create_pipe_and_fork(pipe_fd);
-			    if (pid == 0) {
-			        setup_child_pipe(pipe_fd);
-			        current = current->next;
-			        if (current && strcmp(((t_token *)current->content)->type, "command") == 0) {
-			            execute_command((t_token *)current->content, mini);
-			        }
-					ft_exit_end(0);
-			    } else {
-			        setup_parent_pipe(pipe_fd);
-			        waitpid(pid, &status, 0);
-			    }
-			}
-		}
-		free_split(str);
+        
+        str = ft_split(token->token, ' ');
+        if (chek_biltin(str) == TRUE) {
+            mini->tokens = tokenize_and_check_bash_command(mini);
+            mini->tokens_copy = tokenize_and_check_bash_command(mini);
+            builtins(mini);
+        }
+        else if (strcmp(token->type, "pipe") == 0) {
+            t_token *cmd1 = (t_token *)current->previous->content;
+            t_token *cmd2 = (t_token *)current->next->content;
+
+            if (pipe(pipe_fd) == -1) {
+                perror("pipe");
+                ft_exit_end(126);
+            }
+
+            // First command
+            pid1 = fork();
+            if (pid1 == 0) {
+                close(pipe_fd[0]);
+                dup2(pipe_fd[1], STDOUT_FILENO);
+                close(pipe_fd[1]);
+                execute_command(cmd1, mini);
+            }
+
+            // Second command
+            pid2 = fork();
+            if (pid2 == 0) {
+                close(pipe_fd[1]);
+                dup2(pipe_fd[0], STDIN_FILENO);
+                close(pipe_fd[0]);
+                execute_command(cmd2, mini);
+            }
+
+            // Parent closes both ends of pipe
+            close(pipe_fd[0]);
+            close(pipe_fd[1]);
+
+            // Wait for both processes
+            waitpid(pid1, &status, 0);
+            waitpid(pid2, &status, 0);
+            
+            if (WEXITSTATUS(status) != 0)
+                mini->exit_code_error = WEXITSTATUS(status);
+
+            current = current->next;  // Skip the next command as we've already handled it
+        }
+        else if (strcmp(token->type, "command") == 0) {
+            if (apply_redirections(current) == 1) {
+                dup2(original_stdin, STDIN_FILENO);
+                dup2(original_stdout, STDOUT_FILENO);
+                close(original_stdin);
+                close(original_stdout);
+                perror("bash");
+                mini->exit_code_error = 1;
+                return;
+            }
+            pid1 = fork();
+            if (pid1 == 0) {
+                execute_command(token, mini);
+            }
+            waitpid(pid1, &status, 0);
+            if (WEXITSTATUS(status) != 0)
+                mini->exit_code_error = WEXITSTATUS(status);
+        }
+        free_split(str);
         current = current->next;
     }
-
-    // Restore original stdin and stdout
     dup2(original_stdin, STDIN_FILENO);
     dup2(original_stdout, STDOUT_FILENO);
     close(original_stdin);
