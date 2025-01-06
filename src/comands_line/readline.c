@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/02 16:46:03 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/06 14:07:37 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
+
+bool	is_allspace(char *str)
+{
+	while (*str)
+	{
+        if (!is_whitespace(*str))
+            return (false);
+        str++;
+    }
+	return (true);
+}
 
 char	*ft_strndup(const char *src, size_t n)
 {
@@ -105,6 +115,8 @@ void excute_comand(t_minis *mini)
 {
 	t_list_	*exec_list;
 	int		temp;
+	int original_stdin;
+	int original_stdout;
 
 	temp = 0;
 	if (get_signal(0) != 1)
@@ -113,7 +125,13 @@ void excute_comand(t_minis *mini)
 	check_syntax(mini->line);
 	mini->tokens = tokenize_and_check_bash_command(mini);
 	exec_list = token_merger(mini);
+    original_stdin = dup(STDIN_FILENO);
+    original_stdout = dup(STDOUT_FILENO);
 	process_merged_list(exec_list, mini);
+	dup2(original_stdin, STDIN_FILENO);
+    dup2(original_stdout, STDOUT_FILENO);
+	close(original_stdin);
+	close(original_stdout);
 	fflush(stdout);
 	free_list(exec_list, free_token);
 	free_list(mini->tokens, free_token);
@@ -150,7 +168,7 @@ void	start_shell(t_minis mini)
 	{
 		get_signal(1);
 		start_prompt_and_sig(&mini);
-		if (mini.line[0] != '\0')
+		if (!is_allspace(mini.line))
 			excute_comand(&mini);
 		set_error_env(&mini);
 		getcwd(mini.path, PATH_MAX);
