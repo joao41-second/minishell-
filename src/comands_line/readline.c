@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/06 14:07:37 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/07 16:42:14 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ void excute_comand(t_minis *mini)
 	exec_list = token_merger(mini);
     original_stdin = dup(STDIN_FILENO);
     original_stdout = dup(STDOUT_FILENO);
+	// print_token_list(exec_list);
 	process_merged_list(exec_list, mini);
 	dup2(original_stdin, STDIN_FILENO);
     dup2(original_stdout, STDOUT_FILENO);

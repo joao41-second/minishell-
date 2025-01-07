@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   merge_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:17:19 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/17 15:12:02 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/07 15:56:02 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,17 @@ void join_arguments_to_commands(t_list_ **merged_list)
     {
         current_token = (t_token *)current->content;
         if (ft_strcmp(current_token->type, "command") == 0)
-            command_token = current_token;
+		{
+			if (ft_strcmp(current_token->token, "cd") == 0
+				|| ft_strcmp(current_token->token, "echo") == 0
+				|| ft_strcmp(current_token->token, "env") == 0
+				|| ft_strcmp(current_token->token, "exit") == 0
+				|| ft_strcmp(current_token->token, "export") == 0
+				|| ft_strcmp(current_token->token, "pwd") == 0
+				|| ft_strcmp(current_token->token, "unset") == 0)
+				current_token->type = "builtin";
+			command_token = current_token;
+		}
         else if (command_token && ft_strcmp(current_token->type, "argument") == 0)
         {
             new_token = ft_strjoin(command_token->token, " ");
