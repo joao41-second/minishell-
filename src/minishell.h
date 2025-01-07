@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/12/13 16:34:05 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/07 18:15:32 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,6 @@ void		free_split(char **ok);
 
 void		free_list(t_list_ *list, void (*free_struct)(void *));
 
-t_list_		*token_merger(t_minis *mini);
+t_btree		*token_merger(t_minis *mini);
 
 #endif

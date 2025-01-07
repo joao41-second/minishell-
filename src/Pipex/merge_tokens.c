@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:17:19 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/07 15:56:02 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/07 18:47:34 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,39 @@ void join_arguments_to_commands(t_list_ **merged_list)
     }
 }
 
-t_list_ *token_merger(t_minis *mini)
+t_btree	*create_btree_node(char *cmd, t_btree *l, t_btree *r)
 {
-	t_list_	*merged_list;
-	t_list_ *save;
+	t_btree	*new_node;
 
-	merged_list = ft_node_new(create_token("", "", "", ""));
-	deep_copy_tokens(mini->tokens, &merged_list);
-	save = merged_list;
-	merged_list = merged_list->next;
-	ft_free_node(&save, free_token);
-	merged_list = ft_node_start(merged_list);
-	join_arguments_to_commands(&merged_list);
-	return (merged_list);
+	new_node = malloc(sizeof(t_btree));
+	if (!new_node)
+		return (NULL);
+	new_node->cmd = cmd;
+	new_node->left = l;
+	new_node->right = r;
+	return (new_node);
+}
+
+t_btree *build_command_tree(t_list_ **merged_list)
+{
+	
+}
+
+t_btree *token_merger(t_minis *mini)
+{
+    t_list_ *merged_list;
+    t_list_ *save;
+	t_btree *command_tree;
+	t_list_ *save_tree;
+
+    merged_list = ft_node_new(create_token("", "", "", ""));
+	command_tree = ft_node_new(create_btree_token("", NULL, NULL));
+    deep_copy_tokens(mini->tokens, &merged_list);
+    save = merged_list;
+    merged_list = merged_list->next;
+    ft_free_node(&save, free_token);
+    merged_list = ft_node_start(merged_list);
+    join_arguments_to_commands(&merged_list);
+	command_tree = build_command_tree(&merged_list);
+    return (command_tree);
 }

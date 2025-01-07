@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:31 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/17 15:41:48 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/07 17:53:35 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,9 @@
 typedef struct s_btree
 {
 	char			*cmd;
-	int				first_cmd;
 	struct s_btree	*left;
 	struct s_btree	*right;
 }	t_btree;
-
-
 
 void	fork_error(void);
 void	pipe_error(void);

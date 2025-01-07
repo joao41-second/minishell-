@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/07 16:42:14 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/07 18:38:10 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,16 @@ void	print_token_list(t_list_ *list)
 	}
 }
 
+void print_btree(t_btree *node)
+{
+    if (node == NULL) {
+        return;
+    }
+	print_btree(node->left);
+	printf("%s\n", node->cmd);
+	print_btree(node->right);
+}
+
 void	set_error_env(t_minis *mini)
 {
 	t_env	*code_error_env;
@@ -113,10 +123,11 @@ void	set_error_env(t_minis *mini)
 
 void excute_comand(t_minis *mini)
 {
-	t_list_	*exec_list;
+	pid_t	pid;
+	t_btree	*exec_list;
 	int		temp;
-	int original_stdin;
-	int original_stdout;
+	int		original_stdin;
+	int		original_stdout;
 
 	temp = 0;
 	if (get_signal(0) != 1)
@@ -127,14 +138,19 @@ void excute_comand(t_minis *mini)
 	exec_list = token_merger(mini);
     original_stdin = dup(STDIN_FILENO);
     original_stdout = dup(STDOUT_FILENO);
-	// print_token_list(exec_list);
-	process_merged_list(exec_list, mini);
+	print_btree(exec_list);
+	/* pid = fork();
+	if (pid == 0)
+	{
+		process_merged_list(exec_list, mini);
+		exit(EXIT_SUCCESS);
+	} */
+	waitpid(pid, NULL, 0);
 	dup2(original_stdin, STDIN_FILENO);
-    dup2(original_stdout, STDOUT_FILENO);
+	dup2(original_stdout, STDOUT_FILENO);
 	close(original_stdin);
 	close(original_stdout);
-	fflush(stdout);
-	free_list(exec_list, free_token);
+	// free_list(exec_list, free_token);
 	free_list(mini->tokens, free_token);
 }
 
