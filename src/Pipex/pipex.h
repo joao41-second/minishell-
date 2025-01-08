@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:31 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/07 17:53:35 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/08 17:26:55 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**pipex_split(char const *s, char c);
 t_btree	*build_tree(char **argv, int i, int end);
 t_btree	*create_node(char *cmd, t_btree *l, t_btree *r, int first_cmd);
 void	usage(void);
-void process_merged_list(t_list_ *merged_list, t_minis *mini);
+void	execute_command_tree(t_btree *root, char **envp);
 
 int chek_biltin(char **cmd);
 

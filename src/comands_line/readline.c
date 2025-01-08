@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/07 18:38:10 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/08 17:37:16 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,30 @@ void	print_token_list(t_list_ *list)
 	}
 }
 
+void print_command_tree(t_btree *node, int level)
+{
+    if (!node)
+        return;
+    for (int i = 0; i < level; i++)
+        printf("  ");
+    if (node->cmd)
+        printf("%s\n", node->cmd);
+    if (node->left)
+    {
+        for (int i = 0; i < level; i++)
+            printf("  ");
+        printf("Left:\n");
+        print_command_tree(node->left, level + 1);
+    }
+    if (node->right)
+    {
+        for (int i = 0; i < level; i++)
+            printf("  ");
+        printf("Right:\n");
+        print_command_tree(node->right, level + 1);
+    }
+}
+
 void print_btree(t_btree *node)
 {
     if (node == NULL) {
@@ -128,23 +152,25 @@ void excute_comand(t_minis *mini)
 	int		temp;
 	int		original_stdin;
 	int		original_stdout;
+	char	**envp;
 
 	temp = 0;
+	envp = env_to_matrix(mini);
 	if (get_signal(0) != 1)
 		mini->exit_code_error = get_signal(0);
 	set_error_env(mini);
 	check_syntax(mini->line);
 	mini->tokens = tokenize_and_check_bash_command(mini);
 	exec_list = token_merger(mini);
-    original_stdin = dup(STDIN_FILENO);
-    original_stdout = dup(STDOUT_FILENO);
-	print_btree(exec_list);
-	/* pid = fork();
+	original_stdin = dup(STDIN_FILENO);
+	original_stdout = dup(STDOUT_FILENO);
+	// print_command_tree(exec_list, 0);
+	pid = fork();
 	if (pid == 0)
 	{
-		process_merged_list(exec_list, mini);
+		execute_command_tree(exec_list, envp);
 		exit(EXIT_SUCCESS);
-	} */
+	}
 	waitpid(pid, NULL, 0);
 	dup2(original_stdin, STDIN_FILENO);
 	dup2(original_stdout, STDOUT_FILENO);
@@ -175,10 +201,7 @@ void	start_prompt_and_sig(t_minis *mini)
 
 void	start_shell(t_minis mini)
 {
-	char	**envp;
-
 	getcwd(mini.path, PATH_MAX);
-	envp = NULL;
 	mini.exit_code_error = 0;
 	set_error_env(&mini);
 	while (1)

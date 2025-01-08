@@ -3,83 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   tree_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/07 17:49:41 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/08 17:42:55 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void process_pipe(t_list_ *current, t_minis *mini)
+void handle_pipe_fork(t_btree *node, char **envp)
 {
-   pid_t pid;
-   int fd[2];
-   t_token *token;
+    int     fd[2];
+    pid_t   pid;
 
-   if (pipe(fd) == -1)
-   {
-       perror("pipe");
-       return;
-   }
-   pid = fork();
-   if (pid == -1)
-   {
-       perror("fork"); 
-       return;
-   }
-   if (pid == 0) // Child process
-   {
-       close(fd[0]);
-       dup2(fd[1], STDOUT_FILENO);
-       close(fd[1]);
-       token = (t_token *)current->content;
-       if (current->previous && ((t_token *)current->previous->content)->type 
-           && strcmp(((t_token *)current->previous->content)->type, "command") == 0)
-           execute(((t_token *)current->previous->content)->token, mini);
-       exit(1);
-   }
-   else // Parent process 
-   {
-       int status;
-       close(fd[1]);
-       dup2(fd[0], STDIN_FILENO); 
-       close(fd[0]);
-       waitpid(pid, &status, 0);
-       if (current->next && ((t_token *)current->next->content)->type
-           && strcmp(((t_token *)current->next->content)->type, "command") == 0)
-           execute(((t_token *)current->next->content)->token, mini);
-   }
+    if (pipe(fd) == -1)
+        pipe_error();
+    pid = fork();
+    if (pid == -1)
+        fork_error();
+    
+    if (pid == 0)  // Child process
+    {
+        close(fd[0]);
+        dup2(fd[1], STDOUT_FILENO);
+        close(fd[1]);
+        process_tree(node->left, envp);
+        exit(0);  // Exit after executing command
+    }
+    else  // Parent process
+    {
+        close(fd[1]);
+        dup2(fd[0], STDIN_FILENO);
+        close(fd[0]);
+        process_tree(node->right, envp);
+        waitpid(pid, NULL, 0);  // Wait for child process
+    }
 }
 
-void process_merged_list(t_list_ *merged_list, t_minis *mini)
+void process_tree(t_btree *node, char **envp)
 {
-   t_list_ *current = merged_list;
-   pid_t last_pid = 0;
-   int status;
+    char    **cmd_args;
 
-   while (current)
-   {
-       t_token *token = (t_token *)current->content;
-       if (strcmp(token->type, "pipe") == 0)
-       {
-           process_pipe(current, mini);
-           // Skip next node since it was handled in process_pipe
-           if (current->next)
-               current = current->next;
-       }
-       else if (strcmp(token->type, "command") == 0)
-       {
-           last_pid = fork();
-           if (last_pid == 0)
-           {
-               execute(token->token, mini);
-               exit(0);
-           }
-       }
-       current = current->next;
-   }
-   if (last_pid > 0)
-       waitpid(last_pid, &status, 0);
+    if (!node)
+        return;
+        
+    if (ft_strcmp(node->cmd, "|") == 0)
+    {
+        handle_pipe_fork(node, envp);
+    }
+    else
+    {
+        cmd_args = ft_split(node->cmd, ' ');
+        if (execve(cmd_args[0], cmd_args, envp) == -1)
+        {
+            ft_free_array(cmd_args);
+            exec_error();
+        }
+    }
+}
+
+void execute_command_tree(t_btree *root, char **envp)
+{
+    pid_t   pid;
+    
+    if (!root)
+        return;
+        
+    // Start execution in a new process
+    pid = fork();
+    if (pid == -1)
+        fork_error();
+        
+    if (pid == 0)
+    {
+        process_tree(root, envp);
+        exit(0);
+    }
+    else
+    {
+        // Wait for all child processes to complete
+        waitpid(pid, NULL, 0);
+    }
 }
