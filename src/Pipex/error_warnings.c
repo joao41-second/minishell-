@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:50:27 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/18 17:04:31 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/09 16:00:53 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,17 @@ void	no_path_error(char *cmd)
 	i = 0;
 	if (cmd[0]=='.' && cmd[1] != '/')
 	{
-		 ft_print_error(cmd,"",REC_FILE,"bash");
+		 ft_print_error(cmd,"",REC_FILE,"");
 		 ft_exit_end(127);
 	}
 	if ((cmd[0]=='.' && cmd[1] == '/') || cmd[1] == '/')
 	{
 		lstat(ft_split(cmd,' ')[0],&file_status);
 		if(S_ISREG(file_status.st_mode))
-			ft_print_error(cmd,"",REC_FILE,"bash");
+			ft_print_error(cmd,"",REC_FILE,"");
 		if(S_ISDIR(file_status.st_mode) == 1)
 		{
-			ft_print_error("",cmd, DIR,"bash");
+			ft_print_error("",cmd, DIR,"");
 			ft_exit_end(126); 
 		}
 		
@@ -62,7 +62,7 @@ void	no_path_error(char *cmd)
 	}
 // trabalha aqui
 
-			ft_print_error("",cmd, NOT_COMAND,"bash");
+			ft_print_error("",cmd, NOT_COMAND,"\n");
 
 	ft_exit_end(127);
 }

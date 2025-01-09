@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:41 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/03 15:50:40 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/09 15:30:08 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int chek_biltin(char **cmd)
 	return (FALSE);
 }
 
-
 void	execute(char *argv, t_minis *mini)
 {
 	char	**cmd;
@@ -102,13 +101,9 @@ void	execute(char *argv, t_minis *mini)
 	cmd = ft_split(expand_env(argv,mini), ' ');
 	path = find_path(cmd[0], env_to_matrix(mini));
 	if (!path)
-	{	
 		no_path_error(argv);
-	}
 	if(path == NULL)
 		path = mini->path;
-	
-	//printf("io o a pasta e %s comd %s\n",cmd[0], path );
 	  if (execve(path, cmd, env_to_matrix(mini)) == -1)
 		command_error();
 }
