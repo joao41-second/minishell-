@@ -6,12 +6,11 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/10 16:20:06 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/10 15:57:14 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
 
 bool	is_allspace(char *str)
 {
@@ -183,28 +182,9 @@ void	start_prompt_and_sig(t_minis *mini)
 	free(line);
 }
 
-int	chek_comand(t_minis mini)
+int chek_comand(t_minis *mini)
 {
-	t_list_	*list;
-	int		bil;
-	int		pipe;
-
-	list = mini.tokens;
-	pipe = 0;
-	bil = 0;
-	while (list != NULL)
-	{
-		if (ft_strncmp(get_token(list)->type, "pipe", 10) == 0)
-			pipe++;
-		if (chek_biltin(&get_token(list)->token) == TRUE)
-			bil = 1; 
-		list = list->next;
-	}
-	if(pipe != 0)
-		return (FALSE);
-	if(bil != 0)
-		return (TRUE);
-	return (FALSE);
+	return (TRUE);
 }
 
 void	excute_comand(t_minis *mini)
@@ -217,14 +197,10 @@ void	excute_comand(t_minis *mini)
 	set_error_env(mini);
 	check_syntax(mini->line);
 	mini->tokens = tokenize_and_check_bash_command(mini);
-	mini->tokens_copy = tokenize_and_check_bash_command(mini);
-	if(chek_comand(*mini) == TRUE)
-	 	builtins(mini);
-	else
-		excute_comand_ve(mini);
-	//print_token_list(mini->tokens);
+
+	print_token_list(mini->tokens);
+	excute_comand_ve(mini);
 	free_list(mini->tokens, free_token);
-	free_list(mini->tokens_copy, free_token);
 }
 
 void	start_shell(t_minis mini)
