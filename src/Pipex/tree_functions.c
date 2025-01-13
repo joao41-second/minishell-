@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/09 16:21:59 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:09:47 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,30 @@ void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
     if (pid == -1)
         fork_error();
     if (pid == 0)
-    {
-        if (node->right == NULL)
-        {
+	{
+		if (node->right == NULL)
+		{
 			close(fd[0]);
 			close(fd[1]);
-			dup2(STDOUT_FILENO, original_stdout);
-			close(original_stdout);
 			process_tree(node->left, mini, original_stdout);
 			exit(0);
-        }
-        else
-        {
+		}
+		else
+		{
 			close(fd[0]);
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
 			process_tree(node->left, mini, original_stdout);
 			exit(0);
-        }
+		}
     }
     else
     {
+        int status;
         close(fd[1]);
-        if (node->right && ft_strcmp(node->right->cmd, "|") == 0)
-            dup2(fd[0], STDIN_FILENO);
-        else
-        {
-            int terminal_fd = dup(STDOUT_FILENO);
-            dup2(terminal_fd, STDOUT_FILENO);
-        }
+        dup2(fd[0], STDIN_FILENO);
         close(fd[0]);
+        waitpid(pid, &status, 0);
         process_tree(node->right, mini, original_stdout);
     }
 }
