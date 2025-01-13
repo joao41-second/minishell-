@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:41 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/09 15:30:08 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/13 09:52:40 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,13 @@ void	execute(char *argv, t_minis *mini)
 
 	i = -1;
 	cmd = ft_split(expand_env(argv,mini), ' ');
+	if(chek_biltin(cmd) == TRUE)
+	{	
+		mini->tokens = tokenize_and_check_bash_command(mini);
+		mini->tokens_copy = tokenize_and_check_bash_command(mini);
+		builtins(mini);
+		ft_exit_end(mini->exit_code_error);
+	}
 	path = find_path(cmd[0], env_to_matrix(mini));
 	if (!path)
 		no_path_error(argv);
