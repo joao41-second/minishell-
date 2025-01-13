@@ -1,9 +1,0 @@
-void muv()
-{
-	int temp;
-
-satcA->num= temp
-
-stacA = satcA->next->num;
-stacA->next->num = temp;
-}
