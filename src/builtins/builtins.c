@@ -49,7 +49,7 @@ void	chek_herdoc(t_minis	*mini, int set)
 	t_list_	*token;
 	t_token	*element;
 
-	i = -1;
+	i = 0;
 	token = mini->tokens;
 	if (set == 1)
 		token = mini->tokens_copy;
@@ -57,14 +57,42 @@ void	chek_herdoc(t_minis	*mini, int set)
 	while (token != NULL)
 	{
 		if (ft_strncmp(get_token(token)->token, ">", 4) == 0)
+		{
 			change_and_free(mini, set, &token, '>');
+			if(i == 1)
+			{
+				change_file(mini, 1, 'i', get_token(token));
+			}
+			i++;
+		}
 		if (ft_strncmp(get_token(token)->token, ">>", 4) == 0)
+		{
+			printf("redir \n")	;
+			if(i == 1)
+			{
+				change_file(mini, 1, 'i', get_token(token));
+				i = 0;
+			}
 			change_and_free(mini, set, &token, 'n');
+			token = ft_node_start(token);
+			i++;
+		}
 		if (ft_strncmp(get_token(token)->token, "<<", 4) == 0)
+		{
 			change_and_free(mini, set, &token, 'h');
-		if (ft_strncmp(get_token(token)->token, "<", 4) == 0)
+			if(i == 1)
+			{
+				change_file(mini, 1, 'i', get_token(token));
+			}
+			i++;
+		}
+		if (ft_strncmp(get_token(token)->token, "<", 4) == 0){
+
+			i++;
 			if (open_error(mini, &token) == FALSE)
 				return ;
+
+		}
 		token = token->next;
 	}
 }
