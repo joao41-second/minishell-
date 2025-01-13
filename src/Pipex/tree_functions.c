@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/13 15:09:47 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/13 15:27:52 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
 {
     int fd[2];
+	int status;
     pid_t pid;
 
     if (pipe(fd) == -1)
@@ -41,14 +42,13 @@ void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
 		}
     }
     else
-    {
-        int status;
-        close(fd[1]);
-        dup2(fd[0], STDIN_FILENO);
-        close(fd[0]);
-        waitpid(pid, &status, 0);
-        process_tree(node->right, mini, original_stdout);
-    }
+{
+    close(fd[1]);
+    dup2(fd[0], STDIN_FILENO); 
+    close(fd[0]);
+    process_tree(node->right, mini, original_stdout);
+    waitpid(pid, &status, 0);
+}
 }
 
 void process_tree(t_btree *node, t_minis *mini, int original_stdout)
