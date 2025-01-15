@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/10 16:20:06 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/13 16:11:20 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,22 +146,52 @@ void	set_error_env(t_minis *mini)
 	code_error_env->content = ft_itoa(mini->exit_code_error);
 }
 
+void	free_tree(t_btree *node)
+{
+	if (node == NULL)
+		return ;
+	free_tree(node->left);
+	free_tree(node->right);
+	ft_free(node, NULL);
+}
+
 void excute_comand_ve(t_minis *mini)
 {
-	pid_t	pid;
-	t_btree	*exec_list;
-	int		original_stdout;
+	pid_t pid;
+	t_btree *exec_list;
+	int temp;
+	int original_stdin;
+	int original_stdout;
 
-	exec_list = token_merger(mini);
-	dup2(STDOUT_FILENO, original_stdout);
-	pid = fork();
-	if (pid == 0)
-	{
-		process_tree(exec_list, mini, original_stdout);
-	}
-	waitpid(pid, NULL, 0);
-	dup2(original_stdout, STDOUT_FILENO);
-	close(original_stdout);
+	temp = 0;
+    if (get_signal(0) != 1)
+        mini->exit_code_error = get_signal(0);
+    set_error_env(mini);
+    check_syntax(mini->line);
+    mini->tokens = tokenize_and_check_bash_command(mini);
+    exec_list = token_merger(mini);
+    original_stdin = dup(STDIN_FILENO);
+    original_stdout = dup(STDOUT_FILENO);
+    if (original_stdin == -1 || original_stdout == -1)
+    {
+        free_tree(exec_list);
+        free_list(mini->tokens, free_token);
+        return ;
+    }
+    pid = fork();
+    if (pid == 0)
+    {
+        process_tree(exec_list, mini, original_stdout);
+        close(original_stdin);
+        close(original_stdout);
+        ft_exit_end(1);
+    }
+    waitpid(pid, NULL, 0);
+    dup2(original_stdin, STDIN_FILENO);
+    dup2(original_stdout, STDOUT_FILENO);
+    close(original_stdin);
+    close(original_stdout);
+    free_tree(exec_list);
 }
 
 void	start_prompt_and_sig(t_minis *mini)

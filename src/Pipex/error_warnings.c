@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_warnings.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:50:27 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/09 16:00:53 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:40:49 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ void	no_path_error(char *cmd)
 		write(2, &cmd[i], 1);
 		i++;
 	}
-// trabalha aqui
-
-			ft_print_error("",cmd, NOT_COMAND,"\n");
-
+	ft_print_error("",cmd, NOT_COMAND,"\n");
 	ft_exit_end(127);
 }
 
