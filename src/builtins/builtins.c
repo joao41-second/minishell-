@@ -12,6 +12,7 @@
 
 #include "../minishell.h"
 #include <stdio.h>
+#include <unistd.h>
 
 void	change_and_free(t_minis *mini, int set, t_list_ **token, char chage)
 {
@@ -58,16 +59,17 @@ void	chek_herdoc(t_minis	*mini, int set)
 	{
 		if (ft_strncmp(get_token(token)->token, ">", 4) == 0)
 		{
-			change_and_free(mini, set, &token, '>');
 			if(i == 1)
 			{
+				i = 0;
 				change_file(mini, 1, 'i', get_token(token));
 			}
+			change_and_free(mini, set, &token, '>');
+			token = ft_node_start(token);
 			i++;
 		}
 		if (ft_strncmp(get_token(token)->token, ">>", 4) == 0)
 		{
-			printf("redir \n")	;
 			if(i == 1)
 			{
 				change_file(mini, 1, 'i', get_token(token));
@@ -79,16 +81,17 @@ void	chek_herdoc(t_minis	*mini, int set)
 		}
 		if (ft_strncmp(get_token(token)->token, "<<", 4) == 0)
 		{
-			change_and_free(mini, set, &token, 'h');
 			if(i == 1)
 			{
+				i = 0;
 				change_file(mini, 1, 'i', get_token(token));
 			}
+			change_and_free(mini, set, &token, 'h');
+			token = ft_node_start(token);
 			i++;
 		}
 		if (ft_strncmp(get_token(token)->token, "<", 4) == 0){
 
-			i++;
 			if (open_error(mini, &token) == FALSE)
 				return ;
 
@@ -120,7 +123,10 @@ void	builtins(t_minis	*mini)
 	t_token	*token;
 	t_list_	*save;
 	char	*comand;
+	int		term[2];
 
+	pipe(term);
+	dup2(1,term[0]);
 	save = mini->tokens;
 	if (mini->tokens == NULL)
 		return ;
@@ -133,5 +139,7 @@ void	builtins(t_minis	*mini)
 		mini->comand = 0;
 	ft_free(comand, NULL);
 	mini->tokens = save;
-	chek_herdoc(mini, 1);
+	dup2(term[0], 1);
+	close(term[1]);
+	close(term[0]);
 }
