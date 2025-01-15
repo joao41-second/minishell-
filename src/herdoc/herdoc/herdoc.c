@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 static void	handle_signal(int sig)
@@ -91,7 +92,7 @@ void	herdoc(t_minis *mini, int set, char *end)
 	int				status;
 	struct rusage	usage;
 
-	if (set != 1)
+	if (set != 0)
 		return ;
 	pid = fork();
 	if (pid < 0)

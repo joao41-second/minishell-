@@ -44,6 +44,35 @@ int	open_error(t_minis *mini, t_list_ **token)
 	return (TRUE);
 }
 
+void redir_if( t_minis *mini, t_list_ **token,char set)
+{
+	static int i = 0;
+
+	if(i == 1 && ( ft_strncmp(get_token(*token)->token, ">", 4) == 0 ||
+			ft_strncmp(get_token(*token)->token, ">>", 4) == 0
+				|| ft_strncmp(get_token(*token)->token, "<<", 4) == 0))
+	{
+		i = 0;
+		change_file(mini, 1, 'i', get_token(*token));
+	}
+	if (ft_strncmp(get_token(*token)->token, ">", 4) == 0)
+		change_and_free(mini, set, token, '>');
+	if (ft_strncmp(get_token(*token)->token, ">>", 4) == 0)
+		change_and_free(mini, set, token, 'n');
+	if (ft_strncmp(get_token(*token)->token, "<<", 4) == 0)
+		change_and_free(mini, set, token, 'h');
+	if (ft_strncmp(get_token(*token)->token, "<", 4) == 0)
+		if (open_error(mini, token) == FALSE)
+			return ;
+	if(( ft_strncmp(get_token(*token)->token, ">", 4) == 0 ||
+			ft_strncmp(get_token(*token)->token, ">>", 4) == 0
+				|| ft_strncmp(get_token(*token)->token, "<<", 4) == 0))
+	{
+		*token = ft_node_start(*token);
+		i++;
+	}	
+}
+
 void	chek_herdoc(t_minis	*mini, int set)
 {
 	int		i;
@@ -57,45 +86,7 @@ void	chek_herdoc(t_minis	*mini, int set)
 	token = ft_node_start(token);
 	while (token != NULL)
 	{
-		if (ft_strncmp(get_token(token)->token, ">", 4) == 0)
-		{
-			if(i == 1)
-			{
-				i = 0;
-				change_file(mini, 1, 'i', get_token(token));
-			}
-			change_and_free(mini, set, &token, '>');
-			token = ft_node_start(token);
-			i++;
-		}
-		if (ft_strncmp(get_token(token)->token, ">>", 4) == 0)
-		{
-			if(i == 1)
-			{
-				change_file(mini, 1, 'i', get_token(token));
-				i = 0;
-			}
-			change_and_free(mini, set, &token, 'n');
-			token = ft_node_start(token);
-			i++;
-		}
-		if (ft_strncmp(get_token(token)->token, "<<", 4) == 0)
-		{
-			if(i == 1)
-			{
-				i = 0;
-				change_file(mini, 1, 'i', get_token(token));
-			}
-			change_and_free(mini, set, &token, 'h');
-			token = ft_node_start(token);
-			i++;
-		}
-		if (ft_strncmp(get_token(token)->token, "<", 4) == 0){
-
-			if (open_error(mini, &token) == FALSE)
-				return ;
-
-		}
+		redir_if( mini, &token, set);
 		token = token->next;
 	}
 }
