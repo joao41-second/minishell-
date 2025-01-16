@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2025/01/16 11:30:20 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/16 11:39:21 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ typedef struct s_mines
 # include "./error/error.h"
 # include "./parsing/expand_env/expand.h"
 # include "./builtins/builtins.h"
+# include "./Pipex/pipex.h"
 # include "./comands_line/readline.h"
 # include "parsing/tokenizer/tokenizer.h"
 # include "./herdoc/herdoc.h"
-# include "./Pipex/pipex.h"
 
 
 int			check_syntax(const char *str);

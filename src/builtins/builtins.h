@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:55:23 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/15 15:18:41 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/16 11:40:20 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,5 +180,7 @@ t_env		*new_tenv(void);
 
 t_env	*new_node_une(char *s1, char *s2);
 void	ft_exit_end(int code);
+void	unset_list(t_list_ **list, char *str);
+
 
 #endif // DEBUG

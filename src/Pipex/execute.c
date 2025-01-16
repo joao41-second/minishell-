@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:41 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/13 09:52:40 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/16 11:40:35 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void	execute(char *argv, t_minis *mini)
 
 	i = -1;
 	cmd = ft_split(expand_env(argv,mini), ' ');
+	unset_list(&mini->env, "?");
+
 	if(chek_biltin(cmd) == TRUE)
 	{	
 		mini->tokens = tokenize_and_check_bash_command(mini);
