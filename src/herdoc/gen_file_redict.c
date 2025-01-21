@@ -39,7 +39,7 @@ void	change_file(t_minis *mini, int set, char sete, t_token *name)
 		redirect(mini, sete, &file_new, name);
 		if (file_new == -1)
 		{
-			perror("bash");
+			ft_print_error_simple( name->redirection_target,NOT_PERM , "bash");
 			mini->comand = 1;
 			mini->exit_code_error = 1;
 			return ;

@@ -232,7 +232,7 @@ int	chek_comand(t_minis mini)
 	}
 	if(pipe != 0)
 		return (FALSE);
-	if(bil != 0)
+	if(bil != 0 && pipe == 0)
 		return (TRUE);
 	return (FALSE);
 }

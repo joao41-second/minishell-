@@ -22,11 +22,14 @@
 # define REC_FILE "filename argument required"
 # define DIR "is a directory"
 # define NOT_COMAND "command not found"
+# define NOT_PERM "Permission denied"
 
 //# define SNTAX_ERROR "not a valid identifier"
 
 void	ft_print_error(char *comand, char *error, char *error_char,
 			char *start);
+
+void	ft_print_error_simple(char *comand, char *error, char *start);
 
 int		too_arg_print(char *comand, int args, t_minis *mini);
 

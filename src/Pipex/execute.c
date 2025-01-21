@@ -102,7 +102,8 @@ void	execute(char *argv, t_minis *mini)
 	unset_list(&mini->env, "?");
 
 	if(chek_biltin(cmd) == TRUE)
-	{	
+	{
+		mini->line = argv;
 		mini->tokens = tokenize_and_check_bash_command(mini);
 		mini->tokens_copy = tokenize_and_check_bash_command(mini);
 		builtins(mini);

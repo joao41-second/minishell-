@@ -23,6 +23,16 @@ void	ft_print_error(char *comand, char *error, char *error_char, char *start)
 	ft_putstr_fd("\n", 2);
 }
 
+void	ft_print_error_simple(char *comand, char *error, char *start)
+{
+	ft_putstr_fd(start, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(comand, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(error, 2);
+	ft_putstr_fd("\n", 2);
+}
+
 int	too_arg_print(char *comand, int args, t_minis *mini)
 {
 	t_token	*token;
