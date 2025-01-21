@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:46:23 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/03 12:30:47 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/21 11:12:15 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../minishell.h"
@@ -21,19 +21,6 @@ t_env	*new_node(char *s1)
 	var->name = ft_strdup(s1);
 	var->content = ft_strdup(content);
 	var->chek = TRUE;
-	return (var);
-}
-
-t_env	*new_node_une(char *s1, char *s2)
-{
-	t_env	*var;
-	char	*content;
-
-	var = (t_env *)ft_malloc(1 * sizeof (t_env), NULL);
-	content = s2;
-	var->name = ft_strdup(s1);
-	var->content = ft_strdup(content);
-	var->chek = FALSE;
 	return (var);
 }
 

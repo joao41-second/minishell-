@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:05:55 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/02 16:23:33 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/21 11:19:54 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,6 @@ t_env	*set_env_in_export(t_list_ *list, char *str, char **export)
 	else
 		env = new_tenv();
 	return (env);
-}
-
-int	set_env_in_case_of_the_plus(char *str, char **export,
-								t_env *env, char *temp)
-{
-	int	i;
-
-	i = 0;
-	if (str[ft_strlen(export[0]) - 1] == '+')
-	{
-		temp = ft_substr(export[0], 0, ft_strlen(export[0]) - 1);
-		env->name = temp;
-		temp = NULL;
-		i++;
-	}
-	else
-		env->name = ft_strdup(export[0]);
-	return (i);
 }
 
 int	inicilaze_variabel(t_env **env, char ***export, t_list_ *list, char *str)
@@ -96,67 +78,6 @@ void	ft_export_add( t_list_ *list, char *str)
 	if (ft_getenv_content(list, env->name) == NULL)
 		export_add(&list, env);
 	free_split(export);
-}
-
-int	valid_export(char	*token)
-{
-	int	save;
-	int	i;
-
-	save = 0;
-	i = -1;
-	if (ft_isalpha(token[0]) == TRUE)
-	{
-		return (FALSE);
-	}
-	while (token[++i] != '\0')
-	{
-		if (token[i] == '=')
-		{
-			save = 1;
-			if (token[i - 1] != '+' && ft_isalnum(token[i - 1]) == TRUE)
-				return (FALSE);
-		}
-	}
-	i = -1;
-	while (token[++i] != '\0')
-	{
-		if (save != 1 && ft_isalnum(token[i]) == TRUE)
-			return (FALSE);
-	}
-	return (TRUE);
-}
-
-int	locate(char *str, char src)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i] != '\0')
-	{
-		if (str[i] == src)
-			return (TRUE);
-	}
-	return (FALSE);
-}
-
-int	simpel_export(char *comand)
-{
-	char	**split;
-	int		i;
-
-	i = -1;
-	split = ft_split(comand, '=');
-	while (split[++i] != NULL)
-	{
-		if (valid_export(split[i]) != TRUE)
-		{
-			free_split(split);
-			return (FALSE);
-		}
-	}
-	free_split(split);
-	return (TRUE);
 }
 
 void	export_add_while(t_minis *mini, t_list_ *list,

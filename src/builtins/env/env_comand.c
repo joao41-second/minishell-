@@ -61,3 +61,16 @@ char	*ft_getenv(t_minis *mini, char *var)
 {
 	return ((char *)get_list(mini->env, var, get_env));
 }
+
+t_env	*new_node_une(char *s1, char *s2)
+{
+	t_env	*var;
+	char	*content;
+
+	var = (t_env *)ft_malloc(1 * sizeof (t_env), NULL);
+	content = s2;
+	var->name = ft_strdup(s1);
+	var->content = ft_strdup(content);
+	var->chek = FALSE;
+	return (var);
+}
