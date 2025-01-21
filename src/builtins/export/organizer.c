@@ -57,7 +57,8 @@ void	print_export(void *point)
 	if (list != NULL)
 	{
 		get = *((t_env *)list->content);
-		if (get.content != NULL && get.chek != FALSE)
+		if (get.content != NULL && get.chek != FALSE
+			&& ft_strncmp(get.name, "?", 10))
 			printf("declare -x %s=\"%s\" \n", get.name, get.content);
 		else if (get.content == NULL && get.chek != FALSE)
 		{
