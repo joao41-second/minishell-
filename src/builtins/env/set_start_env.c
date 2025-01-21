@@ -23,9 +23,9 @@ t_list_	*list_env_i(void)
 	vars[0].name = "OLDPWD";
 	vars[0].content = NULL;
 	vars[1].name = "PWD";
-	vars[1].content = getcwd(cwd, sizeof(cwd));
+	vars[1].content = ft_strdup(getcwd(cwd, sizeof(cwd)));
 	vars[2].name = "SHLVL";
-	vars[2].content = "1";
+	vars[2].content = "0";
 	vars[3].name = "_";
 	vars[3].content = "/usr/bin/env";
 	list = ft_node_new((void *)&vars[0]);

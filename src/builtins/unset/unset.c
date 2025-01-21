@@ -45,7 +45,7 @@ int	chek_varabel(t_env *env, t_list_ **list, char *str)
 	}
 	if (ft_strncmp(str, "OLDPWD", 23) == 0)
 	{
-		env = ft_getenv_content(*list, "PWD");
+		env = ft_getenv_content(*list, "OLDPWD");
 		env->chek = FALSE;
 		ft_free(env->content, NULL);
 		env->content = NULL;
