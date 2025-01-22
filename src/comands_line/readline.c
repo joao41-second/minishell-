@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/13 16:11:20 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/22 19:32:52 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,23 +76,27 @@ void	print_token_list(t_list_ *list)
 	t_token	*token;
 
 	current = list;
-	printf("Token List:\n");
-	printf("-----------------------------------\n");
+//	printf("Token List:\n");
+//	printf("-----------------------------------\n");
+	if(current == NULL)
+		return;
+	current = ft_node_start(current);
 	while (current)
 	{
 		token = (t_token *)current->content;
 		if (token)
 		{
 			printf("Token: %s\n", token->token ? token->token : "NULL");
+			/*
             printf("Type: %s\n", token->type ? token->type : "NULL");
 			if (token->redirection_target)
 				printf("Redirection Target: %s\n", token->redirection_target);
 			if (token->redirection_source)
-				printf("Redirection Source: %s\n", token->redirection_source);
+				printf("Redirection Source: %s\n", token->redirection_source);*/
 		}
 		else
 			printf("Empty token\n");
-		printf("-----------------------------------\n");
+	//	printf("-----------------------------------\n");
 		current = current->next;
 	}
 }
@@ -105,11 +109,13 @@ void print_command_tree(t_btree *node, int level)
         printf("  ");
     if (node->cmd)
         printf("%s\n", node->cmd);
+	if(node->redir != NULL)
+		print_token_list(node->redir);
     if (node->left)
     {
         for (int i = 0; i < level; i++)
             printf("  ");
-        printf("Left:\n");
+        printf("Left:\n");	
         print_command_tree(node->left, level + 1);
     }
     if (node->right)
@@ -178,6 +184,9 @@ void excute_comand_ve(t_minis *mini)
         free_list(mini->tokens, free_token);
         return ;
     }
+	set_redir(mini->tokens,&exec_list);
+	//print_token_list(mini->tokens);
+	print_command_tree(exec_list, 3);
     pid = fork();
     if (pid == 0)
     {

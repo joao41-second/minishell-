@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:17:19 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/08 16:12:12 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/22 18:58:05 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_btree *create_tree_node(char *cmd)
     new_node->cmd = ft_strdup(cmd);
     new_node->left = NULL;
     new_node->right = NULL;
+	new_node->redir = NULL;
     return (new_node);
 }
 
