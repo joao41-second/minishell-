@@ -186,10 +186,10 @@ void excute_comand_ve(t_minis *mini)
     }
 	//print_token_list(mini->tokens);
 //	 print_command_tree(exec_list, 3);
-	set_redir(mini->tokens,&exec_list);
     pid = fork();
     if (pid == 0)
     {
+		set_redir(mini->tokens,&exec_list);
         process_tree(exec_list, mini, original_stdout);
         close(original_stdin);
         close(original_stdout);
