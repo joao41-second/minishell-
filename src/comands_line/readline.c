@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/22 19:32:52 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/22 20:58:42 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,9 +184,9 @@ void excute_comand_ve(t_minis *mini)
         free_list(mini->tokens, free_token);
         return ;
     }
-	set_redir(mini->tokens,&exec_list);
 	//print_token_list(mini->tokens);
-	print_command_tree(exec_list, 3);
+//	 print_command_tree(exec_list, 3);
+	set_redir(mini->tokens,&exec_list);
     pid = fork();
     if (pid == 0)
     {

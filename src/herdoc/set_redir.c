@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:31:40 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/22 19:27:30 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/22 21:09:58 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void set_redir(t_list_ *list, t_btree **btree)
 		{
 			if(ft_strncmp((char *)(*btree)->left->cmd, "|", 10) != 0)
 			{
-				(*btree)->left->redir = list_redir;
+				if(list_redir != NULL)
+					(*btree)->left->redir = ft_node_start(list_redir);
 				
 				list_redir = NULL;
 				print_token_list((*btree)->left->redir);
@@ -52,4 +53,49 @@ void set_redir(t_list_ *list, t_btree **btree)
 		list = list->next;
 	}
 	(*btree) = save;
+}
+
+
+void	set_fd(int nb,t_token *token)
+{
+	int dup0;
+	int dup1;
+	 int fd=0;
+	
+	dup0 = dup(0);
+	dup1 = dup(1);
+	if (nb == 1)
+		fd = open(token->redirection_target, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if (nb == 2)
+		fd = open( token->redirection_target,O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	//if (nb == 3)
+		
+
+	dup2(fd,1);
+	if(nb == 6 && fd != 0)
+	{
+		fd = 0;
+	}
+	if(nb ==5)
+	{
+	dup2(dup0,0);
+	dup2(dup1,1);
+	}
+}
+
+void	redirect_(t_list_ *list)
+{
+	while ( list != NULL && ft_strncmp( get_token(list)->type, "pipe", 100) != 0)
+	{
+	
+		if(ft_strncmp(get_token(list)->token, ">>", 10) == 0)
+			set_fd(1, get_token(list));
+		if(ft_strncmp(get_token(list)->token, ">", 10) == 0)	
+			set_fd(2, get_token(list));
+		if(ft_strncmp(get_token(list)->token, "<<", 10) == 0)	
+			set_fd(3, get_token(list));
+		if(ft_strncmp(get_token(list)->token, "<", 10) == 0)
+			set_fd(4, get_token(list));
+		(list) = (list)->next;
+	}
 }

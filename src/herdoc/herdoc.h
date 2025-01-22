@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 09:39:49 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/22 19:00:05 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/22 20:45:29 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,6 @@ char	*expand_heradoc(t_minis *mini, char *str);
 
 
 void set_redir(t_list_ *list, t_btree **btree);
+
+void	redirect_(t_list_ *list);
 #endif // !HERDOC_H

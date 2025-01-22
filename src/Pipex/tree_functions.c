@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/13 15:56:07 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/22 21:06:20 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
             close(fd[1]);
             process_tree(node->left, mini, original_stdout);
             close(original_stdout);
-            exit(0);
+            ft_exit_end(0);
         }
         else
         {
@@ -48,7 +48,7 @@ void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
             close(fd[1]);
             process_tree(node->left, mini, original_stdout);
             close(original_stdout);
-            exit(0);
+            ft_exit_end(0);
         }
     }
     else
@@ -65,6 +65,8 @@ void process_tree(t_btree *node, t_minis *mini, int original_stdout)
 {
 	if (node && ft_strcmp(node->cmd, "|") == 0)
 		handle_pipe_fork(node, mini, original_stdout);
-	else if (node)
+	else if (node){
+		redirect_(node->redir);
 		execute(node->cmd, mini);
+	}
 }
