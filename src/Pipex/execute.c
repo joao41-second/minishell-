@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:41 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/16 11:40:35 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/23 18:25:49 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,22 @@ char	*build_and_check_path(char *path, char *cmd)
 	char	*part_path;
 	char	*full_path;
 
-	part_path = ft_strjoin(path, "/");
-	full_path = ft_strjoin(part_path, cmd);
-	ft_free(part_path, NULL);
-	if (access(full_path, F_OK) == 0)
-		return (full_path);
-	ft_free(full_path, NULL);
+	if (access(cmd, F_OK) == 0)
+		return (cmd);
+	else
+	{
+		part_path = ft_strjoin(path, "/");
+		full_path = ft_strjoin(part_path, cmd);
+		ft_free(part_path, NULL);
+		if (access(full_path, F_OK) == 0)
+			return (full_path);
+		ft_free(full_path, NULL);
+	}
+
 	return (NULL);
 }
 
-char	*find_path(char *cmd, char **envp)
+char	*find_path(char *cmd, char **envp, t_minis *mini)
 {
 	char	**paths;
 	char	*path;
@@ -62,6 +68,16 @@ char	*find_path(char *cmd, char **envp)
 			free_split(paths);
 			ft_free(paths, NULL);
 			return (path);
+		}
+		else
+		{
+			path = build_and_check_path(mini->path, cmd);
+			if (path)
+			{
+				free_split(paths);
+				ft_free(paths, NULL);
+				return (path);
+			}
 		}
 	}
 	i = -1;
@@ -100,7 +116,6 @@ void	execute(char *argv, t_minis *mini)
 	i = -1;
 	cmd = ft_split(expand_env(argv,mini), ' ');
 	unset_list(&mini->env, "?");
-
 	if(chek_biltin(cmd) == TRUE)
 	{
 		mini->line = argv;
@@ -109,11 +124,11 @@ void	execute(char *argv, t_minis *mini)
 		builtins(mini);
 		ft_exit_end(mini->exit_code_error);
 	}
-	path = find_path(cmd[0], env_to_matrix(mini));
+	path = find_path(cmd[0], env_to_matrix(mini), mini);
 	if (!path)
 		no_path_error(argv);
 	if(path == NULL)
 		path = mini->path;
-	  if (execve(path, cmd, env_to_matrix(mini)) == -1)
+	if (execve(path, cmd, env_to_matrix(mini)) == -1)
 		command_error();
 }
