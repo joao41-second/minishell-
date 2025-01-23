@@ -18,8 +18,10 @@ void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
     int     status;
 	int		save;
     pid_t   pid;
+	int tipe;
 	
 	status = 0;
+	tipe = 0;
     if (pipe(fd) == -1)
     {
         close(original_stdout);
@@ -58,9 +60,13 @@ void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
         close(fd[1]);
         dup2(fd[0], STDIN_FILENO);
         close(fd[0]);
+		if(node->right == NULL)
+			tipe = 1;
+
         process_tree(node->right, mini, original_stdout);
         waitpid(pid, &status, 0);
-		mini->exit_code_error =  WSTOPSIG(status);
+		if(tipe == 1)
+			mini->exit_code_error =  WSTOPSIG(status);
     }
 }
 

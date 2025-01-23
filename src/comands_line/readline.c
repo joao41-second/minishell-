@@ -196,6 +196,7 @@ void excute_comand_ve(t_minis *mini)
     }
 
     waitpid(pid, &status, 0);
+	printf("status error %d\n", WSTOPSIG(status));
 	mini->exit_code_error =  WSTOPSIG(status);
 	
     dup2(original_stdin, STDIN_FILENO);

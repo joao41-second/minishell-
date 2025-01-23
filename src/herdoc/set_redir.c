@@ -99,5 +99,4 @@ void	redirect_(t_list_ *list,t_minis *mini)
 			set_fd(2, get_token(list), mini);
 		(list) = (list)->next;
 	}
-
 }
