@@ -65,6 +65,7 @@ void	ft_echo(t_minis *mini)
 
 	i = 0;
 	new_line = TRUE;
+	token = NULL;
 	mini->tokens = ft_node_start(mini->tokens);
 	save = mini->tokens;
 	if (mini->tokens != NULL && mini->tokens->next != NULL)

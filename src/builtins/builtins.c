@@ -18,7 +18,6 @@ void	chek_herdoc(t_minis	*mini, int set)
 {
 	int		i;
 	t_list_	*token;
-	t_token	*element;
 
 	i = 0;
 	token = mini->tokens;

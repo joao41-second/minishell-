@@ -100,16 +100,16 @@ void	print_token_list(t_list_ *list)
 		current = current->next;
 	}
 }
-
+/*
 void print_command_tree(t_btree *node, int level)
 {
     if (!node)
         return;
     for (int i = 0; i < level; i++)
         printf("  ");
-    if (node->cmd)
+		if (node->cmd)
         printf("%s\n", node->cmd);
-	if(node->redir != NULL)
+		if(node->redir != NULL)
 		print_token_list(node->redir);
     if (node->left)
     {
@@ -125,7 +125,7 @@ void print_command_tree(t_btree *node, int level)
         printf("Right:\n");
         print_command_tree(node->right, level + 1);
     }
-}
+}*/
 
 void print_btree(t_btree *node)
 {
@@ -184,8 +184,6 @@ void excute_comand_ve(t_minis *mini)
         free_list(mini->tokens, free_token);
         return ;
     }
-	//print_token_list(mini->tokens);
-//	 print_command_tree(exec_list, 3);
     pid = fork();
     if (pid == 0)
     {
@@ -205,7 +203,7 @@ void excute_comand_ve(t_minis *mini)
 
 void	start_prompt_and_sig(t_minis *mini)
 {
-	char	*prompt;
+//	char	*prompt;
 	char	*line;
 
 	server();

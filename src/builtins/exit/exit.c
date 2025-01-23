@@ -18,6 +18,7 @@ int	ft_str_is_nb(char *src, t_minis *mini)
 {
 	int	i;
 
+	(void)mini;
 	i = -1;
 	while (src[++i] != '\0')
 	{
