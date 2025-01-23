@@ -66,7 +66,7 @@ void process_tree(t_btree *node, t_minis *mini, int original_stdout)
 	if (node && ft_strcmp(node->cmd, "|") == 0)
 		handle_pipe_fork(node, mini, original_stdout);
 	else if (node){
-		redirect_(node->redir);
+		redirect_(node->redir,mini);
 		execute(node->cmd, mini);
 	}
 }

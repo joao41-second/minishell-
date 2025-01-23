@@ -15,7 +15,7 @@
 
 void	change_file(t_minis *mini, int set, char sete, t_token *name);
 
-void	herdoc(t_minis *mini, int set, char *end);
+int		herdoc(t_minis *mini, int set, char *end);
 
 int		redirect_for_add_file(t_minis *mini, t_token *name);
 
@@ -26,5 +26,5 @@ char	*expand_heradoc(t_minis *mini, char *str);
 
 void set_redir(t_list_ *list, t_btree **btree);
 
-void	redirect_(t_list_ *list);
+void	redirect_(t_list_ *list,t_minis *mini);
 #endif // !HERDOC_H
