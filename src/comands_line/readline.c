@@ -168,6 +168,7 @@ void excute_comand_ve(t_minis *mini)
 	int temp;
 	int original_stdin;
 	int original_stdout;
+	int status;
 
 	temp = 0;
     if (get_signal(0) != 1)
@@ -188,12 +189,15 @@ void excute_comand_ve(t_minis *mini)
     if (pid == 0)
     {
 		set_redir(mini->tokens,&exec_list);
-        process_tree(exec_list, mini, original_stdout);
+        temp = process_tree(exec_list, mini, original_stdout);
         close(original_stdin);
         close(original_stdout);
-        ft_exit_end(1);
+        ft_exit_end(temp);
     }
-    waitpid(pid, NULL, 0);
+
+    waitpid(pid, &status, 0);
+	mini->exit_code_error =  WSTOPSIG(status);
+	
     dup2(original_stdin, STDIN_FILENO);
     dup2(original_stdout, STDOUT_FILENO);
     close(original_stdin);
