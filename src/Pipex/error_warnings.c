@@ -36,22 +36,32 @@ void	no_path_error(char *cmd)
 	struct stat file_status;
 
 	i = 0;
+	ft_putstr_fd(cmd, 2);
+
+	ft_putstr_fd("\n", 2);
 	if (cmd[0]=='.' && cmd[1] != '/')
 	{
 		 ft_print_error(cmd,"",REC_FILE,"");
 		 ft_exit_end(127);
 	}
-	if ((cmd[0]=='.' && cmd[1] == '/') || cmd[1] == '/')
+	if (cmd[0] == '/' || (cmd[0]=='.' && cmd[1] == '/'))
 	{
 		lstat(ft_split(cmd,' ')[0],&file_status);
-		if(S_ISREG(file_status.st_mode))
+		/*
+		if(S_ISREG(file_status.st_mode)){
 			ft_print_error(cmd,"",REC_FILE,"");
+
+			ft_exit_end(126); 
+		}
+		*/
 		if(S_ISDIR(file_status.st_mode) == 1)
 		{
-			ft_print_error("",cmd, DIR,"");
+			ft_print_error_simple("", DIR,"bash");
 			ft_exit_end(126); 
 		}
 		
+		
+		ft_print_error_simple("", NOT_FILE,"bash");
 		ft_exit_end(127);
 	}
 
@@ -66,6 +76,6 @@ void	no_path_error(char *cmd)
 
 void	command_error(void)
 {
-	perror("Error executing the command");
+	//perror("Error executing the command");
 	ft_exit_end(EXIT_FAILURE);
 }

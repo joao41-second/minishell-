@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
 
 char	**get_paths_from_env(char **envp)
 {
@@ -98,6 +99,8 @@ void	execute(char *argv, t_minis *mini)
 	char	*path;
 
 	i = -1;
+
+
 	cmd = ft_split(expand_env(argv,mini), ' ');
 	unset_list(&mini->env, "?");
 
@@ -111,7 +114,7 @@ void	execute(char *argv, t_minis *mini)
 	}
 	path = find_path(cmd[0], env_to_matrix(mini));
 	if (!path)
-		no_path_error(argv);
+		no_path_error(expand_env(argv,mini));
 	if(path == NULL)
 		path = mini->path;
 	  if (execve(path, cmd, env_to_matrix(mini)) == -1)

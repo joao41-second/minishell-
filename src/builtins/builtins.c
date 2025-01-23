@@ -57,11 +57,14 @@ void	builtins(t_minis	*mini)
 	int		term[2];
 
 	pipe(term);
+	token = NULL;
 	dup2(1, term[0]);
 	save = mini->tokens;
 	if (mini->tokens == NULL)
 		return ;
 	chek_herdoc(mini, 0);
+	//printf("line :%s:\n",expand_env(token->token, mini));;
+
 	token = get_token(mini->tokens);
 	comand = expand_env(token->token, mini);
 	if (mini->comand != 1)

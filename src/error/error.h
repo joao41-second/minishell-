@@ -24,6 +24,7 @@
 # define NOT_COMAND "command not found"
 # define NOT_PERM "Permission denied"
 
+
 //# define SNTAX_ERROR "not a valid identifier"
 
 void	ft_print_error(char *comand, char *error, char *error_char,

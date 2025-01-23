@@ -194,16 +194,18 @@ void excute_comand_ve(t_minis *mini)
         close(original_stdout);
         ft_exit_end(temp);
     }
+	waitpid(pid, &status, 0);
 
-    waitpid(pid, &status, 0);
-	printf("status error %d\n", WSTOPSIG(status));
+//	printf("status error %d\n", WSTOPSIG(status));
 	mini->exit_code_error =  WSTOPSIG(status);
+	
 	
     dup2(original_stdin, STDIN_FILENO);
     dup2(original_stdout, STDOUT_FILENO);
     close(original_stdin);
     close(original_stdout);
     free_tree(exec_list);
+	
 }
 
 void	start_prompt_and_sig(t_minis *mini)
