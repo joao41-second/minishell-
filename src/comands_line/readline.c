@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/24 16:57:20 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/24 17:00:42 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,6 @@ void excute_comand_ve(t_minis *mini)
     set_error_env(mini);
     check_syntax(mini->line);
     exec_list = token_merger(mini);
-	print_command_tree(exec_list, 0);
     original_stdin = dup(STDIN_FILENO);
     original_stdout = dup(STDOUT_FILENO);
     if (original_stdin == -1 || original_stdout == -1)
