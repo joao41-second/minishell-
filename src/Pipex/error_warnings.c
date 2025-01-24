@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:50:27 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/13 15:40:49 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/24 15:27:06 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	no_path_error(char *cmd)
 	ft_exit_end(127);
 }
 
-void	command_error(void)
+void command_error(void)
 {
-	perror("Error executing the command");
-	ft_exit_end(EXIT_FAILURE);
+    perror("Error executing the command");
+    ft_exit_end(EXIT_FAILURE);
 }

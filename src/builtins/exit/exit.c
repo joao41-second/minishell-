@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:56:45 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/13 11:14:30 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/24 14:52:44 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,9 @@ int	ft_str_is_nb(char *src, t_minis *mini)
 void	ft_exit(t_minis *mini)
 {
 	t_token	*token;
-	t_list_	*list;
-	int		exits;
 	char	*comand;
 
-	exits = 0;
 	printf("exit\n");
-	list = mini->tokens;
 	if (too_arg_print("exit", 0, mini) == TRUE)
 		return ;
 	if (mini->tokens != NULL && mini->tokens->next != NULL)

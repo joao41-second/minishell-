@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 14:12:36 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/21 11:10:20 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/24 14:53:01 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@
 
 void	chek_herdoc(t_minis	*mini, int set)
 {
-	int		i;
 	t_list_	*token;
 
-	i = 0;
 	token = mini->tokens;
 	if (set == 1)
 		token = mini->tokens_copy;

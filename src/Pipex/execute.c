@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:41 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/23 18:25:49 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:29:55 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,28 +107,31 @@ int chek_biltin(char **cmd)
 	return (FALSE);
 }
 
-void	execute(char *argv, t_minis *mini)
+void execute(char *argv, t_minis *mini)
 {
-	char	**cmd;
-	int		i;
-	char	*path;
+    char **cmd;
+    char *path;
 
-	i = -1;
-	cmd = ft_split(expand_env(argv,mini), ' ');
-	unset_list(&mini->env, "?");
-	if(chek_biltin(cmd) == TRUE)
-	{
-		mini->line = argv;
-		mini->tokens = tokenize_and_check_bash_command(mini);
-		mini->tokens_copy = tokenize_and_check_bash_command(mini);
-		builtins(mini);
-		ft_exit_end(mini->exit_code_error);
-	}
-	path = find_path(cmd[0], env_to_matrix(mini), mini);
-	if (!path)
-		no_path_error(argv);
-	if(path == NULL)
-		path = mini->path;
-	if (execve(path, cmd, env_to_matrix(mini)) == -1)
-		command_error();
+    cmd = ft_split(expand_env(argv, mini), ' ');
+    unset_list(&mini->env, "?");
+    if (chek_biltin(cmd) == TRUE)
+    {
+        mini->line = argv;
+        mini->tokens = tokenize_and_check_bash_command(mini);
+        mini->tokens_copy = tokenize_and_check_bash_command(mini);
+        builtins(mini);
+        ft_exit_end(mini->exit_code_error);
+        return ;
+    }
+    if (access(cmd[0], X_OK) == 0)
+        path = cmd[0];
+    else
+        path = find_path(cmd[0], env_to_matrix(mini), mini);
+    if (!path)
+    {
+        no_path_error(argv);
+        return ;
+    }
+    if (execve(path, cmd, env_to_matrix(mini)) == -1)
+        command_error();
 }

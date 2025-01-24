@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_valid_char.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:48:25 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 09:50:08 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/24 14:52:17 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	ft_if_expand(char *verifc, t_quotes *quotes, int i)
 
 int	if_verifc(char *verifc, int *not_print, char **temp )
 {
+	if (not_print == 0){}
 	if (verifc[0] == '\0')
 	{
 		not_print = 0;
