@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/24 17:00:42 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/24 18:21:32 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,8 +166,6 @@ void excute_comand_ve(t_minis *mini)
 	t_btree *exec_list;
 	pid_t pid;
 	int temp;
-	int original_stdin;
-	int original_stdout;
 	int status;
 
     if (get_signal(0) != 1)
@@ -175,30 +173,16 @@ void excute_comand_ve(t_minis *mini)
     set_error_env(mini);
     check_syntax(mini->line);
     exec_list = token_merger(mini);
-    original_stdin = dup(STDIN_FILENO);
-    original_stdout = dup(STDOUT_FILENO);
-    if (original_stdin == -1 || original_stdout == -1)
-    {
-        free_tree(exec_list);
-        free_list(mini->tokens, free_token);
-        return ;
-    }
     pid = fork();
     if (pid == 0)
     {
 		set_redir(mini->tokens,&exec_list);
-        temp = process_tree(exec_list, mini, original_stdout);
-        close(original_stdin);
-        close(original_stdout);
+        temp = process_tree(exec_list, mini);
         ft_exit_end(temp);
     }
     waitpid(pid, &status, 0);
 	printf("status error %d\n", WSTOPSIG(status));
 	mini->exit_code_error =  WSTOPSIG(status);
-    dup2(original_stdin, STDIN_FILENO);
-    dup2(original_stdout, STDOUT_FILENO);
-    close(original_stdin);
-    close(original_stdout);
     free_tree(exec_list);
 }
 
