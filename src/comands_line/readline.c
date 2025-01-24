@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/24 14:49:16 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/24 16:57:20 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	print_token_list(t_list_ *list)
 	t_token	*token;
 
 	current = list;
-//	printf("Token List:\n");
-//	printf("-----------------------------------\n");
+	printf("Token List:\n");
+	printf("-----------------------------------\n");
 	if(current == NULL)
 		return;
 	current = ft_node_start(current);
@@ -87,20 +87,20 @@ void	print_token_list(t_list_ *list)
 		if (token)
 		{
 			printf("Token: %s\n", token->token ? token->token : "NULL");
-			/*
+			
             printf("Type: %s\n", token->type ? token->type : "NULL");
 			if (token->redirection_target)
 				printf("Redirection Target: %s\n", token->redirection_target);
 			if (token->redirection_source)
-				printf("Redirection Source: %s\n", token->redirection_source);*/
+				printf("Redirection Source: %s\n", token->redirection_source);
 		}
 		else
 			printf("Empty token\n");
-	//	printf("-----------------------------------\n");
+		printf("-----------------------------------\n");
 		current = current->next;
 	}
 }
-/*
+
 void print_command_tree(t_btree *node, int level)
 {
     if (!node)
@@ -125,7 +125,7 @@ void print_command_tree(t_btree *node, int level)
         printf("Right:\n");
         print_command_tree(node->right, level + 1);
     }
-}*/
+}
 
 void print_btree(t_btree *node)
 {
@@ -163,20 +163,19 @@ void	free_tree(t_btree *node)
 
 void excute_comand_ve(t_minis *mini)
 {
-	pid_t pid;
 	t_btree *exec_list;
+	pid_t pid;
 	int temp;
 	int original_stdin;
 	int original_stdout;
 	int status;
 
-	temp = 0;
     if (get_signal(0) != 1)
         mini->exit_code_error = get_signal(0);
     set_error_env(mini);
     check_syntax(mini->line);
-    mini->tokens = tokenize_and_check_bash_command(mini);
     exec_list = token_merger(mini);
+	print_command_tree(exec_list, 0);
     original_stdin = dup(STDIN_FILENO);
     original_stdout = dup(STDOUT_FILENO);
     if (original_stdin == -1 || original_stdout == -1)
@@ -194,11 +193,9 @@ void excute_comand_ve(t_minis *mini)
         close(original_stdout);
         ft_exit_end(temp);
     }
-
     waitpid(pid, &status, 0);
 	printf("status error %d\n", WSTOPSIG(status));
 	mini->exit_code_error =  WSTOPSIG(status);
-	
     dup2(original_stdin, STDIN_FILENO);
     dup2(original_stdout, STDOUT_FILENO);
     close(original_stdin);
@@ -261,7 +258,6 @@ void	excute_comand(t_minis *mini)
 	 	builtins(mini);
 	else
 		excute_comand_ve(mini);
-	//print_token_list(mini->tokens);
 	free_list(mini->tokens, free_token);
 	free_list(mini->tokens_copy, free_token);
 }

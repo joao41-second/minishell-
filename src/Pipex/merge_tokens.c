@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   merge_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:17:19 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/22 18:58:05 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/24 16:56:21 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,9 @@ t_btree *build_command_tree(t_list_ *merged_list)
     current_token = (t_token *)merged_list->content;
     root = create_tree_node("|");
     current_pipe = root;
-    current_pipe->left = create_tree_node(current_token->token);
+    if (ft_strcmp(current_token->type, "command") == 0
+		|| ft_strcmp(current_token->type, "builtin") == 0)
+        current_pipe->left = create_tree_node(current_token->token);
     merged_list = merged_list->next;
     while (merged_list)
     {
@@ -113,11 +115,14 @@ t_btree *build_command_tree(t_list_ *merged_list)
         {
             current_pipe->right = create_tree_node("|");
             current_pipe = current_pipe->right;
+
             if (merged_list->next)
             {
                 merged_list = merged_list->next;
                 current_token = (t_token *)merged_list->content;
-                current_pipe->left = create_tree_node(current_token->token);
+                if (ft_strcmp(current_token->type, "command") == 0
+					|| ft_strcmp(current_token->type, "builtin") == 0)
+                    current_pipe->left = create_tree_node(current_token->token);
             }
         }
         merged_list = merged_list->next;
