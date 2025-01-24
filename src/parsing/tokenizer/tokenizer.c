@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:36 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/17 17:07:19 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/24 16:40:14 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,16 @@ void process_operator_tokens(const char *line, int *i, t_list_ **token_list)
 }
 
 void tokenize_bash_command_core(char *line, t_list_ **token_list)
-{
+{ 
     int i;
     bool command;
+	bool master;
+	bool override;
 
     i = 0;
     command = true;
+	master = false;
+	override = false;
     while (line[i])
     {
         while (line[i] && is_whitespace(line[i]))
@@ -79,21 +83,35 @@ void tokenize_bash_command_core(char *line, t_list_ **token_list)
         {
             if (line[i] == '|')
             {
+				if(master)
+					master = false;
+                if(override)
+                    override = false;
                 command = true;
                 process_operator_tokens(line, &i, token_list);
             }
             else
 			{
-				command = false;
+				override = true;
 				process_operator_tokens(line, &i, token_list);
 			}
-        }
-        else
-        {
-            process_regular_token(line, &i, token_list, command);
-			command = false;
-        }
-    }
+		}
+		else
+		{
+			if (override)
+				command = false;
+			if(!master && command)
+				master = true;
+			process_regular_token(line, &i, token_list, command);
+			if(override && !master)
+			{
+				command = true;
+				override = false;
+			}
+			else
+				command = false;
+		}
+	}
 }
 
 t_list_	*tokenize_and_check_bash_command(t_minis *mini)
