@@ -6,30 +6,30 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 08:19:23 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/27 08:59:45 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/27 09:19:53 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char *convert_list_in_char(t_list_ **list)
+char	*convert_list_in_char(t_list_ **list)
 {
-	char *line;
-	char *temp;
+	char	*line;
+	char	*temp;
 
 	line = ft_strdup("");
-	while ((*list) != NULL) 
+	while ((*list) != NULL)
 	{
-		temp = ft_strjoin(line," ");
-		ft_free(line,NULL);
+		temp = ft_strjoin(line, " ");
+		ft_free(line, NULL);
 		line = ft_strdup(temp);
-		ft_free(temp,NULL);
-		temp = ft_strjoin(line,get_token(*list)->token);
-		ft_free(line,NULL);
+		ft_free(temp, NULL);
+		temp = ft_strjoin(line, get_token(*list)->token);
+		ft_free(line, NULL);
 		line = ft_strdup(temp);
-		ft_free(temp,NULL);
-		if((*list)->next == NULL)
-			break;
+		ft_free(temp, NULL);
+		if ((*list)->next == NULL)
+			break ;
 		(*list) = (*list)->next;
 	}
 	return (line);

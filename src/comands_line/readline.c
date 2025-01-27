@@ -6,21 +6,25 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/27 08:45:30 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/27 10:31:30 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
 
-bool	is_allspace(char *str)
+bool	is_allspace(char *line,t_minis *mini)
 {
+	char *str;
+
+	str = expand_env(line, mini);
 	while (*str)
 	{
         if (!is_whitespace(*str))
             return (false);
         str++;
     }
+	ft_free(str, NULL);
 	return (true);
 }
 
@@ -87,8 +91,9 @@ void	print_token_list(t_list_ *list)
 		if (token)
 		{
 			printf("Token: %s\n", token->token ? token->token : "NULL");
-			/*
+			
             printf("Type: %s\n", token->type ? token->type : "NULL");
+			/*
 			if (token->redirection_target)
 				printf("Redirection Target: %s\n", token->redirection_target);
 			if (token->redirection_source)
@@ -260,6 +265,7 @@ void	excute_comand(t_minis *mini)
 		mini->exit_code_error = get_signal(0);
 	set_error_env(mini);
 	check_syntax(mini->line);
+	
 	mini->tokens = tokenize_and_check_bash_command(mini);
 	mini->tokens_copy = tokenize_and_check_bash_command(mini);
 	convert_chekline(mini);
@@ -281,7 +287,7 @@ void	start_shell(t_minis mini)
 	{
 		get_signal(1);
 		start_prompt_and_sig(&mini);
-		if (!is_allspace(mini.line))
+		if (!is_allspace(mini.line,&mini))
 			excute_comand(&mini);
 		set_error_env(&mini);
 		getcwd(mini.path, PATH_MAX);

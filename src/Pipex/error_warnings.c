@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:50:27 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/13 15:40:49 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/27 10:22:21 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	no_path_error(char *cmd)
 	struct stat file_status;
 
 	i = 0;
-	ft_putstr_fd(cmd, 2);
+//	ft_putstr_fd(cmd, 2);
 
-	ft_putstr_fd("\n", 2);
+//	ft_putstr_fd("\n", 2);
 	if (cmd[0]=='.' && cmd[1] != '/')
 	{
 		 ft_print_error(cmd,"",REC_FILE,"");
