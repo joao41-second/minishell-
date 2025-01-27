@@ -1,0 +1,17 @@
+a.out
+as
+asd
+end
+func_read
+git_hep
+libft
+Makefile
+minishell
+minishell_tester
+Objs
+ok
+readline.supp
+README.md
+src
+tester
+test_fun

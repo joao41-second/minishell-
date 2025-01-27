@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:42:52 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/16 14:15:25 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/27 08:43:44 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,6 @@ void		finalize_tokens(t_list_ *token_list, char **env_matrix, t_minis *mini);
 
 void		free_token(void *content);
 
+
+void convert_chekline(t_minis *mini);
 #endif

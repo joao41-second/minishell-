@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/22 20:58:42 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/27 08:45:30 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,7 @@ void	excute_comand(t_minis *mini)
 	check_syntax(mini->line);
 	mini->tokens = tokenize_and_check_bash_command(mini);
 	mini->tokens_copy = tokenize_and_check_bash_command(mini);
+	convert_chekline(mini);
 	if(chek_comand(*mini) == TRUE)
 	 	builtins(mini);
 	else
