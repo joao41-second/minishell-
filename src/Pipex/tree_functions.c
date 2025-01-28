@@ -62,7 +62,6 @@ void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
         close(fd[0]);
 		if(node->right == NULL)
 			tipe = 1;
-
         process_tree(node->right, mini, original_stdout);
         waitpid(pid, &status, 0);
 		if(tipe == 1)
