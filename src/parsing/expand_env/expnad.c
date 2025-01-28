@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   expnad.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:59:23 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 09:51:12 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/28 18:34:33 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../../minishell.h"
 
 void	set_quotes(t_quotes *quotes, char *str, int i)
@@ -58,5 +59,3 @@ char	*expand_env(char *str, t_minis *mini)
 	}
 	return (end);
 }
-
-
