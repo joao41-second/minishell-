@@ -93,7 +93,7 @@ e:
 b:
 	tmux \; split-window -h \; send-keys 'bash' C-m \; select-pane -t 1 \; send-keys 'make s' C-m \; setw synchronize-panes on
 g:
-	clear && gdb -tui ./minishell
+	make re && gdb -tui ./minishell
 
 t:
 	make re && cd ./minishell_tester  && ./tester

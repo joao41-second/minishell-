@@ -17,7 +17,7 @@ int chek_expand(char *str,t_minis *mini)
 {
 	char *line;
 
-	line = expand_env(str, mini);
+	line = expand_env(ft_strdup(str), mini);
 	if(ft_strncmp(line, "", 10) == 0)
 	{
 		ft_free(line, NULL);
@@ -28,12 +28,15 @@ int chek_expand(char *str,t_minis *mini)
 }
 bool	is_allspace(char *str)
 {
-	while (*str)
+	int i;
+
+	i = -1;
+	while (str[++i] != '\0')
 	{
-        if (!is_whitespace(*str))
+        if (!is_whitespace(str[i]))
             return (false);
-        str++;
     }
+	ft_free(str,NULL);
 	return (true);
 }
 
@@ -236,13 +239,15 @@ void	start_prompt_and_sig(t_minis *mini)
 		ft_free(mini->line, NULL);
 		mini->line = NULL;
 	}
-	mini->line = ft_strdup(line);
-	if (is_allspace(mini->line))
+	if (!is_allspace(line))
+	{
+		mini->line = ft_strdup(ft_strdup(line));
+		add_history(line);
+	}else
 	{
 		ft_free(mini->line, NULL);
 		mini->line = NULL;
-	}else
-		add_history(line);
+	}
 	free(line);
 }
 
@@ -301,10 +306,13 @@ void	start_shell(t_minis mini)
 	{
 		get_signal(1);
 		start_prompt_and_sig(&mini);
-		if ( mini.line != NULL && chek_expand(mini.line, &mini) == TRUE &&  !is_allspace(mini.line))
+		if ( mini.line != NULL && chek_expand(mini.line, &mini) == TRUE &&  !is_allspace(ft_strdup(mini.line)))
 			excute_comand(&mini);
+		else
+		 mini.exit_code_error = 0;
 		set_error_env(&mini);
 		getcwd(mini.path, PATH_MAX);
+		ft_free(mini.line,NULL);
 		mini.line = NULL;
 	}
 	free_list(mini.env, free_env);

@@ -52,7 +52,7 @@ void set_redir(t_list_ *list, t_btree **btree)
 }
 
 
-static void	set_fd(int nb,t_token *token,t_minis *mini,int on)
+static void	set_fds(int nb,t_token *token,t_minis *mini,int on)
 {
 	int fd=0;
 	//char *redir;
@@ -90,13 +90,13 @@ void	redirect_(t_list_ *list,t_minis *mini)
 	while ( list != NULL && ft_strncmp( get_token(list)->type, "pipe", 100) != 0)
 	{
 		if(ft_strncmp(get_token(list)->token, ">>", 10) == 0)
-			set_fd(1, get_token(list), mini,0);
+			set_fds(1, get_token(list), mini,0);
 		if(ft_strncmp(get_token(list)->token, ">", 10) == 0)	
-			set_fd(2, get_token(list), mini,0);
+			set_fds(2, get_token(list), mini,0);
 		if(ft_strncmp(get_token(list)->token, "<<", 10) == 0)	
-			set_fd(3, get_token(list), mini,0);
+			set_fds(3, get_token(list), mini,0);
 		if(ft_strncmp(get_token(list)->token, "<", 10) == 0)
-			set_fd(4, get_token(list), mini,0);
+			set_fds(4, get_token(list), mini,0);
 		(list) = (list)->next;
 	}
 
@@ -104,18 +104,18 @@ void	redirect_(t_list_ *list,t_minis *mini)
 	while ( list != NULL && ft_strncmp( get_token(list)->type, "pipe", 100) != 0)
 	{
 		if(ft_strncmp(get_token(list)->token, "<<", 10) == 0)	
-			set_fd(3, get_token(list), mini,1);
+			set_fds(3, get_token(list), mini,1);
 		if(ft_strncmp(get_token(list)->token, "<", 10) == 0)
-			set_fd(4, get_token(list), mini,1);
+			set_fds(4, get_token(list), mini,1);
 		(list) = (list)->next;
 	}
 	list = frist;
 	while ( list != NULL && ft_strncmp( get_token(list)->type, "pipe", 100) != 0)
 	{
 		if(ft_strncmp(get_token(list)->token, ">>", 10) == 0)
-			set_fd(1, get_token(list), mini,1);
+			set_fds(1, get_token(list), mini,1);
 		if(ft_strncmp(get_token(list)->token, ">", 10) == 0)	
-			set_fd(2, get_token(list), mini,1);
+			set_fds(2, get_token(list), mini,1);
 		(list) = (list)->next;
 	}
 }
