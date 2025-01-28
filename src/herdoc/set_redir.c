@@ -54,23 +54,27 @@ void set_redir(t_list_ *list, t_btree **btree)
 void	set_fd(int nb,t_token *token,t_minis *mini)
 {
 	int fd=0;
-	
-	
+		
 	if (nb == 1 && token->redirection_target != NULL)
 		fd = open(expand_env(token->redirection_target,mini), O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (nb == 2 && token->redirection_target != NULL)
 		fd = open( expand_env(token->redirection_target,mini),O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (nb == 3)
 		fd = herdoc(mini, 0,token->redirection_source);
-	if (nb == 0 && token->redirection_target != NULL)
-		fd = open(expand_env(token->redirection_target,mini), O_WRONLY);
+	if (nb == 4 && token->redirection_target != NULL)
+		fd = open(expand_env(token->redirection_source,mini), O_WRONLY);
 	
-	if(fd < 0)
+	if(fd < 0 && (nb == 2 || nb ==1))
 	{
-
-		ft_print_error_simple(token->redirection_target,NOT_PERM , "bash");
+		ft_print_error_simple("",NOT_PERM , "bash");
 		ft_exit_end(1);
 	}
+	if(fd < 0 && (nb == 4))
+	{
+		ft_print_error_simple("",NOT_FILE , "bash");
+		ft_exit_end(1);
+	}
+
 	if(nb == 2 || nb == 1)
 		dup2(fd,1);
 	if(nb == 3 || nb == 4)

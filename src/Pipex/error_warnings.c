@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:50:27 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/27 10:22:21 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/13 15:40:49 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ void	no_path_error(char *cmd)
 		ft_exit_end(127);
 	}
 
-	while (cmd[i])
-	{
-		write(2, &cmd[i], 1);
-		i++;
-	}
-	ft_print_error("",cmd, NOT_COMAND,"\n");
+	//while (cmd[i])
+	//{
+		//write(2, &cmd[i], 1);
+	//	i++;
+	//}
+	ft_print_error("","cmd", NOT_COMAND,"\n");
 	ft_exit_end(127);
 }
 

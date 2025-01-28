@@ -23,7 +23,6 @@ int		redirect_for_new_file(t_minis *mini,t_token *name);
 
 char	*expand_heradoc(t_minis *mini, char *str);
 
-
 void set_redir(t_list_ *list, t_btree **btree);
 
 void	redirect_(t_list_ *list,t_minis *mini);
