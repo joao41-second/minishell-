@@ -13,18 +13,27 @@
 #include "../minishell.h"
 #include <stdio.h>
 
-bool	is_allspace(char *line,t_minis *mini)
+int chek_expand(char *str,t_minis *mini)
 {
-	char *str;
+	char *line;
 
-	str = expand_env(line, mini);
+	line = expand_env(str, mini);
+	if(ft_strncmp(line, "", 10) == 0)
+	{
+		ft_free(line, NULL);
+		return (FALSE);
+	}
+	ft_free(line, NULL);
+	return (TRUE);
+}
+bool	is_allspace(char *str)
+{
 	while (*str)
 	{
         if (!is_whitespace(*str))
             return (false);
         str++;
     }
-	ft_free(str, NULL);
 	return (true);
 }
 
@@ -228,7 +237,12 @@ void	start_prompt_and_sig(t_minis *mini)
 		mini->line = NULL;
 	}
 	mini->line = ft_strdup(line);
-	add_history(line);
+	if (is_allspace(mini->line))
+	{
+		ft_free(mini->line, NULL);
+		mini->line = NULL;
+	}else
+		add_history(line);
 	free(line);
 }
 
@@ -287,7 +301,7 @@ void	start_shell(t_minis mini)
 	{
 		get_signal(1);
 		start_prompt_and_sig(&mini);
-		if (!is_allspace(mini.line,&mini))
+		if ( mini.line != NULL && chek_expand(mini.line, &mini) == TRUE &&  !is_allspace(mini.line))
 			excute_comand(&mini);
 		set_error_env(&mini);
 		getcwd(mini.path, PATH_MAX);
