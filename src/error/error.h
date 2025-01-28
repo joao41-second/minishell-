@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:25:24 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 10:25:24 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/28 17:05:56 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,13 @@
 # define DIR "Is a directory"
 # define NOT_COMAND "command not found"
 # define NOT_PERM "Permission denied"
-
+# define NOT_ACCESS "cannot access file"
+# define BROKEN_SOFT_LINK "broken symbolic link"
+# define IS_SOCKET "is a socket"
+# define IS_BLOCK "is a block device"
+# define IS_CHAR "is a character device"
+# define IS_PIPE "is a FIFO/pipe"
+# define NOT_REG_FILE "not a regular file"
 
 //# define SNTAX_ERROR "not a valid identifier"
 

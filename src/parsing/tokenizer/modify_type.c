@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:00:28 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/05 16:33:59 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:28:55 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	handle_token_type(t_token *token, int *first_command_seen,
 
 	stripped_token = strip_quotes(token->token);
 	env_matrix = env_to_matrix(mini);
-	path = find_path(stripped_token, env_matrix);
+	path = find_path(stripped_token, env_matrix, mini);
 	update_token_type(token, first_command_seen, path);
 	free_env_matrix(env_matrix);
 	if (stripped_token != token->token)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_warnings.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:50:27 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/13 15:40:49 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/28 17:37:13 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,52 +30,54 @@ void	open_file_error(void)
 	ft_exit_end(EXIT_FAILURE);
 }
 
-void	no_path_error(char *cmd)
+void check_execute_permissions(char *file_path)
 {
-	int	i;
-	struct stat file_status;
+    struct stat file_stat;
 
-	i = 0;
-//	ft_putstr_fd(cmd, 2);
+    if (stat(file_path, &file_stat) == -1)
+    {
+        ft_print_error(file_path, "", NOT_ACCESS, "");
+        ft_exit_end(126);
+    }
+    if (!S_ISREG(file_stat.st_mode))
+    {
+        if (S_ISDIR(file_stat.st_mode))
+            ft_print_error(file_path, "", DIR, "");
+        else
+            ft_print_error(file_path, "", NOT_REG_FILE, "");
+        ft_exit_end(126);
+    }
+    if (access(file_path, X_OK) == -1)
+    {
+        ft_print_error(file_path, "", NOT_PERM, "");
+        ft_exit_end(126);
+    }
+}
 
-//	ft_putstr_fd("\n", 2);
-	if (cmd[0]=='.' && cmd[1] != '/')
-	{
-		 ft_print_error(cmd,"",REC_FILE,"");
-		 ft_exit_end(127);
-	}
-	if (cmd[0] == '/' || (cmd[0]=='.' && cmd[1] == '/'))
-	{
-		lstat(ft_split(cmd,' ')[0],&file_status);
-		/*
-		if(S_ISREG(file_status.st_mode)){
-			ft_print_error(cmd,"",REC_FILE,"");
+void no_path_error(char *cmd)
+{
+	struct stat file_stat;
 
-			ft_exit_end(126); 
-		}
-		*/
-		if(S_ISDIR(file_status.st_mode) == 1)
-		{
-			ft_print_error_simple("", DIR,"bash");
-			ft_exit_end(126); 
-		}
-		
-		
-		ft_print_error_simple("", NOT_FILE,"bash");
-		ft_exit_end(127);
-	}
-
-	//while (cmd[i])
-	//{
-		//write(2, &cmd[i], 1);
-	//	i++;
-	//}
-	ft_print_error("","cmd", NOT_COMAND,"\n");
-	ft_exit_end(127);
+    if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/'))
+    {
+        if (stat(cmd, &file_stat) == -1)
+        {
+            ft_print_error(cmd, "", NOT_FILE, "");
+            ft_exit_end(127);
+        }
+        if (S_ISDIR(file_stat.st_mode))
+        {
+            ft_print_error(cmd, "", DIR, "");
+            ft_exit_end(126);
+        }
+        ft_print_error(cmd, "", NOT_PERM, "");
+        ft_exit_end(126);
+    }
+    ft_print_error(cmd, "", NOT_COMAND, "");
+    ft_exit_end(127);
 }
 
 void	command_error(void)
-{
-	//perror("Error executing the command");
+{ 
 	ft_exit_end(EXIT_FAILURE);
 }
