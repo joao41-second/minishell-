@@ -14,23 +14,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-void	chek_herdoc(t_minis	*mini, int set)
-{
-	int		i;
-	t_list_	*token;
-
-	i = 0;
-	token = mini->tokens;
-	if (set == 1)
-		token = mini->tokens_copy;
-	token = ft_node_start(token);
-	while (token != NULL)
-	{
-		redir_if(mini, &token, set);
-		token = token->next;
-	}
-}
-
 void	if_builtins(t_minis *mini, char *comand)
 {
 	if (ft_strncmp(comand, "env", 4) == 0)
@@ -62,9 +45,10 @@ void	builtins(t_minis	*mini)
 	save = mini->tokens;
 	if (mini->tokens == NULL)
 		return ;
-	chek_herdoc(mini, 0);
 	//printf("line :%s:\n",expand_env(token->token, mini));;
-
+	redirect_bil(save,mini);
+	dell_redir(&mini->tokens);
+	save = mini->tokens;
 	token = get_token(mini->tokens);
 	comand = expand_env(token->token, mini);
 	if (mini->comand != 1)

@@ -26,4 +26,9 @@ char	*expand_heradoc(t_minis *mini, char *str);
 void set_redir(t_list_ *list, t_btree **btree);
 
 void	redirect_(t_list_ *list,t_minis *mini);
+
+void	redirect_bil(t_list_ *list,t_minis *mini);
+
+void dell_redir( t_list_ **list);
+
 #endif // !HERDOC_H

@@ -22,7 +22,7 @@ void	relink_list(t_list_ **list,void *content)
 	*list = ft_node_end(*list);
 	ft_node_add_front(list, new);
 }
-
+ 
 void set_redir(t_list_ *list, t_btree **btree)
 {
 	t_list_ *list_redir;
@@ -52,7 +52,7 @@ void set_redir(t_list_ *list, t_btree **btree)
 }
 
 
-void	set_fd(int nb,t_token *token,t_minis *mini,int on)
+static void	set_fd(int nb,t_token *token,t_minis *mini,int on)
 {
 	int fd=0;
 	//char *redir;
