@@ -189,7 +189,6 @@ void excute_comand_ve(t_minis *mini)
     if (get_signal(0) != 1)
         mini->exit_code_error = get_signal(0);
     set_error_env(mini);
-    check_syntax(mini->line);
     mini->tokens = tokenize_and_check_bash_command(mini);
     exec_list = token_merger(mini);
     pid = fork();
@@ -267,8 +266,7 @@ void	excute_comand(t_minis *mini)
 	if (get_signal(0) != 1)
 		mini->exit_code_error = get_signal(0);
 	set_error_env(mini);
-	check_syntax(mini->line);
-	
+	mini->exit_code_error = 0;	
 	mini->tokens = tokenize_and_check_bash_command(mini);
 	mini->tokens_copy = tokenize_and_check_bash_command(mini);
 	convert_chekline(mini);
@@ -279,6 +277,9 @@ void	excute_comand(t_minis *mini)
 	//print_token_list(mini->tokens);
 	free_list(mini->tokens, free_token);
 	free_list(mini->tokens_copy, free_token);
+	mini->tokens = NULL;
+	mini->tokens_copy = NULL;
+	
 }
 
 void	start_shell(t_minis mini)
@@ -290,6 +291,8 @@ void	start_shell(t_minis mini)
 	{
 		get_signal(1);
 		start_prompt_and_sig(&mini);
+
+	//	check_syntax(mini.line);
 		if ( mini.line != NULL && chek_expand(mini.line, &mini) == TRUE &&  !is_allspace(ft_strdup(mini.line)))
 			excute_comand(&mini);
 		else

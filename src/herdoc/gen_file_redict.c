@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:27:15 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/29 10:56:51 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/29 16:00:22 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ static void	set_fd(int nb,t_token *token,t_minis *mini,int on)
 	char *redir;
 	
 	if(nb == 4 || nb == 3)
+	{
 		redir = expand_env(token->redirection_source,mini);
-	else	
+	}
+	else
 		redir = expand_env(token->redirection_target,mini);
 	if (nb == 1 && token->redirection_target != NULL)
 		fd = open(redir, O_CREAT | O_WRONLY | O_APPEND, 0644);
@@ -37,9 +39,10 @@ static void	set_fd(int nb,t_token *token,t_minis *mini,int on)
 			ft_print_error_simple("",NOT_FILE , "bash");
 		else
 			ft_print_error_simple("",NOT_PERM , "bash");
+		mini->comand = 1;
 		mini->exit_code_error = 1;
 	}
-	if((nb == 2 || nb == 1) && on == 1)
+;	if((nb == 1 || nb == 2) && on == 1)
 		dup2(fd,1);
 	close(fd);
 }
@@ -49,18 +52,20 @@ void	redirect_bil(t_list_ *list,t_minis *mini)
 	t_list_ *frist;	
 
 	frist = list;
+	list = ft_node_start(list);
 	while ( list != NULL && ft_strncmp( get_token(list)->type, "pipe", 100) != 0)
 	{
 		if(ft_strncmp(get_token(list)->token, ">>", 10) == 0 && mini->exit_code_error == 0)
-			set_fd(1, get_token(list), mini,0);
+			set_fd(1, get_token(list), mini,1);
 		if(ft_strncmp(get_token(list)->token, ">", 10) == 0  && mini->exit_code_error == 0)	
-			set_fd(2, get_token(list), mini,0);
+			set_fd(2, get_token(list), mini,1);
 		if(ft_strncmp(get_token(list)->token, "<<", 10) == 0  && mini->exit_code_error == 0)	
-			set_fd(3, get_token(list), mini,0);
+			set_fd(3, get_token(list), mini,1);
 		if(ft_strncmp(get_token(list)->token, "<", 10) == 0  && mini->exit_code_error == 0)
-			set_fd(4, get_token(list), mini,0);
+			set_fd(4, get_token(list), mini,1);
 		(list) = (list)->next;
 	}
+
 }
 
 void dell_redir( t_list_ **list)
@@ -77,21 +82,17 @@ void dell_redir( t_list_ **list)
 		}
 		(*list) = (*list)->next;
 	}
-
 	*list = ft_node_start(save);
-
 	while ( *list != NULL)
 	{
 		if(ft_strncmp(get_token(*list)->type, "redir", 10) == 0 )
 		{
 			ft_free_node(list, free_token);
-			if(*list != NULL){
+			if (*list != NULL)
 				ft_free_node(list, free_token);
-			}
-			continue;
+			continue ;
 		}
 		(*list) = (*list)->next;
 	}
 	*list = ft_node_start(save);
 }
-

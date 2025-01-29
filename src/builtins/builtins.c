@@ -42,19 +42,18 @@ void	builtins(t_minis	*mini)
 	pipe(term);
 	token = NULL;
 	dup2(1, term[0]);
-//	printf("ola\n");
 	save = mini->tokens;
 	if (mini->tokens == NULL)
 		return ;
-	redirect_bil(save,mini);
+	redirect_bil(save, mini);
 	dell_redir(&mini->tokens);
 	set_new_comand(&mini->tokens);
-	if( chek_comand_exit(&mini->tokens) != TRUE)
-		return;
-
+	if (chek_comand_exit(&mini->tokens) != TRUE)
+		return ;
 	save = mini->tokens;
 	token = get_token(mini->tokens);
 	comand = expand_env(token->token, mini);
+	//printf("the mini %d\n",mini->comand);
 	if (mini->comand != 1)
 		if_builtins(mini, comand);
 	else
