@@ -6,11 +6,12 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:43:45 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/02 16:32:35 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/29 12:30:50 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <asm-generic/errno.h>
 #include <stdio.h>
 
 void	rm_char_str(char *str, int len)
@@ -27,6 +28,29 @@ void	rm_char_str(char *str, int len)
 	ft_strlcat(str, src, i);
 }
 
+void	next_opcion(t_list_ **list)
+{
+	int	i;
+
+	i = 0;
+	while (*list != NULL)
+	{
+		if (get_token(*list)->token[0] == '-' )
+		{
+			while (get_token(*list)->token[++i] != '\0')
+			{
+				if (get_token(*list)->token[i] != 'n')
+					return ;
+			}
+		}
+		else
+			return ;
+		if ((*list)->next == NULL)
+			break ;
+		*list = (*list)->next;
+	}
+}
+
 void	echo_logic(t_minis *mini, t_token *token, int *new_line, int i)
 {
 	char	*str;
@@ -35,17 +59,14 @@ void	echo_logic(t_minis *mini, t_token *token, int *new_line, int i)
 	if (token->token[0] == '-')
 	{
 		while (token->token[++i] != '\0' )
-		{
 			if (token->token[i] != 'n')
 				*new_line = FALSE;
-		}
 	}
 	else
 		*new_line = FALSE;
-	if (mini->tokens->next != NULL && new_line == TRUE)
+	if (mini->tokens->next != NULL )
 		mini->tokens = mini->tokens->next;
-	else if (*new_line == FALSE)
-		mini->tokens = mini->tokens->next;
+	next_opcion(&mini->tokens);
 	while (mini->tokens != NULL)
 	{
 		str = expand_env(get_token(mini->tokens)->token, mini);
