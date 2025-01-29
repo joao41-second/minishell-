@@ -40,9 +40,9 @@ bool	validate_special_chars(char c,
 bool	process_character(char c, const char *command,
 							int i, struct s_cmd_state *state)
 {
+	handle_quotes(c, state);
 	if (is_in_quotes(state))
 	{
-		handle_quotes(c, state);
 		return (true);
 	}
 	return (validate_cd_command(c, command, i, state)

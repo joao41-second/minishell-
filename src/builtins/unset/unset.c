@@ -80,8 +80,17 @@ void	ft_unset(t_minis *mini)
 		return ;
 	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
-		token = get_token(mini->tokens->next);
-		unset_list(&mini->env, token->token);
-		unset_list(&mini->env_org, token->token);
+
+		mini->tokens = mini->tokens->next;
+		while (mini->tokens != NULL)
+		{
+			token = get_token(mini->tokens);
+			unset_list(&mini->env, token->token);
+			unset_list(&mini->env_org, token->token);
+			if(mini->tokens->next == NULL)
+				break;
+			mini->tokens = mini->tokens->next;
+		}
 	}
+	
 }
