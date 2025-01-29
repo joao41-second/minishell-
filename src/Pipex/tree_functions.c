@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tree_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/22 21:06:20 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/29 15:03:47 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
+void handle_pipe_fork(t_btree *node, t_minis *mini)
 {
     int     fd[2];
     int     status;
@@ -24,7 +24,6 @@ void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
 	tipe = 0;
     if (pipe(fd) == -1)
     {
-        close(original_stdout);
         pipe_error();
     }
     pid = fork();
@@ -32,7 +31,6 @@ void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
     {
         close(fd[0]);
         close(fd[1]);
-        close(original_stdout);
         fork_error();
     }
     if (pid == 0)
@@ -41,8 +39,7 @@ void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
         {
             close(fd[0]);
             close(fd[1]);
-            save = process_tree(node->left, mini, original_stdout);
-            close(original_stdout);
+            save = process_tree(node->left, mini);
             ft_exit_end(WSTOPSIG(status));
         }
         else
@@ -50,8 +47,7 @@ void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
             close(fd[0]);
             dup2(fd[1], STDOUT_FILENO);
             close(fd[1]);
-            save = process_tree(node->left, mini, original_stdout);
-            close(original_stdout);
+            save = process_tree(node->left, mini);
             ft_exit_end(save);
         }
     }
@@ -62,17 +58,17 @@ void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
         close(fd[0]);
 		if(node->right == NULL)
 			tipe = 1;
-        process_tree(node->right, mini, original_stdout);
+        process_tree(node->right, mini);
         waitpid(pid, &status, 0);
 		if(tipe == 1)
 			mini->exit_code_error =  WSTOPSIG(status);
     }
 }
 
-int process_tree(t_btree *node, t_minis *mini, int original_stdout)
+int process_tree(t_btree *node, t_minis *mini)
 {
 	if (node && ft_strcmp(node->cmd, "|") == 0)
-		handle_pipe_fork(node, mini, original_stdout);
+		handle_pipe_fork(node, mini);
 	else if (node){
 		redirect_(node->redir,mini);
 		execute(node->cmd, mini);

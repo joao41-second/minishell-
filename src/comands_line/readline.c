@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/27 10:31:30 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/29 15:04:39 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,44 +183,23 @@ void excute_comand_ve(t_minis *mini)
 	pid_t pid;
 	t_btree *exec_list;
 	int temp;
-	int original_stdin;
-	int original_stdout;
 	int status;
 
 	temp = 0;
     if (get_signal(0) != 1)
         mini->exit_code_error = get_signal(0);
     set_error_env(mini);
-    check_syntax(mini->line);
     mini->tokens = tokenize_and_check_bash_command(mini);
     exec_list = token_merger(mini);
-    original_stdin = dup(STDIN_FILENO);
-    original_stdout = dup(STDOUT_FILENO);
-    if (original_stdin == -1 || original_stdout == -1)
-    {
-        free_tree(exec_list);
-        free_list(mini->tokens, free_token);
-        return ;
-    }
     pid = fork();
     if (pid == 0)
     {
 		set_redir(mini->tokens,&exec_list);
-        temp = process_tree(exec_list, mini, original_stdout);
-        close(original_stdin);
-        close(original_stdout);
+        temp = process_tree(exec_list, mini);
         ft_exit_end(temp);
     }
 	waitpid(pid, &status, 0);
-
-//	printf("status error %d\n", WSTOPSIG(status));
 	mini->exit_code_error =  WSTOPSIG(status);
-	
-	
-    dup2(original_stdin, STDIN_FILENO);
-    dup2(original_stdout, STDOUT_FILENO);
-    close(original_stdin);
-    close(original_stdout);
     free_tree(exec_list);
 	
 }
@@ -283,8 +262,6 @@ void	excute_comand(t_minis *mini)
 	if (get_signal(0) != 1)
 		mini->exit_code_error = get_signal(0);
 	set_error_env(mini);
-	check_syntax(mini->line);
-	
 	mini->tokens = tokenize_and_check_bash_command(mini);
 	mini->tokens_copy = tokenize_and_check_bash_command(mini);
 	convert_chekline(mini);
@@ -306,10 +283,11 @@ void	start_shell(t_minis mini)
 	{
 		get_signal(1);
 		start_prompt_and_sig(&mini);
-		if ( mini.line != NULL && chek_expand(mini.line, &mini) == TRUE &&  !is_allspace(ft_strdup(mini.line)))
+		// check_syntax(ft_strdup(mini.line));
+		if ( mini.line != NULL && chek_expand(mini.line, &mini) == TRUE && !is_allspace(ft_strdup(mini.line)))
 			excute_comand(&mini);
 		else
-		 mini.exit_code_error = 0;
+			mini.exit_code_error = 0;
 		set_error_env(&mini);
 		getcwd(mini.path, PATH_MAX);
 		ft_free(mini.line,NULL);

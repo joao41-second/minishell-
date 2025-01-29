@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:31 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/28 18:04:37 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:03:58 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ char	**pipex_split(char const *s, char c);
 t_btree	*build_tree(char **argv, int i, int end);
 t_btree	*create_node(char *cmd, t_btree *l, t_btree *r, int first_cmd);
 void	usage(void);
-int		process_tree(t_btree *node, t_minis *mini, int original_stdout);
+int		process_tree(t_btree *node, t_minis *mini);
 int		chek_biltin(char **cmd);
 #endif

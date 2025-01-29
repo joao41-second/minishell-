@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:16:13 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/29 13:50:10 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:00:13 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ bool	validate_special_chars(char c,
 bool	process_character(char c, const char *command,
 							int i, struct s_cmd_state *state)
 {
+	handle_quotes(c, state);
 	if (is_in_quotes(state))
 	{
 		handle_quotes(c, state);
