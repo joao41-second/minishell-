@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/27 10:31:30 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/29 11:36:55 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,8 +183,6 @@ void excute_comand_ve(t_minis *mini)
 	pid_t pid;
 	t_btree *exec_list;
 	int temp;
-	int original_stdin;
-	int original_stdout;
 	int status;
 
 	temp = 0;
@@ -194,21 +192,11 @@ void excute_comand_ve(t_minis *mini)
     check_syntax(mini->line);
     mini->tokens = tokenize_and_check_bash_command(mini);
     exec_list = token_merger(mini);
-    original_stdin = dup(STDIN_FILENO);
-    original_stdout = dup(STDOUT_FILENO);
-    if (original_stdin == -1 || original_stdout == -1)
-    {
-        free_tree(exec_list);
-        free_list(mini->tokens, free_token);
-        return ;
-    }
     pid = fork();
     if (pid == 0)
     {
 		set_redir(mini->tokens,&exec_list);
-        temp = process_tree(exec_list, mini, original_stdout);
-        close(original_stdin);
-        close(original_stdout);
+        temp = process_tree(exec_list, mini, 1);
         ft_exit_end(temp);
     }
 	waitpid(pid, &status, 0);
@@ -217,10 +205,6 @@ void excute_comand_ve(t_minis *mini)
 	mini->exit_code_error =  WSTOPSIG(status);
 	
 	
-    dup2(original_stdin, STDIN_FILENO);
-    dup2(original_stdout, STDOUT_FILENO);
-    close(original_stdin);
-    close(original_stdout);
     free_tree(exec_list);
 	
 }
@@ -264,7 +248,7 @@ int	chek_comand(t_minis mini)
 	{
 		if (ft_strncmp(get_token(list)->type, "pipe", 10) == 0)
 			pipe++;
-		if (chek_biltin(&get_token(list)->token) == TRUE)
+		if (chek_biltin(&get_token(list)->token) == TRUE && ft_strncmp(get_token(list)->type,"command",30) == 0)
 			bil = 1; 
 		list = list->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 14:12:36 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/21 11:10:20 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/29 11:31:32 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,16 @@ void	builtins(t_minis	*mini)
 	pipe(term);
 	token = NULL;
 	dup2(1, term[0]);
+//	printf("ola\n");
 	save = mini->tokens;
 	if (mini->tokens == NULL)
 		return ;
-	//printf("line :%s:\n",expand_env(token->token, mini));;
 	redirect_bil(save,mini);
 	dell_redir(&mini->tokens);
+	set_new_comand(&mini->tokens);
+	if( chek_comand_exit(&mini->tokens) != TRUE)
+		return;
+
 	save = mini->tokens;
 	token = get_token(mini->tokens);
 	comand = expand_env(token->token, mini);
