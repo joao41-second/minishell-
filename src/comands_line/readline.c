@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/29 15:04:39 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:41:35 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,9 +283,13 @@ void	start_shell(t_minis mini)
 	{
 		get_signal(1);
 		start_prompt_and_sig(&mini);
-		// check_syntax(ft_strdup(mini.line));
 		if ( mini.line != NULL && chek_expand(mini.line, &mini) == TRUE && !is_allspace(ft_strdup(mini.line)))
+		{
+			mini.exit_code_error = check_syntax(ft_strdup(mini.line));
+			if (mini.exit_code_error == 2)
+				ft_exit_end(2);
 			excute_comand(&mini);
+		}
 		else
 			mini.exit_code_error = 0;
 		set_error_env(&mini);

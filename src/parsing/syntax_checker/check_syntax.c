@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:16:13 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/29 15:00:13 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:59:42 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,7 @@ bool	process_character(char c, const char *command,
 {
 	handle_quotes(c, state);
 	if (is_in_quotes(state))
-	{
-		handle_quotes(c, state);
 		return (true);
-	}
 	return (validate_cd_command(c, command, i, state)
 		&& validate_env_variable(c, command, i, state)
 		&& validate_redirections(c, command, i, state)

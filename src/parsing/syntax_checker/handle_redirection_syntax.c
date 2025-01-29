@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:31:11 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/28 18:15:00 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:59:11 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ bool	handle_redirection_char(char c, const char *command,
 {
 	if (c == '<' || c == '>')
 	{
+		if (state->redirection_needs_target)  
+			return (false);
 		state->consecutive_redirections++;
 		if (command[current_index + 1] == c)
 		{
@@ -62,7 +64,12 @@ bool	handle_redirection_char(char c, const char *command,
 			state->consecutive_redirections = 0;
 			return (true);
 		}
-		if (state->consecutive_redirections > 1)
+		int next_index = current_index + 1;
+		while (command[next_index] && ft_isspace(command[next_index])) 
+			next_index++;
+
+		if (command[next_index] == '>' || command[next_index] == '<'
+			|| command[next_index] == '|')
 			return (false);
 		state->redirection_needs_target = true;
 		return (true);
