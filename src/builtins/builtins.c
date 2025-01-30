@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 14:12:36 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/30 17:40:46 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/30 17:43:10 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	restore_stdout(int term[2])
 
 void	process_builtin(t_minis *mini, t_list_ *save)
 {
-	t_token *token;
-	char *comand;
+	t_token	*token;
+	char	*comand;
 
 	token = get_token(mini->tokens);
 	comand = expand_env(token->token, mini);
@@ -62,9 +62,10 @@ void	process_builtin(t_minis *mini, t_list_ *save)
 
 void	builtins(t_minis *mini)
 {
-	int term[2];
+	int		term[2];
+	t_list_	*save;
 
-	t_list_ *save = mini->tokens;
+	save = mini->tokens;
 	if (!save)
 		return ;
 	setup_pipe(term);

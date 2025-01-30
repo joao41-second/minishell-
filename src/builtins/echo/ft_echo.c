@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:43:45 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/30 16:36:59 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/30 17:44:21 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,13 @@ void	next_opcion(t_list_ **list)
 	{
 		if (get_token(*list)->token[0] == '-' )
 		{
-			while (get_token(*list)->token[++i] != '\0')	
+			while (get_token(*list)->token[++i] != '\0')
 				if (get_token(*list)->token[i] != 'n')
 					i = -50;
 			if (i == -50)
 				*list = (*list)->previous;
-			else		
+			else
 				*list = (*list)->next;
-
 			return ;
 		}
 		else

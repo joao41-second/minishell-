@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 15:06:26 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 10:20:41 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/30 17:45:12 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,15 @@ void	ft_unset(t_minis *mini)
 		return ;
 	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
-
 		mini->tokens = mini->tokens->next;
 		while (mini->tokens != NULL)
 		{
 			token = get_token(mini->tokens);
 			unset_list(&mini->env, token->token);
 			unset_list(&mini->env_org, token->token);
-			if(mini->tokens->next == NULL)
-				break;
+			if (mini->tokens->next == NULL)
+				break ;
 			mini->tokens = mini->tokens->next;
 		}
 	}
-	
 }
