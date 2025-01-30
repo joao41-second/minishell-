@@ -124,7 +124,7 @@ void execute(char *argv, t_minis *mini)
             ft_print_error(cmd[0], "", NOT_FILE, "");
             ft_exit_end(127);
         }
-        check_execute_permissions(cmd[0]);
+        check_execute_permissions(cmd[0],expand_env(argv, mini));
         if (execve(cmd[0], cmd, env_to_matrix(mini)) == -1)
             command_error();
         return;
@@ -135,7 +135,7 @@ void execute(char *argv, t_minis *mini)
         no_path_error(expand_env(argv, mini));
         return;
     }
-    check_execute_permissions(path);
+    check_execute_permissions(path,expand_env(argv, mini));
     if (execve(path, cmd, env_to_matrix(mini)) == -1)
         command_error();
 }

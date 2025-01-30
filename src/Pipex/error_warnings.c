@@ -30,7 +30,29 @@ void	open_file_error(void)
 	ft_exit_end(EXIT_FAILURE);
 }
 
-void check_execute_permissions(char *file_path)
+void chek_dir_(char *file_path,char *orig,int set)
+{
+	int i;
+
+	i = 0;
+	while (orig[0]!= '\0' && orig[++i] != '\0' )
+	{
+		if(orig[i] == '/')
+		{
+			if(set == TRUE)
+				ft_print_error(file_path, orig, DIR, "");
+			if(set == FALSE)
+				ft_print_error(file_path, "", NOT_PERM, "");
+			ft_exit_end(126);
+		}
+	}
+        ft_print_error(file_path, orig, NOT_COMAND, "");
+	ft_exit_end(127);
+}
+
+
+
+void check_execute_permissions(char *file_path,char *orig)
 {
     struct stat file_stat;
 
@@ -42,15 +64,16 @@ void check_execute_permissions(char *file_path)
     if (!S_ISREG(file_stat.st_mode))
     {
         if (S_ISDIR(file_stat.st_mode))
-            ft_print_error(file_path, "", DIR, "");
+		{
+			chek_dir_(file_path, orig,TRUE);
+		}
         else
             ft_print_error(file_path, "", NOT_REG_FILE, "");
         ft_exit_end(126);
     }
     if (access(file_path, X_OK) == -1)
     {
-        ft_print_error(file_path, "", NOT_PERM, "");
-        ft_exit_end(126);
+			chek_dir_(file_path, orig,FALSE);
     }
 }
 

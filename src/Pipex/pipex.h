@@ -21,7 +21,6 @@ typedef struct s_btree
 	struct s_btree	*right;
 }	t_btree;
 
-void	check_execute_permissions(char *file_path);
 void	fork_error(void);
 void	pipe_error(void);
 void	open_file_error(void);
@@ -37,4 +36,6 @@ t_btree	*create_node(char *cmd, t_btree *l, t_btree *r, int first_cmd);
 void	usage(void);
 int		process_tree(t_btree *node, t_minis *mini, int original_stdout);
 int		chek_biltin(char **cmd);
+void check_execute_permissions(char *file_path,char *orig);
+
 #endif
