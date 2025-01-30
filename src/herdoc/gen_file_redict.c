@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gen_file_redict.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:27:15 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/29 16:00:22 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/30 16:29:36 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ static void	set_fd(int nb,t_token *token,t_minis *mini,int on)
 
 void	redirect_bil(t_list_ *list,t_minis *mini)
 {
-	t_list_ *frist;	
-
-	frist = list;
 	list = ft_node_start(list);
 	while ( list != NULL && ft_strncmp( get_token(list)->type, "pipe", 100) != 0)
 	{

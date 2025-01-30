@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_extra.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 09:49:11 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/29 11:30:34 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/30 16:37:48 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,6 @@ int chek_biltin_cmd(char *cmd)
 }
 int chek_comand_exit(t_list_ **list)
 {
-	t_list_ *start;
-
-	start = *list;
 	while ((*list) != NULL) 
 	{
 		if(get_token(*list)->type  != NULL && ft_strncmp(get_token(*list)->type,"command",20) == 0)
@@ -75,9 +72,6 @@ int chek_comand_exit(t_list_ **list)
 
 void set_new_comand(t_list_ **list)
 {
-	t_list_ *start;
-
-	start = *list;
 	if( *list == NULL || chek_comand_exit(list) == TRUE)
 		return;
 	while ((*list) != NULL) 

@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/29 11:36:55 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/30 16:30:00 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,9 +260,6 @@ int	chek_comand(t_minis mini)
 
 void	excute_comand(t_minis *mini)
 {
-	int		temp;
-
-	temp = 0;
 	if (get_signal(0) != 1)
 		mini->exit_code_error = get_signal(0);
 	set_error_env(mini);

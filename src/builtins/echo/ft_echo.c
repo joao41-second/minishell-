@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:43:45 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/29 12:30:50 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/30 16:36:59 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,11 @@ void	ft_echo(t_minis *mini)
 	int		i;
 	int		new_line;
 	t_token	*token;
-	t_list_	*save;
 
 	i = 0;
 	new_line = TRUE;
 	token = NULL;
 	mini->tokens = ft_node_start(mini->tokens);
-	save = mini->tokens;
 	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
 		echo_logic(mini, token, &new_line, i);

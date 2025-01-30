@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:09:31 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 09:58:31 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/30 16:28:57 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,7 @@ static void	loop_heradoc(char *line, int fd, char *end, t_minis *mini)
 static void	herdoc_son_proceed(t_minis *mini, char*end,int fd)
 {
 	char	*line;
-	char	*new_line;
 
-	new_line = NULL;
 	signal(SIGUSR1, handle_signal);
 	if (end != NULL)
 	{

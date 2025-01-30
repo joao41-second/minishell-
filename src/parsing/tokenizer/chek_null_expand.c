@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chek_null_expand.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 08:19:23 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/27 09:19:53 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/30 16:30:40 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,9 @@ void	set_token_lists(t_minis *mini)
 
 void	convert_chekline(t_minis *mini)
 {
-	t_list_	*list_start;
 	char	*expand;
 	char	*line;
 
-	list_start = mini->tokens;
 	expand = expand_env(get_token(mini->tokens)->token, mini);
 	while (mini->tokens != NULL )
 	{
