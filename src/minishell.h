@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2025/01/29 10:21:21 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/30 17:49:42 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,18 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
-#include <asm-generic/errno.h>
-#include <sys/types.h>
-#include <sys/resource.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+# include <asm-generic/errno.h>
+# include <sys/types.h>
+# include <sys/resource.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include "./error/error.h"
+# include "./parsing/expand_env/expand.h"
+# include "./builtins/builtins.h"
+# include "./Pipex/pipex.h"
+# include "./comands_line/readline.h"
+# include "parsing/tokenizer/tokenizer.h"
+# include "./herdoc/herdoc.h"
 
 typedef struct s_mines
 {
@@ -50,31 +57,21 @@ typedef struct s_mines
 	int		exit_code_error;
 }			t_minis;
 
-# include "./error/error.h"
-# include "./parsing/expand_env/expand.h"
-# include "./builtins/builtins.h"
-# include "./Pipex/pipex.h"
-# include "./comands_line/readline.h"
-# include "parsing/tokenizer/tokenizer.h"
-# include "./herdoc/herdoc.h"
+int		check_syntax(const char *str);
 
+void	free_split(char **ok);
 
-int			check_syntax(const char *str);
+void	free_list(t_list_ *list, void (*free_struct)(void *));
 
-void		free_split(char **ok);
-
-void		free_list(t_list_ *list, void (*free_struct)(void *));
-
-t_btree		*token_merger(t_minis *mini);
-
+t_btree	*token_merger(t_minis *mini);
 
 void	and_shelvl(t_minis *mini);
 
-void token_comand_set_start(t_list_ **list);
+void	token_comand_set_start(t_list_ **list);
 
-int chek_comand_exit(t_list_ **list); 
+int		chek_comand_exit(t_list_ **list);
 
-void set_new_comand(t_list_ **list);
+void	set_new_comand(t_list_ **list);
 
-int chek_biltin(char **cmd);
+int		chek_biltin(char **cmd);
 #endif
