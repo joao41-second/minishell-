@@ -3,22 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   readline.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:09:15 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/04 16:14:21 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:09:52 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define READLINE_H
 #ifdef READLINE_H
 
-# include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
+# include "../herdoc/herdoc.h"
 
 /* 
  * @brief get input from the user

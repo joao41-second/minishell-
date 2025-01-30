@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   set_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:31:40 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/27 10:01:33 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/30 18:04:36 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-#include "errno.h"
+#include "herdoc.h"
 
 void	relink_list(t_list_ **list,void *content)
 {

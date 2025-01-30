@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_for_new_file.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 12:30:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/02 16:47:48 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/30 18:01:29 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../herdoc.h"
 
 int	redirect_for_new_file(t_minis *mini, t_token *name)
 {

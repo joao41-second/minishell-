@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2025/01/30 17:49:42 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/30 18:11:48 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@
 //#include "../libft/free/list.h"
 //#include "./comands_line/readline.h"
 # include "../libft/libft/libft.h"
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
 # include <fcntl.h>
+# include "errno.h"
 # include <limits.h>
 # include <stdio.h>
 # include <stdbool.h>
@@ -35,13 +39,6 @@
 # include <sys/resource.h>
 # include <sys/types.h>
 # include <sys/stat.h>
-# include "./error/error.h"
-# include "./parsing/expand_env/expand.h"
-# include "./builtins/builtins.h"
-# include "./Pipex/pipex.h"
-# include "./comands_line/readline.h"
-# include "parsing/tokenizer/tokenizer.h"
-# include "./herdoc/herdoc.h"
 
 typedef struct s_mines
 {
@@ -62,8 +59,6 @@ int		check_syntax(const char *str);
 void	free_split(char **ok);
 
 void	free_list(t_list_ *list, void (*free_struct)(void *));
-
-t_btree	*token_merger(t_minis *mini);
 
 void	and_shelvl(t_minis *mini);
 

@@ -6,12 +6,11 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:27:15 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/30 16:29:36 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/30 18:05:39 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-#include "errno.h"
+#include "herdoc.h"
 
 static void	set_fd(int nb,t_token *token,t_minis *mini,int on)
 {

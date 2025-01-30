@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:24:52 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/02 16:38:19 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/30 17:55:25 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../minishell.h"
+
+# include "error.h"
 
 void	ft_print_error(char *comand, char *error, char *error_char, char *start)
 {

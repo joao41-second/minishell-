@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:25:24 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/28 18:02:55 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:48:25 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define IS_PIPE "is a FIFO/pipe"
 # define NOT_REG_FILE "not a regular file"
 
+# include "../minishell.h"
+# include "../comands_line/readline.h"
 //# define SNTAX_ERROR "not a valid identifier"
 
 void	ft_print_error(char *comand, char *error, char *error_char,

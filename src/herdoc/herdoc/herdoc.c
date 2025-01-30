@@ -6,13 +6,11 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:09:31 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/30 16:28:57 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/30 18:01:55 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "../herdoc.h"
 
 static void	handle_signal(int sig)
 {

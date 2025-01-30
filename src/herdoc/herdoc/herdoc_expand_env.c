@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_expand_env.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 13:20:13 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/02 13:42:17 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/30 18:18:45 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../herdoc.h"
 
 static int	not_join(int not, char join)
 {

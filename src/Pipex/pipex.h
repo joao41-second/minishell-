@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:31 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/28 18:04:37 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:15:15 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ t_btree	*create_node(char *cmd, t_btree *l, t_btree *r, int first_cmd);
 void	usage(void);
 int		process_tree(t_btree *node, t_minis *mini, int original_stdout);
 int		chek_biltin(char **cmd);
-void check_execute_permissions(char *file_path,char *orig);
+void	check_execute_permissions(char *file_path,char *orig);
+
+t_btree	*token_merger(t_minis *mini);
 
 #endif
