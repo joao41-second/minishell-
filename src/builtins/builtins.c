@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 14:12:36 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/29 11:31:32 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/30 17:40:46 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,35 +32,47 @@ void	if_builtins(t_minis *mini, char *comand)
 		ft_echo(mini);
 }
 
-void	builtins(t_minis	*mini)
+void	setup_pipe(int term[2])
 {
-	t_token	*token;
-	t_list_	*save;
-	char	*comand;
-	int		term[2];
-
 	pipe(term);
-	token = NULL;
 	dup2(1, term[0]);
-	save = mini->tokens;
-	if (mini->tokens == NULL)
-		return ;
-	redirect_bil(save, mini);
-	dell_redir(&mini->tokens);
-	set_new_comand(&mini->tokens);
-	if (chek_comand_exit(&mini->tokens) != TRUE)
-		return ;
-	save = mini->tokens;
+}
+
+void	restore_stdout(int term[2])
+{
+	dup2(term[0], 1);
+	close(term[1]);
+	close(term[0]);
+}
+
+void	process_builtin(t_minis *mini, t_list_ *save)
+{
+	t_token *token;
+	char *comand;
+
 	token = get_token(mini->tokens);
 	comand = expand_env(token->token, mini);
-	//printf("the mini %d\n",mini->comand);
 	if (mini->comand != 1)
 		if_builtins(mini, comand);
 	else
 		mini->comand = 0;
 	ft_free(comand, NULL);
 	mini->tokens = save;
-	dup2(term[0], 1);
-	close(term[1]);
-	close(term[0]);
+}
+
+void	builtins(t_minis *mini)
+{
+	int term[2];
+
+	t_list_ *save = mini->tokens;
+	if (!save)
+		return ;
+	setup_pipe(term);
+	redirect_bil(save, mini);
+	dell_redir(&mini->tokens);
+	set_new_comand(&mini->tokens);
+	if (chek_comand_exit(&mini->tokens) != TRUE)
+		return ;
+	process_builtin(mini, save);
+	restore_stdout(term);
 }

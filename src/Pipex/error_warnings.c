@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_warnings.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:50:27 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/28 18:02:07 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:52:50 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void chek_dir_(char *file_path,char *orig,int set)
 			ft_exit_end(126);
 		}
 	}
-        ft_print_error(file_path, orig, NOT_COMAND, "");
+    ft_print_error(file_path, orig, NOT_COMAND, "");
 	ft_exit_end(127);
 }
 
@@ -64,17 +64,13 @@ void check_execute_permissions(char *file_path,char *orig)
     if (!S_ISREG(file_stat.st_mode))
     {
         if (S_ISDIR(file_stat.st_mode))
-		{
 			chek_dir_(file_path, orig,TRUE);
-		}
         else
             ft_print_error(file_path, "", NOT_REG_FILE, "");
         ft_exit_end(126);
     }
     if (access(file_path, X_OK) == -1)
-    {
 			chek_dir_(file_path, orig,FALSE);
-    }
 }
 
 void no_path_error(char *cmd)
