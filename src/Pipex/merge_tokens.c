@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
 
 t_btree *create_tree_node(char *cmd)
 {
@@ -44,7 +45,7 @@ void deep_copy_tokens(t_list_ *original_tokens, t_list_ **merged_list)
 		new_target = ft_strdup(original_token->redirection_target);
 		new_source = ft_strdup(original_token->redirection_source);
 		add_to_list(merged_list, create_token(new_token, new_type, new_target, new_source));
-		if (original_token->type && ft_strcmp(original_token->type, "redir") == 0)
+		if (current_original->next != NULL && original_token->type && ft_strcmp(original_token->type, "redir") == 0)
 			current_original = current_original->next;
 		current_original = current_original->next;
 	}

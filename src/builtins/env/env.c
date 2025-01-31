@@ -46,7 +46,7 @@ void	print_env(void *point)
 	{
 		get = *((t_env *)list->content);
 		if (get.content != NULL && get.chek != FALSE)
-			printf("%s=%s \n", get.name, get.content);
+			printf("%s=%s\n", get.name, get.content);
 	}
 }
 
