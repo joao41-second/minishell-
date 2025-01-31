@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2025/01/30 18:11:48 by rui              ###   ########.fr       */
+/*   Updated: 2025/01/31 18:19:36 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 
 # include "../libft/Get_next_line/get_next_line_bonus.h"
 # include "../libft/printf/ft_printf.h"
-//#include "../libft/free/free_and_list.h"
-//#include "../libft/free/list.h"
-//#include "./comands_line/readline.h"
+//# include "../libft/free/free_and_list.h"
+//# include "../libft/free/list.h"
+// # include "./comands_line/readline.h"
 # include "../libft/libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
