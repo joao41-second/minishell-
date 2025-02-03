@@ -38,4 +38,6 @@ int		process_tree(t_btree *node, t_minis *mini, int original_stdout);
 int		chek_biltin(char **cmd);
 void check_execute_permissions(char *file_path,char *orig);
 
+void chek_comand_permicion( char *file_path);
+
 #endif

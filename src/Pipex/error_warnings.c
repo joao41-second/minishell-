@@ -33,8 +33,11 @@ void	open_file_error(void)
 void chek_dir_(char *file_path,char *orig,int set)
 {
 	int i;
+    struct stat file_stat;
 
 	i = 0;
+
+	stat(file_path, &file_stat);
 	while (orig[0]!= '\0' && orig[++i] != '\0' )
 	{
 		if(orig[i] == '/')
@@ -46,10 +49,29 @@ void chek_dir_(char *file_path,char *orig,int set)
 			ft_exit_end(126);
 		}
 	}
-        ft_print_error(file_path, orig, NOT_COMAND, "");
+	if (file_stat.st_mode & S_IXUSR && !S_ISDIR(file_stat.st_mode))
+	{
+			ft_print_error(file_path, "origin", NOT_PERM, "");
+			ft_exit_end(126);
+	}
+    ft_print_error(file_path, orig, NOT_COMAND, "");
 	ft_exit_end(127);
 }
 
+void chek_comand_permicion( char *file_path)
+{
+    struct stat file_stat;
+
+	stat(file_path, &file_stat);
+	
+    if (file_stat.st_mode & S_IXUSR)
+	{
+        ft_print_error(file_path, "", NOT_PERM, "");
+        ft_exit_end(126);
+	}
+
+
+}
 
 
 void check_execute_permissions(char *file_path,char *orig)
@@ -63,6 +85,7 @@ void check_execute_permissions(char *file_path,char *orig)
     }
     if (!S_ISREG(file_stat.st_mode))
     {
+	
         if (S_ISDIR(file_stat.st_mode))
 		{
 			chek_dir_(file_path, orig,TRUE);

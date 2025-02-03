@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "pipex.h"
 
 int chek_biltin(char **cmd)
 {	
@@ -107,7 +108,10 @@ void execute(char *argv, t_minis *mini)
     char *path;
 	struct stat file_stat;
 
+
+    //ft_print_error(argv, "orig", NOT_COMAND, "");
     cmd = ft_split(expand_env(argv, mini), ' ');
+    //ft_print_error(argv, "orig", NOT_COMAND, "");
     unset_list(&mini->env, "?");
     if (chek_biltin(cmd) == TRUE)
     {
@@ -117,25 +121,22 @@ void execute(char *argv, t_minis *mini)
         builtins(mini);
         ft_exit_end(mini->exit_code_error);
     }
-    if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
+	if (access(cmd[0], F_OK) == 0 )
     {
         if (stat(cmd[0], &file_stat) == -1)
         {
             ft_print_error(cmd[0], "", NOT_FILE, "");
             ft_exit_end(127);
         }
-        check_execute_permissions(cmd[0],expand_env(argv, mini));
-        if (execve(cmd[0], cmd, env_to_matrix(mini)) == -1)
-            command_error();
-        return;
+		path = cmd[0];
     }
-    path = find_path(cmd[0], env_to_matrix(mini), mini);
-    if (!path)
-    {
+	else
+	{
+		path = find_path(cmd[0], env_to_matrix(mini), mini);
+	}
+	if (!path)
         no_path_error(expand_env(argv, mini));
-        return;
-    }
-    check_execute_permissions(path,expand_env(argv, mini));
+	check_execute_permissions(path,expand_env(argv, mini));
     if (execve(path, cmd, env_to_matrix(mini)) == -1)
         command_error();
 }

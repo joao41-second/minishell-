@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 18:31:40 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/27 10:01:33 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/03 11:10:24 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,6 @@ void	set_redir(t_list_ *list, t_btree **btree)
 	(*btree) = save;
 }
 
-void	set_redir_(int fd, int nb, int on)
-{
-	if ((nb == 2 || nb == 1) && on == 1)
-		dup2(fd, 1);
-	if ((nb == 3 || nb == 4) && on == 1)
-		dup2(fd, 0);
-}
-
 static void	set_fds(int nb, t_token *token, t_minis *mini, int on)
 {
 	int		fd;
@@ -86,39 +78,44 @@ static void	set_fds(int nb, t_token *token, t_minis *mini, int on)
 	close(fd);
 }
 
-void	redirect_(t_list_ *list,t_minis *mini)
+void	redirect_p2(t_list_ *list, t_minis *mini)
+{
+	while (list != NULL && ft_strncmp(get_token(list)->type, "pipe", 100) != 0)
+	{
+		if (ft_strncmp(get_token(list)->token, ">>", 10) == 0)
+			set_fds(1, get_token(list), mini, 0);
+		if (ft_strncmp(get_token(list)->token, ">", 10) == 0)
+			set_fds(2, get_token(list), mini, 0);
+		if (ft_strncmp(get_token(list)->token, "<<", 10) == 0)
+			set_fds(3, get_token(list), mini, 0);
+		if (ft_strncmp(get_token(list)->token, "<", 10) == 0)
+			set_fds(4, get_token(list), mini, 0);
+		(list) = (list)->next;
+	}
+}
+
+void	redirect_(t_list_ *list, t_minis *mini)
 {
 	t_list_	*frist;
 
 	frist = list;
-	while ( list != NULL && ft_strncmp( get_token(list)->type, "pipe", 100) != 0)
+	redirect_p2(list, mini);
+	list = frist;
+	while (list != NULL && ft_strncmp(get_token(list)->type, "pipe", 100) != 0)
 	{
-		if(ft_strncmp(get_token(list)->token, ">>", 10) == 0)
-			set_fds(1, get_token(list), mini,0);
-		if(ft_strncmp(get_token(list)->token, ">", 10) == 0)	
-			set_fds(2, get_token(list), mini,0);
-		if(ft_strncmp(get_token(list)->token, "<<", 10) == 0)	
-			set_fds(3, get_token(list), mini,0);
-		if(ft_strncmp(get_token(list)->token, "<", 10) == 0)
-			set_fds(4, get_token(list), mini,0);
+		if (ft_strncmp(get_token(list)->token, "<<", 10) == 0)
+			set_fds(3, get_token(list), mini, 1);
+		if (ft_strncmp(get_token(list)->token, "<", 10) == 0)
+			set_fds(4, get_token(list), mini, 1);
 		(list) = (list)->next;
 	}
 	list = frist;
-	while ( list != NULL && ft_strncmp( get_token(list)->type, "pipe", 100) != 0)
+	while (list != NULL && ft_strncmp(get_token(list)->type, "pipe", 100) != 0)
 	{
-		if(ft_strncmp(get_token(list)->token, "<<", 10) == 0)	
-			set_fds(3, get_token(list), mini,1);
-		if(ft_strncmp(get_token(list)->token, "<", 10) == 0)
-			set_fds(4, get_token(list), mini,1);
-		(list) = (list)->next;
-	}
-	list = frist;
-	while ( list != NULL && ft_strncmp( get_token(list)->type, "pipe", 100) != 0)
-	{
-		if(ft_strncmp(get_token(list)->token, ">>", 10) == 0)
-			set_fds(1, get_token(list), mini,1);
-		if(ft_strncmp(get_token(list)->token, ">", 10) == 0)	
-			set_fds(2, get_token(list), mini,1);
+		if (ft_strncmp(get_token(list)->token, ">>", 10) == 0)
+			set_fds(1, get_token(list), mini, 1);
+		if (ft_strncmp(get_token(list)->token, ">", 10) == 0)
+			set_fds(2, get_token(list), mini, 1);
 		(list) = (list)->next;
 	}
 }

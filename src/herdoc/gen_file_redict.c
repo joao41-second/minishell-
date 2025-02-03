@@ -6,83 +6,88 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:27:15 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/30 16:29:36 by rui              ###   ########.fr       */
+/*   Updated: 2025/02/03 11:15:53 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "errno.h"
+#include <sys/stat.h>
 
-static void	set_fd(int nb,t_token *token,t_minis *mini,int on)
+static void	erro_prin(t_minis *mini)
 {
-	int fd=0;
-	char *redir;
-	
-	if(nb == 4 || nb == 3)
-	{
-		redir = expand_env(token->redirection_source,mini);
-	}
+	if (errno == ENOENT)
+		ft_print_error_simple("", NOT_FILE, "bash");
 	else
-		redir = expand_env(token->redirection_target,mini);
+		ft_print_error_simple("", NOT_PERM, "bash");
+	mini->comand = 1;
+	mini->exit_code_error = 1;
+}
+
+static void	set_fd(int nb, t_token *token, t_minis *mini, int on)
+{
+	int		fd;
+	char	*redir;
+
+	fd = 0;
+	if (nb == 4 || nb == 3)
+		redir = expand_env(token->redirection_source, mini);
+	else
+		redir = expand_env(token->redirection_target, mini);
 	if (nb == 1 && token->redirection_target != NULL)
 		fd = open(redir, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (nb == 2 && token->redirection_target != NULL)
-		fd = open( redir,O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		fd = open(redir, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (nb == 3)
-		fd = herdoc(mini, 0,token->redirection_source);
+		fd = herdoc(mini, 0, token->redirection_source);
 	if (nb == 4 && token->redirection_source != NULL)
-		fd = open(redir, O_RDONLY );
-	
-	if(fd < 0 )
-	{
-		if (errno == ENOENT) 
-			ft_print_error_simple("",NOT_FILE , "bash");
-		else
-			ft_print_error_simple("",NOT_PERM , "bash");
-		mini->comand = 1;
-		mini->exit_code_error = 1;
-	}
-;	if((nb == 1 || nb == 2) && on == 1)
-		dup2(fd,1);
+		fd = open(redir, O_RDONLY);
+	if (fd < 0)
+		erro_prin(mini);
+	if ((nb == 1 || nb == 2) && on == 1)
+		dup2(fd, 1);
 	close(fd);
 }
 
-void	redirect_bil(t_list_ *list,t_minis *mini)
+void	redirect_bil(t_list_ *list, t_minis *mini)
 {
 	list = ft_node_start(list);
-	while ( list != NULL && ft_strncmp( get_token(list)->type, "pipe", 100) != 0)
+	while (list != NULL && ft_strncmp(get_token(list)->type, "pipe", 100) != 0)
 	{
-		if(ft_strncmp(get_token(list)->token, ">>", 10) == 0 && mini->exit_code_error == 0)
-			set_fd(1, get_token(list), mini,1);
-		if(ft_strncmp(get_token(list)->token, ">", 10) == 0  && mini->exit_code_error == 0)	
-			set_fd(2, get_token(list), mini,1);
-		if(ft_strncmp(get_token(list)->token, "<<", 10) == 0  && mini->exit_code_error == 0)	
-			set_fd(3, get_token(list), mini,1);
-		if(ft_strncmp(get_token(list)->token, "<", 10) == 0  && mini->exit_code_error == 0)
-			set_fd(4, get_token(list), mini,1);
+		if (ft_strncmp(get_token(list)->token, ">>", 10) == 0
+			&& mini->exit_code_error == 0)
+			set_fd(1, get_token(list), mini, 1);
+		if (ft_strncmp(get_token(list)->token, ">", 10) == 0
+			&& mini->exit_code_error == 0)
+			set_fd(2, get_token(list), mini, 1);
+		if (ft_strncmp(get_token(list)->token, "<<", 10) == 0
+			&& mini->exit_code_error == 0)
+			set_fd(3, get_token(list), mini, 1);
+		if (ft_strncmp(get_token(list)->token, "<", 10) == 0
+			&& mini->exit_code_error == 0)
+			set_fd(4, get_token(list), mini, 1);
 		(list) = (list)->next;
 	}
-
 }
 
-void dell_redir( t_list_ **list)
+void	dell_redir( t_list_ **list)
 {
-	t_list_ *save;
+	t_list_	*save;
 
 	save = *list;
-	while ( *list != NULL)
+	while (*list != NULL)
 	{
-		if(ft_strncmp(get_token(*list)->type, "comand", 10) != 0 )
+		if (ft_strncmp(get_token(*list)->type, "comand", 10) != 0)
 		{
 			save = *list;
-			break;
+			break ;
 		}
 		(*list) = (*list)->next;
 	}
 	*list = ft_node_start(save);
-	while ( *list != NULL)
+	while (*list != NULL)
 	{
-		if(ft_strncmp(get_token(*list)->type, "redir", 10) == 0 )
+		if (ft_strncmp(get_token(*list)->type, "redir", 10) == 0)
 		{
 			ft_free_node(list, free_token);
 			if (*list != NULL)
