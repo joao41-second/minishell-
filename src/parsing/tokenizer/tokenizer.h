@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:42:52 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/27 08:43:44 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/03 21:37:29 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_token
 	char	*redirection_source;
 }	t_token;
 
-t_token *get_token(t_list_ *list);
+t_token		*get_token(t_list_ *list);
 
 char		**env_to_matrix(t_minis *mini);
 
@@ -51,10 +51,12 @@ t_list_		*initializeAndFinalizeTokenizer(t_minis *mini, char ***env_matrix);
 
 t_list_		*initialize_tokenizer(t_minis *mini, char ***env_matrix);
 
-void		finalize_tokens(t_list_ *token_list, char **env_matrix, t_minis *mini);
+void		finalize_tokens(t_list_ *token_list,
+				char **env_matrix, t_minis *mini);
 
 void		free_token(void *content);
 
+int			process_quotes(const char *line, int i, char quote);
 
-void convert_chekline(t_minis *mini);
+void		convert_chekline(t_minis *mini);
 #endif

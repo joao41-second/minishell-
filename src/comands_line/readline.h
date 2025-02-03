@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:09:15 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/04 16:14:21 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/03 20:47:02 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,15 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	process_token_list(t_list_ *tokens, char **envp);
 
 void	print_token_list(t_list_ *list);
+
+void	set_error_env(t_minis *mini);
+
+int		chek_comand(t_minis mini);
+
+int		chek_expand(char *str, t_minis *mini);
+
+bool	is_allspace(char *str);
+
+void	free_tree(t_btree *node);
 
 #endif // !READLINE_H

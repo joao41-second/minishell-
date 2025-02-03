@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:12:18 by jperpect          #+#    #+#             */
-/*   Updated: 2025/01/16 11:32:58 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/03 20:40:33 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ int	main(int ac, char **av, char **env)
 	mini = start_minis(env);
 	and_shelvl(&mini);
 	start_shell(mini);
-	//ft_free_all(NULL);
+	ft_free_all(NULL);
 	return (get_signal(0));
 }

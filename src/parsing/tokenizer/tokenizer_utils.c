@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:43 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/17 13:49:39 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/03 21:39:47 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@ int	is_whitespace(char c)
 int	is_quote(char c)
 {
 	return (c == '\'' || c == '"');
+}
+
+int	process_quotes(const char *line, int i, char quote)
+{
+	i++;
+	while (line[i] && line[i] != quote)
+		i++;
+	if (line[i])
+		return (i + 1);
+	return (i);
 }
 
 t_token	*create_token(char *str, char *type, char *target, char *source)
@@ -42,16 +52,18 @@ t_token	*create_token(char *str, char *type, char *target, char *source)
 	return (token);
 }
 
-void add_to_list(t_list_ **list, t_token *token)
+void	add_to_list(t_list_ **list, t_token *token)
 {
-    t_list_ *new_node;
+	t_list_	*new_node;
+	t_list_	*last;
 
-    new_node = ft_node_new(token);
-    if (!*list)
-        *list = new_node;
-    else
+	new_node = ft_node_new(token);
+	last = NULL;
+	if (!*list)
+		*list = new_node;
+	else
 	{
-        t_list_ *last = ft_node_end(*list);
-        ft_node_add_front(&last, new_node);
-    }
+		last = ft_node_end(*list);
+		ft_node_add_front(&last, new_node);
+	}
 }
