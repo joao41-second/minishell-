@@ -109,9 +109,8 @@ void execute(char *argv, t_minis *mini)
 	struct stat file_stat;
 
 
-    //ft_print_error(argv, "orig", NOT_COMAND, "");
+   // ft_print_error(argv, "orig", NOT_COMAND, "");
     cmd = ft_split(expand_env(argv, mini), ' ');
-    //ft_print_error(argv, "orig", NOT_COMAND, "");
     unset_list(&mini->env, "?");
     if (chek_biltin(cmd) == TRUE)
     {

@@ -35,6 +35,19 @@ void	set_quotes(t_quotes *quotes, char *str, int i)
 	}
 }
 
+int	chek(char *line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i] != '\0')
+	{
+		if (line[i] == '"' || line[i] == 39 || line[i] == '$')
+			return (TRUE);
+	}
+	return (FALSE);
+}
+
 char	*expand_env(char *str, t_minis *mini)
 {
 	int			i;
@@ -44,6 +57,8 @@ char	*expand_env(char *str, t_minis *mini)
 	end = "";
 	(void)mini;
 	i = -1;
+	if (chek(str) != TRUE)
+		return (ft_strdup(str));
 	quotes.flags[0] = 0;
 	quotes.flags[1] = 0;
 	quotes.flags[2] = 0;
