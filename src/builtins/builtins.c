@@ -32,6 +32,21 @@ void	if_builtins(t_minis *mini, char *comand)
 		ft_echo(mini);
 }
 
+void	set_term(int *term)
+{
+	pipe(term);
+	dup2(1, term[1]);
+	dup2(0, term[0]);
+}
+
+void	set_ute_files(int *term)
+{
+	dup2(term[1], 1);
+	dup2(term[0], 0);
+	close(term[1]);
+	close(term[0]);
+}
+
 void	builtins(t_minis	*mini)
 {
 	t_token	*token;
@@ -39,9 +54,8 @@ void	builtins(t_minis	*mini)
 	char	*comand;
 	int		term[2];
 
-	pipe(term);
+	set_term(term);
 	token = NULL;
-	dup2(1, term[0]);
 	save = mini->tokens;
 	if (mini->tokens == NULL)
 		return ;
@@ -53,14 +67,11 @@ void	builtins(t_minis	*mini)
 	save = mini->tokens;
 	token = get_token(mini->tokens);
 	comand = expand_env(token->token, mini);
-	//printf("the mini %d\n",mini->comand);
 	if (mini->comand != 1)
 		if_builtins(mini, comand);
 	else
 		mini->comand = 0;
 	ft_free(comand, NULL);
 	mini->tokens = save;
-	dup2(term[0], 1);
-	close(term[1]);
-	close(term[0]);
+	set_ute_files(term);
 }

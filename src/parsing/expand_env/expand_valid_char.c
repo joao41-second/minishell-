@@ -32,7 +32,6 @@ int	if_verifc(char *verifc, int *not_print, char **temp )
 		*temp = NULL;
 		return (TRUE);
 	}
-	not_print = not_print;
 	return (FALSE);
 }
 

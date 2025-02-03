@@ -14,16 +14,15 @@
 
 void	chage_shlvl(t_list_ *lists)
 {
-	t_list_ *list;
-	t_env *level;
-	int chage;
+	t_list_	*list;
+	t_env	*level;
+	int		chage;
 
 	list = (t_list_ *)get_list(lists, "SHLVL", get_env_node);
-	level = (t_env*)list->content;
-	chage = ft_atol( level->content);
+	level = (t_env *)list->content;
+	chage = ft_atol(level->content);
 	chage++;
 	level->content = ft_itoa(chage);
-
 }
 
 void	and_shelvl(t_minis *mini)
@@ -31,4 +30,3 @@ void	and_shelvl(t_minis *mini)
 	chage_shlvl(mini->env);
 	chage_shlvl(mini->env_org);
 }
-

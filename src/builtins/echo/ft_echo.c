@@ -37,14 +37,13 @@ void	next_opcion(t_list_ **list)
 	{
 		if (get_token(*list)->token[0] == '-' )
 		{
-			while (get_token(*list)->token[++i] != '\0')	
+			while (get_token(*list)->token[++i] != '\0')
 				if (get_token(*list)->token[i] != 'n')
 					i = -50;
 			if (i == -50)
 				*list = (*list)->previous;
-			else		
+			else
 				*list = (*list)->next;
-
 			return ;
 		}
 		else
