@@ -58,5 +58,3 @@ char	*expand_env(char *str, t_minis *mini)
 	}
 	return (end);
 }
-
-

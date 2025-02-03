@@ -24,7 +24,6 @@ int	ft_if_expand(char *verifc, t_quotes *quotes, int i)
 
 int	if_verifc(char *verifc, int *not_print, char **temp )
 {
-	
 	if (verifc[0] == '\0')
 	{
 		not_print = 0;

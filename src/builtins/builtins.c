@@ -18,17 +18,17 @@ void	if_builtins(t_minis *mini, char *comand)
 {
 	if (ft_strncmp(comand, "env", 4) == 0)
 		ft_env(mini);
-	if (ft_strncmp(comand, "exit", 10) == 0)
+	else if (ft_strncmp(comand, "exit", 10) == 0)
 		ft_exit(mini);
-	if (ft_strncmp(comand, "cd", 10) == 0)
+	else if (ft_strncmp(comand, "cd", 10) == 0)
 		ft_cd(mini);
-	if (ft_strncmp(comand, "pwd", 10) == 0)
+	else if (ft_strncmp(comand, "pwd", 10) == 0)
 		ft_pwd(mini);
-	if (ft_strncmp(comand, "unset", 10) == 0)
+	else if (ft_strncmp(comand, "unset", 10) == 0)
 		ft_unset(mini);
-	if (ft_strncmp(comand, "export", 10) == 0)
+	else if (ft_strncmp(comand, "export", 10) == 0)
 		ft_export(mini);
-	if (ft_strncmp(comand, "echo", 10) == 0)
+	else if (ft_strncmp(comand, "echo", 10) == 0)
 		ft_echo(mini);
 }
 

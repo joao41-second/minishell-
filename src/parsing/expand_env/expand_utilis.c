@@ -32,20 +32,22 @@ char	*concatenate_the_str_with_env_var(char *str, t_minis *mini, int *len)
 	int		i;
 
 	i = 0;
-	if (str[0] == '$' && !(str[1] == '\0' || str[1] == ' ' || str[1] == '"' || str[1] == 39 || str[1] == '$'))
+	if (str[0] == '$' && !(str[1] == '\0' || str[1] == ' '
+			|| str[1] == '"' || str[1] == 39 || str[1] == '$'))
 	{
 		while (str[++i] != '\0')
-		{
-			if (str[i] == ' ' || str[i] == '"' || str[i] == 39 || str[i] == '$' || str[i-1] == '?')
+			if (str[i] == ' ' || str[i] == '"'
+				|| str[i] == 39 || str[i] == '$' || str[i - 1] == '?')
 				break ;
-		}
 		env = ft_substr(str, 1, --i);
 		ok = ft_strjoin("", ft_getenv(mini, env));
 		*len = ft_strlen(env) + 1;
 		(void)len;
 		ft_free(env, NULL);
 		return (ok);
-	}else if (str[1] == '\0' || str[1] == ' ' || str[1] == '"' || str[1] == 39 || str[1] == '$')
+	}
+	else if (str[1] == '\0' || str[1] == ' ' || str[1] == '"'
+		|| str[1] == 39 || str[1] == '$')
 	{
 		return ("$");
 	}

@@ -32,8 +32,7 @@ void	start_shell(t_minis mini);
 */
 void	server(void);
 
-
-int	get_signal(int sig);
+int		get_signal(int sig);
 
 /**
 * @brief gets command line prefix from env
@@ -61,7 +60,7 @@ char	*ft_strndup(const char *src, size_t n);
 * @param src string to copy
 * @return copy of the src string
 */
-char *ft_strcpy(char *dst, const char *src);
+char	*ft_strcpy(char *dst, const char *src);
 
 /**
 * @brief compares two strings
@@ -69,10 +68,10 @@ char *ft_strcpy(char *dst, const char *src);
 * @param s2 second string to compare
 * @return value of the diference of the strings
 */
-int	ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 
-void process_token_list(t_list_ *tokens, char **envp);
+void	process_token_list(t_list_ *tokens, char **envp);
 
-void print_token_list(t_list_ *list);
+void	print_token_list(t_list_ *list);
 
 #endif // !READLINE_H
