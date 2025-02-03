@@ -49,7 +49,7 @@ static void	loop_heradoc(char *line, int fd, char *end, t_minis *mini)
 	free(line);
 }
 
-static void	herdoc_son_proceed(t_minis *mini, char*end,int fd)
+static void	herdoc_son_proceed(t_minis *mini, char*end, int fd)
 {
 	char	*line;
 
