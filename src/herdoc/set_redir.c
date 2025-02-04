@@ -53,22 +53,21 @@ void	set_redir(t_list_ *list, t_btree **btree)
 
 void	ser_fd(int nb)
 {
-	static int in = 0;
+	static int	in = 0;
 
-	if(in == 0)
+	if (in == 0)
 	{
 		in = dup(0);
 	}
-	if(nb == 3 || nb == 4)
+	if (nb == 3 || nb == 4)
 	{
 		close(0);
-		dup2(in,0);
+		dup2(in, 0);
 	}
-	if(nb == 50)
+	if (nb == 50)
 	{
 		close(in);
 	}
-
 }
 
 static void	set_fds(int nb, t_token *token, t_minis *mini, int on)
@@ -83,7 +82,7 @@ static void	set_fds(int nb, t_token *token, t_minis *mini, int on)
 		fd = open(expand_env(save, mini), O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (nb == 2 && token->redirection_target != NULL)
 		fd = open(expand_env(save, mini), O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (nb == 3  )
+	if (nb == 3)
 		fd = herdoc(mini, 0, token->redirection_source);
 	if (nb == 4 && token->redirection_source != NULL)
 		fd = open(expand_env(token->redirection_source, mini), O_RDONLY);
@@ -104,7 +103,6 @@ void	redirect_(t_list_ *list, t_minis *mini)
 	t_list_	*frist;
 
 	frist = list;
-	list = frist;
 	while (list != NULL && ft_strncmp(get_token(list)->type, "pipe", 100) != 0)
 	{
 		if (ft_strncmp(get_token(list)->token, ">>", 10) == 0)

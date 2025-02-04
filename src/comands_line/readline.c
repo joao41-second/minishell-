@@ -104,11 +104,12 @@ void	start_shell(t_minis mini)
 	{
 		get_signal(1);
 		start_prompt_and_sig(&mini);
-		if(check_syntax(mini.line) != 0
+		if (check_syntax(mini.line) != 0
 			&& mini.exit_code_error == 0)
 			mini.exit_code_error = check_syntax(mini.line);
 		if (mini.line != NULL && chek_expand(mini.line, &mini) == TRUE
-			&& !is_allspace(ft_strdup(mini.line)) && check_syntax(mini.line) == 0)
+			&& !is_allspace(ft_strdup(mini.line))
+			&& check_syntax(mini.line) == 0)
 			excute_comand(&mini);
 		set_error_env(&mini);
 		getcwd(mini.path, PATH_MAX);
