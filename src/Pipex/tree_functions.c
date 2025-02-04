@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tree_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/03 23:27:52 by rui              ###   ########.fr       */
+/*   Updated: 2025/02/04 14:21:59 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_child_process(t_btree *node, t_minis *mini, int fd[2])
+void	child_process(t_btree *node, t_minis *mini, int fd[2])
 {
 	int	save;
 	int	status;
@@ -35,7 +35,7 @@ void	handle_child_process(t_btree *node, t_minis *mini, int fd[2])
 	}
 }
 
-void	handle_parent_process(t_btree *node, t_minis *mini, int *fd, pid_t pid)
+void	parent_process(t_btree *node, t_minis *mini, int *fd, pid_t pid)
 {
 	int	status;
 	int	tipe;
@@ -53,7 +53,7 @@ void	handle_parent_process(t_btree *node, t_minis *mini, int *fd, pid_t pid)
 		mini->exit_code_error = WSTOPSIG(status);
 }
 
-void	handle_pipe_fork(t_btree *node, t_minis *mini)
+void	pipe_fork(t_btree *node, t_minis *mini)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -68,15 +68,15 @@ void	handle_pipe_fork(t_btree *node, t_minis *mini)
 		fork_error();
 	}
 	if (pid == 0)
-		handle_child_process(node, mini, fd);
+		child_process(node, mini, fd);
 	else
-		handle_parent_process(node, mini, fd, pid);
+		parent_process(node, mini, fd, pid);
 }
 
 int	process_tree(t_btree *node, t_minis *mini)
 {
 	if (node && ft_strcmp(node->cmd, "|") == 0)
-		handle_pipe_fork(node, mini);
+		pipe_fork(node, mini);
 	else if (node)
 	{
 		redirect_(node->redir, mini);

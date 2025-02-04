@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:16:13 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/02/04 11:14:58 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:51:23 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	check_syntax(const char *command)
 	while (command[i] != '\0')
 	{
 		c = command[i];
-		if (!process_character(c, command, i, &state))
+		if (process_character(c, command, i, &state) == false)
 			return (2);
 		i++;
 	}
