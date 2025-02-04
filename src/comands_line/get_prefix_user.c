@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 18:22:15 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/15 18:44:34 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:24:08 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	close_fd(int *fd)
 	close(fd[1]);
 }
 
-void	child_process(int *fd)
+void	prefix_child_process(int *fd)
 {
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
@@ -27,7 +27,7 @@ void	child_process(int *fd)
 	exit(EXIT_SUCCESS);
 }
 
-void	parent_process(int *fd, char **user)
+void	prefix_parent_process(int *fd, char **user)
 {
 	wait(NULL);
 	close(fd[1]);
@@ -59,10 +59,10 @@ char	*get_user(void)
 	if (pid == -1)
 		return ("");
 	if (pid == 0)
-		child_process(fd);
+		prefix_child_process(fd);
 	else
 	{
-		parent_process(fd, &user);
+		prefix_parent_process(fd, &user);
 		final_user = process_user(user);
 		free(user);
 	}
