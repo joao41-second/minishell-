@@ -6,16 +6,16 @@
 #    By: rui <rui@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/03 06:17:31 by jperpect          #+#    #+#              #
-#    Updated: 2024/12/03 15:32:47 by rui              ###   ########.fr        #
+#    Updated: 2024/12/13 16:17:03 by rui              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compiler flags
-# WFLGS = -Wall -Wextra -Werror
+WFLGS = -Wall -Wextra -Werror
 READ_FLG = -g 
 FLGS = $(WFLGS) $(READ_FLG)
 
-VAL = valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --trace-children=yes --suppressions=readline.supp 
+VAL = valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes  --suppressions=readline.supp 
 
 # Make flags
 MAKEFLAGS += -s
@@ -92,4 +92,8 @@ e:
 	make re && env -i ./minishell
 b:
 	tmux \; split-window -h \; send-keys 'bash' C-m \; select-pane -t 1 \; send-keys 'make s' C-m \; setw synchronize-panes on
+g:
+	make re && gdb -tui ./minishell
 
+t:
+	make re && cd ./minishell_tester  && ./tester

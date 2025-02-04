@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 16:44:50 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/12 20:59:42 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/02 16:45:20 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	get_signal(int sig)
 {
 	static int	signals;
-	
+
 	if (sig != 0)
 	{
 		signals = sig;
@@ -28,7 +28,7 @@ static void	new_line(int sig, siginfo_t *info, void *ucontext)
 {
 	(void)info;
 	(void)ucontext;
-	get_signal(sig+128);
+	get_signal(sig + 128);
 	if (sig == SIGINT)
 	{
 		ft_printf("\n");

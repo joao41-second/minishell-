@@ -33,10 +33,44 @@ void	*get_env(void *point, void *locate)
 
 void	ft_env(t_minis *mini)
 {
+	t_token	*token;
+	t_list_	*list;
+	char	*comand;
+
+	list = mini->tokens;
+	if (not_opcion(mini, "env") == TRUE)
+		return ;
+	while (mini->tokens != NULL)
+	{
+		token = get_token(mini->tokens);
+		comand = expand_env(token->token, mini);
+		if (ft_strncmp(token->type, "argument", 15) == 0)
+		{
+			ft_print_error("env", comand, TOO_ARG, "bash");
+			mini->exit_code_error = 1;
+			ft_free(comand, NULL);
+			return ;
+		}
+		mini->tokens = mini->tokens->next;
+	}
+	mini->tokens = list;
 	print_list(mini->env, print_env);
 }
 
 char	*ft_getenv(t_minis *mini, char *var)
 {
 	return ((char *)get_list(mini->env, var, get_env));
+}
+
+t_env	*new_node_une(char *s1, char *s2)
+{
+	t_env	*var;
+	char	*content;
+
+	var = (t_env *)ft_malloc(1 * sizeof (t_env), NULL);
+	content = s2;
+	var->name = ft_strdup(s1);
+	var->content = ft_strdup(content);
+	var->chek = FALSE;
+	return (var);
 }

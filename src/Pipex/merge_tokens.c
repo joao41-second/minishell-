@@ -6,160 +6,140 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:17:19 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/12/06 18:40:36 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/22 18:58:05 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
 
-t_list_ *merge_command_tokens(t_list_ *original_list)
+t_btree *create_tree_node(char *cmd)
 {
-    t_list_ *current = original_list;
-    t_list_ *prev = NULL;
-    t_list_ *next = NULL;
+    t_btree *new_node;
 
-    // First pass: remove nodes matching redirection targets
-    while (current)
+    new_node = (t_btree *)ft_malloc(sizeof(t_btree), NULL);
+    if (!new_node)
+        return (NULL);
+    new_node->cmd = ft_strdup(cmd);
+    new_node->left = NULL;
+    new_node->right = NULL;
+	new_node->redir = NULL;
+    return (new_node);
+}
+
+void deep_copy_tokens(t_list_ *original_tokens, t_list_ **merged_list)
+{
+	t_list_	*current_original;
+	t_token	*original_token;
+	char	*new_token;
+	char	*new_type;
+	char	*new_target;
+	char	*new_source;
+
+	current_original = original_tokens;
+	while (current_original != NULL)
+	{
+		original_token = (t_token *)current_original->content;
+		new_token = ft_strdup(original_token->token);
+		new_type = ft_strdup(original_token->type);
+		new_target = ft_strdup(original_token->redirection_target);
+		new_source = ft_strdup(original_token->redirection_source);
+		add_to_list(merged_list, create_token(new_token, new_type, new_target, new_source));
+		if (current_original->next != NULL && original_token->type && ft_strcmp(original_token->type, "redir") == 0)
+			current_original = current_original->next;
+		current_original = current_original->next;
+	}
+}
+
+void join_arguments_to_commands(t_list_ **merged_list)
+{
+	t_list_	*current;
+	t_token	*command_token = NULL;
+	t_list_	*temp;
+	t_token	*current_token;
+	char	*new_token;
+	char	*updated_token;
+
+	current = *merged_list;
+	while (current)
+	{
+		current_token = (t_token *)current->content;
+		if (ft_strcmp(current_token->type, "command") == 0)
+		{
+			if (ft_strcmp(current_token->token, "cd") == 0
+				|| ft_strcmp(current_token->token, "echo") == 0
+				|| ft_strcmp(current_token->token, "env") == 0
+				|| ft_strcmp(current_token->token, "exit") == 0
+				|| ft_strcmp(current_token->token, "export") == 0
+				|| ft_strcmp(current_token->token, "pwd") == 0
+				|| ft_strcmp(current_token->token, "unset") == 0)
+				current_token->type = "builtin";
+			command_token = current_token;
+		}
+		else if (command_token && ft_strcmp(current_token->type, "argument") == 0)
+		{
+			new_token = ft_strjoin(command_token->token, " ");
+			updated_token = ft_strjoin(new_token, current_token->token);
+			ft_free(command_token->token, NULL);
+			command_token->token = updated_token;
+			ft_free(new_token, NULL);
+			temp = current->next;
+			ft_free_node(&current, free_token);
+			current = temp;
+			continue ;
+		}
+		else if (ft_strcmp(current_token->type, "pipe") == 0)
+			command_token = NULL;
+		current = current->next;
+	}
+}
+
+t_btree *build_command_tree(t_list_ *merged_list)
+{
+    t_btree *root;
+    t_btree *current_pipe;
+    t_token *current_token;
+
+    if (!merged_list)
+        return (NULL);
+    current_token = (t_token *)merged_list->content;
+    root = create_tree_node("|");
+    current_pipe = root;
+    current_pipe->left = create_tree_node(current_token->token);
+    merged_list = merged_list->next;
+    while (merged_list)
     {
-        t_token *current_token = (t_token *)current->content;
-        next = current->next;
-
-        // Check if current node is a redir type and has a redirection_target
-        if (strcmp(current_token->type, "redir") == 0 && current_token->redirection_target)
+        current_token = (t_token *)merged_list->content;
+        if (ft_strcmp(current_token->type, "pipe") == 0)
         {
-            // Search for and remove node with matching redirection_target
-            t_list_ *search = original_list;
-            t_list_ *search_prev = NULL;
-
-            while (search)
+            current_pipe->right = create_tree_node("|");
+            current_pipe = current_pipe->right;
+            if (merged_list->next)
             {
-                t_token *search_token = (t_token *)search->content;
-
-                if (strcmp(search_token->token, current_token->redirection_target) == 0)
-                {
-                    // Unlink the node
-                    if (search_prev)
-                        search_prev->next = search->next;
-                    else
-                        original_list = search->next;
-
-                    if (search->next)
-                        search->next->previous = search_prev;
-
-                    // Free the node's content
-                    free(search_token->token);
-                    free(search_token->type);
-                    free(search_token->redirection_target);
-                    free(search_token->redirection_source);
-                    free(search_token);
-
-                    // Free the node itself
-                    free(search);
-                    break;
-                }
-
-                search_prev = search;
-                search = search->next;
+                merged_list = merged_list->next;
+                current_token = (t_token *)merged_list->content;
+                current_pipe->left = create_tree_node(current_token->token);
             }
         }
-
-        current = next;
+        merged_list = merged_list->next;
     }
+    current_pipe->right = NULL;
+    return (root);
+}
 
-    // Subsequent processing to merge tokens
-    t_list_ *new_list = NULL;
-    current = original_list;
-    t_list_ *prev_command = NULL;
-    t_list_ *new_node = NULL;
-    t_list_ *last = NULL;
-    t_token *current_token = NULL;
-    t_token *new_token = NULL;
-    t_token *prev_command_token = NULL;
-    char *new_command = NULL;
-    size_t new_len = 0;
+t_btree *token_merger(t_minis *mini)
+{
+    t_list_ *merged_list;
+    t_list_ *save;
+	t_btree *command_tree;
 
-    while (current)
-    {
-        current_token = (t_token *)current->content;
-
-        // If current token is a command
-        if (strcmp(current_token->type, "command") == 0)
-        {
-            new_node = malloc(sizeof(t_list_));
-            new_token = malloc(sizeof(t_token));
-            
-            new_token->token = strdup(current_token->token);
-            new_token->type = strdup(current_token->type);
-            new_token->redirection_target = current_token->redirection_target ? 
-                strdup(current_token->redirection_target) : NULL;
-            new_token->redirection_source = current_token->redirection_source ? 
-                strdup(current_token->redirection_source) : NULL;
-
-            new_node->content = new_token;
-            new_node->next = NULL;
-            new_node->previous = NULL;
-
-            if (!new_list)
-                new_list = new_node;
-            else
-            {
-                last = new_list;
-                while (last->next)
-                    last = last->next;
-                last->next = new_node;
-                new_node->previous = last;
-            }
-
-            prev_command = new_node;
-        }
-        // If current token is an argument and there's a previous command
-        else if (strcmp(current_token->type, "argument") == 0 && prev_command)
-        {
-            prev_command_token = (t_token *)prev_command->content;
-            
-            new_len = strlen(prev_command_token->token) + 
-                      strlen(current_token->token) + 2;
-            
-            new_command = malloc(new_len);
-            strcpy(new_command, prev_command_token->token);
-            strcat(new_command, " ");
-            strcat(new_command, current_token->token);
-            
-            free(prev_command_token->token);
-            prev_command_token->token = new_command;
-        }
-        else
-        {
-            new_node = malloc(sizeof(t_list_));
-            new_token = malloc(sizeof(t_token));
-            
-            new_token->token = strdup(current_token->token);
-            new_token->type = strdup(current_token->type);
-            new_token->redirection_target = current_token->redirection_target ? 
-                strdup(current_token->redirection_target) : NULL;
-            new_token->redirection_source = current_token->redirection_source ? 
-                strdup(current_token->redirection_source) : NULL;
-
-            new_node->content = new_token;
-            new_node->next = NULL;
-            new_node->previous = NULL;
-
-            if (!new_list)
-                new_list = new_node;
-            else
-            {
-                last = new_list;
-                while (last->next)
-                    last = last->next;
-                last->next = new_node;
-                new_node->previous = last;
-            }
-
-            prev_command = NULL;
-        }
-
-        current = current->next;
-    }
-
-    return new_list;
+    merged_list = ft_node_new(create_token("", "", "", ""));
+    deep_copy_tokens(mini->tokens, &merged_list);
+    save = merged_list;
+    merged_list = merged_list->next;
+    ft_free_node(&save, free_token);
+    merged_list = ft_node_start(merged_list);
+    join_arguments_to_commands(&merged_list);
+	command_tree = build_command_tree(merged_list);
+    return (command_tree);
 }

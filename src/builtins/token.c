@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 14:23:46 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/23 15:54:19 by jperpct          ###   ########.fr       */
+/*   Created: 2025/01/02 16:12:57 by jperpct           #+#    #+#             */
+/*   Updated: 2025/01/02 16:13:26 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
-void	ft_pwd(t_minis *mini)
+t_token	*get_token(t_list_ *list)
 {
-	if (not_opcion(mini, "pwd") == TRUE)
-		return ;
-	printf("%s\n", mini->path);
+	t_token	*set;
+
+	set = (t_token *)list->content;
+	return (set);
 }

@@ -45,7 +45,7 @@ int	chek_varabel(t_env *env, t_list_ **list, char *str)
 	}
 	if (ft_strncmp(str, "OLDPWD", 23) == 0)
 	{
-		env = ft_getenv_content(*list, "PWD");
+		env = ft_getenv_content(*list, "OLDPWD");
 		env->chek = FALSE;
 		ft_free(env->content, NULL);
 		env->content = NULL;
@@ -74,6 +74,21 @@ void	unset_list(t_list_ **list, char *str)
 
 void	ft_unset(t_minis *mini)
 {
-	unset_list(&mini->env, mini->split[1]);
-	unset_list(&mini->env_org, mini->split[1]);
+	t_token	*token;
+
+	if (not_opcion(mini, "unset") == TRUE)
+		return ;
+	if (mini->tokens != NULL && mini->tokens->next != NULL)
+	{
+		mini->tokens = mini->tokens->next;
+		while (mini->tokens != NULL)
+		{
+			token = get_token(mini->tokens);
+			unset_list(&mini->env, token->token);
+			unset_list(&mini->env_org, token->token);
+			if (mini->tokens->next == NULL)
+				break ;
+			mini->tokens = mini->tokens->next;
+		}
+	}
 }

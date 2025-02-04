@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2024/12/06 16:18:17 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/01/29 10:21:21 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 #include <asm-generic/errno.h>
 #include <sys/types.h>
 #include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 typedef struct s_mines
 {
@@ -40,19 +42,22 @@ typedef struct s_mines
 	t_list_	*env_org;
 	int		readline;
 	t_list_	*tokens;
+	t_list_	*tokens_copy;
 	char	path[PATH_MAX];
 	char	*line;
 	char	**split;
 	int		comand;
 	int		exit_code_error;
+	int		pid;
 }			t_minis;
 
-# include "./builtins/builtins.h"
-# include "./comands_line/readline.h"
+# include "./error/error.h"
 # include "./parsing/expand_env/expand.h"
-# include "./herdoc/herdoc.h"
+# include "./builtins/builtins.h"
 # include "./Pipex/pipex.h"
+# include "./comands_line/readline.h"
 # include "parsing/tokenizer/tokenizer.h"
+# include "./herdoc/herdoc.h"
 
 
 int			check_syntax(const char *str);
@@ -61,6 +66,16 @@ void		free_split(char **ok);
 
 void		free_list(t_list_ *list, void (*free_struct)(void *));
 
-t_list_		*merge_command_tokens(t_list_ *original_list);
+t_btree		*token_merger(t_minis *mini);
 
+
+void	and_shelvl(t_minis *mini);
+
+void token_comand_set_start(t_list_ **list);
+
+int chek_comand_exit(t_list_ **list); 
+
+void set_new_comand(t_list_ **list);
+
+int chek_biltin(char **cmd);
 #endif

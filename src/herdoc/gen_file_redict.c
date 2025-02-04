@@ -3,54 +3,98 @@
 /*                                                        :::      ::::::::   */
 /*   gen_file_redict.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:27:15 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 10:17:00 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/03 11:15:53 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "errno.h"
+#include <sys/stat.h>
 
-static void	ft_close_all(int fd1, int fd2, int fd3, int fd4)
+static void	erro_prin(t_minis *mini)
 {
-	close(fd1);
-	close(fd2);
-	close(fd3);
-	close(fd4);
+	if (errno == ENOENT)
+		ft_print_error_simple("", NOT_FILE, "bash");
+	else
+		ft_print_error_simple("", NOT_PERM, "bash");
+	mini->comand = 1;
+	mini->exit_code_error = 1;
 }
 
-static void	redirect(t_minis *mini, char sete, int *file_new)
+static void	set_fd(int nb, t_token *token, t_minis *mini, int on)
 {
-	if (sete == '>')
-		*file_new = redirect_for_new_file(mini);
-	if (sete == 'n')
-		*file_new = redirect_for_add_file(mini);
+	int		fd;
+	char	*redir;
+
+	fd = 0;
+	if (nb == 4 || nb == 3)
+		redir = expand_env(token->redirection_source, mini);
+	else
+		redir = expand_env(token->redirection_target, mini);
+	if (nb == 1 && token->redirection_target != NULL)
+		fd = open(redir, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if (nb == 2 && token->redirection_target != NULL)
+		fd = open(redir, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (nb == 3)
+		fd = herdoc(mini, 0, token->redirection_source);
+	if (nb == 4 && token->redirection_source != NULL)
+		fd = open(redir, O_RDONLY);
+	if (fd < 0)
+		erro_prin(mini);
+	if ((nb == 1 || nb == 2) && on == 1)
+		dup2(fd, 1);
+	close(fd);
 }
 
-void	change_file(t_minis *mini, int set, char sete)
+void	redirect_bil(t_list_ *list, t_minis *mini)
 {
-	static int	file_origin;
-	static int	file_new;
-	static int	save[2];
-
-	if (set == 0)
+	list = ft_node_start(list);
+	while (list != NULL && ft_strncmp(get_token(list)->type, "pipe", 100) != 0)
 	{
-		pipe(save);
-		file_origin = dup(1);
-		redirect(mini, sete, &file_new);
-		if (file_new == -1)
+		if (ft_strncmp(get_token(list)->token, ">>", 10) == 0
+			&& mini->exit_code_error == 0)
+			set_fd(1, get_token(list), mini, 1);
+		if (ft_strncmp(get_token(list)->token, ">", 10) == 0
+			&& mini->exit_code_error == 0)
+			set_fd(2, get_token(list), mini, 1);
+		if (ft_strncmp(get_token(list)->token, "<<", 10) == 0
+			&& mini->exit_code_error == 0)
+			set_fd(3, get_token(list), mini, 1);
+		if (ft_strncmp(get_token(list)->token, "<", 10) == 0
+			&& mini->exit_code_error == 0)
+			set_fd(4, get_token(list), mini, 1);
+		(list) = (list)->next;
+	}
+}
+
+void	dell_redir( t_list_ **list)
+{
+	t_list_	*save;
+
+	save = *list;
+	while (*list != NULL)
+	{
+		if (ft_strncmp(get_token(*list)->type, "comand", 10) != 0)
 		{
-			perror("raiva");
-			file_new = save[0];
+			save = *list;
+			break ;
 		}
-		dup2(file_new, STDOUT_FILENO);
+		(*list) = (*list)->next;
 	}
-	else if (set == 1)
+	*list = ft_node_start(save);
+	while (*list != NULL)
 	{
-		if (sete == '>' || sete == 'n')
-			close(1);
-		dup2(file_origin, 1);
-		ft_close_all(file_new, file_origin, save[0], save[1]);
+		if (ft_strncmp(get_token(*list)->type, "redir", 10) == 0)
+		{
+			ft_free_node(list, free_token);
+			if (*list != NULL)
+				ft_free_node(list, free_token);
+			continue ;
+		}
+		(*list) = (*list)->next;
 	}
+	*list = ft_node_start(save);
 }

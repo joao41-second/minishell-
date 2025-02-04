@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:46:23 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/03 12:30:47 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/21 11:12:15 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../minishell.h"
@@ -46,7 +46,7 @@ void	print_env(void *point)
 	{
 		get = *((t_env *)list->content);
 		if (get.content != NULL && get.chek != FALSE)
-			printf("%s=%s \n", get.name, get.content);
+			printf("%s=%s\n", get.name, get.content);
 	}
 }
 
@@ -91,6 +91,7 @@ t_list_	*env_split(char **env)
 		ft_node_add_front(&list, temp);
 		free_split(var);
 	}
+	ft_node_add_front(&list, ft_node_new((void *)new_node_une("?", "0")));
 	list = ft_node_start(list);
 	return (list);
 }

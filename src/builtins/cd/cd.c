@@ -5,14 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 20:46:51 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 09:54:38 by jperpct          ###   ########.fr       */
+/*   Created: 2024/12/17 10:20:11 by jperpct           #+#    #+#             */
+/*   Updated: 2025/01/02 16:35:19 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <linux/limits.h>
-#include <stdio.h>
 
 void	set_path(t_list_ **list)
 {
@@ -35,30 +33,67 @@ void	set_path(t_list_ **list)
 	}
 }
 
+void	ft_generat_if(char *fd, t_minis *mini)
+{
+	if (fd == NULL)
+		fd = ft_strdup(ft_getenv(mini, "HOME"));
+	if (fd == NULL)
+		ft_print_error("cd", NOT_HOME, "", "bash");
+}
+
+char	*fd_generat(t_minis *mini)
+{
+	t_token	*token;
+	char	*fd;
+	char	*comand;
+
+	fd = NULL;
+	if (mini->tokens->next != NULL)
+	{
+		token = get_token(mini->tokens->next);
+		comand = expand_env(token->token, mini);
+		if (comand[0] == '~')
+		{
+			if (ft_getenv(mini, "HOME") == NULL)
+			{
+				ft_print_error("cd", NOT_HOME, "", "bash");
+				ft_free(comand, NULL);
+				return (NULL);
+			}
+			fd = ft_strjoin(ft_getenv(mini, "HOME"), &comand[1]);
+		}
+		else
+			fd = ft_strdup(comand);
+		ft_free(comand, NULL);
+	}
+	ft_generat_if(fd, mini);
+	return (fd);
+}
+
 void	ft_cd(t_minis *mini)
 {
-	char	path[PATH_MAX];
 	char	*fd;
 
-	if (mini->split[1])
+	fd = NULL;
+	if (not_opcion(mini, "cd") == TRUE)
+		return ;
+	if (too_arg_print("cd", 0, mini) == TRUE)
+		return ;
+	fd = fd_generat(mini);
+	if (fd == NULL)
+		return ;
+	if (chdir(fd) < 0)
 	{
-		if (mini->split[1][0] == '~')
-		{
-			fd = ft_strjoin(ft_getenv(mini, "HOME"), &mini->split[1][1]);
-		}
-		else
-			fd = ft_strdup(mini->split[1]);
-		getcwd(path, PATH_MAX);
-		if (chdir(fd) == -1)
-		{
-			perror("ola o error");
-		}
-		else
-		{
-			set_path(&mini->env);
-			set_path(&mini->env_org);
-			getcwd(mini->path, PATH_MAX);
-		}
+		ft_print_error("cd", fd, NOT_FILE, "bash");
 		ft_free(fd, NULL);
+		mini->exit_code_error = 1;
+		return ;
 	}
+	else
+	{
+		set_path(&mini->env);
+		set_path(&mini->env_org);
+		getcwd(mini->path, PATH_MAX);
+	}
+	ft_free(fd, NULL);
 }

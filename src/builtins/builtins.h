@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 15:55:23 by jperpct           #+#    #+#             */
-/*   Updated: 2024/11/15 15:18:41 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/21 11:20:24 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,4 +177,19 @@ t_env		*ft_getenv_content(t_list_ *list, char *var);
  * @return t_env stuct aloced 
  */
 t_env		*new_tenv(void);
+
+t_env		*new_node_une(char *s1, char *s2);
+void		ft_exit_end(int code);
+void		unset_list(t_list_ **list, char *str);
+
+void		change_and_free(t_minis *mini, int set, t_list_ **token,
+				char chage);
+
+void		redir_if(t_minis *mini, t_list_ **token, char set);
+
+int			locate(char *str, char src);
+int			valid_export(char *token);
+int			set_env_in_case_of_the_plus(char *str, char **export, t_env *env,
+				char *temp);
+
 #endif // DEBUG

@@ -6,11 +6,12 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:05:55 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 10:00:34 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/01/21 11:19:54 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stdbool.h>
 
 t_env	*set_env_in_export(t_list_ *list, char *str, char **export)
 {
@@ -38,24 +39,6 @@ t_env	*set_env_in_export(t_list_ *list, char *str, char **export)
 	return (env);
 }
 
-int	set_env_in_case_of_the_plus(char *str, char **export,
-								t_env *env, char *temp)
-{
-	int	i;
-
-	i = 0;
-	if (str[ft_strlen(export[0]) - 1] == '+')
-	{
-		temp = ft_substr(export[0], 0, ft_strlen(export[0]) - 1);
-		env->name = temp;
-		temp = NULL;
-		i++;
-	}
-	else
-		env->name = ft_strdup(export[0]);
-	return (i);
-}
-
 int	inicilaze_variabel(t_env **env, char ***export, t_list_ *list, char *str)
 {
 	char	*temp;
@@ -68,7 +51,7 @@ int	inicilaze_variabel(t_env **env, char ***export, t_list_ *list, char *str)
 	return (set_env_in_case_of_the_plus(str, *export, *env, temp));
 }
 
-void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
+void	ft_export_add( t_list_ *list, char *str)
 {
 	t_env	*env;
 	char	**export;
@@ -78,7 +61,7 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	i = inicilaze_variabel(&env, &export, list, str);
 	if (export[1] != NULL && i == 0)
 		env->content = ft_strjoin("",
-				&mini->split[1][strlen(export[0]) + 1]);
+				&str[strlen(export[0]) + 1]);
 	else if (str[ft_strlen(export[0])] == '=' && i == 0)
 	{
 		temp = ft_malloc(1 * sizeof(char), NULL);
@@ -88,7 +71,7 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	else if (export[1] != NULL && i == 1)
 	{
 		temp = ft_strjoin(env->content, ft_strjoin("",
-					&mini->split[1][strlen(export[0]) + 1]));
+					&str[strlen(export[0]) + 1]));
 		ft_free(env->content, NULL);
 		env->content = temp;
 	}
@@ -97,13 +80,47 @@ void	ft_export_add( t_list_ *list, char *str, t_minis *mini)
 	free_split(export);
 }
 
+void	export_add_while(t_minis *mini, t_list_ *list,
+					t_token *token, char *comand)
+{
+	while (list != NULL)
+	{
+		ft_free(comand, NULL);
+		token = get_token(list);
+		comand = expand_env(token->token, mini);
+		if (valid_export(token->token) == TRUE)
+		{
+			ft_export_add(mini->env, comand);
+			ft_export_add(mini->env_org, comand);
+		}
+		else
+		{
+			mini->exit_code_error = 1;
+			return (ft_print_error("export", comand,
+					SNTAX_ERROR, "bash"), ft_free(comand, NULL));
+		}
+		list = list->next;
+	}
+}
+
 void	ft_export(t_minis *mini)
 {
-	if (mini->split[1] != NULL)
+	t_token	*token;
+	t_list_	*list;
+	char	*comand;
+
+	list = mini->tokens;
+	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
-		ft_export_add(mini->env, mini->split[1], mini);
-		ft_export_add(mini->env_org, mini->split[1], mini);
+		token = get_token(list->next);
+		comand = expand_env(token->token, mini);
+		if (locate(comand, '=') == FALSE
+			&& not_opcion(mini, "export") == TRUE)
+			return ;
+		list = list->next;
+		export_add_while(mini, list, token, comand);
+		ft_free(comand, NULL);
 	}
-	if (mini->split[1] == NULL)
+	if (mini->tokens->next == NULL)
 		organizer_list(mini->env_org);
 }

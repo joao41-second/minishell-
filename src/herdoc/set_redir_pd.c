@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   set_redir_pd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 14:23:46 by jperpct           #+#    #+#             */
-/*   Updated: 2024/10/23 15:54:19 by jperpct          ###   ########.fr       */
+/*   Created: 2025/02/03 11:09:57 by jperpct           #+#    #+#             */
+/*   Updated: 2025/02/03 11:10:17 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
-void	ft_pwd(t_minis *mini)
+void	set_redir_(int fd, int nb, int on)
 {
-	if (not_opcion(mini, "pwd") == TRUE)
-		return ;
-	printf("%s\n", mini->path);
+	if ((nb == 2 || nb == 1) && on == 1)
+	{
+		close(1);
+		dup2(fd, 1);
+	}
+	if ((nb == 3 || nb == 4) && on == 1)
+	{
+		close(0);
+		dup2(fd, 0);
+	}
 }
