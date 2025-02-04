@@ -62,7 +62,7 @@ static void	set_fds(int nb, t_token *token, t_minis *mini, int on)
 		fd = open(expand_env(save, mini), O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (nb == 2 && token->redirection_target != NULL)
 		fd = open(expand_env(save, mini), O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (nb == 3)
+	if (nb == 3  )
 		fd = herdoc(mini, 0, token->redirection_source);
 	if (nb == 4 && token->redirection_source != NULL)
 		fd = open(expand_env(token->redirection_source, mini), O_RDONLY);
@@ -78,31 +78,19 @@ static void	set_fds(int nb, t_token *token, t_minis *mini, int on)
 	close(fd);
 }
 
-void	redirect_p2(t_list_ *list, t_minis *mini)
-{
-	while (list != NULL && ft_strncmp(get_token(list)->type, "pipe", 100) != 0)
-	{
-		if (ft_strncmp(get_token(list)->token, ">>", 10) == 0)
-			set_fds(1, get_token(list), mini, 0);
-		if (ft_strncmp(get_token(list)->token, ">", 10) == 0)
-			set_fds(2, get_token(list), mini, 0);
-		if (ft_strncmp(get_token(list)->token, "<<", 10) == 0)
-			set_fds(3, get_token(list), mini, 0);
-		if (ft_strncmp(get_token(list)->token, "<", 10) == 0)
-			set_fds(4, get_token(list), mini, 0);
-		(list) = (list)->next;
-	}
-}
-
 void	redirect_(t_list_ *list, t_minis *mini)
 {
 	t_list_	*frist;
 
 	frist = list;
-	redirect_p2(list, mini);
 	list = frist;
 	while (list != NULL && ft_strncmp(get_token(list)->type, "pipe", 100) != 0)
 	{
+		ft_print_error_simple("", get_token(list)->redirection_source, "");
+		if (ft_strncmp(get_token(list)->token, ">>", 10) == 0)
+			set_fds(1, get_token(list), mini, 0);
+		if (ft_strncmp(get_token(list)->token, ">", 10) == 0)
+			set_fds(2, get_token(list), mini, 0);
 		if (ft_strncmp(get_token(list)->token, "<<", 10) == 0)
 			set_fds(3, get_token(list), mini, 1);
 		if (ft_strncmp(get_token(list)->token, "<", 10) == 0)

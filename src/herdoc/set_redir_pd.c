@@ -15,7 +15,13 @@
 void	set_redir_(int fd, int nb, int on)
 {
 	if ((nb == 2 || nb == 1) && on == 1)
+	{
+		close(1);
 		dup2(fd, 1);
+	}
 	if ((nb == 3 || nb == 4) && on == 1)
+	{
+		close(0);
 		dup2(fd, 0);
+	}
 }

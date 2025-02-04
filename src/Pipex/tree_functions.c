@@ -28,6 +28,7 @@ void handle_pipe_fork(t_btree *node, t_minis *mini, int original_stdout)
         pipe_error();
     }
     pid = fork();
+	mini->pid = pid;
     if (pid == -1)
     {
         close(fd[0]);

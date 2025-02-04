@@ -128,6 +128,7 @@ void	excute_comand_ve(t_minis *mini)
 	int		status;
 
 	temp = 0;
+	mini->pid = 0;
 	if (get_signal(0) != 1)
 		mini->exit_code_error = get_signal(0);
 	set_error_env(mini);

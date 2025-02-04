@@ -48,6 +48,7 @@ typedef struct s_mines
 	char	**split;
 	int		comand;
 	int		exit_code_error;
+	int		pid;
 }			t_minis;
 
 # include "./error/error.h"

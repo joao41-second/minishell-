@@ -13,6 +13,7 @@
 #include "../../minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 
 static void	handle_signal(int sig)
 {
@@ -106,7 +107,7 @@ int	herdoc(t_minis *mini, int set, char *end)
 	else
 	{
 		signal(SIGINT, SIG_IGN);
-		wait3(&status, 0, &usage);
+		wait4(pid, &status, 0, &usage);
 		get_signal(WSTOPSIG(status));
 	}
 	close(fd[1]);
