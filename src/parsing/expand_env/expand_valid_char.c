@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:48:25 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/30 16:33:09 by rui              ###   ########.fr       */
+/*   Updated: 2025/02/03 20:39:21 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	ft_if_expand(char *verifc, t_quotes *quotes, int i)
 
 int	if_verifc(char *verifc, int *not_print, char **temp )
 {
+	(void)not_print;
 	if (verifc[0] == '\0')
 	{
 		not_print = 0;

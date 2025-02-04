@@ -3,127 +3,94 @@
 /*                                                        :::      ::::::::   */
 /*   error_warnings.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 15:50:27 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/28 18:02:07 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/03 22:02:29 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	fork_error(void)
+void	chek_dir_(char *file_path, char *orig, int set)
 {
-	perror("Error creating child process");
-	ft_exit_end(EXIT_FAILURE);
-}
-
-void	pipe_error(void)
-{
-	perror("Error creating the pipe");
-	ft_exit_end(EXIT_FAILURE);
-}
-
-void	open_file_error(void)
-{
-	perror("Error opening the file");
-	ft_exit_end(EXIT_FAILURE);
-}
-
-void chek_dir_(char *file_path,char *orig,int set)
-{
-	int i;
-    struct stat file_stat;
+	int			i;
+	struct stat	file_stat;
 
 	i = 0;
-
-	stat(file_path, &file_stat);
-	while (orig[0]!= '\0' && orig[++i] != '\0' )
+	stat (file_path, &file_stat);
+	while (orig[0] != '\0' && orig[++i] != '\0')
 	{
-		if(orig[i] == '/')
+		if (orig[i] == '/')
 		{
-			if(set == TRUE)
+			if (set == TRUE)
 				ft_print_error(file_path, orig, DIR, "");
-			if(set == FALSE)
+			if (set == FALSE)
 				ft_print_error(file_path, "", NOT_PERM, "");
 			ft_exit_end(126);
 		}
 	}
 	if (file_stat.st_mode & S_IXUSR && !S_ISDIR(file_stat.st_mode))
 	{
-			ft_print_error(file_path, "origin", NOT_PERM, "");
-			ft_exit_end(126);
+		ft_print_error(file_path, "origin", NOT_PERM, "");
+		ft_exit_end(126);
 	}
-    ft_print_error(file_path, orig, NOT_COMAND, "");
+	ft_print_error(file_path, orig, NOT_COMAND, "");
 	ft_exit_end(127);
 }
 
-void chek_comand_permicion( char *file_path)
+void	chek_comand_permicion( char *file_path)
 {
-    struct stat file_stat;
+	struct stat	file_stat;
 
 	stat(file_path, &file_stat);
-	
-    if (file_stat.st_mode & S_IXUSR)
+	if (file_stat.st_mode & S_IXUSR)
 	{
-        ft_print_error(file_path, "", NOT_PERM, "");
-        ft_exit_end(126);
+		ft_print_error(file_path, "", NOT_PERM, "");
+		ft_exit_end(126);
 	}
-
-
 }
 
-
-void check_execute_permissions(char *file_path,char *orig)
+void	check_execute_permissions(char *file_path, char *orig)
 {
-    struct stat file_stat;
+	struct stat	file_stat;
 
-    if (stat(file_path, &file_stat) == -1)
-    {
-        ft_print_error(file_path, "", NOT_ACCESS, "");
-        ft_exit_end(126);
-    }
-    if (!S_ISREG(file_stat.st_mode))
-    {
-	
-        if (S_ISDIR(file_stat.st_mode))
+	if (stat(file_path, &file_stat) == -1)
+	{
+		ft_print_error(file_path, "", NOT_ACCESS, "");
+		ft_exit_end(126);
+	}
+	if (!S_ISREG(file_stat.st_mode))
+	{
+		if (S_ISDIR(file_stat.st_mode))
+			chek_dir_(file_path, orig, TRUE);
+		else
+			ft_print_error(file_path, "", NOT_REG_FILE, "");
+		ft_exit_end(126);
+	}
+	if (access(file_path, X_OK) == -1)
+		chek_dir_(file_path, orig, FALSE);
+}
+
+void	no_path_error(char *cmd)
+{
+	struct stat	file_stat;
+
+	if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/'))
+	{
+		if (stat(cmd, &file_stat) == -1)
 		{
-			chek_dir_(file_path, orig,TRUE);
+			ft_print_error(cmd, "", NOT_FILE, "");
+			ft_exit_end(127);
 		}
-        else
-            ft_print_error(file_path, "", NOT_REG_FILE, "");
-        ft_exit_end(126);
-    }
-    if (access(file_path, X_OK) == -1)
-    {
-			chek_dir_(file_path, orig,FALSE);
-    }
-}
-
-void no_path_error(char *cmd)
-{
-	struct stat file_stat;
-
-    if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/'))
-    {
-        if (stat(cmd, &file_stat) == -1)
-        {
-            ft_print_error(cmd, "", NOT_FILE, "");
-            ft_exit_end(127);
-        }
-        if (S_ISDIR(file_stat.st_mode))
-        {
-            ft_print_error(cmd, "", DIR, "");
-            ft_exit_end(126);
-        }
-        ft_print_error(cmd, "", NOT_PERM, "");
-        ft_exit_end(126);
-    }
-    ft_print_error(cmd, "", NOT_COMAND, "");
-    ft_exit_end(127);
-}
-
-void	command_error(void)
-{ 
-	ft_exit_end(EXIT_FAILURE);
+		if (S_ISDIR(file_stat.st_mode))
+		{
+			ft_print_error(cmd, "", DIR, "");
+			ft_exit_end(126);
+		}
+		ft_print_error(cmd, "", NOT_PERM, "");
+		ft_exit_end(126);
+	}
+	ft_print_error(cmd, "", NOT_COMAND, "");
+	ft_exit_end(127);
 }

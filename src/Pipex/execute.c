@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:41 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/01/28 18:01:00 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/03 22:52:28 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "pipex.h"
 
-int chek_biltin(char **cmd)
-{	
-	if(  cmd[0] == NULL)
+int	chek_biltin(char **cmd)
+{
+	if (cmd[0] == NULL)
 		return (FALSE);
-	if(ft_strncmp(cmd[0], "env", 5) == 0)
+	if (ft_strncmp(cmd[0], "env", 5) == 0)
 		return (TRUE);
 	if (ft_strncmp(cmd[0], "exit", 10) == 0)
 		return (TRUE);
@@ -25,117 +25,95 @@ int chek_biltin(char **cmd)
 		return (TRUE);
 	if (ft_strncmp(cmd[0], "pwd", 10) == 0)
 		return (TRUE);
-	if (ft_strncmp( cmd[0],"unset", 10) == 0)
+	if (ft_strncmp(cmd[0], "unset", 10) == 0)
+	{
 		return (TRUE);
-	if (ft_strncmp( cmd[0],"export", 10) == 0)
+	}
+	if (ft_strncmp(cmd[0], "export", 10) == 0)
 		return (TRUE);
 	if (ft_strncmp(cmd[0], "echo", 10) == 0)
 		return (TRUE);
 	return (FALSE);
 }
 
-char	**get_paths_from_env(char **envp)
+char	*search_env_paths(char *cmd, char **paths)
 {
-	int	i;
-	int	space_only;
+	char	*path;
+	int		i;
 
-	space_only = 1;
-	i = 0;
-	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == 0)
-	{
-		if (!((*envp[i] >= 9 && *envp[i] <= 13) || *envp[i] == 32))
-			space_only = 0;
-		i++;
-	}
-	if (!envp[i] || space_only == 1)
+	if (!paths)
 		return (NULL);
-	return (ft_split(envp[i] + 5, ':'));
-}
-
-char *build_and_check_path(char *path, char *cmd)
-{
-    char *part_path;
-    char *full_path;
-
-    part_path = ft_strjoin(path, "/");
-    full_path = ft_strjoin(part_path, cmd);
-    ft_free(part_path, NULL);
-    if (access(full_path, F_OK) == 0)
-        return (full_path);
-    ft_free(full_path, NULL);
-    return (NULL);
-}
-
-char *find_path(char *cmd, char **envp, t_minis *mini)
-{
-    char **paths;
-    char *path;
-    int i;
-
-    if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/'))
-    {
-        if (access(cmd, F_OK) == 0)
-            return (ft_strdup(cmd));
-        return (NULL);
-    }
-    paths = get_paths_from_env(envp);
-    if (!paths)
-        return (NULL);
-
-    i = -1;
-    while (paths[++i])
-    {
-        path = build_and_check_path(paths[i], cmd);
-        if (path)
-        {
-            free_split(paths);
-            ft_free(paths, NULL);
-            return (path);
-        }
-    }
-    free_split(paths);
-    path = build_and_check_path(mini->path, cmd);
-    if (path && access(path, F_OK) == 0)
-        return (path);
-    
-    ft_free(path, NULL);
-    return (NULL);
-}
-
-void execute(char *argv, t_minis *mini)
-{
-    char **cmd;
-    char *path;
-	struct stat file_stat;
-
-
-   // ft_print_error(argv, "orig", NOT_COMAND, "");
-    cmd = ft_split(expand_env(argv, mini), ' ');
-    unset_list(&mini->env, "?");
-    if (chek_biltin(cmd) == TRUE)
-    {
-        mini->line = argv;
-        mini->tokens = tokenize_and_check_bash_command(mini);
-        mini->tokens_copy = tokenize_and_check_bash_command(mini);
-        builtins(mini);
-        ft_exit_end(mini->exit_code_error);
-    }
-	if (access(cmd[0], F_OK) == 0 )
-    {
-        if (stat(cmd[0], &file_stat) == -1)
-        {
-            ft_print_error(cmd[0], "", NOT_FILE, "");
-            ft_exit_end(127);
-        }
-		path = cmd[0];
-    }
-	else
+	i = -1;
+	while (paths[++i])
 	{
-		path = find_path(cmd[0], env_to_matrix(mini), mini);
+		path = build_and_check_path(paths[i], cmd);
+		if (path)
+		{
+			free_split(paths);
+			return (path);
+		}
 	}
+	free_split(paths);
+	return (NULL);
+}
+
+char	*find_path(char *cmd, char **envp, t_minis *mini)
+{
+	char	**paths;
+	char	*path;
+
+	if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/'))
+	{
+		if (access(cmd, F_OK) == 0)
+			return (ft_strdup(cmd));
+		return (NULL);
+	}
+	paths = get_paths_from_env(envp);
+	path = search_env_paths(cmd, paths);
+	if (path)
+		return (path);
+	path = build_and_check_path(mini->path, cmd);
+	if (path && access(path, F_OK) == 0)
+		return (path);
+	ft_free(path, NULL);
+	return (NULL);
+}
+
+char	*handle_builtin_or_find_path(char *argv, char **cmd, t_minis *mini)
+{
+	struct stat	file_stat;
+
+	unset_list(&mini->env, "?");
+	if (chek_biltin(cmd) == TRUE)
+	{
+		mini->line = argv;
+		mini->tokens = tokenize_and_check_bash_command(mini);
+		mini->tokens_copy = tokenize_and_check_bash_command(mini);
+		builtins(mini);
+		ft_exit_end(mini->exit_code_error);
+	}
+	if (access(cmd[0], F_OK) == 0)
+	{
+		if (stat(cmd[0], &file_stat) == -1)
+		{
+			ft_print_error(cmd[0], "", NOT_FILE, "");
+			ft_exit_end(127);
+		}
+		return (cmd[0]);
+	}
+	return (find_path(cmd[0], env_to_matrix(mini), mini));
+}
+
+void	execute(char *argv, t_minis *mini)
+{
+	char	**cmd;
+	char	*path;
+
+	cmd = ft_split(expand_env(argv, mini), ' ');
+	path = handle_builtin_or_find_path(argv, cmd, mini);
 	if (!path)
-        no_path_error(expand_env(argv, mini));
-	check_execute_permissions(path,expand_env(argv, mini));
-    if (execve(path, cmd, env_to_matrix(mini)) == -1)
-        command_error();
+		no_path_error(expand_env(argv, mini));
+	check_execute_permissions(path, expand_env(argv, mini));
+	if (execve(path, cmd, env_to_matrix(mini)) == -1)
+		command_error();
 }
