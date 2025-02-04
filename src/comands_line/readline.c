@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/03 23:09:26 by rui              ###   ########.fr       */
+/*   Updated: 2025/02/04 11:13:53 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,12 @@ void	start_shell(t_minis mini)
 	{
 		get_signal(1);
 		start_prompt_and_sig(&mini);
+		if(check_syntax(mini.line) != 0
+			&& mini.exit_code_error == 0)
+			mini.exit_code_error = check_syntax(mini.line);
 		if (mini.line != NULL && chek_expand(mini.line, &mini) == TRUE
-			&& !is_allspace(ft_strdup(mini.line)))
+			&& !is_allspace(ft_strdup(mini.line)) && check_syntax(mini.line) == 0)
 			excute_comand(&mini);
-		else
-			mini.exit_code_error = 0;
 		set_error_env(&mini);
 		getcwd(mini.path, PATH_MAX);
 		ft_free(mini.line, NULL);

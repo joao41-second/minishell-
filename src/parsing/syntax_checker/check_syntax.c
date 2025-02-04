@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:16:13 by rpires-c          #+#    #+#             */
-/*   Updated: 2024/11/29 13:50:10 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/04 11:14:58 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	check_syntax(const char *command)
 	int					i;
 	char				c;
 
+	if (!command)
+		return (0);
 	init_validator_state(&state);
 	i = 0;
 	while (command[i] != '\0')
