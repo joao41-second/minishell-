@@ -51,11 +51,32 @@ void	set_redir(t_list_ *list, t_btree **btree)
 	(*btree) = save;
 }
 
+void	ser_fd(int nb)
+{
+	static int in = 0;
+
+	if(in == 0)
+	{
+		in = dup(0);
+	}
+	if(nb == 3 || nb == 4)
+	{
+		close(0);
+		dup2(in,0);
+	}
+	if(nb == 50)
+	{
+		close(in);
+	}
+
+}
+
 static void	set_fds(int nb, t_token *token, t_minis *mini, int on)
 {
 	int		fd;
 	char	*save;
 
+	ser_fd(nb);
 	fd = 0;
 	save = token->redirection_target;
 	if (nb == 1 && token->redirection_target != NULL)
@@ -86,7 +107,6 @@ void	redirect_(t_list_ *list, t_minis *mini)
 	list = frist;
 	while (list != NULL && ft_strncmp(get_token(list)->type, "pipe", 100) != 0)
 	{
-		ft_print_error_simple("", get_token(list)->redirection_source, "");
 		if (ft_strncmp(get_token(list)->token, ">>", 10) == 0)
 			set_fds(1, get_token(list), mini, 0);
 		if (ft_strncmp(get_token(list)->token, ">", 10) == 0)
@@ -106,4 +126,5 @@ void	redirect_(t_list_ *list, t_minis *mini)
 			set_fds(2, get_token(list), mini, 1);
 		(list) = (list)->next;
 	}
+	ser_fd(50);
 }
