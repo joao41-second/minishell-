@@ -1,0 +1,31 @@
+
+
+./src/comands_line/readline_utils.c \
+./src/comands_line/readline_utils_extra.c \
+./src/comands_line/readline.c \
+./src/builtins/builtins.c \
+./src/builtins/export/export.c \
+./src/builtins/export/export_util.c \
+./src/builtins/export/export_extra.c \
+./src/builtins/export/organizer.c \
+
+
+./src/builtins/exit/exit.c \
+./src/builtins/pwd/pwd.c \
+
+
+./src/Pipex/error_utils.c \
+./src/Pipex/error_warnings.c \
+./src/Pipex/execute_utils.c \
+./src/Pipex/execute.c \
+./src/Pipex/merge_tokens.c \
+./src/Pipex/pipex_utils.c \
+./src/Pipex/tree_functions.c \
+./src/parsing/tokenizer/tokenizer.c \
+./src/parsing/tokenizer/tokenizer_aux.c \
+./src/parsing/tokenizer/tokenizer_utils.c \
+./src/parsing/tokenizer/modify_type_utils.c \
+./src/parsing/tokenizer/set_redir_relations.c \
+./src/parsing/tokenizer/env_to_matrix.c \
+
+./src/extra/token_extra.c \

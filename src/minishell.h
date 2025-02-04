@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2025/02/04 11:32:21 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/04 14:55:23 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 
 # include "../libft/Get_next_line/get_next_line_bonus.h"
 # include "../libft/printf/ft_printf.h"
-//#include "../libft/free/free_and_list.h"
-//#include "../libft/free/list.h"
-//#include "./comands_line/readline.h"
 # include "../libft/libft/libft.h"
 # include <fcntl.h>
 # include <limits.h>

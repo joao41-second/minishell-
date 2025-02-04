@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rui <rui@student.42.fr>                    +#+  +:+       +#+         #
+#    By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/03 06:17:31 by jperpect          #+#    #+#              #
-#    Updated: 2024/12/13 16:17:03 by rui              ###   ########.fr        #
+#    Updated: 2025/02/04 15:32:34 by rpires-c         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,58 @@ VAL = valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-o
 MAKEFLAGS += -s
 
 # Source files
-SRCS = $(shell find src -name '*.c')
+SRCS = \
+./src/extra/add_shlvl.c \
+./src/herdoc/gen_file_redict.c \
+./src/builtins/echo/ft_echo.c \
+./src/parsing/syntax_checker/handle_pipe_syntax.c \
+./src/parsing/syntax_checker/handle_redirection_syntax.c \
+./src/parsing/syntax_checker/handle_env_variables_syntax.c \
+./src/parsing/syntax_checker/handle_cd_syntax.c \
+./src/parsing/syntax_checker/handle_quote_syntax.c \
+./src/parsing/syntax_checker/check_syntax.c \
+./src/parsing/tokenizer/chek_null_expand.c \
+./src/herdoc/set_redir_pd.c \
+./src/herdoc/herdoc/herdoc_expand_env.c \
+./src/herdoc/herdoc/herdoc.c \
+./src/herdoc/set_redir.c \
+./src/comands_line/readline_utils.c \
+./src/comands_line/readline_utils_extra.c \
+./src/comands_line/readline.c \
+./src/comands_line/signal.c \
+./src/builtins/builtins.c \
+./src/builtins/export/export.c \
+./src/builtins/export/export_util.c \
+./src/builtins/export/export_extra.c \
+./src/builtins/export/organizer.c \
+./src/builtins/exit/exit.c \
+./src/builtins/pwd/pwd.c \
+./src/Pipex/error_utils.c \
+./src/Pipex/error_warnings.c \
+./src/Pipex/execute_utils.c \
+./src/Pipex/execute.c \
+./src/Pipex/merge_tokens.c \
+./src/Pipex/pipex_utils.c \
+./src/Pipex/tree_functions.c \
+./src/parsing/tokenizer/tokenizer.c \
+./src/parsing/tokenizer/tokenizer_aux.c \
+./src/parsing/tokenizer/tokenizer_utils.c \
+./src/parsing/tokenizer/modify_type_utils.c \
+./src/parsing/tokenizer/set_redir_relations.c \
+./src/parsing/tokenizer/env_to_matrix.c \
+./src/extra/token_extra.c \
+./src/parsing/expand_env/expand_valid_char.c \
+./src/parsing/expand_env/expand_utilis.c \
+./src/parsing/expand_env/expnad.c \
+./src/builtins/token.c \
+./src/error/error.c \
+./src/builtins/env/env_comand.c \
+./src/builtins/unset/unset.c \
+./src/builtins/cd/cd.c \
+./src/builtins/env/set_start_env.c \
+./src/builtins/env/env.c \
+./src/main.c \
+
 
 # Object files
 OBJS = $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRCS))
@@ -39,8 +90,11 @@ CAT = cat number.txt
 NAME = minishell
 OBJDIR = Objs
 
-# Create object directory if it doesn't exist
 $(shell mkdir -p $(OBJDIR))
+
+
+# Create object directory if it doesn't exist
+
 
 $(OBJDIR)/%.o: src/%.c
 	@mkdir -p $(dir $@)
