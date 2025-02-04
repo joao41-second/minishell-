@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:09:31 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/30 16:28:57 by rui              ###   ########.fr       */
+/*   Updated: 2025/02/04 14:38:47 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static void	loop_heradoc(char *line, int fd, char *end, t_minis *mini)
 			return ;
 		}
 		new_line = expand_heradoc(mini, line);
+		if(ft_strncmp(line, end, ft_strlen(end) + 15) == 0)
+			break;
 		ft_putstr_fd(new_line, fd);
 		ft_putstr_fd("\n", fd);
 	}

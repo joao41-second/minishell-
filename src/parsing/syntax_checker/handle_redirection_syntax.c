@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:31:11 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/02/04 13:00:07 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:35:28 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,14 @@ bool	validate_redirections(char c, const char *command,
 {
 	int	i;
 
-	i = current_index + 1;
+	i = current_index;
 	if (is_in_quotes(state))
 		return (true);
 	if (command[current_index] == '>' || command[current_index] == '<')
 	{
-			while (command[i] != '\0')
-		{
+		while (command[++i] != '\0')
 			if (!ft_isspace(command[i]))
 				break ;
-			i++;
-		}
 		if (command[i] == '\0')
 			return (false);
 	}
