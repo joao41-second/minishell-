@@ -61,6 +61,7 @@ void	handle_pipe_fork(t_btree *node, t_minis *mini)
 	if (pipe(fd) == -1)
 		pipe_error();
 	pid = fork();
+	server_fork(TRUE);
 	if (pid == -1)
 	{
 		close(fd[0]);

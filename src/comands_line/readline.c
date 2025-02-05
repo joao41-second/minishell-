@@ -41,10 +41,12 @@ void	excute_comand_ve(t_minis *mini)
 	pid = fork();
 	if (pid == 0)
 	{
+		server_fork(FALSE);
 		set_redir(mini->tokens, &exec_list);
 		temp = process_tree(exec_list, mini);
 		ft_exit_end(temp);
 	}
+	server_fork(FALSE);
 	waitpid(pid, &status, 0);
 	mini->exit_code_error = WSTOPSIG(status);
 	free_tree(exec_list);

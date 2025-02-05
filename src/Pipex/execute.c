@@ -26,9 +26,7 @@ int	chek_biltin(char **cmd)
 	if (ft_strncmp(cmd[0], "pwd", 10) == 0)
 		return (TRUE);
 	if (ft_strncmp(cmd[0], "unset", 10) == 0)
-	{
 		return (TRUE);
-	}
 	if (ft_strncmp(cmd[0], "export", 10) == 0)
 		return (TRUE);
 	if (ft_strncmp(cmd[0], "echo", 10) == 0)
