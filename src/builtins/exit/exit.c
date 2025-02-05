@@ -42,7 +42,7 @@ void	ft_exit(t_minis *mini)
 	{
 		token = get_token(mini->tokens->next);
 		comand = expand_env(token->token, mini);
-		if (ft_str_is_nb(comand, mini) != TRUE)
+		if (ft_str_is_nb(comand, mini) != TRUE || ft_strlen(comand) > 20)
 		{
 			comand = expand_env(token->token, mini);
 			ft_print_error("exit", comand, NOT_NUB, "bash");
