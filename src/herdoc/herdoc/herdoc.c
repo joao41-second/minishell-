@@ -39,9 +39,9 @@ static void	loop_heradoc(char *line, int fd, char *end, t_minis *mini)
 		line = readline(">");
 		if (line == NULL)
 		{
+			ft_print_error_simple("","here-herdoc", "bas");
 			ft_exit_end(0);
 			line = NULL;
-			return ;
 		}
 		new_line = expand_heradoc(mini, line);
 		ft_putstr_fd(new_line, fd);
@@ -65,8 +65,7 @@ static void	herdoc_son_proceed(t_minis *mini, char*end, int fd)
 		line[0] = '\0';
 		if (line == NULL)
 		{
-			ft_exit_end(0);
-			return ;
+			ft_exit_end(1);
 		}
 		mini->exit_code_error = 1;
 		loop_heradoc(line, fd, end, mini);
@@ -75,19 +74,6 @@ static void	herdoc_son_proceed(t_minis *mini, char*end, int fd)
 		ft_putstr_fd("error \n", 2);
 	ft_exit_end(0);
 }
-/*
-static void	print_erro_line_herdoc(t_minis *mini, char *end, int status)
-{
-	if (WSTOPSIG(status) == 0)
-	{
-		mini->readline++;
-		ft_putstr_fd("bash: warning: here-document at line ", 2);
-		ft_putnbr_fd(mini->readline, 2);
-		ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-		ft_putstr_fd(end, 2);
-		ft_putstr_fd("')\n", 2);
-	}
-}*/
 
 int	herdoc(t_minis *mini, int set, char *end)
 {
@@ -107,7 +93,7 @@ int	herdoc(t_minis *mini, int set, char *end)
 	else
 	{
 		signal(SIGINT, SIG_IGN);
-		wait3(&status, 0, &usage);
+		wait4(pid,&status, 0, &usage);
 		get_signal(WSTOPSIG(status));
 	}
 	close(fd[1]);
