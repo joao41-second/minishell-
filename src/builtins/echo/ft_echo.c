@@ -72,7 +72,10 @@ void	echo_logic(t_minis *mini, t_token *token, int *new_line, int i)
 	next_opcion(&mini->tokens);
 	while (mini->tokens != NULL)
 	{
-		str = expand_env(get_token(mini->tokens)->token, mini);
+		if (get_token(mini->tokens)->token == NULL)
+			str = NULL;
+		else
+			str = expand_env(get_token(mini->tokens)->token, mini);
 		printf("%s", str);
 		if (mini->tokens->next != NULL)
 			printf(" ");

@@ -38,7 +38,10 @@ void	ft_generat_if(char *fd, t_minis *mini)
 	if (fd == NULL)
 		fd = ft_strdup(ft_getenv(mini, "HOME"));
 	if (fd == NULL)
+	{
+		mini->exit_code_error = 1;
 		ft_print_error("cd", NOT_HOME, "", "bash");
+	}
 }
 
 char	*fd_generat(t_minis *mini)
@@ -58,6 +61,7 @@ char	*fd_generat(t_minis *mini)
 			{
 				ft_print_error("cd", NOT_HOME, "", "bash");
 				ft_free(comand, NULL);
+				mini->exit_code_error = 1;
 				return (NULL);
 			}
 			fd = ft_strjoin(ft_getenv(mini, "HOME"), &comand[1]);
