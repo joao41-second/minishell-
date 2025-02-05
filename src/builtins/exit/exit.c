@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 int	ft_str_is_nb(char *src, t_minis *mini)
 {
@@ -25,6 +23,7 @@ int	ft_str_is_nb(char *src, t_minis *mini)
 		if (ft_isdigit(src[i]) != 1 && src[i] != '-' && src[i] != '+')
 		{
 			ft_free(src, NULL);
+			src = NULL;
 			return (FALSE);
 		}
 	}
@@ -45,15 +44,16 @@ void	ft_exit(t_minis *mini)
 		comand = expand_env(token->token, mini);
 		if (ft_str_is_nb(comand, mini) != TRUE)
 		{
+			comand = expand_env(token->token, mini);
 			ft_print_error("exit", comand, NOT_NUB, "bash");
 			mini->exit_code_error = 2;
+			ft_free(comand, NULL);
 		}
 		else
 			mini->exit_code_error = ft_atoi(comand);
 	}
 	else
-	    mini->exit_code_error = ft_atoi(ft_getenv(mini,"?"));
-
+		mini->exit_code_error = ft_atoi(ft_getenv(mini, "?"));
 	ft_free_all(NULL);
 	exit(mini->exit_code_error);
 }
