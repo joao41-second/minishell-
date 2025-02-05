@@ -12,6 +12,8 @@
 
 #include "../minishell.h"
 #include "errno.h"
+#include <stdio.h>
+#include <string.h>
 #include <sys/stat.h>
 
 static void	erro_prin(t_minis *mini)
@@ -30,6 +32,9 @@ static void	set_fd(int nb, t_token *token, t_minis *mini, int on)
 	char	*redir;
 
 	fd = 0;
+	if ((token->redirection_source == NULL && (nb == 4 || nb == 3))
+		|| (token->redirection_target == NULL && (nb == 1 || nb == 2)))
+		return ;
 	if (nb == 4 || nb == 3)
 		redir = expand_env(token->redirection_source, mini);
 	else
@@ -87,7 +92,7 @@ void	dell_redir( t_list_ **list)
 	*list = ft_node_start(save);
 	while (*list != NULL)
 	{
-		if (ft_strncmp(get_token(*list)->type, "redir", 10) == 0)
+		if (get_token(*list)->type != NULL && ft_strncmp(get_token(*list)->type, "redir", 10) == 0)
 		{
 			ft_free_node(list, free_token);
 			if (*list != NULL)
@@ -96,5 +101,4 @@ void	dell_redir( t_list_ **list)
 		}
 		(*list) = (*list)->next;
 	}
-	*list = ft_node_start(save);
-}
+	*list = ft_node_start(save); }
