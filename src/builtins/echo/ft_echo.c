@@ -90,6 +90,8 @@ void	ft_echo(t_minis *mini)
 	new_line = TRUE;
 	token = NULL;
 	mini->tokens = ft_node_start(mini->tokens);
+	if(mini->tokens->next == NULL)
+		printf("\n");
 	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
 		echo_logic(mini, token, &new_line, i);
