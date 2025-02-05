@@ -51,6 +51,9 @@ void	ft_exit(t_minis *mini)
 		else
 			mini->exit_code_error = ft_atoi(comand);
 	}
+	else
+	    mini->exit_code_error = ft_atoi(ft_getenv(mini,"?"));
+
 	ft_free_all(NULL);
 	exit(mini->exit_code_error);
 }
