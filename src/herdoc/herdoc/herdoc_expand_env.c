@@ -49,7 +49,7 @@ char	*expand_heradoc(t_minis *mini, char *str)
 			continue ;
 		if (str[i] == '$')
 		{
-			temp = concatenate_the_str_with_env_var(&str[i], mini, &not_print);
+			temp = concatenate_the_str_with_env_var(&str[i], mini, &not_print, (t_quotes *)NULL);
 			ret = ft_strjoin_and_free(ret, temp);
 			ft_free(temp, NULL);
 		}

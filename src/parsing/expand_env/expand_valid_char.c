@@ -85,7 +85,7 @@ char	*creat_new(int i, char *str, t_quotes *quotes, t_minis *mini)
 			temp = ft_strdup("");
 		if (ft_if_expand(verifc, quotes, i) == TRUE)
 		{
-			save = concatenate_the_str_with_env_var(&str[i], mini, &not_print);
+			save = concatenate_the_str_with_env_var(&str[i], mini, &not_print,quotes);
 			temp = concatenate_env(temp, save, &not_print);
 			ft_free(save, NULL);
 			return (temp);

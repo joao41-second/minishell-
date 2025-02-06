@@ -52,8 +52,8 @@ char		*ft_strjoin_and_free(char *s1, char *s2);
  * @param len int char $ the str 
  * @return 
  */
-char		*concatenate_the_str_with_env_var(char *str, t_minis *mini,
-				int *len);
+char	*concatenate_the_str_with_env_var(char *str, t_minis *mini, int *len,
+									   t_quotes *quotes);
 
 char		*creat_new(int i, char *str, t_quotes *quotes, t_minis *mini);
 

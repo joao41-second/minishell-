@@ -12,6 +12,7 @@
 
 #include "../../minishell.h"
 #include <stdio.h>
+#include <sys/types.h>
 
 char	*ft_strjoin_and_free(char *s1, char *s2)
 {
@@ -25,7 +26,7 @@ char	*ft_strjoin_and_free(char *s1, char *s2)
 	return (aloc);
 }
 
-char	*concatenate_the_str_with_env_var(char *str, t_minis *mini, int *len)
+char	*concatenate_the_str_with_env_var(char *str, t_minis *mini, int *len, t_quotes *quotes)
 {
 	char	*ok;
 	char	*env;
@@ -47,9 +48,13 @@ char	*concatenate_the_str_with_env_var(char *str, t_minis *mini, int *len)
 		return (ok);
 	}
 	else if (str[1] == '\0' || str[1] == ' ' || str[1] == '"'
-		|| str[1] == 39 || str[1] == '$')
+		|| str[1] == 39 || str[1] == '$' )
 	{
-		return ("$");
+			if( quotes != NULL && (quotes->dub == 1 || quotes->simp == 1))
+				return ("$");
+			if(  str[0] == '$' && (str[1] != '"' && str[1] != 39) )
+				return ("$");
+			
 	}
 	return ("");
 }
