@@ -33,6 +33,14 @@ void	ft_print_error_simple(char *comand, char *error, char *start)
 	ft_putstr_fd("\n", 2);
 }
 
+void	too_arg_print_extra(char *comand, t_minis *mini)
+{
+	ft_print_error(comand, "", TOO_ARG, "bash");
+	mini->exit_code_error = ft_atoi(ft_getenv(mini, "?"));
+	if (mini->exit_code_error == 0)
+		mini->exit_code_error = 1;
+}
+
 int	too_arg_print(char *comand, int args, t_minis *mini)
 {
 	t_token	*token;
@@ -50,10 +58,7 @@ int	too_arg_print(char *comand, int args, t_minis *mini)
 				exits++;
 			else
 			{
-				ft_print_error(comand, "", TOO_ARG, "bash");
-				mini->exit_code_error = ft_atoi( ft_getenv(mini,"?"));
-				if(mini->exit_code_error == 0)
-					mini->exit_code_error = 1;
+				too_arg_print_extra(comand, mini);
 				return (TRUE);
 			}
 		}
@@ -82,7 +87,7 @@ int	not_opcion(t_minis *mini, char *comand)
 					ft_memset(opcion, 'a', 5);
 					ft_strlcpy(opcion, token->token, 3);
 					ft_print_error(comand, opcion, INV_OPT, "bash");
-					if(mini->exit_code_error == 0)
+					if (mini->exit_code_error == 0)
 						mini->exit_code_error = 1;
 					return (TRUE);
 				}
