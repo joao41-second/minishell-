@@ -72,7 +72,9 @@ int	chek_opcon(char *str)
 void	echo_logic(t_minis *mini, t_token *token, int *new_line, int i)
 {
 	char	*str;
+	int ok;
 
+	ok = 1;
 	token = get_token(mini->tokens->next);
 	if (token->token[0] == '-')
 	{
@@ -91,9 +93,11 @@ void	echo_logic(t_minis *mini, t_token *token, int *new_line, int i)
 			str = NULL;
 		else
 			str = expand_env(get_token(mini->tokens)->token, mini);
-		if (chek_opcon(str) != TRUE)
+		if(chek_opcon(str) != TRUE)
+			ok = 2;
+		if (chek_opcon(str) != TRUE && ok != 1)
 			printf("%s", str);
-		if (chek_opcon(str) != TRUE && mini->tokens->next != NULL)
+		if (chek_opcon(str) != TRUE && mini->tokens->next != NULL && ok != 1)
 			printf(" ");
 		mini->tokens = mini->tokens->next;
 	}
