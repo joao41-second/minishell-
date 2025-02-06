@@ -54,7 +54,6 @@ char	*concatenate_the_str_with_env_var(char *str, t_minis *mini, int *len, t_quo
 				return ("$");
 			if(  str[0] == '$' && (str[1] != '"' && str[1] != 39) )
 				return ("$");
-			
 	}
 	return ("");
 }

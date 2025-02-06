@@ -108,7 +108,11 @@ void	start_shell(t_minis mini)
 		start_prompt_and_sig(&mini);
 		if (check_syntax(mini.line) != 0
 			&& mini.exit_code_error == 0)
+		{
 			mini.exit_code_error = check_syntax(mini.line);
+		}
+		if (check_syntax(mini.line) != 0)
+			ft_print_error_simple(mini.line, "syntax error", "bash");
 		if (mini.line != NULL && chek_expand(mini.line, &mini) == TRUE
 			&& !is_allspace(ft_strdup(mini.line))
 			&& check_syntax(mini.line) == 0)
