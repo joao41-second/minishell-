@@ -24,12 +24,12 @@ bool	validate_env_variable(char c, const char *command,
 			return (true);
 		}
 		state->env_variable = true;
-	}
+	}/*
 	else if (state->env_variable)
 	{
 		if (!ft_isalpha(c) && c != '_')
 			return (false);
 		state->env_variable = false;
-	}
+	}*/
 	return (true);
 }

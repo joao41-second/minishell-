@@ -32,7 +32,7 @@ bool	validate_special_chars(char c,
 {
 	if (!is_in_quotes(state) && (c == '*'
 			|| (c == '?' && state->wildcard_exception == false)
-			|| c == '[' || c == ']'))
+			|| c == '[' || c == ']' || c == '&'))
 		return (false);
 	return (true);
 }
