@@ -54,6 +54,21 @@ void	next_opcion(t_list_ **list)
 	}
 }
 
+int	chek_opcon(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str == NULL || str[0] != '-' )
+		return (FALSE);
+	while (str[++i])
+	{
+		if (str[i] != 'n')
+			return (FALSE);
+	}
+	return (TRUE);
+}
+
 void	echo_logic(t_minis *mini, t_token *token, int *new_line, int i)
 {
 	char	*str;
@@ -76,8 +91,9 @@ void	echo_logic(t_minis *mini, t_token *token, int *new_line, int i)
 			str = NULL;
 		else
 			str = expand_env(get_token(mini->tokens)->token, mini);
-		printf("%s", str);
-		if (mini->tokens->next != NULL)
+		if (chek_opcon(str) != TRUE)
+			printf("%s", str);
+		if (chek_opcon(str) != TRUE && mini->tokens->next != NULL)
 			printf(" ");
 		mini->tokens = mini->tokens->next;
 	}
