@@ -108,6 +108,11 @@ void	execute(char *argv, t_minis *mini)
 	char	*path;
 
 	cmd = ft_split(expand_env(argv, mini), ' ');
+	if (ft_strncmp(cmd[0], ">>", 10) == 0
+		|| ft_strncmp(cmd[0], "<", 10) == 0
+		|| ft_strncmp(cmd[0], ">", 10) == 0
+		|| ft_strncmp(cmd[0], "<<", 10) == 0)
+		ft_exit_end(0);
 	path = handle_builtin_or_find_path(argv, cmd, mini);
 	if (!path)
 		no_path_error(expand_env(argv, mini));

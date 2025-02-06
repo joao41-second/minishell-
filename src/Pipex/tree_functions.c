@@ -72,6 +72,7 @@ void	handle_pipe_fork(t_btree *node, t_minis *mini)
 		handle_child_process(node, mini, fd);
 	else
 		handle_parent_process(node, mini, fd, pid);
+	server_fork(FALSE);
 }
 
 int	process_tree(t_btree *node, t_minis *mini)

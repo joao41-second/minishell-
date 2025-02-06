@@ -43,7 +43,16 @@ static void	new_line_fork(int sig, siginfo_t *info, void *ucontext)
 	(void)ucontext;
 	get_signal(sig + 128);
 	ft_putstr_fd("\n",2);
+	ft_exit_end(sig+128);
 
+}
+
+static void	new_line_fork_2(int sig, siginfo_t *info, void *ucontext)
+{
+	(void)info;
+	(void)ucontext;
+	get_signal(sig + 128);
+	ft_putstr_fd("\n",2);
 }
 
 void server_fork(int chek)
@@ -60,8 +69,11 @@ void server_fork(int chek)
 	}
 	if(chek == FALSE)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, SIG_IGN);
+		sigemptyset(&sa.sa_mask);
+		sa.sa_sigaction = new_line_fork_2;
+		sa.sa_flags = SA_RESTART;
+		sigaction(SIGQUIT, &sa, NULL);
+		sigaction(SIGINT, &sa, NULL);
 		signal(SIGTSTP, SIG_IGN);
 	}
 
