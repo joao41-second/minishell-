@@ -37,7 +37,7 @@ void	next_opcion(t_list_ **list)
 	{
 		if (get_token(*list)->token[0] == '-' )
 		{
-			while (get_token(*list)->token[++i] != '\0')
+			while ( i <= 0 && get_token(*list)->token[++i] != '\0')
 				if (get_token(*list)->token[i] != 'n')
 					i = -50;
 			if (i == -50)
@@ -86,7 +86,7 @@ void	echo_logic(t_minis *mini, t_token *token, int *new_line, int i)
 		*new_line = FALSE;
 	if (mini->tokens->next != NULL )
 		mini->tokens = mini->tokens->next;
-	next_opcion(&mini->tokens);
+	//next_opcion(&mini->tokens);
 	while (mini->tokens != NULL)
 	{
 		if (get_token(mini->tokens)->token == NULL)
@@ -95,9 +95,12 @@ void	echo_logic(t_minis *mini, t_token *token, int *new_line, int i)
 			str = expand_env (get_token(mini->tokens)->token, mini);
 		if(chek_opcon(str) != TRUE)
 			ok = 2;
-		if (chek_opcon(str) != TRUE && ok != 1)
+		if (ok != 1)
+		{
+			ok = 2;
 			printf("%s", str);
-		if (chek_opcon(str) != TRUE && mini->tokens->next != NULL && ok != 1)
+		}
+		if (mini->tokens->next != NULL && ok != 1)
 			printf(" ");
 		mini->tokens = mini->tokens->next;
 	}
