@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 10:25:24 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/28 18:02:55 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:13:53 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define NOT_NUB "numeric argument required"
 # define INV_OPT "invalid option"
 # define NOT_HOME "HOME not set"
-# define SNTAX_ERROR "not a valid identifier"
+# define SYNTAX_ERROR "syntax error unexpected"
 # define REC_FILE "filename argument required"
 # define DIR "Is a directory"
 # define NOT_COMAND "command not found"

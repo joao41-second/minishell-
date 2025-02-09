@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:43:45 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/30 16:36:59 by rui              ###   ########.fr       */
+/*   Updated: 2025/02/07 17:07:20 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	chek_opcon(char *str)
 void	echo_logic(t_minis *mini, t_token *token, int *new_line, int i)
 {
 	char	*str;
-	int ok;
+	int		ok;
 
 	ok = 1;
 	token = get_token(mini->tokens->next);
@@ -92,7 +92,7 @@ void	echo_logic(t_minis *mini, t_token *token, int *new_line, int i)
 		if (get_token(mini->tokens)->token == NULL)
 			str = NULL;
 		else
-			str = expand_env(get_token(mini->tokens)->token, mini);
+			str = expand_env (get_token(mini->tokens)->token, mini);
 		if(chek_opcon(str) != TRUE)
 			ok = 2;
 		if (chek_opcon(str) != TRUE && ok != 1)

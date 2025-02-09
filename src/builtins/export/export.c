@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:05:55 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/21 11:19:54 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/07 16:13:05 by rui              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	export_add_while(t_minis *mini, t_list_ *list,
 		{
 			mini->exit_code_error = 1;
 			return (ft_print_error("export", comand,
-					SNTAX_ERROR, "bash"), ft_free(comand, NULL));
+					SYNTAX_ERROR, "bash"), ft_free(comand, NULL));
 		}
 		list = list->next;
 	}
