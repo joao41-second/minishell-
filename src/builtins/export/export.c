@@ -88,7 +88,7 @@ void	export_add_while(t_minis *mini, t_list_ *list,
 		ft_free(comand, NULL);
 		token = get_token(list);
 		comand = expand_env(token->token, mini);
-		if (valid_export(token->token) == TRUE)
+		if (valid_export(comand) == TRUE)
 		{
 			ft_export_add(mini->env, comand);
 			ft_export_add(mini->env_org, comand);
