@@ -23,7 +23,7 @@ void	*get_env_node(void *point, void *locate)
 	if (list != NULL)
 	{
 		get = *((t_env *)list->content);
-		if (ft_strncmp(get.name, loc, ft_strlen(loc)+10) == 0)
+		if (ft_strncmp(get.name, loc, ft_strlen(loc) + 10) == 0)
 		{
 			return (point);
 		}
