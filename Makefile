@@ -13,7 +13,7 @@
 # Compiler flags
 WFLGS = -Wall -Wextra -Werror
 READ_FLG = -g 
-FLGS = $(WFLGS) $(READ_FLG)
+FLGS = $(WFLGS) $(READ_FLG) 
 
 VAL = valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes  --suppressions=readline.supp 
 
