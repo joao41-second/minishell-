@@ -17,9 +17,13 @@
 
 static void	handle_signal(int sig)
 {
+	int	fd;
+
 	get_signal(sig + 128);
 	if (sig == SIGINT)
 	{
+		fd = open(HER, O_CREAT | O_WRONLY | O_TRUNC, 0777);
+		close(fd);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		ft_free_all(NULL);
@@ -88,7 +92,7 @@ int	herdoc(t_minis *mini, int set, char *end)
 	if (set != 0)
 		return (1);
 	pid = fork();
-	fd[1] = open(HER, O_CREAT | O_WRONLY | O_APPEND, 0777);
+	fd[1] = open(HER, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (pid < 0)
 		ft_putstr_fd("error \n", 2);
 	else if (pid == 0)
