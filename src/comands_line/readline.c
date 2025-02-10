@@ -6,23 +6,12 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/10 16:35:04 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/10 22:20:38 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
-
-void	print_btree(t_btree *node)
-{
-	if (node == NULL)
-	{
-		return ;
-	}
-	print_btree(node->left);
-	printf("%s\n", node->cmd);
-	print_btree(node->right);
-}
 
 void	excute_comand_ve(t_minis *mini)
 {
