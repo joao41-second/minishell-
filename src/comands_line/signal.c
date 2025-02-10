@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 16:44:50 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/10 15:14:15 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/10 17:04:55 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	new_line_fork(int sig, siginfo_t *info, void *ucontext)
 	(void)info;
 	(void)ucontext;
 	get_signal(sig + 128);
-	ft_putstr_fd("\n", 2);
+//	ft_putstr_fd("\n", 2);
 	ft_exit_end(sig + 128);
 }
 
