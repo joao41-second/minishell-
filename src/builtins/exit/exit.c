@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:56:45 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/30 16:36:28 by rui              ###   ########.fr       */
+/*   Updated: 2025/02/10 16:55:56 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,15 @@ void	ft_exit(t_minis *mini)
 			ft_print_error("exit", comand, NOT_NUB, "bash");
 			mini->exit_code_error = 2;
 			ft_free(comand, NULL);
+			ft_free_all(NULL);
+			exit(mini->exit_code_error);
 		}
 		else
 			mini->exit_code_error = ft_atoi(comand);
 	}
 	else
 		mini->exit_code_error = ft_atoi(ft_getenv(mini, "?"));
-	if (too_arg_print("exit", 0, mini) == TRUE)
+	if (too_arg_print("exit", 0, mini) == TRUE )
 		return ;
 	ft_free_all(NULL);
 	exit(mini->exit_code_error);
