@@ -1,2 +1,2 @@
 #!/bin/bash
-find . -type f | grep .c | grep -v .h
+norminette | grep ".c" | grep ": OK" | cut -d':' -f1
