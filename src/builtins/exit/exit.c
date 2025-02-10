@@ -35,7 +35,6 @@ void	ft_exit(t_minis *mini)
 	t_token	*token;
 	char	*comand;
 
-	printf("exit\n");
 	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
 		token = get_token(mini->tokens->next);
@@ -44,6 +43,7 @@ void	ft_exit(t_minis *mini)
 		{
 			comand = expand_env(token->token, mini);
 			ft_print_error("exit", comand, NOT_NUB, "bash");
+			printf("exit\n");
 			mini->exit_code_error = 2;
 			ft_exit_end(mini->exit_code_error);
 		}
@@ -54,6 +54,7 @@ void	ft_exit(t_minis *mini)
 		mini->exit_code_error = ft_atoi(ft_getenv(mini, "?"));
 	if (too_arg_print("exit", 0, mini) == TRUE)
 		return ;
+	printf("exit\n");
 	ft_exit_end(mini->exit_code_error);
 }
 
