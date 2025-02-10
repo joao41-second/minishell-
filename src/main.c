@@ -23,6 +23,8 @@ t_minis	start_minis(char **env)
 	mini.comand = 0;
 	mini.exit_code_error = 0;
 	mini.pid = 0;
+	mini.pips[0] = -1;
+	mini.pips[1] = -1;
 	return (mini);
 }
 

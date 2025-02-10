@@ -40,6 +40,7 @@ static void	loop_heradoc(char *line, int fd, char *end, t_minis *mini)
 		if (line == NULL)
 		{
 			ft_print_error_simple("", "here-herdoc", "bas");
+			close(fd);
 			ft_exit_end(0);
 			line = NULL;
 		}
@@ -65,6 +66,7 @@ static void	herdoc_son_proceed(t_minis *mini, char*end, int fd)
 		line[0] = '\0';
 		if (line == NULL)
 		{
+			close(fd);
 			ft_exit_end(1);
 		}
 		mini->exit_code_error = 1;
@@ -72,6 +74,7 @@ static void	herdoc_son_proceed(t_minis *mini, char*end, int fd)
 	}
 	else
 		ft_putstr_fd("error \n", 2);
+	close(fd);
 	ft_exit_end(0);
 }
 
@@ -84,8 +87,10 @@ int	herdoc(t_minis *mini, int set, char *end)
 
 	if (set != 0)
 		return (1);
-	pipe(fd);
 	pid = fork();
+	fd[1] = open(HER, O_CREAT | O_WRONLY | O_APPEND, 0777);
+	close(mini->pips[0]);
+	close(mini->pips[1]);
 	if (pid < 0)
 		ft_putstr_fd("error \n", 2);
 	else if (pid == 0)
@@ -94,8 +99,9 @@ int	herdoc(t_minis *mini, int set, char *end)
 	{
 		signal(SIGINT, SIG_IGN);
 		wait4(pid, &status, 0, &usage);
+		close(fd[1]);
 		get_signal(WSTOPSIG(status));
 	}
 	close(fd[1]);
-	return (fd[0]);
+	return (fd[1]);
 }

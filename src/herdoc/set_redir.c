@@ -22,11 +22,12 @@ void	relink_list(t_list_ **list, void *content)
 	ft_node_add_front(list, new);
 }
 
-void set_fd(t_list_ *list, t_minis *mini)
+void	set_fd(t_list_ *list, t_minis *mini)
 {
-	if(ft_strncmp( get_token(list)->token ,"<<",5) == 0)
+	if (ft_strncmp(get_token(list)->token, "<<", 5) == 0)
 	{
-		get_token(list)->redir_fd = herdoc(mini, 0, get_token(list)->redirection_source);
+		get_token(list)->redir_fd
+			= herdoc(mini, 0, get_token(list)->redirection_source);
 	}
 }
 
@@ -91,7 +92,7 @@ static void	set_fds(int nb, t_token *token, t_minis *mini, int on)
 	if (nb == 2 && token->redirection_target != NULL)
 		fd = open(expand_env(save, mini), O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (nb == 3)
-		fd = token->redir_fd;
+		fd = open(HER, O_RDONLY);
 	if (nb == 4 && token->redirection_source != NULL)
 		fd = open(expand_env(token->redirection_source, mini), O_RDONLY);
 	if (fd < 0)

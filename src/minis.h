@@ -26,6 +26,7 @@ typedef struct s_mines
 	int		comand;
 	int		exit_code_error;
 	int		pid;
+	int		pips[2];
 }			t_minis;
 
 #endif

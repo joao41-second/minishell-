@@ -44,7 +44,9 @@ static void	set_fd(int nb, t_token *token, t_minis *mini, int on)
 	if (nb == 2 && token->redirection_target != NULL)
 		fd = open(redir, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (nb == 3)
-		fd = herdoc(mini, 0, token->redirection_source);
+	{
+		herdoc(mini, 0, token->redirection_source);
+	}
 	if (nb == 4 && token->redirection_source != NULL)
 		fd = open(redir, O_RDONLY);
 	if (fd < 0)

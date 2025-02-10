@@ -13,6 +13,7 @@
 #define HERDOC_H
 #ifdef HERDOC_H
 
+#define HER "/tmp/her"
 void	change_file(t_minis *mini, int set, char sete, t_token *name);
 
 int		herdoc(t_minis *mini, int set, char *end);

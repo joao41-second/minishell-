@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <unistd.h>
 
 void	handle_child_process(t_btree *node, t_minis *mini, int fd[2])
 {
@@ -70,6 +71,7 @@ void	handle_pipe_fork(t_btree *node, t_minis *mini)
 
 	if (pipe(fd) == -1)
 		pipe_error();
+
 	pid = fork();
 	if (pid == -1)
 	{
@@ -78,10 +80,13 @@ void	handle_pipe_fork(t_btree *node, t_minis *mini)
 		fork_error();
 	}
 	if (pid == 0)
+	{
 		handle_child_process(node, mini, fd);
+	}
 	else
 		handle_parent_process(node, mini, fd, pid);
 }
+
 
 int	process_tree(t_btree *node, t_minis *mini)
 {

@@ -32,9 +32,11 @@ void	if_builtins(t_minis *mini, char *comand)
 		ft_echo(mini);
 }
 
-void	set_term(int *term)
+void	set_term(int *term,t_minis *mini)
 {
 	pipe(term);
+	mini->pips[1] = term[1];
+	mini->pips[0] = term[0];
 	dup2(1, term[1]);
 	dup2(0, term[0]);
 }
@@ -54,7 +56,7 @@ void	builtins(t_minis	*mini)
 	char	*comand;
 	int		term[2];
 
-	set_term(term);
+	set_term(term, mini);
 	token = NULL;
 	save = mini->tokens;
 	if (mini->tokens == NULL)
