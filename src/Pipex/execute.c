@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:41 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/02/03 22:52:28 by rui              ###   ########.fr       */
+/*   Updated: 2025/02/10 13:56:10 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ char	*find_path(char *cmd, char **envp, t_minis *mini)
 char	*handle_builtin_or_find_path(char *argv, char **cmd, t_minis *mini)
 {
 	struct stat	file_stat;
+	char		*path;
 
 	unset_list(&mini->env, "?");
 	if (chek_biltin(cmd) == TRUE)
@@ -90,6 +91,9 @@ char	*handle_builtin_or_find_path(char *argv, char **cmd, t_minis *mini)
 		builtins(mini);
 		ft_exit_end(mini->exit_code_error);
 	}
+	path = find_path(cmd[0], env_to_matrix(mini), mini);
+	if (path)
+		return (path);
 	if (access(cmd[0], F_OK) == 0)
 	{
 		if (stat(cmd[0], &file_stat) == -1)
@@ -99,8 +103,9 @@ char	*handle_builtin_or_find_path(char *argv, char **cmd, t_minis *mini)
 		}
 		return (cmd[0]);
 	}
-	return (find_path(cmd[0], env_to_matrix(mini), mini));
+	return (NULL);
 }
+
 
 void	execute(char *argv, t_minis *mini)
 {
