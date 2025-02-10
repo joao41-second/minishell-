@@ -6,14 +6,15 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 09:39:49 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/03 11:10:39 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/10 16:09:48 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define HERDOC_H
 #ifdef HERDOC_H
 
-#define HER "/tmp/her"
+# define HER "/tmp/her"
+
 void	change_file(t_minis *mini, int set, char sete, t_token *name);
 
 int		herdoc(t_minis *mini, int set, char *end);
@@ -34,4 +35,5 @@ void	dell_redir(t_list_ **list);
 
 void	set_redir_(int fd, int nb, int on);
 
+void	ser_fd(int nb);
 #endif // !HERDOC_H

@@ -1,46 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_redir_pd.c                                     :+:      :+:    :+:   */
+/*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 11:09:57 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/03 11:10:17 by jperpct          ###   ########.fr       */
+/*   Created: 2025/02/10 15:45:41 by jperpct           #+#    #+#             */
+/*   Updated: 2025/02/10 16:05:11 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-void	set_redir_(int fd, int nb, int on)
+void	rm_char_str(char *str, int len)
 {
-	if ((nb == 2 || nb == 1) && on == 1)
-	{
-		close(1);
-		dup2(fd, 1);
-	}
-	if ((nb == 3 || nb == 4) && on == 1)
-	{
-		close(0);
-		dup2(fd, 0);
-	}
-}
+	char	*src;
+	int		i;
 
-void	ser_fd(int nb)
-{
-	static int	in = 0;
-
-	if (in == 0)
-	{
-		in = dup(0);
-	}
-	if (nb == 3 || nb == 4)
-	{
-		close(0);
-		dup2(in, 0);
-	}
-	if (nb == 50)
-	{
-		close(in);
-	}
+	len++;
+	i = ft_strlen(str);
+	src = ft_malloc(ft_strlen(str), NULL);
+	ft_strlcpy(src, str, len);
+	ft_strlcat(src, &str[len], i);
+	ft_bzero(str, i);
+	ft_strlcat(str, src, i);
 }

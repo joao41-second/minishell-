@@ -38,25 +38,23 @@ int	valid_export(char	*token)
 	save = 0;
 	i = -1;
 	if (ft_isalpha(token[0]) == TRUE && token[0] != '_')
-	{
 		return (FALSE);
-	}
 	while (token[++i] != '\0')
 	{
 		if (token[i] == '=')
 		{
 			save = 1;
-			if (token[i - 1] != '+'  && (ft_isalnum(token[i - 1]) == TRUE && token[i - 1] != '_'))
+			if (token[i - 1] != '+' && (ft_isalnum(token[i - 1]) == TRUE
+					&& token[i - 1] != '_'))
 				return (FALSE);
-			break;
+			break ;
 		}
 	}
 	i = -1;
 	while (token[++i] != '\0')
 	{
-		if (save != 1 && ft_isalnum(token[i]) == TRUE)
-			if(token[i] != '_')
-				return (FALSE);
+		if (save != 1 && ft_isalnum(token[i]) == TRUE && token[i] != '_')
+			return (FALSE);
 	}
 	return (TRUE);
 }

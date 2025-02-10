@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 10:20:11 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/02 16:35:19 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/10 15:27:22 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,8 @@ char	*fd_generat(t_minis *mini)
 			if (ft_getenv(mini, "HOME") == NULL)
 			{
 				ft_print_error("cd", NOT_HOME, "", "bash");
-				ft_free(comand, NULL);
 				mini->exit_code_error = 1;
-				return (NULL);
+				return (ft_free(comand, NULL), NULL);
 			}
 			fd = ft_strjoin(ft_getenv(mini, "HOME"), &comand[1]);
 		}

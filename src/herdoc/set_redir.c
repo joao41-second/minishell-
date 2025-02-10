@@ -26,8 +26,8 @@ void	set_fd(t_list_ *list, t_minis *mini)
 {
 	if (ft_strncmp(get_token(list)->token, "<<", 5) == 0)
 	{
-		get_token(list)->redir_fd
-			= herdoc(mini, 0, get_token(list)->redirection_source);
+		get_token(list)->redir_fd = herdoc(mini, 0,
+			get_token(list)->redirection_source);
 	}
 }
 
@@ -58,25 +58,6 @@ void	set_redir(t_list_ *list, t_btree **btree, t_minis *mini)
 		list = list->next;
 	}
 	(*btree) = save;
-}
-
-void	ser_fd(int nb)
-{
-	static int	in = 0;
-
-	if (in == 0)
-	{
-		in = dup(0);
-	}
-	if (nb == 3 || nb == 4)
-	{
-		close(0);
-		dup2(in, 0);
-	}
-	if (nb == 50)
-	{
-		close(in);
-	}
 }
 
 static void	set_fds(int nb, t_token *token, t_minis *mini, int on)

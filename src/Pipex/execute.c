@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:41 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/02/10 13:56:10 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:24:15 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ char	*handle_builtin_or_find_path(char *argv, char **cmd, t_minis *mini)
 	}
 	return (NULL);
 }
-
 
 void	execute(char *argv, t_minis *mini)
 {

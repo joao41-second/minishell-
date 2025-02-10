@@ -32,7 +32,7 @@ void	if_builtins(t_minis *mini, char *comand)
 		ft_echo(mini);
 }
 
-void	set_term(int *term,t_minis *mini)
+void	set_term(int *term, t_minis *mini)
 {
 	pipe(term);
 	mini->pips[1] = term[1];

@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 09:42:43 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 09:46:03 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/10 16:05:43 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,19 @@ char	*ft_strjoin_and_free(char *s1, char *s2)
 	return (aloc);
 }
 
-char	*concatenate_the_str_with_env_var(char *str, t_minis *mini, int *len, t_quotes *quotes)
+char	*expnad_nex_while(char *env, t_minis *mini, int *len)
 {
 	char	*ok;
+
+	ok = ft_strjoin("", ft_getenv(mini, env));
+	*len = ft_strlen(env) + 1;
+	ft_free(env, NULL);
+	return (ok);
+}
+
+char	*concatenate_the_str_with_env_var(char *str,
+									t_minis *mini, int *len, t_quotes *quotes)
+{
 	char	*env;
 	int		i;
 
@@ -41,19 +51,15 @@ char	*concatenate_the_str_with_env_var(char *str, t_minis *mini, int *len, t_quo
 				|| str[i] == 39 || str[i] == '$' || str[i - 1] == '?')
 				break ;
 		env = ft_substr(str, 1, --i);
-		ok = ft_strjoin("", ft_getenv(mini, env));
-		*len = ft_strlen(env) + 1;
-		(void)len;
-		ft_free(env, NULL);
-		return (ok);
+		return (expnad_nex_while(env, mini, len));
 	}
 	else if (str[1] == '\0' || str[1] == ' ' || str[1] == '"'
 		|| str[1] == 39 || str[1] == '$' )
 	{
-			if( quotes != NULL && (quotes->dub == 1 || quotes->simp == 1))
-				return ("$");
-			if(  str[0] == '$' && (str[1] != '"' && str[1] != 39) )
-				return ("$");
+		if (quotes != NULL && (quotes->dub == 1 || quotes->simp == 1))
+			return ("$");
+		if (str[0] == '$' && (str[1] != '"' && str[1] != 39))
+			return ("$");
 	}
 	return ("");
 }

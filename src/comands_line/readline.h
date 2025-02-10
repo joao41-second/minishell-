@@ -84,6 +84,6 @@ bool	is_allspace(char *str);
 
 void	free_tree(t_btree *node);
 
-void server_fork(int chek);
+void	server_fork(int chek);
 
 #endif // !READLINE_H

@@ -1,46 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_redir_pd.c                                     :+:      :+:    :+:   */
+/*   singal_set.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 11:09:57 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/03 11:10:17 by jperpct          ###   ########.fr       */
+/*   Created: 2025/02/10 15:13:01 by jperpct           #+#    #+#             */
+/*   Updated: 2025/02/10 15:14:12 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	set_redir_(int fd, int nb, int on)
+int	get_signal(int sig)
 {
-	if ((nb == 2 || nb == 1) && on == 1)
-	{
-		close(1);
-		dup2(fd, 1);
-	}
-	if ((nb == 3 || nb == 4) && on == 1)
-	{
-		close(0);
-		dup2(fd, 0);
-	}
-}
+	static int	signals;
 
-void	ser_fd(int nb)
-{
-	static int	in = 0;
-
-	if (in == 0)
+	if (sig != 0)
 	{
-		in = dup(0);
+		signals = sig;
 	}
-	if (nb == 3 || nb == 4)
-	{
-		close(0);
-		dup2(in, 0);
-	}
-	if (nb == 50)
-	{
-		close(in);
-	}
+	return (signals);
 }

@@ -6,12 +6,19 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 17:02:47 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/03 23:27:52 by rui              ###   ########.fr       */
+/*   Updated: 2025/02/10 15:22:57 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <unistd.h>
+
+void	tree(int *save, t_btree *node, t_minis *mini)
+{
+	server_fork(TRUE);
+	*save = process_tree(node->left, mini);
+	server_fork(FALSE);
+}
 
 void	handle_child_process(t_btree *node, t_minis *mini, int fd[2])
 {
@@ -23,24 +30,16 @@ void	handle_child_process(t_btree *node, t_minis *mini, int fd[2])
 	{
 		close(fd[0]);
 		close(fd[1]);
-
-		server_fork(TRUE);
-		save = process_tree(node->left, mini);
-		server_fork(FALSE);
+		tree(&save, node, mini);
 		ft_exit_end(WSTOPSIG(status));
-
 	}
 	else
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
-
-		server_fork(TRUE);
-		save = process_tree(node->left, mini);
-		server_fork(FALSE);
+		tree(&save, node, mini);
 		ft_exit_end(save);
-
 	}
 }
 
@@ -71,7 +70,6 @@ void	handle_pipe_fork(t_btree *node, t_minis *mini)
 
 	if (pipe(fd) == -1)
 		pipe_error();
-
 	pid = fork();
 	if (pid == -1)
 	{
@@ -86,7 +84,6 @@ void	handle_pipe_fork(t_btree *node, t_minis *mini)
 	else
 		handle_parent_process(node, mini, fd, pid);
 }
-
 
 int	process_tree(t_btree *node, t_minis *mini)
 {

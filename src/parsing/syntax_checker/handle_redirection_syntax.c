@@ -93,11 +93,11 @@ bool	validate_redirections(char c, const char *command,
 			if (ft_isspace(command[i]))
 			{
 				i++;
-				continue;
+				continue ;
 			}
 			if (command[i] != '<' && command[i] != '>')
 				return (true);
-			break;
+			break ;
 		}
 		return (false);
 	}
