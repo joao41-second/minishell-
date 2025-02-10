@@ -36,8 +36,6 @@ void	ft_exit(t_minis *mini)
 	char	*comand;
 
 	printf("exit\n");
-	if (too_arg_print("exit", 0, mini) == TRUE)
-		return ;
 	if (mini->tokens != NULL && mini->tokens->next != NULL)
 	{
 		token = get_token(mini->tokens->next);
@@ -54,6 +52,8 @@ void	ft_exit(t_minis *mini)
 	}
 	else
 		mini->exit_code_error = ft_atoi(ft_getenv(mini, "?"));
+	if (too_arg_print("exit", 0, mini) == TRUE)
+		return ;
 	ft_free_all(NULL);
 	exit(mini->exit_code_error);
 }
