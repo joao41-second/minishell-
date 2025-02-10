@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/07 16:50:03 by rui              ###   ########.fr       */
+/*   Updated: 2025/02/10 16:35:04 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ void	start_shell(t_minis mini)
 		if (check_syntax(mini.line) != 0)
 		{
 			mini.exit_code_error = check_syntax(mini.line);
-			printf("%d\n", mini.exit_code_error);
 			ft_print_error_simple(mini.line, SYNTAX_ERROR, "bash");
 		}
 		if (mini.line != NULL && chek_expand(mini.line, &mini) == TRUE
