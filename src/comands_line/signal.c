@@ -30,8 +30,8 @@ static void	new_line_fork(int sig, siginfo_t *info, void *ucontext)
 {
 	(void)info;
 	(void)ucontext;
-	if(sig ==  SIGQUIT)
-		ft_putstr_fd( "Quit (core dumped)\n",2);
+	if (sig == SIGQUIT)
+		ft_putstr_fd("Quit (core dumped)\n", 2);
 	get_signal(sig + 128);
 	ft_exit_end(sig + 128);
 }
@@ -41,7 +41,7 @@ static void	new_line_fork_2(int sig, siginfo_t *info, void *ucontext)
 	(void)info;
 	(void)ucontext;
 	get_signal(sig + 128);
-	if(sig !=  SIGQUIT)
+	if (sig != SIGQUIT)
 		ft_putstr_fd("\n", 2);
 }
 
