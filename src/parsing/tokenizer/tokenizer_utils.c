@@ -49,6 +49,7 @@ t_token	*create_token(char *str, char *type, char *target, char *source)
 		token->redirection_source = NULL;
 	else
 		token->redirection_source = ft_strdup(source);
+	token->redir_fd = 0;
 	return (token);
 }
 

@@ -39,7 +39,7 @@ static void	loop_heradoc(char *line, int fd, char *end, t_minis *mini)
 		line = readline(">");
 		if (line == NULL)
 		{
-			ft_print_error_simple("","here-herdoc", "bas");
+			ft_print_error_simple("", "here-herdoc", "bas");
 			ft_exit_end(0);
 			line = NULL;
 		}
@@ -93,7 +93,7 @@ int	herdoc(t_minis *mini, int set, char *end)
 	else
 	{
 		signal(SIGINT, SIG_IGN);
-		wait4(pid,&status, 0, &usage);
+		wait4(pid, &status, 0, &usage);
 		get_signal(WSTOPSIG(status));
 	}
 	close(fd[1]);

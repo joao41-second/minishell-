@@ -30,6 +30,12 @@ static void	start_var_expand_heradoc(char **ret, char *set, char **temp)
 	*temp = ft_strdup("");
 }
 
+void	the_concatenate_and_free(char *temp, char *ret)
+{
+	ret = ft_strjoin_and_free(ret, temp);
+	ft_free(temp, NULL);
+}
+
 char	*expand_heradoc(t_minis *mini, char *str)
 {
 	char	*ret;
@@ -49,9 +55,9 @@ char	*expand_heradoc(t_minis *mini, char *str)
 			continue ;
 		if (str[i] == '$')
 		{
-			temp = concatenate_the_str_with_env_var(&str[i], mini, &not_print, (t_quotes *)NULL);
-			ret = ft_strjoin_and_free(ret, temp);
-			ft_free(temp, NULL);
+			temp = concatenate_the_str_with_env_var(&str[i], mini,
+					&not_print, (t_quotes *) NULL);
+			the_concatenate_and_free(temp, ret);
 		}
 		else
 			ret = ft_strjoin_and_free(ret, set);

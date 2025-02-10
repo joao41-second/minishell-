@@ -75,6 +75,13 @@ void	redirect_bil(t_list_ *list, t_minis *mini)
 	}
 }
 
+void	free_node_dub(t_list_ **list)
+{
+	ft_free_node(list, free_token);
+	if (*list != NULL)
+		ft_free_node(list, free_token);
+}
+
 void	dell_redir( t_list_ **list)
 {
 	t_list_	*save;
@@ -92,13 +99,13 @@ void	dell_redir( t_list_ **list)
 	*list = ft_node_start(save);
 	while (*list != NULL)
 	{
-		if (get_token(*list)->type != NULL && ft_strncmp(get_token(*list)->type, "redir", 10) == 0)
+		if (get_token(*list)->type != NULL
+			&& ft_strncmp(get_token(*list)->type, "redir", 10) == 0)
 		{
-			ft_free_node(list, free_token);
-			if (*list != NULL)
-				ft_free_node(list, free_token);
+			free_node_dub(list);
 			continue ;
 		}
 		(*list) = (*list)->next;
 	}
-	*list = ft_node_start(save); }
+	*list = ft_node_start(save);
+}

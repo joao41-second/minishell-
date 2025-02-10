@@ -22,7 +22,15 @@ void	relink_list(t_list_ **list, void *content)
 	ft_node_add_front(list, new);
 }
 
-void	set_redir(t_list_ *list, t_btree **btree)
+void set_fd(t_list_ *list, t_minis *mini)
+{
+	if(ft_strncmp( get_token(list)->token ,"<<",5) == 0)
+	{
+		get_token(list)->redir_fd = herdoc(mini, 0, get_token(list)->redirection_source);
+	}
+}
+
+void	set_redir(t_list_ *list, t_btree **btree, t_minis *mini)
 {
 	t_list_	*list_redir;
 	t_btree	*save;
@@ -33,13 +41,13 @@ void	set_redir(t_list_ *list, t_btree **btree)
 	{
 		if (ft_strncmp(get_token(list)->type, "redir", 10) == 0)
 		{
+			set_fd(list, mini);
 			if (list_redir == NULL)
 				list_redir = ft_node_new(list->content);
 			else
 				relink_list(&list_redir, list->content);
 		}
-		if (ft_strncmp(get_token(list)->type, "pipe", 10) == 0
-			|| list->next == NULL)
+		if (ft_strncmp(get_token(list)->type, "pipe", 10) == 0 || !list->next)
 		{
 			if (list_redir != NULL)
 				(*btree)->left->redir = ft_node_start(list_redir);
@@ -83,7 +91,7 @@ static void	set_fds(int nb, t_token *token, t_minis *mini, int on)
 	if (nb == 2 && token->redirection_target != NULL)
 		fd = open(expand_env(save, mini), O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (nb == 3)
-		fd = herdoc(mini, 0, token->redirection_source);
+		fd = token->redir_fd;
 	if (nb == 4 && token->redirection_source != NULL)
 		fd = open(expand_env(token->redirection_source, mini), O_RDONLY);
 	if (fd < 0)

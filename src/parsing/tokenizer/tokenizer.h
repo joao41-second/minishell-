@@ -19,6 +19,7 @@ typedef struct s_token
 	char	*type;
 	char	*redirection_target;
 	char	*redirection_source;
+	int		redir_fd;
 }	t_token;
 
 t_token		*get_token(t_list_ *list);

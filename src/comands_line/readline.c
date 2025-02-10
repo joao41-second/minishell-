@@ -42,7 +42,7 @@ void	excute_comand_ve(t_minis *mini)
 	if (pid == 0)
 	{
 		server_fork(FALSE);
-		set_redir(mini->tokens, &exec_list);
+		set_redir(mini->tokens, &exec_list, mini);
 		temp = process_tree(exec_list, mini);
 		ft_exit_end(temp);
 	}
