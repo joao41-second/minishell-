@@ -89,12 +89,14 @@ int	herdoc(t_minis *mini, int set, char *end)
 		return (1);
 	pid = fork();
 	fd[1] = open(HER, O_CREAT | O_WRONLY | O_APPEND, 0777);
-	close(mini->pips[0]);
-	close(mini->pips[1]);
 	if (pid < 0)
 		ft_putstr_fd("error \n", 2);
 	else if (pid == 0)
+	{
+		close(mini->pips[0]);
+		close(mini->pips[1]);
 		herdoc_son_proceed(mini, end, fd[1]);
+	}
 	else
 	{
 		signal(SIGINT, SIG_IGN);
@@ -102,6 +104,5 @@ int	herdoc(t_minis *mini, int set, char *end)
 		close(fd[1]);
 		get_signal(WSTOPSIG(status));
 	}
-	close(fd[1]);
 	return (fd[1]);
 }
