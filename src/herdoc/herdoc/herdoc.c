@@ -6,7 +6,7 @@
 /*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:09:31 by jperpct           #+#    #+#             */
-/*   Updated: 2025/01/30 16:28:57 by rui              ###   ########.fr       */
+/*   Updated: 2025/02/11 09:59:25 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ static void	handle_signal(int sig)
 static void	loop_heradoc(char *line, int fd, char *end, t_minis *mini)
 {
 	char	*new_line;
+	char	*new_end;
 
 	new_line = NULL;
-	while (ft_strncmp(line, end, ft_strlen(end) + 15) != 0)
+	new_end = expand_not_env(end, mini);
+	while (ft_strncmp(line, new_end, ft_strlen(end) + 15) != 0)
 	{
 		if (line)
 			free(line);
@@ -49,8 +51,11 @@ static void	loop_heradoc(char *line, int fd, char *end, t_minis *mini)
 			line = NULL;
 		}
 		new_line = expand_heradoc(mini, line);
-		ft_putstr_fd(new_line, fd);
-		ft_putstr_fd("\n", fd);
+		if (ft_strncmp(line, new_end, ft_strlen(end) + 15) != 0)
+		{
+			ft_putstr_fd(new_line, fd);
+			ft_putstr_fd("\n", fd);
+		}
 	}
 	free(line);
 }

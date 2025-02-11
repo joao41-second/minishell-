@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 17:28:34 by jperpct           #+#    #+#             */
-/*   Updated: 2024/12/03 10:02:18 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/11 09:52:46 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,13 @@ char		*concatenate_the_str_with_env_var(char *str, t_minis *mini,
 
 char		*creat_new(int i, char *str, t_quotes *quotes, t_minis *mini);
 
+int	chek(char *line);
+
+void	set_quotes(t_quotes *quotes, char *str, int i);
+
+char	*concatenate_not_env( char *verifc, t_quotes *quotes, char *temp );
+
+int	if_verifc(char *verifc, int *not_print, char **temp );
+
+char	*expand_not_env(char *str, t_minis *mini);
 #endif // !EXPAND_H
