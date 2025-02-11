@@ -17,7 +17,7 @@
 
 void	change_file(t_minis *mini, int set, char sete, t_token *name);
 
-void		herdoc(t_minis *mini, int set, char *end);
+void	herdoc(t_minis *mini, int set, char *end);
 
 int		redirect_for_add_file(t_minis *mini, t_token *name);
 
