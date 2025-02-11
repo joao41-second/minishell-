@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:41 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/02/10 15:24:15 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/11 15:30:22 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	execute(char *argv, t_minis *mini)
 	char	**cmd;
 	char	*path;
 
-	cmd = ft_split(expand_env(argv, mini), ' ');
+	cmd = ft_split(expand_env(argv, mini), '\x1F');
 	if (ft_strncmp(cmd[0], ">>", 10) == 0
 		|| ft_strncmp(cmd[0], "<", 10) == 0
 		|| ft_strncmp(cmd[0], ">", 10) == 0

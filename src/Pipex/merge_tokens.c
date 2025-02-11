@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   merge_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:17:19 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/02/03 23:14:24 by rui              ###   ########.fr       */
+/*   Updated: 2025/02/11 15:30:25 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_list_	*merge_argument_with_command(t_list_ *current, t_token *command_token)
 	t_token	*current_token;
 
 	current_token = (t_token *)current->content;
-	new_token = ft_strjoin(command_token->token, " ");
+	new_token = ft_strjoin(command_token->token, "\x1F");
 	updated_token = ft_strjoin(new_token, current_token->token);
 	ft_free(command_token->token, NULL);
 	command_token->token = updated_token;
