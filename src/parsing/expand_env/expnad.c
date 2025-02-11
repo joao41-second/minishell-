@@ -53,6 +53,7 @@ char	*expand_env(char *str, t_minis *mini)
 	int			i;
 	t_quotes	quotes;
 	char		*end;
+	char		*end2;
 
 	end = "";
 	(void)mini;
@@ -71,5 +72,7 @@ char	*expand_env(char *str, t_minis *mini)
 		if (end == NULL)
 			return (NULL);
 	}
-	return (end);
+	end2 = ft_strdup(end);
+	end = creat_new(0, "\0", &quotes, mini);
+	return (end2);
 }
