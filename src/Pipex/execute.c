@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:41 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/02/11 16:49:48 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:57:15 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	chek_biltin_tree(char **cmd)
 		return (TRUE);
 	return (FALSE);
 }
-
 
 char	*search_env_paths(char *cmd, char **paths)
 {

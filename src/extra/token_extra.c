@@ -6,12 +6,28 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 09:49:11 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/11 16:50:19 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/11 17:07:27 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <string.h>
+
+void	process_command_in_list(t_list_ **merged_list, t_btree *root)
+{
+	while (*merged_list != NULL)
+	{
+		if (get_token(*merged_list)->type != NULL
+			&& ft_strncmp(get_token(*merged_list)->type, "command", 20) == 0)
+		{
+			root->left = create_tree_node(get_token(*merged_list)->token);
+			*merged_list = ft_node_start(*merged_list);
+			break ;
+		}
+		if ((*merged_list)->next == NULL)
+			break ;
+		*merged_list = (*merged_list)->next;
+	}
+}
 
 void	token_comand_set_start(t_list_ **list)
 {

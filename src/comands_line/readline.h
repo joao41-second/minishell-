@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:09:15 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/11 16:31:10 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:58:18 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	print_token_list(t_list_ *list);
 
 void	set_error_env(t_minis *mini);
 
-int	chek_comand(t_minis *mini);
+int		chek_comand(t_minis *mini);
 
 int		chek_expand(char *str, t_minis *mini);
 
@@ -85,6 +85,5 @@ bool	is_allspace(char *str);
 void	free_tree(t_btree *node);
 
 void	server_fork(int chek);
-
 
 #endif // !READLINE_H

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 09:39:49 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/10 16:09:48 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/11 16:58:00 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define HERDOC_H
 #ifdef HERDOC_H
 
-# define HER "/tmp/her"
+# define HER "/tmp/.her"
 
 void	change_file(t_minis *mini, int set, char sete, t_token *name);
 

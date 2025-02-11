@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 20:42:24 by rui               #+#    #+#             */
-/*   Updated: 2025/02/11 16:51:26 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:58:47 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	chek_comand(t_minis *mini)
 	int		bil;
 	int		pipe;
 	char	*ok;
-	
+
 	list = mini->tokens;
 	pipe = 0;
 	bil = 0;
@@ -45,7 +45,7 @@ int	chek_comand(t_minis *mini)
 			&& ft_strncmp(get_token(list)->type, "command", 30) == 0)
 			bil = 1;
 		list = list->next;
-		ft_free(ok,NULL);
+		ft_free(ok, NULL);
 	}
 	if (pipe != 0)
 		return (FALSE);
