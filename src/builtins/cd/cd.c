@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 10:20:11 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/11 10:11:23 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/11 10:48:45 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	set_path(t_list_ **list)
 		pwd->content = ft_strdup(paths);
 	}
 }
+
 char	*ft_generat_if(char *fd, t_minis *mini)
 {
 	if (fd == NULL)
