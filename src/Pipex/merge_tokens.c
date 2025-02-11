@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:17:19 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/02/11 15:30:25 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:06:08 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,27 @@ t_btree	*build_command_tree(t_list_ *merged_list)
 		return (NULL);
 	current_token = (t_token *)merged_list->content;
 	root = create_tree_node("|");
-	root->left = create_tree_node(current_token->token);
+	if (chek_comand_exit(&merged_list) == TRUE)
+	{
+		while ((merged_list) != NULL)
+		{
+			if (get_token(merged_list)->type != NULL
+				&& ft_strncmp(get_token(merged_list)->type,
+					"command", 20) == 0)
+			{
+				root->left = create_tree_node(get_token(merged_list)->token);
+				merged_list = ft_node_start((merged_list));
+				break ;
+			}
+			if ((merged_list)->next == NULL)
+				break ;
+			(merged_list) = (merged_list)->next;
+		}
+	}
+	else
+	{
+		root->left = create_tree_node(get_token(merged_list)->token);
+	}
 	merged_list = merged_list->next;
 	return (process_pipe_commands(merged_list, root));
 }
@@ -97,6 +117,7 @@ t_btree	*token_merger(t_minis *mini)
 	ft_free_node(&save, free_token);
 	merged_list = ft_node_start(merged_list);
 	join_arguments_to_commands(&merged_list);
+	merged_list = ft_node_start(merged_list);
 	command_tree = build_command_tree(merged_list);
 	return (command_tree);
 }
