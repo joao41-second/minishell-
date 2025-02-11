@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 16:44:50 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/10 17:17:25 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:15:39 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	server(void)
 	sigemptyset(&sa.sa_mask);
 	sa.sa_sigaction = new_line;
 	sa.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);

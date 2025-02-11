@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 12:31:11 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/02/10 17:20:58 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/10 19:17:27 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ bool	is_invalid_redirection(const char *command, int *index)
 			i++;
 			continue ;
 		}
-		if (command[i] != '<' && command[i] != '>')
+		if (command[i] != '<' && command[i] != '>' && command[i] != '|')
 		{
 			*index = i;
 			return (false);

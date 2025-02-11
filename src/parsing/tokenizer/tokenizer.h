@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:42:52 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/02/03 21:37:29 by rui              ###   ########.fr       */
+/*   Updated: 2025/02/10 22:17:28 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ typedef struct s_token
 	char	*redirection_source;
 	int		redir_fd;
 }	t_token;
+
+typedef struct s_flags
+{
+    bool command;
+    bool master;
+    bool override;
+} t_flags;
 
 t_token		*get_token(t_list_ *list);
 
@@ -60,4 +67,25 @@ void		free_token(void *content);
 int			process_quotes(const char *line, int i, char quote);
 
 void		convert_chekline(t_minis *mini);
+
+void		extract_token(const char *line, int *i,
+				int token_start, char **current_token);
+
+void		process_regular_token_extra(const char *line,
+				char quote, int *i);
+
+void		operator_handler(bool *master, bool *override, bool *command);
+
+void		reset_flags(bool *command, bool *master, bool *override);
+
+void		process_pipe_or_redirection(char *line, int *i, t_list_ **token_list, t_flags *flags);
+void process_pipe_or_redirection1(char *line, int *i, t_list_ **token_list, t_flags *flags);
+void		process_regular_command(char *line, int *i, t_list_ **token_list, 
+					t_flags *flags);
+
+void		process_operator_tokens(const char *line, int *i, t_list_ **token_list);
+
+void		process_regular_token(char *line, int *i,
+				t_list_ **token_list, bool command);
+
 #endif
