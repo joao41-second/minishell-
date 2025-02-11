@@ -96,7 +96,7 @@ void	herdoc(t_minis *mini, int set, char *end)
 	struct rusage	usage;
 
 	if (set != 0)
-		return ;	
+		return ;
 	close(open(HER, O_CREAT | O_WRONLY | O_TRUNC, 0777));
 	pid = fork();
 	if (pid < 0)
