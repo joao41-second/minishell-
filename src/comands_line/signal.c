@@ -56,16 +56,17 @@ void	server_fork(int chek)
 		sa.sa_flags = SA_RESTART;
 		sigaction(SIGQUIT, &sa, NULL);
 		sigaction(SIGINT, &sa, NULL);
-		signal(SIGTSTP, SIG_IGN);
+		sigaction(SIGTSTP, &sa, NULL);
+		signal(SIGTSTP, SIG_DFL);
 	}
 	if (chek == FALSE)
 	{
 		sigemptyset(&sa.sa_mask);
 		sa.sa_sigaction = new_line_fork_2;
 		sa.sa_flags = SA_RESTART;
+		sigaction(SIGTSTP, &sa, NULL);
 		sigaction(SIGQUIT, &sa, NULL);
 		sigaction(SIGINT, &sa, NULL);
-		signal(SIGTSTP, SIG_IGN);
 	}
 }
 

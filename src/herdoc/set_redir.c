@@ -26,7 +26,7 @@ void	set_fd(t_list_ *list, t_minis *mini)
 {
 	if (ft_strncmp(get_token(list)->token, "<<", 5) == 0)
 	{
-		get_token(list)->redir_fd = herdoc(mini, 0,
+		herdoc(mini, 0,
 			get_token(list)->redirection_source);
 	}
 }
