@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 14:22:36 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/02/10 22:17:22 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:04:29 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,36 +55,29 @@ void	process_operator_tokens(const char *line, int *i, t_list_ **token_list)
 	ft_free(current_token, NULL);
 }
 
-
-
-void tokenize_bash_command_core(char *line, t_list_ **token_list)
+void	tokenize_bash_command_core(char *line, t_list_ **token_list)
 {
-    int i;
-    t_flags flags; 
+	int		i;
+	t_flags	flags;
 
-    i = 0;
-    flags.command = true;  
-    flags.master = false;
-    flags.override = false;
-
-    while (line[i])
-    {
-        while (line[i] && is_whitespace(line[i]))
-            i++;
-        if (!line[i])
-            break;
-        if (((line[i] == '>' && line[i + 1] == '>') || (line[i] == '<' && line[i + 1] == '<'))
-            || line[i] == '>' || line[i] == '<' || line[i] == '|')
-        {
-            process_pipe_or_redirection1(line, &i, token_list, &flags);
-        }
-        else
-        {
-            process_regular_command(line, &i, token_list, &flags);
-        }
-    }
+	i = 0;
+	flags.command = true;
+	flags.master = false;
+	flags.override = false;
+	while (line[i])
+	{
+		while (line[i] && is_whitespace(line[i]))
+			i++;
+		if (!line[i])
+			break ;
+		if (((line[i] == '>' && line[i + 1] == '>')
+				|| (line[i] == '<' && line[i + 1] == '<'))
+			|| line[i] == '>' || line[i] == '<' || line[i] == '|')
+			process_pipe_or_redirection1(line, &i, token_list, &flags);
+		else
+			process_regular_command(line, &i, token_list, &flags);
+	}
 }
-
 
 t_list_	*tokenize_and_check_bash_command(t_minis *mini)
 {

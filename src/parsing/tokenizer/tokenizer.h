@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:42:52 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/02/10 22:17:28 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:07:49 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ typedef struct s_token
 
 typedef struct s_flags
 {
-    bool command;
-    bool master;
-    bool override;
-} t_flags;
+	bool	command;
+	bool	master;
+	bool	override;
+}	t_flags;
 
 t_token		*get_token(t_list_ *list);
 
@@ -78,12 +78,17 @@ void		operator_handler(bool *master, bool *override, bool *command);
 
 void		reset_flags(bool *command, bool *master, bool *override);
 
-void		process_pipe_or_redirection(char *line, int *i, t_list_ **token_list, t_flags *flags);
-void process_pipe_or_redirection1(char *line, int *i, t_list_ **token_list, t_flags *flags);
-void		process_regular_command(char *line, int *i, t_list_ **token_list, 
-					t_flags *flags);
+void		process_pipe_or_redirection(char *line, int *i,
+				t_list_ **token_list, t_flags *flags);
 
-void		process_operator_tokens(const char *line, int *i, t_list_ **token_list);
+void		process_pipe_or_redirection1(char *line, int *i,
+				t_list_ **token_list, t_flags *flags);
+
+void		process_regular_command(char *line, int *i, t_list_ **token_list,
+				t_flags *flags);
+
+void		process_operator_tokens(const char *line, int *i,
+				t_list_ **token_list);
 
 void		process_regular_token(char *line, int *i,
 				t_list_ **token_list, bool command);
