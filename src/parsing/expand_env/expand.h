@@ -6,7 +6,7 @@
 /*   By: jperpct <jperpect@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 17:28:34 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/11 09:52:46 by jperpct          ###   ########.fr       */
+/*   Updated: 2025/02/11 10:01:41 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,5 @@ char	*concatenate_not_env( char *verifc, t_quotes *quotes, char *temp );
 int	if_verifc(char *verifc, int *not_print, char **temp );
 
 char	*expand_not_env(char *str, t_minis *mini);
+
 #endif // !EXPAND_H
