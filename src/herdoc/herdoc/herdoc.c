@@ -51,7 +51,7 @@ static void	loop_heradoc(char *line, int fd, char *end, t_minis *mini)
 		new_line = expand_heradoc(mini, line);
 		if (ft_strncmp(line, new_end, ft_strlen(end) + 15) != 0)
 		{
-			fd = open(HER, O_CREAT | O_WRONLY | O_TRUNC, 0777);
+			fd = open(HER, O_CREAT | O_WRONLY | O_APPEND, 0777);
 			ft_putstr_fd(new_line, fd);
 			ft_putstr_fd("\n", fd);
 			close(fd);
@@ -96,7 +96,8 @@ void	herdoc(t_minis *mini, int set, char *end)
 	struct rusage	usage;
 
 	if (set != 0)
-		return ;
+		return ;	
+	close(open(HER, O_CREAT | O_WRONLY | O_TRUNC, 0777));
 	pid = fork();
 	if (pid < 0)
 		ft_putstr_fd("error \n", 2);
