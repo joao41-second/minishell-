@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rui <rui@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 20:42:24 by rui               #+#    #+#             */
-/*   Updated: 2025/02/03 20:42:38 by rui              ###   ########.fr       */
+/*   Updated: 2025/02/11 16:51:26 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,26 @@ int	chek_expand(char *str, t_minis *mini)
 	return (TRUE);
 }
 
-int	chek_comand(t_minis mini)
+int	chek_comand(t_minis *mini)
 {
 	t_list_	*list;
 	int		bil;
 	int		pipe;
-
-	list = mini.tokens;
+	char	*ok;
+	
+	list = mini->tokens;
 	pipe = 0;
 	bil = 0;
 	while (list != NULL)
 	{
+		ok = (expand_env(get_token(list)->token, mini));
 		if (ft_strncmp(get_token(list)->type, "pipe", 10) == 0)
 			pipe++;
-		if (chek_biltin(&get_token(list)->token) == TRUE
+		if (chek_biltin_cmd(ok) == TRUE
 			&& ft_strncmp(get_token(list)->type, "command", 30) == 0)
 			bil = 1;
 		list = list->next;
+		ft_free(ok,NULL);
 	}
 	if (pipe != 0)
 		return (FALSE);

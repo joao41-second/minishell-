@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 12:46:57 by jperpect          #+#    #+#             */
-/*   Updated: 2025/02/11 16:01:25 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:52:23 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,5 @@ int			chek_comand_exit(t_list_ **list);
 
 void		set_new_comand(t_list_ **list);
 
-int			chek_biltin(char **cmd);
+int	chek_biltin_cmd(char *cmd);
 #endif

@@ -6,11 +6,43 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:17:19 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/02/11 16:06:08 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:26:17 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	print_token_list(t_list_ *list)
+{
+	t_list_	*current;
+	t_token	*token;
+
+	current = list;
+	printf("Token List:\n");
+	printf("-----------------------------------\n");
+	if(current == NULL)
+		return;
+	current = ft_node_start(current);
+	while (current)
+	{
+		token = (t_token *)current->content;
+		if (token)
+		{
+			printf("Token: %s\n", token->token ? token->token : "NULL");
+			
+            printf("Type: %s\n", token->type ? token->type : "NULL");
+			
+			if (token->redirection_target)
+				printf("Redirection Target: %s\n", token->redirection_target);
+			if (token->redirection_source)
+				printf("Redirection Source: %s\n", token->redirection_source);
+		}
+		else
+			printf("Empty token\n");
+		printf("-----------------------------------\n");
+		current = current->next;
+	}
+}
 
 void	set_builtin_type(t_token *current_token)
 {
@@ -54,10 +86,7 @@ void	join_arguments_to_commands(t_list_ **merged_list)
 	{
 		current_token = (t_token *)current->content;
 		if (ft_strcmp(current_token->type, "command") == 0)
-		{
-			set_builtin_type(current_token);
 			command_token = current_token;
-		}
 		else if (command_token
 			&& ft_strcmp(current_token->type, "argument") == 0)
 		{
@@ -118,6 +147,7 @@ t_btree	*token_merger(t_minis *mini)
 	merged_list = ft_node_start(merged_list);
 	join_arguments_to_commands(&merged_list);
 	merged_list = ft_node_start(merged_list);
+	// print_token_list(merged_list);
 	command_tree = build_command_tree(merged_list);
 	return (command_tree);
 }

@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 18:36:26 by jperpct           #+#    #+#             */
-/*   Updated: 2025/02/11 16:06:40 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:40:35 by rpires-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	excute_comand(t_minis *mini)
 	mini->tokens = tokenize_and_check_bash_command(mini);
 	mini->tokens_copy = tokenize_and_check_bash_command(mini);
 	convert_chekline(mini);
-	if (chek_comand(*mini) == TRUE)
+	if (chek_comand(mini) == TRUE)
 		builtins(mini);
 	else
 		excute_comand_ve(mini);
