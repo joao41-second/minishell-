@@ -6,7 +6,7 @@
 /*   By: rpires-c <rpires-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:30:41 by rpires-c          #+#    #+#             */
-/*   Updated: 2025/02/11 16:57:15 by rpires-c         ###   ########.fr       */
+/*   Updated: 2025/02/12 20:10:17 by jperpct          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@ int	chek_biltin_tree(char **cmd)
 {
 	if (cmd[0] == NULL)
 		return (FALSE);
-	if (ft_strncmp(cmd[0], "env\x1F", 5) == 0)
+	if (ft_strncmp(cmd[0], "env", 5) == 0)
 		return (TRUE);
-	if (ft_strncmp(cmd[0], "exit\x1F", 10) == 0)
+	if (ft_strncmp(cmd[0], "exit", 10) == 0)
 		return (TRUE);
-	if (ft_strncmp(cmd[0], "cd\x1F", 10) == 0)
+	if (ft_strncmp(cmd[0], "cd", 10) == 0)
 		return (TRUE);
-	if (ft_strncmp(cmd[0], "pwd\x1F", 10) == 0)
+	if (ft_strncmp(cmd[0], "pwd", 10) == 0)
 		return (TRUE);
-	if (ft_strncmp(cmd[0], "unset\x1F", 10) == 0)
+	if (ft_strncmp(cmd[0], "unset", 10) == 0)
 		return (TRUE);
-	if (ft_strncmp(cmd[0], "export\x1F", 10) == 0)
+	if (ft_strncmp(cmd[0], "export", 20) == 0)
 		return (TRUE);
-	if (ft_strncmp(cmd[0], "echo\x1F", 10) == 0)
+	if (ft_strncmp(cmd[0], "echo", 10) == 0)
 		return (TRUE);
 	return (FALSE);
 }
@@ -81,9 +81,11 @@ char	*handle_builtin_or_find_path(char *argv, char **cmd, t_minis *mini)
 {
 	struct stat	file_stat;
 	char		*path;
+	char		**dubl;
 
 	unset_list(&mini->env, "?");
-	if (chek_biltin_tree(cmd) == TRUE)
+	dubl = ft_split(expand_env(argv, mini), ' ');
+	if (chek_biltin_tree(dubl) == TRUE)
 	{
 		mini->line = argv;
 		mini->tokens = tokenize_and_check_bash_command(mini);
