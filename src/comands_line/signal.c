@@ -49,22 +49,20 @@ void	server_fork(int chek)
 {
 	struct sigaction	sa;
 
-	if (chek == TRUE)
+	if (chek == 5)
 	{
 		sigemptyset(&sa.sa_mask);
 		sa.sa_sigaction = new_line_fork;
 		sa.sa_flags = SA_RESTART;
 		sigaction(SIGQUIT, &sa, NULL);
 		sigaction(SIGINT, &sa, NULL);
-		sigaction(SIGTSTP, &sa, NULL);
-		signal(SIGTSTP, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 	}
 	if (chek == FALSE)
 	{
 		sigemptyset(&sa.sa_mask);
 		sa.sa_sigaction = new_line_fork_2;
 		sa.sa_flags = SA_RESTART;
-		sigaction(SIGTSTP, &sa, NULL);
 		sigaction(SIGQUIT, &sa, NULL);
 		sigaction(SIGINT, &sa, NULL);
 	}
@@ -80,5 +78,4 @@ void	server(void)
 	signal(SIGQUIT, SIG_IGN);
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTSTP, SIG_IGN);
 }

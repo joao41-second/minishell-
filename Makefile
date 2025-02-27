@@ -6,7 +6,7 @@
 #    By: rui <rui@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/03 06:17:31 by jperpect          #+#    #+#              #
-#    Updated: 2024/12/13 16:17:03 by rui              ###   ########.fr        #
+#    Updated: 2025/02/26 09:57:25 by jperpect         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ WFLGS = -Wall -Wextra -Werror
 READ_FLG = -g 
 FLGS = $(WFLGS) $(READ_FLG) 
 
-VAL = valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes  --suppressions=readline.supp 
+VAL = valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes  --suppressions=readline.supp 
 
 # Make flags
 MAKEFLAGS += -s
